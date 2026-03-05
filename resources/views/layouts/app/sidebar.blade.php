@@ -2,23 +2,45 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head')
-    </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
-                <flux:sidebar.collapse class="lg:hidden" />
-            </flux:sidebar.header>
+    <head>
+    <!-- ... -->
 
-            <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
-            </flux:sidebar.nav>
+    @fluxAppearance
+</head>
+<body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
+    <flux:sidebar sticky collapsible class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+        <flux:sidebar.header>
+            <flux:sidebar.brand
+                href="#"
+                logo="https://fluxui.dev/img/demo/logo.png"
+                logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png"
+                name="Acme Inc."
+            />
 
-            <flux:spacer />
+            <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
+        </flux:sidebar.header>
+
+        <flux:sidebar.nav>
+            <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+            {{ __('Dashboard') }}
+            </flux:sidebar.item>
+            <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
+                <flux:sidebar.item href="#">Daftar Artikel</flux:sidebar.item>
+                <flux:sidebar.item href="#">Kategori Artikel</flux:sidebar.item>
+            </flux:sidebar.group>
+            <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
+                <flux:sidebar.item href="#">Daftar Akun</flux:sidebar.item>
+                <flux:sidebar.item href="#">Manajemen Role</flux:sidebar.item>
+            </flux:sidebar.group>
+            <flux:sidebar.item icon="document-text" href="#">Manajemen Dokumentasi</flux:sidebar.item>
+
+            <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
+                <flux:sidebar.item href="#">Daftar Dokter</flux:sidebar.item>
+                <flux:sidebar.item href="#">Daftar Spesialis</flux:sidebar.item>
+            </flux:sidebar.group>
+        </flux:sidebar.nav>
+
+         <flux:spacer />
 
             <flux:sidebar.nav>
                 <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
