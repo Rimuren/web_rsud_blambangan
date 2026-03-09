@@ -20,23 +20,22 @@
             <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
         </flux:sidebar.header>
 
-        <flux:sidebar.nav>
-            <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+    <flux:sidebar.nav>
+        <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
             {{ __('Dashboard') }}
-            </flux:sidebar.item>
-
-           <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
-    <flux:sidebar.item 
-        href="{{ route('admin.artikel.index') }}">
-        Daftar Artikel
-    </flux:sidebar.item>
-    <flux:sidebar.item 
-        href="{{ route('admin.artikel.index') }}">
-        Daftar Kategori
-    </flux:sidebar.item>
-    
-
-</flux:sidebar.group>
+        </flux:sidebar.item>
+            
+            <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
+                <flux:sidebar.item 
+                    href="{{ route('admin.artikel.index') }}">
+                    Daftar Artikel
+                </flux:sidebar.item>
+                <flux:sidebar.item 
+                    href="{{ route('admin.artikel.index') }}">
+                    Daftar Kategori
+                </flux:sidebar.item>
+            </flux:sidebar.group>
+            
             <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
                 <flux:sidebar.item href="#">Daftar Akun</flux:sidebar.item>
                 <flux:sidebar.item href="#">Manajemen Role</flux:sidebar.item>
@@ -50,16 +49,6 @@
         </flux:sidebar.nav>
 
          <flux:spacer />
-
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
