@@ -8,26 +8,35 @@
     @fluxAppearance
 </head>
 <body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
-    <flux:sidebar sticky collapsible class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700">
+<flux:sidebar sticky collapsible class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 sidebar-custom">
         <flux:sidebar.header>
             <flux:sidebar.brand
-                href="#"
-                logo="https://fluxui.dev/img/demo/logo.png"
-                logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png"
-                name="Acme Inc."
-            />
+    href="#"
+    logo="https://rsudblambangan.id/images/navbar/Logo.png"
+    logo:dark="https://rsudblambangan.id/images/navbar/Logo.png"
+    name="Admin Panel."
+/>
 
             <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
         </flux:sidebar.header>
 
         <flux:sidebar.nav>
-            <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+            <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
             {{ __('Dashboard') }}
             </flux:sidebar.item>
-            <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
-                <flux:sidebar.item href="#">Daftar Artikel</flux:sidebar.item>
-                <flux:sidebar.item href="#">Kategori Artikel</flux:sidebar.item>
-            </flux:sidebar.group>
+
+           <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
+    <flux:sidebar.item 
+        href="{{ route('admin.artikel.index') }}">
+        Daftar Artikel
+    </flux:sidebar.item>
+    <flux:sidebar.item 
+        href="{{ route('admin.artikel.index') }}">
+        Daftar Kategori
+    </flux:sidebar.item>
+    
+
+</flux:sidebar.group>
             <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
                 <flux:sidebar.item href="#">Daftar Akun</flux:sidebar.item>
                 <flux:sidebar.item href="#">Manajemen Role</flux:sidebar.item>
@@ -73,9 +82,7 @@
                             <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
                                 <flux:avatar
                                     :name="auth()->user()->name"
-                                    :initials="auth()->user()->initials()"
-                                />
-
+                                    :initials="auth()->user()->initials()"/>
                                 <div class="grid flex-1 text-start text-sm leading-tight">
                                     <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
                                     <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
@@ -83,9 +90,7 @@
                             </div>
                         </div>
                     </flux:menu.radio.group>
-
                     <flux:menu.separator />
-
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
                             {{ __('Settings') }}
