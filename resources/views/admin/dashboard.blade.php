@@ -10,16 +10,10 @@
                 <h2 class="text-3xl md:text-4xl font-black text-zinc-900 dark:text-white tracking-tight">Dashboard Overview</h2>
                 <p class="text-zinc-500 dark:text-zinc-400 mt-3 text-lg">Welcome back! Here is a summary of your content performance and recent hospital updates.</p>
             </div>
-            <div>
-                <flux:button href="{{ route('admin.artikel.create') }}" variant="primary" class="cursor-pointer">
-                    <flux:icon name="plus" class="size-5 mr-2" />
-                    Create New Article
-                </flux:button>
-            </div>
-        </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
+
             <!-- Total Articles -->
             <flux:card class="p-6 md:p-8">
                 <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total Articles</p>
@@ -28,18 +22,6 @@
                     <flux:badge color="emerald" class="flex items-center gap-1">
                         <flux:icon name="arrow-trending-up" class="size-3" />
                         +12%
-                    </flux:badge>
-                </div>
-            </flux:card>
-
-            <!-- Total Views -->
-            <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total Views</p>
-                <div class="flex items-end justify-between mt-4">
-                    <p class="text-4xl font-bold text-zinc-900 dark:text-white">45.2k</p>
-                    <flux:badge color="emerald" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-up" class="size-3" />
-                        +5%
                     </flux:badge>
                 </div>
             </flux:card>
@@ -58,7 +40,7 @@
 
             <!-- Drafts -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Drafts</p>
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Draft</p>
                 <div class="flex items-end justify-between mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">6</p>
                     <flux:badge color="emerald" class="flex items-center gap-1">
@@ -67,12 +49,33 @@
                     </flux:badge>
                 </div>
             </flux:card>
+
+            <!-- Total Doctors -->
+            <flux:card class="p-6 md:p-8">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total Dokter</p>
+                <div class="flex items-end justify-between mt-4">
+                    <p class="text-4xl font-bold text-zinc-900 dark:text-white">48</p>
+                    <flux:badge color="sky" class="flex items-center gap-1">
+                        <flux:icon name="arrow-trending-up" class="size-3" />
+                        +3%
+                    </flux:badge>
+                </div>
+            </flux:card>
+
+            <!-- Total Users -->
+            <flux:card class="p-6 md:p-8">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total User</p>
+                <div class="flex items-end justify-between mt-4">
+                    <p class="text-4xl font-bold text-zinc-900 dark:text-white">312</p>
+                    <flux:badge color="emerald" class="flex items-center gap-1">
+                        <flux:icon name="arrow-trending-up" class="size-3" />
+                        +8%
+                    </flux:badge>
+                </div>
+            </flux:card>
         </div>
 
-        <!-- Charts and Activities -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-
+        
             <!-- Recent Activities -->
             <div class="lg:col-span-1">
                 <flux:card class="p-0 overflow-hidden">
