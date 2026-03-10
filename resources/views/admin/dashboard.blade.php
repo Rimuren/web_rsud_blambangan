@@ -10,67 +10,50 @@
                 <h2 class="text-3xl md:text-4xl font-black text-zinc-900 dark:text-white tracking-tight">Dashboard Overview</h2>
                 <p class="text-zinc-500 dark:text-zinc-400 mt-3 text-lg">Welcome back! Here is a summary of your content performance and recent hospital updates.</p>
             </div>
+            <div>
+            </div>
+        </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
 
             <!-- Total Articles -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total Articles</p>
-                <div class="flex items-end justify-between mt-4">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Total Articles</p>
+                <div class="flex items-end justify-center mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">124</p>
-                    <flux:badge color="emerald" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-up" class="size-3" />
-                        +12%
-                    </flux:badge>
                 </div>
             </flux:card>
 
             <!-- Published -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Published</p>
-                <div class="flex items-end justify-between mt-4">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Published</p>
+                <div class="flex items-end justify-center mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">118</p>
-                    <flux:badge color="rose" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-down" class="size-3" />
-                        -2%
-                    </flux:badge>
                 </div>
             </flux:card>
 
             <!-- Drafts -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Draft</p>
-                <div class="flex items-end justify-between mt-4">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Draft</p>
+                <div class="flex items-end justify-center mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">6</p>
-                    <flux:badge color="emerald" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-up" class="size-3" />
-                        +1%
-                    </flux:badge>
                 </div>
             </flux:card>
 
             <!-- Total Doctors -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total Dokter</p>
-                <div class="flex items-end justify-between mt-4">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Total Dokter</p>
+                <div class="flex items-end justify-center mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">48</p>
-                    <flux:badge color="sky" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-up" class="size-3" />
-                        +3%
-                    </flux:badge>
                 </div>
             </flux:card>
 
             <!-- Total Users -->
             <flux:card class="p-6 md:p-8">
-                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Total User</p>
-                <div class="flex items-end justify-between mt-4">
+                <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Total User</p>
+                <div class="flex items-end justify-center mt-4">
                     <p class="text-4xl font-bold text-zinc-900 dark:text-white">312</p>
-                    <flux:badge color="emerald" class="flex items-center gap-1">
-                        <flux:icon name="arrow-trending-up" class="size-3" />
-                        +8%
-                    </flux:badge>
                 </div>
             </flux:card>
         </div>
