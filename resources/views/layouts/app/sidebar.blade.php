@@ -46,6 +46,11 @@
                 <flux:sidebar.item href="#">Daftar Dokter</flux:sidebar.item>
                 <flux:sidebar.item href="#">Daftar Spesialis</flux:sidebar.item>
             </flux:sidebar.group>
+
+          <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
+                <flux:sidebar.item href="#">Daftar Bangsal</flux:sidebar.item>
+                <flux:sidebar.item href="#">Daftar Kelas</flux:sidebar.item>
+            </flux:sidebar.group>
         </flux:sidebar.nav>
 
          <flux:spacer />
