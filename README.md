@@ -87,20 +87,6 @@ php artisan key:generate
 
 ## 🗄️ Database Configuration
 
-### Menggunakan SQLite (Default)
-
-Buat file database SQLite:
-
-```bash
-touch database/database.sqlite
-```
-
-Jalankan migration:
-
-```bash
-php artisan migrate
-```
-
 ### Menggunakan MySQL
 
 Edit file `.env` dan sesuaikan konfigurasi database:
