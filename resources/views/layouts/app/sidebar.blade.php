@@ -31,7 +31,7 @@
                     Daftar Artikel
                 </flux:sidebar.item>
                 <flux:sidebar.item 
-                    href="{{ route('admin.artikel.index') }}">
+                    href="{{ route('admin.artikel.kategori.index') }}">
                     Daftar Kategori
                 </flux:sidebar.item>
             </flux:sidebar.group>
