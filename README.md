@@ -1,15 +1,22 @@
-teknologi yang digunakan dalam project ini:
+# Web RSUD Blambangan
+
+Project website **RSUD Blambangan** yang dibangun menggunakan framework **Laravel** dengan sistem **Role-Based Access Control (RBAC)** untuk manajemen hak akses pengguna.
+
+---
+
+## 🧰 Teknologi yang Digunakan
 
 | Kategori | Teknologi |
 |----------|-----------|
 | **Framework** | Laravel 12 |
-| **PHP Version** | PHP 8.2 |
-| **Backend** | Laravel Fortify |
+| **PHP Version** | PHP 8.2.* |
+| **Authentication** | Laravel Fortify |
+| **Authorization** | Spatie Laravel Permission (RBAC) |
 | **Frontend** | Blade Template Engine + Livewire 4 |
 | **UI Component** | Flux UI 2.9 |
 | **CSS Framework** | Tailwind CSS 4 |
 | **Build Tool** | Vite |
-| **Database** | SQLite (default) / MySQL / MariaDB  |
+| **Database** | SQLite (default) / MySQL / MariaDB |
 | **Package Manager** | Composer & NPM |
 
 ---
@@ -112,10 +119,15 @@ Lalu jalankan migration:
 php artisan migrate
 ```
 
-Jika ada seeder:
+Lalu jalankan seeder:
 
 ```bash
 php artisan db:seed
+```
+
+atau jika ingin melakukan reset database sekaligus menjalankan seeder:
+```bash
+php artisan migrate:fresh --seed
 ```
 
 ---
