@@ -1,116 +1,177 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
-    <head>
-        @include('partials.head')
-    <head>
-    <!-- ... -->
-
+<head>
+    @include('partials.head')
     @fluxAppearance
 </head>
-<body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
-<flux:sidebar sticky collapsible class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 sidebar-custom">
-        <flux:sidebar.header>
-            <flux:sidebar.brand
-    href="#"
-    logo="https://rsudblambangan.id/images/navbar/Logo.png"
-    logo:dark="https://rsudblambangan.id/images/navbar/Logo.png"
-    name="Admin Panel."
-/>
 
-            <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />
-        </flux:sidebar.header>
+<body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
+
+<flux:sidebar sticky collapsible class="bg-zinc-50 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 sidebar-custom">
+
+    <flux:sidebar.header>
+        <flux:sidebar.brand
+            href="#"
+            logo="https://rsudblambangan.id/images/navbar/Logo.png"
+            logo:dark="https://rsudblambangan.id/images/navbar/Logo.png"
+            name="Admin Panel."
+        />
+
+        <flux:sidebar.collapse
+            class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2"
+        />
+    </flux:sidebar.header>
 
     <flux:sidebar.nav>
-        <flux:sidebar.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+
+        <flux:sidebar.item 
+            icon="home"
+            :href="route('admin.dashboard')"
+            :current="request()->routeIs('admin.dashboard')"
+            wire:navigate>
             {{ __('Dashboard') }}
         </flux:sidebar.item>
-            
-            <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
-                <flux:sidebar.item 
-                    href="{{ route('admin.artikel.index') }}">
-                    Daftar Artikel
-                </flux:sidebar.item>
-                <flux:sidebar.item 
-                    href="{{ route('admin.artikel.kategori.index') }}">
-                    Daftar Kategori
-                </flux:sidebar.item>
-            </flux:sidebar.group>
-            
-            <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
-                <flux:sidebar.item href="#">Daftar Akun</flux:sidebar.item>
-                <flux:sidebar.item href="#">Manajemen Role</flux:sidebar.item>
-            </flux:sidebar.group>
-            <flux:sidebar.item icon="document-text" href="#">Manajemen Dokumentasi</flux:sidebar.item>
 
-            <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
-                <flux:sidebar.item href="#">Daftar Dokter</flux:sidebar.item>
-                <flux:sidebar.item href="#">Daftar Spesialis</flux:sidebar.item>
-            </flux:sidebar.group>
+        <!-- Manajemen Artikel -->
+        <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
+            <flux:sidebar.item 
+                :href="route('admin.artikel.index')"
+                :current="request()->routeIs('admin.artikel.index')"
+                wire:navigate>
+                Daftar Artikel
+            </flux:sidebar.item>
 
-          <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
-                <flux:sidebar.item href="#">Daftar Bangsal</flux:sidebar.item>
-                <flux:sidebar.item href="#">Daftar Kelas</flux:sidebar.item>
-            </flux:sidebar.group>
-        </flux:sidebar.nav>
+            <flux:sidebar.item 
+                :href="route('admin.artikel.kategori.index')"
+                :current="request()->routeIs('admin.artikel.kategori.*')"
+                wire:navigate>
+                Daftar Kategori
+            </flux:sidebar.item>
+        </flux:sidebar.group>
 
-         <flux:spacer />
+        <!-- Manajemen Akun -->
+        <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
+            <flux:sidebar.item 
+                :href="route('admin.akun.index')" 
+                :current="request()->routeIs('admin.akun.*')" 
+                wire:navigate>
+                Daftar Akun
+            </flux:sidebar.item>
 
-            <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
-        </flux:sidebar>
+            <flux:sidebar.item href="#">
+                Manajemen Role
+            </flux:sidebar.item>
+        </flux:sidebar.group>
 
-        <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
-            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+        <!-- Dokumentasi -->
+        <flux:sidebar.item icon="document-text" href="#">
+            Manajemen Dokumentasi
+        </flux:sidebar.item>
 
-            <flux:spacer />
+        <!-- Manajemen Dokter -->
+        <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
+            <flux:sidebar.item href="#">
+                Daftar Dokter
+            </flux:sidebar.item>
 
-            <flux:dropdown position="top" align="end">
-                <flux:profile
-                    :initials="auth()->user()->initials()"
-                    icon-trailing="chevron-down"
-                />
+            <flux:sidebar.item href="#">
+                Daftar Spesialis
+            </flux:sidebar.item>
+        </flux:sidebar.group>
 
-                <flux:menu>
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <flux:avatar
-                                    :name="auth()->user()->name"
-                                    :initials="auth()->user()->initials()"/>
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
-                                    <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
-                                </div>
-                            </div>
+        <!-- Manajemen Ruangan -->
+        <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
+            <flux:sidebar.item href="#">
+                Daftar Bangsal
+            </flux:sidebar.item>
+
+            <flux:sidebar.item href="#">
+                Daftar Kelas
+            </flux:sidebar.item>
+        </flux:sidebar.group>
+
+    </flux:sidebar.nav>
+
+    <flux:spacer />
+
+    <x-desktop-user-menu 
+        class="hidden lg:block"
+        :name="auth()->user()->name" 
+    />
+
+</flux:sidebar>
+
+<!-- Mobile Header -->
+<flux:header class="lg:hidden">
+    <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+
+    <flux:spacer />
+
+    <flux:dropdown position="top" align="end">
+
+        <flux:profile
+            :initials="auth()->user()->initials()"
+            icon-trailing="chevron-down"
+        />
+
+        <flux:menu>
+
+            <flux:menu.radio.group>
+                <div class="p-0 text-sm font-normal">
+                    <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+                        <flux:avatar
+                            :name="auth()->user()->name"
+                            :initials="auth()->user()->initials()" />
+
+                        <div class="grid flex-1 text-start text-sm leading-tight">
+                            <flux:heading class="truncate">
+                                {{ auth()->user()->name }}
+                            </flux:heading>
+
+                            <flux:text class="truncate">
+                                {{ auth()->user()->email }}
+                            </flux:text>
                         </div>
-                    </flux:menu.radio.group>
-                    <flux:menu.separator />
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
-                        </flux:menu.item>
-                    </flux:menu.radio.group>
+                    </div>
+                </div>
+            </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+            <flux:menu.separator />
 
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item
-                            as="button"
-                            type="submit"
-                            icon="arrow-right-start-on-rectangle"
-                            class="w-full cursor-pointer"
-                            data-test="logout-button"
-                        >
-                            {{ __('Log out') }}
-                        </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
-        </flux:header>
+            <flux:menu.radio.group>
+                <flux:menu.item 
+                    :href="route('profile.edit')" 
+                    icon="cog" 
+                    wire:navigate>
+                    {{ __('Settings') }}
+                </flux:menu.item>
+            </flux:menu.radio.group>
 
-        {{ $slot }}
+            <flux:menu.separator />
 
-        @fluxScripts
-    </body>
+            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                @csrf
+
+                <flux:menu.item
+                    as="button"
+                    type="submit"
+                    icon="arrow-right-start-on-rectangle"
+                    class="w-full cursor-pointer"
+                    data-test="logout-button">
+
+                    {{ __('Log out') }}
+
+                </flux:menu.item>
+            </form>
+
+        </flux:menu>
+
+    </flux:dropdown>
+</flux:header>
+
+{{ $slot }}
+
+@fluxScripts
+
+</body>
 </html>
