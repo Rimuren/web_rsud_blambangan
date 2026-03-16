@@ -70,7 +70,10 @@
 
         <!-- Manajemen Dokter -->
         <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
-            <flux:sidebar.item href="#">
+<flux:sidebar.item 
+                :href="route('admin.dokter.index')"
+                :current="request()->routeIs('admin.dokter.index')"
+                wire:navigate>
                 Daftar Dokter
             </flux:sidebar.item>
 

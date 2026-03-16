@@ -22,7 +22,9 @@ Route::view(
             'admin.artikel.kategori.index'
         )->name('admin.artikel.kategori.index');
 
-        Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
+Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
+
+        Route::view('/admin/dokter', 'admin.dokter.index')->name('admin.dokter.index');
 
         Route::get('/admin/artikel/create', function () {
         return view('admin.artikel.create');
