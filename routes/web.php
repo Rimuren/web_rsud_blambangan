@@ -17,10 +17,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'admin.artikel.index'
         )->name('admin.artikel.index');
 
-        Route::view(
+Route::view(
             '/admin/artikel/kategori/index',
             'admin.artikel.kategori.index'
         )->name('admin.artikel.kategori.index');
+
+        Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
 
         Route::get('/admin/artikel/create', function () {
         return view('admin.artikel.create');
