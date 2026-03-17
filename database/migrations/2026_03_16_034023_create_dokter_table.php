@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('dokter', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('nama', 100);
+            $table->string('kode', 20)->nullable();
+            $table->string('kode_bpjs', 20)->nullable();
+            $table->string('spesialis', 150)->nullable();
+            $table->string('subspesialis', 150)->nullable();
+            $table->text('pendidikan')->nullable();
+            $table->integer('umur')->nullable();
+            $table->float('rating')->default(0);
+            $table->string('image_path')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('dokter');
+    }
+};
