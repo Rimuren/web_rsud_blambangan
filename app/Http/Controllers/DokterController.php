@@ -12,7 +12,7 @@ class DokterController extends Controller
      */
     public function index()
     {
-        $dokters = dokter_model::paginate(10);
+        $dokters = dokter_model::with('jadwal_dokter')->paginate(10);
         return view('admin.dokter.index', compact('dokters'));
     }
 

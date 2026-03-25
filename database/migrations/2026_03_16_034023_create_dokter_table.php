@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('subspesialis', 150)->nullable();
             $table->text('pendidikan')->nullable();
             $table->integer('umur')->nullable();
-            $table->float('rating')->default(0);
             $table->string('image_path')->nullable();
 
             $table->timestamps();
