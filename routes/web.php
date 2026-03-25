@@ -18,6 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/admin/artikel/kategori/index','admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
 
     Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
+    
+    Route::view('/admin/akun/role', 'admin.akun.role.index')->name('admin.akun.role.index');
 
  // Route::view('/admin/dokter', 'admin.dokter.index')->name('admin.dokter.index');
     Route::get('/admin/dokter', [DokterController::class, 'index'])->name('admin.dokter.index');

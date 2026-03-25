@@ -1,12 +1,18 @@
-# TODO: Implement Manajemen Dokter Page
+# Task: Implement Admin Roles Page
 
-Current working directory: d:/MagangRSUD/web_rsud_blambangan
+## Steps:
+- [x] 1. Create/update resources/views/admin/akun/role/index.blade.php with adapted HTML using Flux layout
+- [x] 2. Add route to routes/web.php: Route::view('/admin/akun/role', 'admin.akun.role.index')->name('admin.akun.role.index');
+- [x] 3. Update resources/views/layouts/app/sidebar.blade.php - activate Manajemen Role item with route and icon
+- [x] 4. Test route and navigation
+- [x] 5. Complete task
 
-## Steps from approved plan (to be checked off as completed):
+**Status: COMPLETE**
 
-### 1. [x] Add route for admin.dokter.index in routes/web.php
-### 2. [x] Update navigation in layouts/app/sidebar.blade.php for "Daftar Dokter"
-### 3. [x] Update admin/dokter/index.blade.php with provided HTML content in layout
-### 4. [x] Verify complete (route added, sidebar updated, content inserted, layout compatible)
+Route verified: `GET|HEAD admin/akun/role → admin.akun.role.index`
+Files updated:
+- ✅ resources/views/admin/akun/role/index.blade.php (HTML + Flux icons/buttons + custom CSS)
+- ✅ routes/web.php (new route added)
+- ✅ resources/views/layouts/app/sidebar.blade.php (active menu item with icon="shield-check")
 
-**Next tool calls will update progress here after each step.**
+Access via sidebar "Manajemen Role" or /admin/akun/role.

@@ -53,12 +53,15 @@
         <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
             <flux:sidebar.item 
                 :href="route('admin.akun.index')" 
-                :current="request()->routeIs('admin.akun.*')" 
+                :current="request()->routeIs('admin.akun.index')" 
                 wire:navigate>
                 Daftar Akun
             </flux:sidebar.item>
 
-            <flux:sidebar.item href="#">
+            <flux:sidebar.item
+                :href="route('admin.akun.role.index')"
+                :current="request()->routeIs('admin.akun.role.index')"
+                wire:navigate>
                 Manajemen Role
             </flux:sidebar.item>
         </flux:sidebar.group>
