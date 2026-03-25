@@ -19,12 +19,15 @@ class dokter_model extends Model
         'subspesialis',
         'pendidikan',
         'umur',
-        'rating',
         'image_path',
     ];
 
     protected $casts = [
         'umur' => 'integer',
-        'rating' => 'float',
     ];
+
+    public function jadwal_dokter()
+    {
+        return $this->hasMany(jadwal_dokter_model::class, 'dokter_id');
+    }
 }

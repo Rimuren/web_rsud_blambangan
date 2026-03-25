@@ -64,12 +64,34 @@
                                 @php
                                 $colors = ['blue', 'emerald', 'orange', 'purple', 'pink', 'indigo'];
                                 $color = $colors[$dokter->id % count($colors)] ?? 'blue';
+                                $spesialis = $dokter->spesialis ?: 'Umum';
                                 @endphp
-                                <flux:badge color="{{ $color }}" size="sm">{{ $dokter->spesialis ?: 'Umum' }}</flux:badge>
+                                <flux:badge color="{{ $color }}" size="sm">{{ $spesialis }}</flux:badge>
                             </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">
-                                <!-- Jadwal belum diimplementasikan -->
+                                @php
+                                $jadwalGroup = $dokter->jadwal_dokter ? $dokter->jadwal_dokter->groupBy('hari') : collect();
+                                @endphp
+
+                                @if($jadwalGroup->count())
+                                <ul class="space-y-1">
+                                    @foreach($jadwalGroup as $hari => $jadwals)
+                                    @php
+                                    $jamList = $jadwals->map(function($j) {
+                                    $mulai = substr($j->jam_mulai, 0, 5);
+                                    $selesai = substr($j->jam_selesai, 0, 5);
+                                    return $mulai . '-' . $selesai;
+                                    })->implode(', ');
+                                    @endphp
+                                    <li>
+                                        <span class="font-medium">{{ $hari }}</span>
+                                        <span class="text-xs text-zinc-500 dark:text-zinc-400"> ({{ $jamList }})</span>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                @else
                                 -
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex justify-center items-center gap-2">
