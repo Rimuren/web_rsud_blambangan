@@ -24,12 +24,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
  // Route::view('/admin/dokter', 'admin.dokter.index')->name('admin.dokter.index');
     Route::get('/admin/dokter', [DokterController::class, 'index'])->name('admin.dokter.index');
 
+    Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
+    Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
+
     Route::get('/admin/artikel/create', function () 
     { 
         return view('admin.artikel.create');
-    })->name('admin.artikel.create');
-
+    });
 });
+
+
 
 // Route::get('/test-api-dokter', function () {
 //     $apiService = new RsudApiService();

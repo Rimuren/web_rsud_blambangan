@@ -66,10 +66,21 @@
             </flux:sidebar.item>
         </flux:sidebar.group>
 
-        <!-- Dokumentasi -->
-        <flux:sidebar.item icon="document-text" href="#">
-            Manajemen Dokumentasi
-        </flux:sidebar.item>
+        <!-- Manajemen Dokumentasi -->
+        <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
+            <flux:sidebar.item 
+                :href="route('admin.dokumentasi.foto')"
+                :current="request()->routeIs('admin.dokumentasi.foto')"
+                wire:navigate>
+                Foto
+            </flux:sidebar.item>
+            <flux:sidebar.item 
+                :href="route('admin.dokumentasi.video')"
+                :current="request()->routeIs('admin.dokumentasi.video')"
+                wire:navigate>
+                Video
+            </flux:sidebar.item>
+        </flux:sidebar.group>
 
         <!-- Manajemen Dokter -->
         <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
