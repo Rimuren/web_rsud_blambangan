@@ -13,21 +13,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        html { scroll-behavior: smooth; }
-
         html {
             overflow-x: hidden;
             width: 100%;
             max-width: 100%;
         }
-        /* Body menggunakan Inter */
         body {
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
         }
         /* Heading (h1 - h6) menggunakan Poppins */
         h1, h2, h3, h4, h5, h6, .heading-font {
             font-family: 'Poppins', 'Inter', system-ui, sans-serif;
         }
+        /* Pastikan paragraf, label, input, dll tetap Inter */
         p, span, label, input, select, button, a {
             font-family: 'Inter', system-ui, sans-serif;
         }
@@ -52,19 +53,26 @@
         .hero-image {
             object-fit: cover;
             object-position: center;
+            height: 120%;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+        }
+        .hero-image.fade-out {
+            opacity: 0;
         }
     </style>
 </head>
-<body class="bg-white overflow-x-hidden">
+<body class="bg-white">
 
 {{-- ========== HERO SECTION ========== --}}
 <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] flex flex-col overflow-visible">
     <img src="{{ asset('build/assets/hero1.png') }}"
-         alt="RSUD Blambangan"
-         class="hero-image absolute inset-0 w-full h-full z-0">
+        alt="RSUD Blambangan"
+        id="hero-image"
+        class="hero-image absolute inset-0 w-full h-full z-0">
 
     <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-[1]"></div>
-    <div class="absolute inset-x-0 bottom-0 h-[30%] md:h-[35%] bg-gradient-to-t from-white from-30% via-white/60 to-transparent z-[1]"></div>
+    <div class="absolute inset-x-0 bottom-[-25%] h-[30%] md:h-[35%] bg-gradient-to-t from-white from-40% via-white/60 to-transparent z-[1]"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-6 pt-8 sm:pt-12 md:pt-24 pb-8 md:pb-32 flex-1 flex items-center">
         <div class="max-w-xl">
@@ -85,7 +93,7 @@
 </section>
 
 {{-- Search Bar Desktop --}}
-<div class="hidden md:block relative z-20 -mt-12 px-8">
+<div class="hidden md:block relative z-20 -mt-12 px-4">
     <div class="bg-white rounded-2xl shadow-2xl px-6 py-5 max-w-4xl mx-auto">
         <div class="flex flex-row gap-3 items-end">
             <div class="flex-1 min-w-0">
@@ -93,7 +101,7 @@
                     CARI DOKTER
                 </label>
                 <input type="text" placeholder="Nama Dokter"
-                       class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
             </div>
             <div class="w-px h-10 bg-gray-200 self-end"></div>
             <div class="flex-1 min-w-0">
@@ -143,7 +151,7 @@
                 CARI DOKTER
             </label>
             <input type="text" placeholder="Nama Dokter"
-                   class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
         </div>
         <div>
             <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
@@ -210,65 +218,69 @@
 <section class="bg-white py-10 md:py-14 px-4">
     <div class="container mx-auto">
         <div class="text-center mb-8 md:mb-10">
-            <h2 class="text-[#00BFB0] text-xl font-bold tracking-widest uppercase mb-2">LAYANAN UNGGULAN</h2>
-            <h2 class="text-[#003366] text-xl md:text-2xl lg:text-3xl font-bold px-4">Profesional &amp; Terpercaya dalam Perawatan Kesehatan</h2>
+            <h2 class="text-[#00CCB8] text-[20px] font-bold tracking-widest uppercase mb-2">LAYANAN UNGGULAN</h2>
+            <h2 class="text-[#03007A] text-xl md:text-2xl lg:text-3xl font-bold px-4">Profesional &amp; Terpercaya dalam Perawatan Kesehatan</h2>
         </div>
 
         {{-- OUR SPECIALIST Banner --}}
-        <div class="rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[400px_1fr] lg:grid-cols-[420px_1fr] mb-6 md:mb-8 shadow-lg">
-            <div class="hidden md:block relative min-h-[420px] bg-gradient-to-br from-[#1e4a7a] to-[#0f2d50]">
-                <img src="{{ asset('build/assets/spesialis.jpg') }}" alt="Dokter Spesialis"
-                     class="absolute bottom-0 left-0 w-full h-full object-cover object-top opacity-90">
+        <div class="bg-[#ffffff] rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[550px_1fr] lg:grid-cols-[600px_1fr] mb-6 md:mb-8 shadow-lg">
+            <div class="hidden md:block relative min-h-[350px] bg-gradient-to-br from-[#1e4a7a] to-[#0f2d50]">
+                <img src="{{ asset('build/assets/spesialis1.png') }}" alt="Dokter Spesialis"
+                    class="absolute bottom-0 left-0 w-full h-full object-cover object-top opacity-90">
             </div>
-            <div class="p-6 md:p-8 pt-10 md:pt-12 text-[#003366]">
-                <p class="text-xl font-bold tracking-widest text-[#00C9B9] uppercase mb-2">OUR SPECIALIST</p>
-                <h3 class="text-lg md:text-xl font-bold leading-snug mb-5">
+            <div class="p-6 md:p-8 text-white">
+                <p class="text-[#00CCB8] text-[20px] font-bold tracking-widest uppercase mb-2">OUR SPECIALIST</p>
+                <h3 class="text-[#03007A] text-[24px] md:text-[40px] font-bold leading-snug mb-3">
                     Area Spesialisasi Medis yang Berkomitmen pada Keunggulan Medis &amp; Layanan
                 </h3>
-                <p class="text-sm text-[#4B5563] leading-relaxed mb-5 md:mb-6 max-w-xl">
+                <p class="text-[#707070] text-sm leading-relaxed mb-5 md:mb-18 max-w-xl">
                     Tim dokter spesialis kami berdedikasi tinggi memberikan diagnosis akurat, perawatan yang personal dan berkualitas. Kami mengembangkan solusi medis dengan standar tinggi serta memberikan dukungan awal dan perawatan terbaik bagi setiap pasien.
                 </p>
-                <a href="#" class="inline-block bg-[#003366] hover:bg-blue-700 text-white font-semibold text-sm px-5 md:px-8 py-2.5 rounded-lg transition">Semua Spesialis</a>
+                <a href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-7 md:px-9 py-2.5 rounded-lg transition">Semua Spesialis</a>
             </div>
         </div>
 
         {{-- Service Cards --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 mb-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-5">
             <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 bg-gradient-to-br from-[#1a2744] to-[#243558] group cursor-pointer shadow-md">
-                <img src="https://placehold.co/600x400/2c3e66/white?text=Brain+Tumor" alt="Brain Tumor"
-                     class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity">
+                <img src="{{ asset('build/assets/dsa.jpg') }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h4 class="text-white font-bold text-sm leading-snug">Brain Tumor Clinic &amp; Keadaan Hormon Pituitary</h4>
+                    <h4 class="text-white font-bold text-sm leading-snug">
+                        Digital Subtraction Angiography
+                    </h4>
                 </div>
             </div>
-            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 bg-gradient-to-br from-[#0f5c6e] to-[#1a7a8f] group cursor-pointer shadow-md">
-                <img src="https://placehold.co/600x400/1a7f8c/white?text=ICU" alt="ICU"
-                     class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity">
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h4 class="text-white font-bold text-sm leading-snug">Pelayanan Intensive Care</h4>
-                </div>
-            </div>
-            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 sm:col-span-2 md:col-span-1 bg-gradient-to-br from-[#5c1a1a] to-[#8f3333] group cursor-pointer shadow-md">
-                <img src="https://placehold.co/600x400/aa3e3e/white?text=Heart+Centre" alt="Heart"
-                     class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity">
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h4 class="text-white font-bold text-sm leading-snug">Heart &amp; Vascular Centre</h4>
-                </div>
-            </div>
-        </div>
-            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 sm:col-span-2 md:col-span-1 bg-gradient-to-br from-[#5c1a1a] to-[#8f3333] group cursor-pointer shadow-md">
-                <img src="https://placehold.co/600x400/aa3e3e/white?text=Heart+Centre" alt="Heart"
-                     class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity">
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <h4 class="text-white font-bold text-sm leading-snug">Heart &amp; Vascular Centre</h4>
-                </div>
-            </div>
-        </div>
 
-        <div class="flex justify-center gap-2 mt-2">
-            <div class="w-5 h-1.5 bg-blue-600 rounded-full"></div>
-            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full"></div>
-            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full"></div>
+            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 bg-gradient-to-br from-[#1a2744] to-[#243558] group cursor-pointer shadow-md">
+                <img src="{{ asset('build/assets/cathlab.jpg') }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <h4 class="text-white font-bold text-sm leading-snug">
+                        Cath Lab
+                    </h4>
+                </div>
+            </div>
+
+            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 bg-gradient-to-br from-[#0f5c6e] to-[#1a7a8f] group cursor-pointer shadow-md">
+                <img src="{{ asset('build/assets/hemo.jpg') }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <h4 class="text-white font-bold text-sm leading-snug">
+                        Hemodialysis Center
+                    </h4>
+                </div>
+            </div>
+
+            <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 bg-gradient-to-br from-[#5c1a1a] to-[#8f3333] group cursor-pointer shadow-md">
+                <img src="{{ asset('build/assets/onco.jpg') }}"
+                    class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <h4 class="text-white font-bold text-sm leading-snug">
+                        Oncology & Chemotherapy
+                    </h4>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -278,7 +290,7 @@
     <div class="container mx-auto">
         <div class="flex justify-between items-center mb-5 md:mb-6 flex-wrap gap-2">
             <h2 class="text-lg md:text-xl font-bold text-gray-900">Berita &amp; Artikel Kesehatan</h2>
-            <a href="#" class="text-blue-600 text-sm font-semibold flex items-center gap-1 hover:underline">Lihat Artikel <span>→</span></a>
+            <a href="#" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
@@ -300,7 +312,6 @@
                 <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-800 to-blue-600 flex flex-col items-center justify-center gap-1 text-center">
                     <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
                     <span class="text-white font-extrabold text-base text-center leading-snug px-2">AL APOTEKER ISUN</span>
-                    <span class="bg-red-500 text-white text-[11px] font-bold px-3 py-0.5 rounded mt-1">HUTIMU</span>
                 </div>
                 <div class="p-4">
                     <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wide">Edukasi</span>
@@ -314,7 +325,6 @@
                 <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-green-900 to-green-700 flex flex-col items-center justify-center gap-1">
                     <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
                     <span class="text-white font-extrabold text-base text-center leading-snug px-2">CC-GANCANG ARON</span>
-                    <span class="bg-red-500 text-white text-[11px] font-bold px-3 py-0.5 rounded mt-1">(0 2196 0688)</span>
                 </div>
                 <div class="p-4">
                     <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Layanan Darurat</span>
@@ -325,11 +335,55 @@
             </div>
         </div>
 
+        <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100">
+            <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
+                <span class="font-bold text-gray-800">Kategori Artikel:</span>
+                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Kategori</span>
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">Kategori</span>
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">Kategori</span>
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Kategori</span>
+            </div>
+            <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
+        </div>
+
         <div class="text-center">
             <a href="#" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-semibold px-8 md:px-10 py-3 rounded-xl shadow transition text-sm md:text-base">Lihat Lebih Banyak</a>
         </div>
     </div>
 </section>
+
+{{-- ========== JAVASCRIPT UNTUK HERO SLIDER ========== --}}
+<script>
+    // Menunggu DOM sepenuhnya dimuat sebelum menjalankan script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Daftar gambar hero
+        const heroImages = [
+            "{{ asset('build/assets/hero1.png') }}",
+            "{{ asset('build/assets/hero2.png') }}",
+            "{{ asset('build/assets/hero3.png') }}"
+        ];
+        
+        let currentIndex = 0;
+        const heroImageElement = document.getElementById('hero-image');
+        
+        // Fungsi untuk mengganti gambar dengan efek fade
+        function changeHeroImage() {
+            // Tambah class fade-out untuk efek transisi
+            heroImageElement.classList.add('fade-out');
+            
+            // Tunggu setengah detik (500ms) untuk efek fade, baru ganti gambar
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % heroImages.length;
+                heroImageElement.src = heroImages[currentIndex];
+                // Hapus class fade-out setelah gambar diganti
+                heroImageElement.classList.remove('fade-out');
+            }, 500);
+        }
+        
+        // Ganti gambar setiap 3 detik (3000ms)
+        setInterval(changeHeroImage, 3000);
+    });
+</script>
 
 </body>
 </html>
