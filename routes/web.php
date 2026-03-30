@@ -27,10 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
     Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
 
-    Route::get('/admin/artikel/create', function () 
+Route::get('/admin/artikel/create', function () 
     { 
         return view('admin.artikel.create');
-    });
+    })->name('admin.artikel.create');
 });
 
 
