@@ -10,6 +10,18 @@ Route::get('/guest/index', function () {
     return view('guest.index');
 })->name('guest.index');;
 
+Route::get('/dokter/spesialis', function() {
+    return view('dokter.spesialis');
+})->name('dokter.spesialis');;
+
+Route::get('/kamar/index', function() {
+    return view('kamar.index');
+})->name('kamar.index');;
+
+Route::get('/artikel/index', function() {
+    return view('artikel.index');
+})->name('artikel.index');;
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
 
@@ -27,10 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
     Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
 
-    Route::get('/admin/artikel/create', function () 
+Route::get('/admin/artikel/create', function () 
     { 
         return view('admin.artikel.create');
-    });
+    })->name('admin.artikel.create');
 });
 
 
