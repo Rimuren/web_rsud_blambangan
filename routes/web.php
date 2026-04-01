@@ -4,9 +4,9 @@ use App\Http\Controllers\DokterController;
 use Illuminate\Support\Facades\Route;
 use App\Services\RsudApiService;
 
-Route::view('/', 'welcome')->name('home');
+// Route::view('/', 'welcome')->name('home');
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('guest.home.index');
 })->name('guest.home.index');;
 
