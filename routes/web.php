@@ -6,9 +6,9 @@ use App\Services\RsudApiService;
 
 Route::view('/', 'welcome')->name('home');
 
-Route::get('/guest/index', function () {
-    return view('guest.index');
-})->name('guest.index');;
+Route::get('/home', function () {
+    return view('guest.home.index');
+})->name('guest.home.index');;
 
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');

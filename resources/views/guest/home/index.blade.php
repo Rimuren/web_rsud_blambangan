@@ -28,7 +28,6 @@
         h1, h2, h3, h4, h5, h6, .heading-font {
             font-family: 'Poppins', 'Inter', system-ui, sans-serif;
         }
-        /* Pastikan paragraf, label, input, dll tetap Inter */
         p, span, label, input, select, button, a {
             font-family: 'Inter', system-ui, sans-serif;
         }
@@ -64,7 +63,7 @@
 </head>
 <body class="bg-white">
 
-{{-- ========== HERO SECTION ========== --}}
+{{-- HERO SECTION --}}
 <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] flex flex-col overflow-visible">
     <img src="{{ asset('build/assets/hero1.png') }}"
         alt="RSUD Blambangan"
