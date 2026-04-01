@@ -83,7 +83,7 @@
             <p class="text-white/90 text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-md">
                 Akses mudah layanan, jadwal dokter, dan informasi kesehatan dalam satu tempat.
             </p>
-            <a href="#" class="bg-blue-600 hover:bg-blue-700 px-5 md:px-7 py-2.5 md:py-3 rounded-lg text-white font-semibold inline-block shadow-lg transition text-sm md:text-base">
+            <a href="{{ route('guest.info-kamar.index') }}" class="bg-blue-600 hover:bg-blue-700 px-5 md:px-7 py-2.5 md:py-3 rounded-lg text-white font-semibold inline-block shadow-lg transition text-sm md:text-base">
                 Lihat ketersediaan kamar
             </a>
         </div>
