@@ -60,6 +60,7 @@
 </head>
 <body class="bg-white">
 
+<<<<<<< HEAD
     {{-- Hero Section dengan Slider --}}
     <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
         <img src="{{ asset('build/assets/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
@@ -70,6 +71,179 @@
             <div class="max-w-xl">
                 <p class="text-white/80 text-xs md:text-sm font-medium tracking-widest uppercase mb-2 md:mb-3">
                     Informasi & Layanan RSUD untuk Masyarakat
+=======
+{{-- HERO SECTION --}}
+<section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] flex flex-col overflow-visible">
+    <img src="{{ asset('build/assets/hero1.png') }}"
+        alt="RSUD Blambangan"
+        id="hero-image"
+        class="hero-image absolute inset-0 w-full h-full z-0">
+
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-[1]"></div>
+    <div class="absolute inset-x-0 bottom-[-25%] h-[30%] md:h-[35%] bg-gradient-to-t from-white from-40% via-white/60 to-transparent z-[1]"></div>
+
+    <div class="relative z-10 container mx-auto px-4 md:px-6 pt-8 sm:pt-12 md:pt-24 pb-8 md:pb-32 flex-1 flex items-center">
+        <div class="max-w-xl">
+            <p class="text-white/80 text-xs md:text-sm font-medium tracking-widest uppercase mb-2 md:mb-3">
+                Informasi & Layanan RSUD untuk Masyarakat
+            </p>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-5">
+                RSUD<br>BLAMBANGAN
+            </h1>
+            <p class="text-white/90 text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-md">
+                Akses mudah layanan, jadwal dokter, dan informasi kesehatan dalam satu tempat.
+            </p>
+            <a href="{{ route('guest.info-kamar.index') }}" class="bg-blue-600 hover:bg-blue-700 px-5 md:px-7 py-2.5 md:py-3 rounded-lg text-white font-semibold inline-block shadow-lg transition text-sm md:text-base">
+                Lihat ketersediaan kamar
+            </a>
+        </div>
+    </div>
+</section>
+
+{{-- Search Bar Desktop --}}
+<div class="hidden md:block relative z-20 -mt-12 px-4">
+    <div class="bg-white rounded-2xl shadow-2xl px-6 py-5 max-w-4xl mx-auto">
+        <div class="flex flex-row gap-3 items-end">
+            <div class="flex-1 min-w-0">
+                <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                    CARI DOKTER
+                </label>
+                <input type="text" placeholder="Nama Dokter"
+                    class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <div class="w-px h-10 bg-gray-200 self-end"></div>
+            <div class="flex-1 min-w-0">
+                <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                    SPESIALISASI
+                </label>
+                <select class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                    <option disabled selected>Semua Spesialis</option>
+                    <option>Poli Umum</option>
+                    <option>Poli Anak</option>
+                    <option>Poli Kandungan</option>
+                    <option>Poli Jantung</option>
+                </select>
+            </div>
+            <div class="w-px h-10 bg-gray-200 self-end"></div>
+            <div class="flex-1 min-w-0">
+                <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                    PILIH HARI
+                </label>
+                <select class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                    <option disabled selected>Masukkan Hari</option>
+                    <option>Senin</option>
+                    <option>Selasa</option>
+                    <option>Rabu</option>
+                    <option>Kamis</option>
+                    <option>Jumat</option>
+                    <option>Sabtu</option>
+                </select>
+            </div>
+            <button class="w-11 h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center shrink-0 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- Spacer --}}
+<div class="hidden md:block h-12"></div>
+
+{{-- Search Bar Mobile --}}
+<div class="md:hidden px-3 py-4 bg-white shadow-md">
+    <div class="flex flex-col gap-3">
+        <div>
+            <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                CARI DOKTER
+            </label>
+            <input type="text" placeholder="Nama Dokter"
+                class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+        <div>
+            <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                SPESIALISASI
+            </label>
+            <select class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                <option disabled selected>Semua Spesialis</option>
+                <option>Poli Umum</option>
+                <option>Poli Anak</option>
+                <option>Poli Kandungan</option>
+                <option>Poli Jantung</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">
+                PILIH HARI
+            </label>
+            <select class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                <option disabled selected>Masukkan Hari</option>
+                <option>Senin</option>
+                <option>Selasa</option>
+                <option>Rabu</option>
+                <option>Kamis</option>
+                <option>Jumat</option>
+                <option>Sabtu</option>
+            </select>
+        </div>
+        <button class="w-full h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center gap-2 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <span class="text-sm font-semibold">Cari Dokter</span>
+        </button>
+    </div>
+</div>
+
+{{-- JAM OPERASIONAL & LAYANAN DARURAT --}}
+<section class="relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
+            <h3 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h3>
+            <div class="space-y-3 text-sm">
+                <div class="flex justify-between"><span class="font-semibold">Senin - Kamis</span><span>07:00 - 14:00</span></div>
+                <div class="flex justify-between"><span class="font-semibold">Jumat</span><span>07:00 - 11:00</span></div>
+                <div class="flex justify-between"><span class="font-semibold">Sabtu</span><span>07:00 - 12:00</span></div>
+            </div>
+        </div>
+        <div class="bg-[#D10000] text-white px-6 md:px-8 py-8">
+            <h3 class="text-lg md:text-xl font-bold mb-2">Layanan Darurat 24 Jam</h3>
+            <p class="text-white/75 text-sm mb-4 md:mb-5 leading-relaxed">
+                Dalam situasi darurat, jangan ragu untuk segera menghubungi kami
+            </p>
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span class="text-lg md:text-xl font-bold tracking-wide">(0333) 4211188</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- LAYANAN UNGGULAN --}}
+<section class="bg-white py-10 md:py-14 px-4">
+    <div class="container mx-auto">
+        <div class="text-center mb-8 md:mb-10">
+            <h2 class="text-[#00CCB8] text-[20px] font-bold tracking-widest uppercase mb-2">LAYANAN UNGGULAN</h2>
+            <h2 class="text-[#03007A] text-xl md:text-2xl lg:text-3xl font-bold px-4">Profesional &amp; Terpercaya dalam Perawatan Kesehatan</h2>
+        </div>
+
+        {{-- OUR SPECIALIST Banner --}}
+        <div class="bg-[#ffffff] rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-[550px_1fr] lg:grid-cols-[600px_1fr] mb-6 md:mb-8 shadow-lg">
+            <div class="hidden md:block relative min-h-[350px] bg-gradient-to-br from-[#1e4a7a] to-[#0f2d50]">
+                <img src="{{ asset('build/assets/spesialis1.png') }}" alt="Dokter Spesialis"
+                    class="absolute bottom-0 left-0 w-full h-full object-cover object-top opacity-90">
+            </div>
+            <div class="p-6 md:p-8 text-white">
+                <p class="text-[#00CCB8] text-[20px] font-bold tracking-widest uppercase mb-2">OUR SPECIALIST</p>
+                <h3 class="text-[#03007A] text-[24px] md:text-[40px] font-bold leading-snug mb-3">
+                    Area Spesialisasi Medis yang Berkomitmen pada Keunggulan Medis &amp; Layanan
+                </h3>
+                <p class="text-[#707070] text-sm leading-relaxed mb-5 md:mb-18 max-w-xl">
+                    Tim dokter spesialis kami berdedikasi tinggi memberikan diagnosis akurat, perawatan yang personal dan berkualitas. Kami mengembangkan solusi medis dengan standar tinggi serta memberikan dukungan awal dan perawatan terbaik bagi setiap pasien.
+>>>>>>> d7319713cd0fd15cccee1d2a2a3ae84b64c20e0c
                 </p>
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-5">
                     RSUD<br>BLAMBANGAN

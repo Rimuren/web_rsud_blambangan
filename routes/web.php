@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('guest.home.index');
 })->name('guest.home.index');;
 
+Route::get('/info-kamar', function () {
+    return view('guest.info-kamar.index');
+})->name('guest.info-kamar.index');;
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
@@ -21,6 +25,7 @@ Route::get('/kamar/index', function() {
 Route::get('/artikel/index', function() {
     return view('artikel.index');
 })->name('artikel.index');;
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
