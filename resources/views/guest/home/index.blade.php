@@ -52,7 +52,6 @@
         .hero-image {
             object-fit: cover;
             object-position: center;
-            height: 120%;
             transition: opacity 0.5s ease-in-out;
             opacity: 1;
         }
