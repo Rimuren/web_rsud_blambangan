@@ -3,10 +3,12 @@
     <div class="container mx-auto px-4 md:px-6 py-3">
         <!-- Header Navbar untuk Mobile & Desktop -->
         <div class="flex flex-wrap items-center justify-between">
-            <!-- Logo / Brand -->
+            <!-- Logo -->
             <div class="flex items-center space-x-2">
-                <img src="{{ asset('build/assets/nav.png') }}" alt="Logo RSUD Blambangan" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
+            <a href="/" class="flex items-center space-x-2">
+                <img src="{{ asset('images/nav.png') }}" alt="Logo RSUD Blambangan" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
                 <span class="font-bold text-gray-800 text-base md:text-lg">RSUD Blambangan</span>
+            </a>
             </div>
 
             <!-- Mobile Menu Button -->

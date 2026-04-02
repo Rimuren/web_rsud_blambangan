@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <p class="font-semibold text-[#0d2a4a]">CALL</p>
-                            <p class="text-[#4a5a6a]">(0333) 3627289</p>
+                            <p class="text-[#4a5a6a]">(0333) 421118</p>
                         </div>
                     </li>
                     <!-- Email -->
