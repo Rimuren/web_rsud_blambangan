@@ -34,6 +34,10 @@ Route::get('/layanan-unggulan/oncology', function () {
     return view('guest.layanan-unggulan.oncology.index');
 })->name('guest.layanan-unggulan.oncology.index');
 
+Route::get('/layanan-unggulan/dsa', function () {
+    return view('guest.layanan-unggulan.dsa.index');
+})->name('guest.layanan-unggulan.dsa.index');
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
