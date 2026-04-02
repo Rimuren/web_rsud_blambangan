@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('pendidikan')->nullable();
             $table->integer('umur')->nullable();
             $table->string('image_path')->nullable();
+            $table->integer('rating')->default(0);
 
             $table->timestamps();
         });
