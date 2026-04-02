@@ -149,9 +149,8 @@
 <!-- ===== DUKUNGAN PASIEN & KELUARGA ===== -->
 <section class="px-8 py-10 md:px-20 bg-white">
     <div class="max-w-6xl mx-auto">
-        <div class="support-bg px-10 py-12">
-            <div class="flex flex-col md:flex-row gap-12 items-start">
-
+        <div class="support-bg rounded-2xl px-10 py-12" style="background-color: #e8f0fb;">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
                 <!-- Left -->
                 <div class="flex-1">
                     <h2 class="text-2xl font-black text-[#0d2d5e] leading-snug mb-5">
@@ -163,50 +162,43 @@
                     <div class="space-y-3">
                         <div class="check-item flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
-                            <span>Konsultasi Nutrisi Khusus Onkologi</span>
+                            <span class="text-sm text-gray-600">Konsultasi Nutrisi Khusus Onkologi</span>
                         </div>
                         <div class="check-item flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
-                            <span>Layanan Psikologi & Dukungan Emosional</span>
+                            <span class="text-sm text-gray-600">Layanan Psikologi & Dukungan Emosional</span>
                         </div>
                         <div class="check-item flex items-center gap-2">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
-                            <span>Manajemen Nyeri (Pain Management)</span>
+                            <span class="text-sm text-gray-600">Manajemen Nyeri (Pain Management)</span>
                         </div>
                     </div>
                 </div>
-
                 <!-- Right: 2x2 service cards -->
                 <div class="flex-shrink-0">
-                    <div class="grid grid-cols-2 gap-4" style="width:280px;">
-
+                    <div class="grid grid-cols-2 gap-4" style="width: 290px;">
                         <!-- Counseling -->
-                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                        <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">psychology</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Counseling</span>
                         </div>
-
                         <!-- Dietary Plan -->
-                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                        <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">restaurant_menu</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Dietary Plan</span>
                         </div>
-
                         <!-- Support Group -->
-                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                        <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">group</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Support Group</span>
                         </div>
-
                         <!-- Palliative Care -->
-                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                        <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">healing</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Palliative Care</span>
                         </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
