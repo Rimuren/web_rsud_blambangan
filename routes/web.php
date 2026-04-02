@@ -5,11 +5,48 @@ use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Services\RsudApiService;
 
-Route::view('/', 'welcome')->name('home');
+// Route::view('/', 'welcome')->name('home');
 
-Route::get('/guest/index', function () {
-    return view('guest.index');
-})->name('guest.index');
+Route::get('/', function () {
+    return view('guest.home.index');
+})->name('guest.home.index');;
+
+Route::get('/info-kamar', function () {
+    return view('guest.info-kamar.index');
+})->name('guest.info-kamar.index');;
+
+Route::get('/daftar-dokter', function () {
+    return view('guest.daftar-dokter.index');
+})->name('guest.daftar-dokter.index');;
+
+Route::get('/layanan-unggulan', function () {
+    return view('guest.layanan-unggulan.index');
+})->name('guest.layanan-unggulan.index');;
+
+Route::get('/layanan-unggulan/cathlab', function () {
+    return view('guest.layanan-unggulan.cathlab.index');
+})->name('guest.layanan-unggulan.cathlab.index');
+
+Route::get('/layanan-unggulan/hemodialysis', function () {
+    return view('guest.layanan-unggulan.hemodialysis.index');
+})->name('guest.layanan-unggulan.hemodialysis.index');
+
+Route::get('/layanan-unggulan/oncology', function () {
+    return view('guest.layanan-unggulan.oncology.index');
+})->name('guest.layanan-unggulan.oncology.index');
+
+Route::get('/dokter/spesialis', function() {
+    return view('dokter.spesialis');
+})->name('dokter.spesialis');;
+
+Route::get('/kamar/index', function() {
+    return view('kamar.index');
+})->name('kamar.index');;
+
+Route::get('/artikel/index', function() {
+    return view('artikel.index');
+})->name('artikel.index');;
+
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
@@ -32,9 +69,10 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
     Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
 
-    Route::get('/admin/artikel/create', function () {
+Route::get('/admin/artikel/create', function () 
+    { 
         return view('admin.artikel.create');
-    });
+    })->name('admin.artikel.create');
 });
 
 
