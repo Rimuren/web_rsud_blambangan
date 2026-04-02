@@ -18,6 +18,10 @@ Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
 })->name('guest.daftar-dokter.index');;
 
+Route::get('/layanan-unggulan', function () {
+    return view('guest.layanan-unggulan.index');
+})->name('guest.layanan-unggulan.index');;
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
