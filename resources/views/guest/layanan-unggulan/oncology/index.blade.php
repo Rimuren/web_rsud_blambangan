@@ -12,6 +12,7 @@
   <title>Oncology & Chemotherapy - RSUD Blambangan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Nunito Sans', sans-serif; background: #fff; margin: 0; }
 
@@ -77,9 +78,9 @@
         <p class="text-gray-600 text-sm leading-relaxed max-w-sm mb-8">
           Providing comprehensive, compassionate, and advanced cancer care through integrated surgical excellence and modern chemotherapy protocols.
         </p>
-        <button class="border border-[#0d2d5e] text-[#0d2d5e] text-sm font-bold px-6 py-3 rounded-lg bg-white hover:bg-[#f0f5fa] transition">
-          Jadwal Dokter
-        </button>
+        <button class="border border-[#0d2d5e] text-[#0d2d5e] text-sm font-bold px-6 py-3 rounded-lg bg-white hover:bg-[#0d2d5e] hover:text-white hover:shadow-md transition-all duration-300">
+    Jadwal Dokter
+</button>
       </div>
 
       <!-- Right: Hero Image -->
@@ -144,92 +145,72 @@
     </div>
   </section>
 
-  <!-- ===== DUKUNGAN PASIEN & KELUARGA ===== -->
-  <section class="px-8 py-10 md:px-20 bg-white">
+  
+<!-- ===== DUKUNGAN PASIEN & KELUARGA ===== -->
+<section class="px-8 py-10 md:px-20 bg-white">
     <div class="max-w-6xl mx-auto">
-      <div class="support-bg px-10 py-12">
-        <div class="flex flex-col md:flex-row gap-12 items-start">
+        <div class="support-bg px-10 py-12">
+            <div class="flex flex-col md:flex-row gap-12 items-start">
 
-          <!-- Left -->
-          <div class="flex-1">
-            <h2 class="text-2xl font-black text-[#0d2d5e] leading-snug mb-5">
-              Dukungan Pasien &<br/>Keluarga
-            </h2>
-            <p class="text-gray-500 text-sm leading-relaxed mb-7 max-w-xs">
-              Kami memahami bahwa perjuangan melawan kanker melampaui perawatan medis. Layanan dukungan kami mencakup konseling psikologis, panduan nutrisi, dan kelompok pendukung.
-            </p>
-            <div class="space-y-3">
-              <div class="check-item">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="#0d2d5e" stroke-width="1.5" fill="none"/><path d="M6.5 10 L9 12.5 L13.5 7.5" stroke="#0d2d5e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Konsultasi Nutrisi Khusus Onkologi
-              </div>
-              <div class="check-item">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="#0d2d5e" stroke-width="1.5" fill="none"/><path d="M6.5 10 L9 12.5 L13.5 7.5" stroke="#0d2d5e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Layanan Psikologi & Dukungan Emosional
-              </div>
-              <div class="check-item">
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="#0d2d5e" stroke-width="1.5" fill="none"/><path d="M6.5 10 L9 12.5 L13.5 7.5" stroke="#0d2d5e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Manajemen Nyeri (Pain Management)
-              </div>
-            </div>
-          </div>
+                <!-- Left -->
+                <div class="flex-1">
+                    <h2 class="text-2xl font-black text-[#0d2d5e] leading-snug mb-5">
+                        Dukungan Pasien &<br/>Keluarga
+                    </h2>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-7 max-w-xs">
+                        Kami memahami bahwa perjuangan melawan kanker melampaui perawatan medis. Layanan dukungan kami mencakup konseling psikologis, panduan nutrisi, dan kelompok pendukung.
+                    </p>
+                    <div class="space-y-3">
+                        <div class="check-item flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
+                            <span>Konsultasi Nutrisi Khusus Onkologi</span>
+                        </div>
+                        <div class="check-item flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
+                            <span>Layanan Psikologi & Dukungan Emosional</span>
+                        </div>
+                        <div class="check-item flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-base">check_circle</span>
+                            <span>Manajemen Nyeri (Pain Management)</span>
+                        </div>
+                    </div>
+                </div>
 
-          <!-- Right: 2x2 service cards -->
-          <div class="flex-shrink-0">
-            <div class="grid grid-cols-2 gap-4" style="width:280px;">
+                <!-- Right: 2x2 service cards -->
+                <div class="flex-shrink-0">
+                    <div class="grid grid-cols-2 gap-4" style="width:280px;">
 
-              <!-- Counseling -->
-              <div class="support-card">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <circle cx="14" cy="10" r="4" stroke="#0d2d5e" stroke-width="1.7" fill="none"/>
-                  <path d="M6 24 C6 19.5 9.5 17 14 17 C18.5 17 22 19.5 22 24" stroke="#0d2d5e" stroke-width="1.7" stroke-linecap="round" fill="none"/>
-                  <circle cx="22" cy="10" r="2.5" stroke="#0d2d5e" stroke-width="1.5" fill="none"/>
-                  <path d="M22 15 C24.5 15 26 16.5 26 19" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-                </svg>
-                Counseling
-              </div>
+                        <!-- Counseling -->
+                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">psychology</span>
+                            <span class="text-sm font-semibold text-[#0d2d5e]">Counseling</span>
+                        </div>
 
-              <!-- Dietary Plan -->
-              <div class="support-card">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <path d="M9 5 C9 5 7 9 9 12 C11 15 9 19 9 19" stroke="#0d2d5e" stroke-width="1.7" stroke-linecap="round" fill="none"/>
-                  <path d="M14 4 L14 9 C14 11 15.8 12.5 18 12.5 C20.2 12.5 22 11 22 9 L22 4" stroke="#0d2d5e" stroke-width="1.7" stroke-linecap="round" fill="none"/>
-                  <line x1="18" y1="4" x2="18" y2="9" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round"/>
-                  <line x1="14" y1="12.5" x2="14" y2="22" stroke="#0d2d5e" stroke-width="1.7" stroke-linecap="round"/>
-                  <line x1="10" y1="22" x2="20" y2="22" stroke="#0d2d5e" stroke-width="1.7" stroke-linecap="round"/>
-                </svg>
-                Dietary Plan
-              </div>
+                        <!-- Dietary Plan -->
+                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">restaurant_menu</span>
+                            <span class="text-sm font-semibold text-[#0d2d5e]">Dietary Plan</span>
+                        </div>
 
-              <!-- Support Group -->
-              <div class="support-card">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <circle cx="9" cy="10" r="3" stroke="#0d2d5e" stroke-width="1.6" fill="none"/>
-                  <circle cx="19" cy="10" r="3" stroke="#0d2d5e" stroke-width="1.6" fill="none"/>
-                  <circle cx="14" cy="8" r="3.5" stroke="#0d2d5e" stroke-width="1.7" fill="none"/>
-                  <path d="M4 23 C4 19.5 6.5 17.5 9 17.5" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-                  <path d="M24 23 C24 19.5 21.5 17.5 19 17.5" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-                  <path d="M8 23 C8 19.5 10.5 17.5 14 17.5 C17.5 17.5 20 19.5 20 23" stroke="#0d2d5e" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                </svg>
-                Support Group
-              </div>
+                        <!-- Support Group -->
+                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">group</span>
+                            <span class="text-sm font-semibold text-[#0d2d5e]">Support Group</span>
+                        </div>
 
-              <!-- Palliative Care -->
-              <div class="support-card">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <path d="M14 22 C14 22 5 17 5 11 C5 8 7.5 6 10 6 C12 6 13.5 7 14 8 C14.5 7 16 6 18 6 C20.5 6 23 8 23 11 C23 17 14 22 14 22Z" stroke="#0d2d5e" stroke-width="1.7" fill="none"/>
-                  <path d="M11 11 L13 13 L17 9" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Palliative Care
-              </div>
+                        <!-- Palliative Care -->
+                        <div class="support-card flex flex-col items-center text-center gap-2 p-4 bg-white rounded-lg shadow-sm">
+                            <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">healing</span>
+                            <span class="text-sm font-semibold text-[#0d2d5e]">Palliative Care</span>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
-          </div>
-
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
   <!-- ===== CTA SECTION ===== -->
   <section class="cta-bg px-8 py-16 md:px-20 mt-8">
