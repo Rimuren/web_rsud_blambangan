@@ -65,7 +65,7 @@
                     <option>Sabtu</option>
                 </select>
             </div>
-            <button class="md:w-auto w-full h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center px-4 transition shrink-0">
+            <button class="md:w-auto w-full h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center px-4 transition shrink-0 mt-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 <span class="md:hidden ml-2 text-sm font-semibold">Cari Dokter</span>
             </button>
