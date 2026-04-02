@@ -44,8 +44,8 @@
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen">
-<div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+    <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
 <!-- Search and Filter Section -->
 <div class="mb-10 space-y-6">
 <div class="max-w-2xl mx-auto">
@@ -133,11 +133,6 @@
 <span class="text-xs font-medium text-slate-400 mt-1">Tutup</span>
 </div>
 </div>
-<div class="mt-6 flex justify-end">
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-all">
-                                Buat Janji Temu
-                            </button>
-</div>
 </div>
 </div>
 </div>
@@ -196,10 +191,6 @@
 </div>
 </div>
 <div class="mt-6 flex justify-end">
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-all">
-                                Buat Janji Temu
-                            </button>
-</div>
 </div>
 </div>
 </div>
@@ -256,11 +247,6 @@
 <span class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">Sabtu</span>
 <span class="text-xs font-medium text-slate-400 mt-1">Tutup</span>
 </div>
-</div>
-<div class="mt-6 flex justify-end">
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-all">
-                                Buat Janji Temu
-                            </button>
 </div>
 </div>
 </div>
