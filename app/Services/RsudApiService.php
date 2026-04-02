@@ -31,17 +31,12 @@ class RsudApiService
       $http = Http::timeout(30)->retry(3, 500);
 
       if ($this->token) {
-        $http->withToken($this->token);
+        $http = $http->withToken($this->token);
       } else {
         Log::warning('API token tidak dikonfigurasi');
       }
 
       $response = $http->get($url, $queryParams);
-
-      $response = Http::withToken($this->token)
-        ->timeout(30)
-        ->retry(3, 500) // 3 kali percobaan, jeda 500ms
-        ->get($url, $queryParams);
 
       if ($response->successful()) {
         return $response->json();

@@ -4,7 +4,7 @@
     </x-slot:header>
 
     <div class="p-4 md:p-6 lg:p-8">
-        <!-- Header Section -->
+        
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen User</h2>
@@ -18,7 +18,6 @@
             </div>
         </div>
 
-        <!-- Table Card -->
         <flux:card class="overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -111,7 +110,6 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
             <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50/50 dark:bg-zinc-800/30">
                 <p class="text-xs text-zinc-500">Menampilkan 3 dari 3 user</p>
                 <div class="flex gap-2">

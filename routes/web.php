@@ -9,14 +9,14 @@ Route::view('/', 'welcome')->name('home');
 
 Route::get('/guest/index', function () {
     return view('guest.index');
-})->name('guest.index');;
+})->name('guest.index');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
 
-    Route::view('/admin/artikel/index','admin.artikel.index')->name('admin.artikel.index');
+    Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
 
-    Route::view('/admin/artikel/kategori/index','admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
+    Route::view('/admin/artikel/kategori/index', 'admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
 
     Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
 
@@ -32,8 +32,7 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
     Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
 
-    Route::get('/admin/artikel/create', function () 
-    { 
+    Route::get('/admin/artikel/create', function () {
         return view('admin.artikel.create');
     });
 });
@@ -64,4 +63,4 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 //     return response()->json($data);
 // });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

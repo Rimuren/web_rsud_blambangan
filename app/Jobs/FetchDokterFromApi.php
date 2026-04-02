@@ -19,9 +19,6 @@ class FetchDokterFromApi implements ShouldQueue
     public $tries = 3;
     public $backoff = 60;
 
-    /**
-     * Mapping hari ke angka untuk sorting (opsional).
-     */
     private function getHariOrder(string $hari): int
     {
         $map = [
@@ -41,64 +38,64 @@ class FetchDokterFromApi implements ShouldQueue
         Log::info('Job FetchDokterFromApi dimulai');
 
         $response = $apiService->get('doctors');
-
-        if ($response === null) {
-            Log::error('Job gagal: response null');
-            $this->fail('Response null');
+        if ($response === null || !isset($response['data']) || !is_array($response['data'])) {
+            Log::error('Job gagal: response tidak valid');
+            $this->fail('Invalid response from doctors endpoint');
             return;
         }
 
-        if (!isset($response['data']) || !is_array($response['data'])) {
-            Log::error('Job gagal: response tidak memiliki key "data" atau bukan array', ['response' => $response]);
-            $this->fail('Invalid response structure');
-            return;
-        }
-
-        $items = $response['data'];
         $countDokter = 0;
         $countJadwal = 0;
 
-        foreach ($items as $item) {
+        foreach ($response['data'] as $item) {
             if (!isset($item['dokter']) || !is_array($item['dokter'])) {
-                Log::warning('Item tanpa data dokter, dilewati', $item);
                 continue;
             }
 
             $dokterData = $item['dokter'];
             $apiId = $dokterData['id'] ?? null;
-            if (!$apiId) {
-                Log::warning('Data dokter tanpa id, dilewati', $dokterData);
-                continue;
-            }
+            if (!$apiId) continue;
 
-            // Simpan atau update data dokter
+            // --- Simpan data dasar dokter ---
             try {
                 $dokter = dokter_model::updateOrCreate(
-                    ['kode' => (string) $apiId], // simpan API id ke kolom kode
+                    ['kode' => (string) $apiId],
                     [
-                        'nama'         => $dokterData['nama'] ?? '',
-                        'kode_bpjs'    => $dokterData['kode_bpjs'] ?? null,
-                        'spesialis'    => $dokterData['spesialis'] ?? null,
-                        'subspesialis' => $dokterData['subspesialis'] ?? null,
-                        'pendidikan'   => $dokterData['pendidikan'] ?? null,
-                        'umur'         => isset($dokterData['umur']) ? (int) $dokterData['umur'] : null,
-                        'rating'       => $dokterData['rating'] ?? 0,
-                        'image_path'   => $dokterData['image_path'] ?? null,
+                        'nama'      => $dokterData['nama'] ?? '',
+                        'spesialis' => $dokterData['spesialis'] ?? null,
                     ]
                 );
                 $countDokter++;
             } catch (\Exception $e) {
-                Log::error('Gagal menyimpan dokter', [
-                    'api_id' => $apiId,
-                    'error'  => $e->getMessage()
-                ]);
-                continue; // skip jadwal jika dokter gagal
+                Log::error("Gagal menyimpan dokter ID $apiId: " . $e->getMessage());
+                continue;
             }
 
-            // Hapus jadwal lama untuk dokter ini (biar selalu sinkron)
+            // --- Ambil data lengkap dokter dari endpoint schedules ---
+            try {
+                $detailResponse = $apiService->get('schedules', ['dokter_id' => $apiId]);
+                if ($detailResponse && isset($detailResponse['data'][0])) {
+                    $detail = $detailResponse['data'][0];
+
+                    $dokter->update([
+                        'kode_bpjs'    => $detail['kode_bpjs'] ?? null,
+                        'rating'       => $detail['rating'] ?? 0,
+                        'umur'         => isset($detail['umur']) ? (int) $detail['umur'] : null,
+                        'image_path'   => $detail['image_path'] ?? null,
+                        'pendidikan'   => is_array($detail['pendidikan']) ? json_encode($detail['pendidikan']) : $detail['pendidikan'],
+                        'subspesialis' => $detail['subspesialis'] ?? null,
+                        'spesialis'    => $detail['spesialis'] ?? $dokter->spesialis,
+                    ]);
+                } else {
+                    Log::warning("Data detail tidak ditemukan untuk dokter ID $apiId");
+                }
+            } catch (\Exception $e) {
+                Log::error("Gagal mengambil data detail dokter ID $apiId: " . $e->getMessage());
+            }
+
+            // --- Hapus jadwal lama, simpan jadwal baru dari endpoint doctors ---
             jadwal_dokter_model::where('dokter_id', $dokter->id)->delete();
 
-            // Simpan jadwal baru jika ada
             if (isset($item['jadwal_dokter']) && is_array($item['jadwal_dokter'])) {
                 foreach ($item['jadwal_dokter'] as $jadwalItem) {
                     try {
@@ -115,16 +112,12 @@ class FetchDokterFromApi implements ShouldQueue
                         ]);
                         $countJadwal++;
                     } catch (\Exception $e) {
-                        Log::error('Gagal menyimpan jadwal', [
-                            'dokter_id' => $dokter->id,
-                            'jadwal'    => $jadwalItem,
-                            'error'     => $e->getMessage()
-                        ]);
+                        Log::error("Gagal menyimpan jadwal untuk dokter ID {$dokter->id}: " . $e->getMessage());
                     }
                 }
             }
         }
 
-        Log::info("Job FetchDokterFromApi selesai. Dokter: $countDokter, Jadwal: $countJadwal");
+        Log::info("Job selesai. Dokter: $countDokter, Jadwal: $countJadwal");
     }
 }
