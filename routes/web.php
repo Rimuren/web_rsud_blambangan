@@ -22,6 +22,10 @@ Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
 })->name('guest.layanan-unggulan.index');;
 
+Route::get('/layanan-unggulan/cathlab', function () {
+    return view('guest.layanan-unggulan.cathlab.index');
+})->name('guest.layanan-unggulan.cathlab.index');
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
