@@ -14,6 +14,10 @@ Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
 })->name('guest.info-kamar.index');;
 
+Route::get('/daftar-dokter', function () {
+    return view('guest.daftar-dokter.index');
+})->name('guest.daftar-dokter.index');;
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
