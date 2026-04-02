@@ -21,7 +21,7 @@
 
 {{-- HERO SECTION --}}
 <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
-    <img src="{{ asset('build/assets/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
+    <img src="{{ asset('images/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
         class="hero-image absolute inset-0 w-full h-full z-0" loading="eager" fetchpriority="high">
     <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-[1]"></div>
     <div class="absolute inset-x-0 bottom-[-25%] h-[30%] md:h-[35%] bg-gradient-to-t from-white from-40% via-white/60 to-transparent z-[1]"></div>
@@ -105,7 +105,7 @@
 
         <div class="bg-white rounded-2xl overflow-hidden grid md:grid-cols-2 shadow-lg mb-6 md:mb-8">
             <div class="hidden md:block relative min-h-[350px] bg-gradient-to-br from-[#1e4a7a] to-[#0f2d50]">
-                <img src="{{ asset('build/assets/spesialis1.png') }}" alt="Dokter Spesialis" class="absolute bottom-0 left-0 w-full h-full object-cover object-top opacity-90">
+                <img src="{{ asset('images/spesialis1.png') }}" alt="Dokter Spesialis" class="absolute bottom-0 left-0 w-full h-full object-cover object-top opacity-90">
             </div>
             <div class="p-6 md:p-8">
                 <span class="text-[#00CCB8] text-lg font-bold tracking-widest uppercase">OUR SPECIALIST</span>
@@ -126,7 +126,7 @@
             @endphp
             @foreach ($services as $service)
                 <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 group cursor-pointer shadow-md">
-                    <img src="{{ asset('build/assets/' . $service['img']) }}" alt="{{ $service['title'] }}" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                    <img src="{{ asset('images/' . $service['img']) }}" alt="{{ $service['title'] }}" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                         <h4 class="text-white font-bold text-sm leading-snug">{{ $service['title'] }}</h4>
                     </div>
@@ -202,9 +202,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const heroImages = [
-            "{{ asset('build/assets/hero1.png') }}",
-            "{{ asset('build/assets/hero2.png') }}",
-            "{{ asset('build/assets/hero3.png') }}"
+            "{{ asset('images/hero1.png') }}",
+            "{{ asset('images/hero2.png') }}",
+            "{{ asset('images/hero3.png') }}"
         ];
         let currentIndex = 0;
         const heroImage = document.getElementById('hero-image');
