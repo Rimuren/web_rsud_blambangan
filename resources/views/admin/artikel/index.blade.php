@@ -4,7 +4,7 @@
     </x-slot:header>
 
     <div class="p-4 md:p-6 lg:p-8">
-        <!-- Header Section -->
+
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen Artikel</h2>
@@ -20,7 +20,6 @@
             </div>
         </div>
 
-        <!-- Filter and Search -->
         <flux:card class="p-4 mb-6">
             <div class="flex flex-wrap items-center gap-4">
                 <div class="flex items-center gap-2">
@@ -40,7 +39,6 @@
             </div>
         </flux:card>
 
-        <!-- Articles Table -->
         <flux:card class="overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -55,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
-                        <!-- Article 1 -->
+                        
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white line-clamp-1">Prosedur Penanganan Pasien Darurat Selama Pandemi</p>
@@ -85,8 +83,7 @@
                                 </div>
                             </td>
                         </tr>
-
-                        <!-- Article 2 -->
+                       
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white line-clamp-1">10 Tips Menjaga Pola Makan Sehat di Kantor</p>
@@ -117,7 +114,7 @@
                             </td>
                         </tr>
 
-                        <!-- Article 3 -->
+                        
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white line-clamp-1">Peresmian Gedung Baru Pelayanan Jantung Terpadu</p>
@@ -148,7 +145,6 @@
                             </td>
                         </tr>
 
-                        <!-- Article 4 -->
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white line-clamp-1">Mengenal Gejala Awal Diabetes Melitus</p>
@@ -179,7 +175,6 @@
                             </td>
                         </tr>
 
-                        <!-- Article 5 -->
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
                                 <p class="text-sm font-bold text-zinc-900 dark:text-white line-clamp-1">Panduan Donor Darah untuk Pemula</p>
@@ -213,7 +208,6 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
             <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50/50 dark:bg-zinc-800/30">
                 <p class="text-xs text-zinc-500">Menampilkan 1-5 dari 124 artikel</p>
                 <div class="flex gap-2">
