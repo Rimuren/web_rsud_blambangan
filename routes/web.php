@@ -30,6 +30,10 @@ Route::get('/layanan-unggulan/hemodialysis', function () {
     return view('guest.layanan-unggulan.hemodialysis.index');
 })->name('guest.layanan-unggulan.hemodialysis.index');
 
+Route::get('/layanan-unggulan/oncology', function () {
+    return view('guest.layanan-unggulan.oncology.index');
+})->name('guest.layanan-unggulan.oncology.index');
+
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
 })->name('dokter.spesialis');;
