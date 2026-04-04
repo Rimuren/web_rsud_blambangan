@@ -4,8 +4,6 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
-// Route::view('/', 'welcome')->name('home');
-
 Route::get('/', function () {
     return view('guest.home.index');
 })->name('guest.home.index');;
@@ -67,6 +65,9 @@ Route::get('/guest/index', function () {
 })->name('guest.index');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
+
+    Route::view('/admin', 'welcome')->name('home');
+
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
 
     Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
