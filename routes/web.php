@@ -19,6 +19,18 @@ Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
 })->name('guest.daftar-dokter.index');;
 
+Route::get('/layanan-rawat-inap', function () {
+    return view('guest.layanan-rawat-inap.index');
+})->name('guest.layanan-rawat-inap.index');
+
+Route::get('/layanan-igd', function () {
+    return view('guest.layanan-igd.index');
+})->name('guest.layanan-igd.index');
+
+Route::get('/layanan-rawat-jalan', function () {
+    return view('guest.layanan-rawat-jalan.index');
+})->name('guest.layanan-rawat-jalan.index');
+
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
 })->name('guest.layanan-unggulan.index');;
@@ -34,6 +46,10 @@ Route::get('/layanan-unggulan/hemodialysis', function () {
 Route::get('/layanan-unggulan/oncology', function () {
     return view('guest.layanan-unggulan.oncology.index');
 })->name('guest.layanan-unggulan.oncology.index');
+
+Route::get('/layanan-unggulan/dsa', function () {
+    return view('guest.layanan-unggulan.dsa.index');
+})->name('guest.layanan-unggulan.dsa.index');
 
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
