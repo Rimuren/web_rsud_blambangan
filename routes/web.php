@@ -19,6 +19,10 @@ Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
 })->name('guest.daftar-dokter.index');;
 
+Route::get('/layanan-rawat-inap', function () {
+    return view('guest.layanan-rawat-inap.index');
+})->name('guest.layanan-rawat-inap.index');
+
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
 })->name('guest.layanan-unggulan.index');;
