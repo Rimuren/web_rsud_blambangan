@@ -23,6 +23,10 @@ Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
 })->name('guest.layanan-rawat-inap.index');
 
+Route::get('/layanan-igd', function () {
+    return view('guest.layanan-igd.index');
+})->name('guest.layanan-igd.index');
+
 Route::get('/layanan-rawat-jalan', function () {
     return view('guest.layanan-rawat-jalan.index');
 })->name('guest.layanan-rawat-jalan.index');
