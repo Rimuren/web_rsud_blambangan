@@ -3,7 +3,6 @@
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
-use App\Services\RsudApiService;
 
 // Route::view('/', 'welcome')->name('home');
 
