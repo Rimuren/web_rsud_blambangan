@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -50,11 +51,11 @@ class UserController extends Controller implements HasMiddleware
             'name'     => 'required|string|min:3|max:255',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role'     => 'required|exists:roles,id',
+            'role'     => 'nullable|exists:roles,id',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.akun.index')
+            return redirect()->route('admin.akun.create')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -65,8 +66,10 @@ class UserController extends Controller implements HasMiddleware
             'password' => Hash::make($request->password),
         ]);
 
-        $role = Role::findById($request->role);
-        $user->assignRole($role);
+        $role = Role::find($request->role);
+        if ($role) {
+            $user->assignRole($role);
+        }
 
         return redirect()->route('admin.akun.index')
             ->with('success', 'User berhasil ditambahkan.');
@@ -95,7 +98,7 @@ class UserController extends Controller implements HasMiddleware
             'name'     => 'required|string|min:3|max:255',
             'email'    => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
-            'role'     => 'required|exists:roles,id',
+            'role'     => 'nullable|exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -108,18 +111,29 @@ class UserController extends Controller implements HasMiddleware
             'name'  => $request->name,
             'email' => $request->email,
         ];
-
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-
         $user->update($data);
 
-        $role = Role::findById($request->role);
-        $user->syncRoles([$role]);
+        // Sync role: jika role diisi, assign; jika tidak, hapus semua role
+        if ($request->filled('role')) {
+            $role = Role::find($request->role);
+            if ($role) {
+                $user->syncRoles([$role]);
+            }
+        } else {
+            $user->syncRoles([]);
+        }
 
         return redirect()->route('admin.akun.index')
             ->with('success', 'User berhasil diperbarui.');
+    }
+
+    public function resetPasswordForm($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.akun.reset-password', compact('user'));
     }
 
     /**
@@ -130,41 +144,26 @@ class UserController extends Controller implements HasMiddleware
         $request->validate([
             'password' => 'required|string|min:8|confirmed',
         ]);
-
         $user = User::findOrFail($id);
         $user->password = Hash::make($request->password);
         $user->save();
-
-        return response()->json(['status' => true, 'message' => 'Password berhasil direset.']);
+        return redirect()->route('admin.akun.index')->with('success', 'Password berhasil direset.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
-        $user = User::find($request->id);
-
-        if (!$user) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'User tidak ditemukan.',
-            ], 404);
-        }
-
         // Cegah menghapus akun sendiri
-        if ($user->id === auth()) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Tidak dapat menghapus akun sendiri.',
-            ], 403);
+        if ($user->id === Auth::id()) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
         $user->delete();
 
-        return response()->json([
-            'status'  => true,
-            'message' => 'User berhasil dihapus.',
-        ]);
+        return redirect()->route('admin.akun.index')
+            ->with('success', 'User berhasil dihapus.');
     }
 }

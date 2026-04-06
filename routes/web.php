@@ -85,6 +85,7 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     Route::get('/admin/akun/{user}/edit', [UserController::class, 'edit'])->name('admin.akun.edit');
     Route::put('/admin/akun/{user}', [UserController::class, 'update'])->name('admin.akun.update');
     Route::delete('/admin/akun/{user}', [UserController::class, 'destroy'])->name('admin.akun.destroy');
+    Route::get('/admin/akun/{user}/reset-password', [UserController::class, 'resetPasswordForm'])->name('admin.akun.reset-password.form');
     Route::patch('/admin/akun/{user}/reset-password', [UserController::class, 'resetPassword'])->name('admin.akun.reset-password');
 
     // ROUTE ROLE

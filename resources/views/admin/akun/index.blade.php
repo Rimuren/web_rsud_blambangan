@@ -50,9 +50,13 @@
                                 <span class="text-xs text-zinc-500">{{ $user->email }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                @foreach($user->roles as $role)
-                                <flux:badge color="blue" size="sm">{{ $role->name }}</flux:badge>
-                                @endforeach
+                                @if($user->roles->count())
+                                    @foreach($user->roles as $role)
+                                        <flux:badge color="blue" size="sm">{{ $role->name }}</flux:badge>
+                                    @endforeach
+                                @else
+                                    <flux:badge color="gray" size="sm">Tidak ada role</flux:badge>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">

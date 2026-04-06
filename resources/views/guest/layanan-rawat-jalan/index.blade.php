@@ -44,6 +44,11 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             color: #003366;
         }
+        html, body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
     </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
