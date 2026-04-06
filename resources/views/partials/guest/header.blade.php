@@ -1,15 +1,12 @@
-<!-- resources/views/partials/navbar.blade.php -->
+<!-- resources/views/partials/guest/header.blade.php -->
 <nav class="bg-white shadow-md sticky top-0 z-50 font-poppins">
     <div class="container mx-auto px-4 md:px-6 py-3">
-        <!-- Header Navbar untuk Mobile & Desktop -->
         <div class="flex flex-wrap items-center justify-between">
             <!-- Logo -->
-            <div class="flex items-center space-x-2">
-            <a href="/" class="flex items-center space-x-2">
+            <a href="{{ url('/') }}" class="flex items-center space-x-2">
                 <img src="{{ asset('images/nav.png') }}" alt="Logo RSUD Blambangan" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
                 <span class="font-bold text-gray-800 text-base md:text-lg">RSUD Blambangan</span>
             </a>
-            </div>
 
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -18,22 +15,18 @@
                 </svg>
             </button>
 
-            <!-- Desktop Menu (hidden on mobile) -->
+            <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-5 text-gray-700 font-medium">
-                <!-- Profil -->
                 <a href="#" class="hover:text-blue-700 transition">Profil</a>
-                <!-- Dokter & Jadwal -->
                 <a href="#" class="hover:text-blue-700 transition">Dokter & Jadwal</a>
-                <!-- Info Kamar -->
                 <a href="#" class="hover:text-blue-700 transition">Info Kamar</a>
-                <!-- Artikel -->
                 <a href="#" class="hover:text-blue-700 transition">Artikel</a>
 
                 <!-- Layanan Dropdown -->
                 <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Layanan
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -52,9 +45,9 @@
 
                 <!-- Informasi Dropdown -->
                 <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Informasi
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -73,9 +66,9 @@
 
                 <!-- Galeri Dropdown -->
                 <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Galeri
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -91,10 +84,9 @@
             </div>
         </div>
 
-        <!-- Mobile Menu (hidden by default) -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="md:hidden hidden mt-4 border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)]">
             <div class="py-2 space-y-1">
-                <!-- Menu Utama -->
                 <a href="#" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                     <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -120,8 +112,8 @@
                     Artikel
                 </a>
 
-                <!-- Layanan Section -->
-                <div class="mt-2">
+                <!-- Layanan Mobile -->
+                <div>
                     <button id="mobile-layanan-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,8 +121,8 @@
                             </svg>
                             Layanan
                         </div>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div id="mobile-layanan-menu" class="hidden ml-7 mt-1 space-y-1">
@@ -142,8 +134,8 @@
                     </div>
                 </div>
 
-                <!-- Informasi Section -->
-                <div class="mt-2">
+                <!-- Informasi Mobile -->
+                <div>
                     <button id="mobile-informasi-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,8 +143,8 @@
                             </svg>
                             Informasi
                         </div>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div id="mobile-informasi-menu" class="hidden ml-7 mt-1 space-y-1">
@@ -164,8 +156,8 @@
                     </div>
                 </div>
 
-                <!-- Galeri Section -->
-                <div class="mt-2">
+                <!-- Galeri Mobile -->
+                <div>
                     <button id="mobile-galeri-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,8 +165,8 @@
                             </svg>
                             Galeri
                         </div>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div id="mobile-galeri-menu" class="hidden ml-7 mt-1 space-y-1">
@@ -187,18 +179,13 @@
     </div>
 </nav>
 
-<!-- Tambahkan font Poppins jika belum ada -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-    .font-poppins {
-        font-family: 'Poppins', sans-serif;
-    }
-    /* Ensure all text in navbar uses Poppins */
-    nav, nav * {
+    
+    .font-poppins, nav, nav * {
         font-family: 'Poppins', sans-serif;
     }
     
-    /* Smooth scroll untuk mobile */
     @media (max-width: 768px) {
         #mobile-menu {
             scrollbar-width: thin;
@@ -218,71 +205,71 @@
             border-radius: 20px;
         }
     }
+    
+    .rotate-90 {
+        transform: rotate(90deg);
+    }
 </style>
 
 <script>
-    // Mobile menu toggle dengan vanilla JavaScript
     document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         
+        // Toggle mobile menu
         if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function() {
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
                 mobileMenu.classList.toggle('hidden');
-                // Tambahkan animasi smooth
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.style.maxHeight = '0';
-                    setTimeout(() => {
-                        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
-                    }, 10);
-                } else {
-                    mobileMenu.style.maxHeight = '0';
-                }
             });
         }
         
-        // Toggle untuk submenu Layanan
-        const layananBtn = document.getElementById('mobile-layanan-btn');
-        const layananMenu = document.getElementById('mobile-layanan-menu');
-        if (layananBtn && layananMenu) {
-            layananBtn.addEventListener('click', function() {
-                layananMenu.classList.toggle('hidden');
-                const icon = this.querySelector('svg:last-child');
-                icon.classList.toggle('rotate-180');
-            });
+        // Setup submenu mobile
+        function setupMobileSubmenu(btnId, menuId) {
+            const btn = document.getElementById(btnId);
+            const menu = document.getElementById(menuId);
+            if (btn && menu) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    menu.classList.toggle('hidden');
+                    const icon = this.querySelector('svg:last-child');
+                    if (icon) {
+                        if (!menu.classList.contains('hidden')) {
+                            icon.style.transform = 'rotate(90deg)';
+                        } else {
+                            icon.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
         }
         
-        // Toggle untuk submenu Informasi
-        const informasiBtn = document.getElementById('mobile-informasi-btn');
-        const informasiMenu = document.getElementById('mobile-informasi-menu');
-        if (informasiBtn && informasiMenu) {
-            informasiBtn.addEventListener('click', function() {
-                informasiMenu.classList.toggle('hidden');
-                const icon = this.querySelector('svg:last-child');
-                icon.classList.toggle('rotate-180');
-            });
-        }
+        setupMobileSubmenu('mobile-layanan-btn', 'mobile-layanan-menu');
+        setupMobileSubmenu('mobile-informasi-btn', 'mobile-informasi-menu');
+        setupMobileSubmenu('mobile-galeri-btn', 'mobile-galeri-menu');
         
-        // Toggle untuk submenu Galeri
-        const galeriBtn = document.getElementById('mobile-galeri-btn');
-        const galeriMenu = document.getElementById('mobile-galeri-menu');
-        if (galeriBtn && galeriMenu) {
-            galeriBtn.addEventListener('click', function() {
-                galeriMenu.classList.toggle('hidden');
-                const icon = this.querySelector('svg:last-child');
-                icon.classList.toggle('rotate-180');
-            });
-        }
-        
-        // Tutup menu saat klik di luar (opsional)
+        // Tutup menu saat klik di luar
         document.addEventListener('click', function(event) {
             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                 const isClickInsideMenu = mobileMenu.contains(event.target);
-                const isClickOnButton = mobileMenuButton.contains(event.target);
+                const isClickOnButton = mobileMenuButton && mobileMenuButton.contains(event.target);
                 
                 if (!isClickInsideMenu && !isClickOnButton) {
                     mobileMenu.classList.add('hidden');
-                    mobileMenu.style.maxHeight = '0';
+                    // Reset semua panah submenu dan tutup submenu
+                    ['mobile-layanan-btn', 'mobile-informasi-btn', 'mobile-galeri-btn'].forEach(id => {
+                        const btn = document.getElementById(id);
+                        const submenu = document.getElementById(id.replace('-btn', '-menu'));
+                        if (btn && submenu) {
+                            const icon = btn.querySelector('svg:last-child');
+                            if (icon && !submenu.classList.contains('hidden')) {
+                                submenu.classList.add('hidden');
+                                icon.style.transform = 'rotate(0deg)';
+                            } else if (icon) {
+                                icon.style.transform = 'rotate(0deg)';
+                            }
+                        }
+                    });
                 }
             }
         });
