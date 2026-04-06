@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -64,9 +67,10 @@ Route::get('/guest/index', function () {
     return view('guest.index');
 })->name('guest.index');
 
+Route::view('/admin', 'welcome')->name('home');
+
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 
-    Route::view('/admin', 'welcome')->name('home');
 
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
 
@@ -74,15 +78,24 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 
     Route::view('/admin/artikel/kategori/index', 'admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
 
-    Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
+    // ROUTE AKUN
+    Route::get('/admin/akun', [UserController::class, 'index'])->name('admin.akun.index');
+    Route::get('/admin/akun/create', [UserController::class, 'create'])->name('admin.akun.create');
+    Route::post('/admin/akun', [UserController::class, 'store'])->name('admin.akun.store');
+    Route::get('/admin/akun/{user}/edit', [UserController::class, 'edit'])->name('admin.akun.edit');
+    Route::put('/admin/akun/{user}', [UserController::class, 'update'])->name('admin.akun.update');
+    Route::delete('/admin/akun/{user}', [UserController::class, 'destroy'])->name('admin.akun.destroy');
+    Route::patch('/admin/akun/{user}/reset-password', [UserController::class, 'resetPassword'])->name('admin.akun.reset-password');
 
+    // ROUTE ROLE
+    Route::get('/admin/akun/role', [RoleController::class, 'index'])->name('admin.akun.role.index');
     Route::get('/admin/akun/role/create', [RoleController::class, 'create'])->name('admin.akun.role.create');
     Route::post('/admin/akun/role', [RoleController::class, 'store'])->name('admin.akun.role.store');
     Route::get('/admin/akun/role/{role}/edit', [RoleController::class, 'edit'])->name('admin.akun.role.edit');
     Route::put('/admin/akun/role/{role}', [RoleController::class, 'update'])->name('admin.akun.role.update');
     Route::delete('/admin/akun/role/{role}', [RoleController::class, 'destroy'])->name('admin.akun.role.destroy');
-    Route::get('/admin/akun/role', [RoleController::class, 'index'])->name('admin.akun.role.index');
 
+    // ROUTE DOKTER
     Route::get('/admin/dokter', [DokterController::class, 'index'])->name('admin.dokter.index');
 
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
