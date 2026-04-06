@@ -4,21 +4,27 @@
     </x-slot:header>
 
     <div class="p-4 md:p-6 lg:p-8">
-
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen User</h2>
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola akses dan akun pengguna untuk panel sistem rumah sakit.</p>
             </div>
             <div>
-                <flux:modal.trigger name="tambah-user">
+                <a href="{{ route('admin.akun.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah User
                     </flux:button>
-                </flux:modal.trigger>
+                </a>
             </div>
         </div>
+
+        @if(session('success'))
+        <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+        <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">{{ session('error') }}</div>
+        @endif
 
         <flux:card class="overflow-hidden">
             <div class="overflow-x-auto">
@@ -32,367 +38,156 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                        @forelse($users as $user)
                         <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <td class="px-6 py-4">
-                                <div class="size-10 rounded-full bg-zinc-200 dark:bg-zinc-700 bg-cover bg-center shadow-sm" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCo2rMGO1HVulBtMtSqK_lVuTdXDo66qSaptb0zhONmAxDlfKNvr-XJYhg4BFtlfGmx7PUE-6O3MrNiBD0mZtnRRIvHGwtDBJ6u4MiKl7Bc6bNTTQsjycV0d8eUzBkm5ftJQaY2YhkeqsQ8bD7yLvwmSJ9bo7R7YLbPZmdXHmKUVSMRARnQZKNwnGN4B97ukS4zQMz0B03FRCEN66bvTrm2a4-b9fAOgAlAm2J5D2Xy07c2HB05tgUDPDKItqngpTkHh8Jgc-VMAhQE')"></div>
+                                <!-- Profile photo bisa diaktifkan nanti jika ada kolom profile_photo -->
+                                <div class="size-10 rounded-full bg-zinc-200 dark:bg-zinc-700 bg-cover bg-center shadow-sm"
+                                    style="background-image: url('https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff')">
+                                </div>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="text-sm font-semibold text-zinc-900 dark:text-white">Dr. Sarah Johnson</span>
+                                <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $user->name }}</span><br>
+                                <span class="text-xs text-zinc-500">{{ $user->email }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                <flux:badge color="blue" size="sm">Senior Editor</flux:badge>
+                                @foreach($user->roles as $role)
+                                <flux:badge color="blue" size="sm">{{ $role->name }}</flux:badge>
+                                @endforeach
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
-                                    <flux:modal.trigger name="edit-user">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Edit">
+                                    <a href="{{ route('admin.akun.edit', $user->id) }}" title="Edit">
+                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:modal.trigger name="edit-password">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Reset Password">
+                                    </a>
+                                    <button type="button"
+                                        class="reset-password-btn"
+                                        data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}"
+                                        title="Reset Password">
+                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:button size="sm" variant="ghost" class="cursor-pointer text-red-600 group" title="Hapus">
-                                        <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
-                                    </flux:button>
+                                    </button>
+                                    <form action="{{ route('admin.akun.destroy', $user->id) }}" method="POST" class="inline-block delete-user-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <flux:button type="submit" size="sm" variant="ghost" class="cursor-pointer text-red-600 group" title="Hapus">
+                                            <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
+                                        </flux:button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="size-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center shadow-sm">
-                                    <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">person</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="text-sm font-semibold text-zinc-900 dark:text-white">Ahmad Hidayat</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <flux:badge color="emerald" size="sm">Administrator</flux:badge>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="flex justify-center items-center gap-3">
-                                    <flux:modal.trigger name="edit-user">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Edit">
-                                            <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
-                                        </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:modal.trigger name="edit-password">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Reset Password">
-                                            <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
-                                        </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:button size="sm" variant="ghost" class="cursor-pointer text-red-600 group" title="Hapus">
-                                        <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
-                                    </flux:button>
-                                </div>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-10 text-center text-zinc-500">
+                                Belum ada user. Klik "Tambah User" untuk menambahkan.
                             </td>
                         </tr>
-                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="size-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center shadow-sm">
-                                    <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">person</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="text-sm font-semibold text-zinc-900 dark:text-white">Maria Ulfa</span>
-                            </td>
-                            <td class="px-6 py-4">
-                                <flux:badge color="amber" size="sm">Writer</flux:badge>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="flex justify-center items-center gap-3">
-                                    <flux:modal.trigger name="edit-user">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Edit">
-                                            <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
-                                        </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:modal.trigger name="edit-password">
-                                        <flux:button size="sm" variant="ghost" class="cursor-pointer group" title="Reset Password">
-                                            <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
-                                        </flux:button>
-                                    </flux:modal.trigger>
-                                    <flux:button size="sm" variant="ghost" class="cursor-pointer text-red-600 group" title="Hapus">
-                                        <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
-                                    </flux:button>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
             <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50/50 dark:bg-zinc-800/30">
-                <p class="text-xs text-zinc-500">Menampilkan 3 dari 3 user</p>
+                <p class="text-xs text-zinc-500">
+                    Menampilkan {{ $users->firstItem() ?? 0 }} - {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} user
+                </p>
                 <div class="flex gap-2">
-                    <flux:button size="sm" variant="outline" class="cursor-not-allowed">
-                        Sebelumnya
-                    </flux:button>
-                    <flux:button size="sm" variant="outline">
-                        Selanjutnya
-                    </flux:button>
+                    {{ $users->links() }}
                 </div>
             </div>
         </flux:card>
     </div>
 
-    {{-- Modal Tambah User --}}
-    <flux:modal name="tambah-user" class="w-full max-w-md">
-        <div class="p-6">
-
-            <div class="flex items-center justify-between mb-6">
-                <flux:heading size="lg" class="font-bold text-zinc-900 dark:text-white">
-                    Tambah User
-                </flux:heading>
+    <!-- Modal Reset Password -->
+    <div id="resetPasswordModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Reset Password</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">Masukkan password baru untuk user <strong id="resetUserName"></strong></p>
+                                <input type="password" id="newPassword" class="mt-2 w-full border rounded px-3 py-2" placeholder="Password baru">
+                                <input type="password" id="confirmPassword" class="mt-2 w-full border rounded px-3 py-2" placeholder="Konfirmasi password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="confirmReset" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">Reset</button>
+                    <button type="button" id="closeModal" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Batal</button>
+                </div>
             </div>
-
-            <form method="POST" action="#" class="space-y-5">
-                @csrf
-
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Nama Lengkap
-                    </flux:label>
-                    <div class="relative">
-                        <flux:input name="name" type="text" placeholder="Masukkan nama lengkap" class="pr-10" />
-                        <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                            <flux:icon name="user" class="size-5" />
-                        </span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Email
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="email" type="email" placeholder="email@hospital.com" class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="envelope" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Phone Number
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="phone" type="tel" placeholder="08123..." class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="phone" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Password
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="password" type="password" placeholder="••••••••" class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="lock-closed" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Confirm Password
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="password_confirmation" type="password" placeholder="••••••••" class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="shield-check" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Role
-                    </flux:label>
-                    <flux:select name="role" placeholder="Pilih Role">
-                        <flux:select.option value="administrator">Administrator</flux:select.option>
-                        <flux:select.option value="senior_editor">Senior Editor</flux:select.option>
-                        <flux:select.option value="writer">Writer</flux:select.option>
-                    </flux:select>
-                </div>
-
-                <div class="flex items-center justify-end gap-3 pt-2">
-                    <flux:modal.close>
-                        <flux:button type="button" variant="ghost" class="cursor-pointer font-semibold text-zinc-600 dark:text-zinc-400">
-                            Batal
-                        </flux:button>
-                    </flux:modal.close>
-                    <flux:button type="submit" variant="primary" class="cursor-pointer px-6 font-bold">
-                        Simpan
-                    </flux:button>
-                </div>
-            </form>
-
         </div>
-    </flux:modal>
-
-    {{-- ================================ --}}
-    {{-- Modal Edit User --}}
-    {{-- ================================ --}}
-    <flux:modal name="edit-user" class="w-full max-w-md">
-        <div class="p-6">
-
-            <div class="flex items-center justify-between mb-6">
-                <flux:heading size="lg" class="font-bold text-zinc-900 dark:text-white">
-                    Edit User
-                </flux:heading>
-            </div>
-
-            <form method="POST" action="#" class="space-y-5">
-                @csrf
-                @method('PUT')
-
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Nama Lengkap
-                    </flux:label>
-                    <div class="relative">
-                        <flux:input name="name" type="text" placeholder="Masukkan nama lengkap" value="Dr. Sarah Johnson" class="pr-10" />
-                        <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                            <flux:icon name="user" class="size-5" />
-                        </span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Email
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="email" type="email" placeholder="email@hospital.com" value="sarah@hospital.com" class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="envelope" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                            Phone Number
-                        </flux:label>
-                        <div class="relative">
-                            <flux:input name="phone" type="tel" placeholder="08123..." value="081234567890" class="pr-10" />
-                            <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                                <flux:icon name="phone" class="size-5" />
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Role
-                    </flux:label>
-                    <flux:select name="role">
-                        <flux:select.option value="administrator">Administrator</flux:select.option>
-                        <flux:select.option value="senior_editor" selected>Senior Editor</flux:select.option>
-                        <flux:select.option value="writer">Writer</flux:select.option>
-                    </flux:select>
-                </div>
-
-                <div class="flex items-center justify-end gap-3 pt-2">
-                    <flux:modal.close>
-                        <flux:button type="button" variant="ghost" class="cursor-pointer font-semibold text-zinc-600 dark:text-zinc-400">
-                            Batal
-                        </flux:button>
-                    </flux:modal.close>
-                    <flux:button type="submit" variant="primary" class="cursor-pointer px-6 font-bold">
-                        Simpan Perubahan
-                    </flux:button>
-                </div>
-            </form>
-
-        </div>
-    </flux:modal>
-
-    {{-- ================================ --}}
-{{-- Modal Edit Password --}}
-{{-- ================================ --}}
-<flux:modal name="edit-password" class="w-full max-w-md">
-    <div class="p-6">
-
-        {{-- Header tanpa icon X --}}
-        <div class="mb-6">
-            <flux:heading size="lg" class="font-bold text-zinc-900 dark:text-white">
-                Edit User Password
-            </flux:heading>
-        </div>
-
-        <form method="POST" action="#" class="space-y-5">
-            @csrf
-            @method('PUT')
-
-            {{-- Nama Lengkap (read-only) --}}
-            <div>
-                <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                    Nama Lengkap
-                </flux:label>
-                <div class="relative">
-                    <flux:input
-                        name="name"
-                        type="text"
-                        value="Dr. Sarah Johnson"
-                        readonly
-                        class="pr-10 bg-zinc-50 dark:bg-zinc-800 cursor-default"
-                    />
-                    <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                        <flux:icon name="user" class="size-5" />
-                    </span>
-                </div>
-            </div>
-
-            {{-- Edit Password & Confirm Password --}}
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Edit Password
-                    </flux:label>
-                    <div class="relative">
-                        <flux:input name="password" type="password" placeholder="••••••••" class="pr-10" />
-                        <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                            <flux:icon name="lock-closed" class="size-5" />
-                        </span>
-                    </div>
-                </div>
-                <div>
-                    <flux:label class="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
-                        Confirm Password
-                    </flux:label>
-                    <div class="relative">
-                        <flux:input name="password_confirmation" type="password" placeholder="••••••••" class="pr-10" />
-                        <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-zinc-400">
-                            <flux:icon name="shield-check" class="size-5" />
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-end gap-3 pt-2">
-                <flux:modal.close>
-                    <flux:button type="button" variant="ghost" class="cursor-pointer font-semibold text-zinc-600 dark:text-zinc-400">
-                        Batal
-                    </flux:button>
-                </flux:modal.close>
-                <flux:button type="submit" variant="primary" class="cursor-pointer px-6 font-bold">
-                    Simpan
-                </flux:button>
-            </div>
-        </form>
-
     </div>
-</flux:modal>
 
+    <script>
+        // Konfirmasi hapus user
+        document.querySelectorAll('.delete-user-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                if (!confirm('Apakah Anda yakin ingin menghapus user ini?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Reset password modal
+        const modal = document.getElementById('resetPasswordModal');
+        const resetNameSpan = document.getElementById('resetUserName');
+        let currentUserId = null;
+
+        document.querySelectorAll('.reset-password-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentUserId = this.dataset.id;
+                resetNameSpan.textContent = this.dataset.name;
+                modal.classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('closeModal')?.addEventListener('click', () => modal.classList.add('hidden'));
+        document.getElementById('confirmReset')?.addEventListener('click', async () => {
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            if (newPass !== confirmPass) {
+                alert('Password dan konfirmasi tidak cocok');
+                return;
+            }
+            if (newPass.length < 8) {
+                alert('Password minimal 8 karakter');
+                return;
+            }
+            try {
+                const response = await fetch(`/admin/akun/${currentUserId}/reset-password`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        password: newPass,
+                        password_confirmation: confirmPass
+                    })
+                });
+                const result = await response.json();
+                if (result.status) {
+                    alert('Password berhasil direset');
+                    modal.classList.add('hidden');
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                } else {
+                    alert(result.message || 'Gagal mereset password');
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan');
+            }
+        });
+    </script>
 </x-layouts::app>
