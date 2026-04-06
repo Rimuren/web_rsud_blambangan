@@ -28,7 +28,8 @@ class UserController extends Controller implements HasMiddleware
     public function index()
     {
         $users = User::with('roles')->paginate(10);
-        return view('admin.akun.index', compact('users'));
+        $roles = Role::orderBy('name')->get();
+        return view('admin.akun.index', compact('users', 'roles'));
     }
 
     /**
@@ -53,7 +54,7 @@ class UserController extends Controller implements HasMiddleware
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.akun.create')
+            return redirect()->route('admin.akun.index')
                 ->withErrors($validator)
                 ->withInput();
         }
