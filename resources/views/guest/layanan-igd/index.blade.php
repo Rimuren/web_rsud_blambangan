@@ -36,7 +36,7 @@
         <div class="flex justify-center items-center py-12 px-6 md:px-10 lg:px-20">
             <div class="max-w-[1280px] w-full">
                 <div class="flex flex-col gap-8 lg:gap-16 lg:flex-row-reverse items-center">
-                    <!-- Image Section (Right Side) -->
+                    <!-- Image Section -->
                     <div class="w-full lg:w-1/2 aspect-video lg:aspect-square rounded-xl shadow-2xl border-4 border-white dark:border-slate-800 overflow-hidden bg-slate-200 dark:bg-slate-800">
                         <img src="{{ asset('images/igd.png') }}" alt="Instalasi Gawat Darurat RSUD Blambangan" class="w-full h-full object-cover">
                     </div>
