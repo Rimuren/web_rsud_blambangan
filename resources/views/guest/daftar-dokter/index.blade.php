@@ -32,7 +32,7 @@
         color: #003366;
     }
     body { font-family: 'Public Sans', sans-serif; }
-    /* Mencegah scroll horizontal */
+   
     html, body {
         overflow-x: hidden;
         width: 100%;

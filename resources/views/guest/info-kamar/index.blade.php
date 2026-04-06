@@ -26,6 +26,13 @@
         },
     }
 </script>
+<style>
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+</style>
 
 <div class="mx-auto w-full max-w-[1200px] flex-1 flex flex-col px-4 py-6 md:px-10 md:py-8">
     {{-- Page Header --}}
