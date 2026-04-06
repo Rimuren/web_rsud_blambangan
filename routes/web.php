@@ -4,7 +4,7 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
-// Route::view('/', 'welcome')->name('home');
+Route::view('/', 'welcome')->name('home');
 
 Route::get('/', function () {
     return view('guest.home.index');
