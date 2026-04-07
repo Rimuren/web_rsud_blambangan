@@ -119,14 +119,14 @@
             @php
                 $services = [
                     ['title' => 'Digital Subtraction Angiography', 'img' => 'dsa.jpg'],
-                    ['title' => 'Cath Lab', 'img' => 'cathlab.jpg'],
-                    ['title' => 'Hemodialysis Center', 'img' => 'hemo.jpg'],
+                    ['title' => 'Cath Lab', 'img' => 'cathlab1.jpg'],
+                    ['title' => 'Hemodialysis Center', 'img' => 'hemodialysis.jpg'],
                     ['title' => 'Oncology & Chemotherapy', 'img' => 'onco.jpg'],
                 ];
             @endphp
             @foreach ($services as $service)
                 <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 group cursor-pointer shadow-md">
-                    <img src="{{ asset('images/' . $service['img']) }}" alt="{{ $service['title'] }}" class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                    <img src="{{ asset('images/' . $service['img']) }}" alt="{{ $service['title'] }}" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                         <h4 class="text-white font-bold text-sm leading-snug">{{ $service['title'] }}</h4>
                     </div>
