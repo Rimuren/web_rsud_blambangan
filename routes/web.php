@@ -67,7 +67,9 @@ Route::get('/guest/index', function () {
     return view('guest.index');
 })->name('guest.index');
 
-
+Route::get('/informasi/alur-persyaratan', function () {
+    return view('guest.informasi.alur-persyaratan.index');
+})->name('guest.informasi.alur-persyaratan.index');
 
 Route::view('/admin', 'welcome')->name('home');
 
