@@ -14,35 +14,26 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        // Create admin role if it doesn't exist
-        $adminRole = Role::firstOrCreate([
+        // Create roles
+        $superAdminRole = Role::firstOrCreate([
             'name' => 'Super Admin',
             'guard_name' => 'web'
         ]);
 
         $adminRole = Role::firstOrCreate([
-            'name' => 'Super Admin',
+            'name' => 'Admin',
             'guard_name' => 'web'
         ]);
 
-        // $userRole = Role::firstOrCreate([
-        //     'name' => 'user',
-        //     'guard_name' => 'web',
-        // ]);
-
-        $permissions = Permission::all();
-
-        $adminRole->syncPermissions(Permission::all());
-        // $userRole->givePermissionTo('user-access');
-
-        if ($permissions->isEmpty()) {
+        if (Permission::count() === 0) {
             $this->call(PermissionSeeder::class);
-            $permissions = Permission::all();
         }
 
-        $adminRole->syncPermissions($permissions);
+        // Assign all permissions to Super Admin
+        $superAdminRole->syncPermissions(Permission::all());
+        $adminRole->syncPermissions(Permission::all());
 
-        $this->command->info('Admin role created with all permissions!');
-        // $this->command->info('User role created with view permissions!');
+        $this->command->info('Roles created: Super Admin, Admin');
+        $this->command->info('Super Admin has all permissions.');
     }
 }

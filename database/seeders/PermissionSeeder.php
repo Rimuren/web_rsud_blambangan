@@ -15,24 +15,57 @@ class PermissionSeeder extends Seeder
         // Access permissions
         'admin-access',
 
-        // Akun permissions
+        // Manage option permissions
+        'manage artikel',
         'manage akun',
+        'manage dokumentasi',
+        'manage dokter',
+        'manage ruangan',
+        
+        // Artikel permissions
+        'view daftar-artikel',
+        'create artikel',
+        'edit artikel',
+        'delete artikel',
+
+        // Kategori artikel permissions
+        'view kategori',
+        'create kategori',
+        'edit kategori',
+        'delete kategori',
+
+        // Akun permissions
         'view daftar-akun',
         'create akun',
         'edit akun',
+        'reset password',
         'delete akun',
-        
-        // Role permissions
-        'manage roles',
-        'view roles',
-        'create roles',
-        'edit roles',
-        'delete roles',
 
-        // Dokter permission
-        'manage dokter',
+        // Role permissions
+        'view role',
+        'create role',
+        'edit role',
+        'delete role',
+
+        // Foto permissions
+        'view foto',
+        'create foto',
+        'edit foto',
+        'delete foto',
+
+        // Video permissions
+        'view video',
+        'create video',
+        'edit video',
+        'delete video',
+
+        // Dokter permissions
         'view daftar-dokter',
         'view daftar-spesialis',
+
+        // Ruangan permissions
+        'view bangsal',
+        'view daftar-kelas',
         
     ];
 

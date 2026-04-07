@@ -3,35 +3,53 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class AdminUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        $adminRole = Role::firstOrCreate([
-            'name' => 'Super Admin',
-            'guard_name' => 'web'
-        ]);
+        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
 
-        // User admin utama
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@rsud.com'],
+        // Super Admin
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'superadmin@rsud.com'],
             [
-                'name' => 'Administrator',
+                'name' => 'Super Administrator',
                 'password' => Hash::make('password'),
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
             ]
         );
-        $admin->assignRole($adminRole);
+        $superAdmin->assignRole($superAdminRole);
 
-        $this->command->info('Admin account created: admin@rsud.com / password');
+        // Admin 1
+        $admin1 = User::firstOrCreate(
+            ['email' => 'admin1@rsud.com'],
+            [
+                'name' => 'Admin Satu',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $admin1->assignRole($adminRole);
+
+        // Admin 2
+        $admin2 = User::firstOrCreate(
+            ['email' => 'admin2@rsud.com'],
+            [
+                'name' => 'Admin Dua',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $admin2->assignRole($adminRole);
+
+        $this->command->info('Admin accounts created:');
+        $this->command->info('Super Admin: superadmin@rsud.com / password');
+        $this->command->info('Admin 1: admin1@rsud.com / password');
+        $this->command->info('Admin 2: admin2@rsud.com / password');
     }
 }
