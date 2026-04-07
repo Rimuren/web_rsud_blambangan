@@ -37,7 +37,7 @@
 
 <div class="relative min-h-screen w-full overflow-x-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
     <div class="flex flex-col">
-        <!-- Hero Section -->
+        {{-- Hero Section --}}
         <div class="flex justify-center items-center py-12 px-6 md:px-10 lg:px-20">
             <div class="max-w-[1280px] w-full">
                 <div class="flex flex-col gap-8 lg:gap-16 lg:flex-row-reverse items-center">
@@ -46,7 +46,7 @@
                         <img src="{{ asset('images/igd.png') }}" alt="Instalasi Gawat Darurat RSUD Blambangan" class="w-full h-full object-cover">
                     </div>
 
-                    <!-- Text Content Section -->
+                    {{-- Text Content Section --}}
                     <div class="flex flex-col gap-6 w-full lg:w-1/2">
                         <div>
                             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 w-fit mb-4">
@@ -61,7 +61,7 @@
                             </p>
                         </div>
 
-                        <!-- Action Buttons -->
+                        {{-- Action Buttons --}}
                         <div class="flex flex-wrap gap-4">
                             <button class="flex items-center justify-center gap-2 rounded-lg h-12 md:h-14 px-5 md:px-6 bg-red-600 hover:bg-red-700 text-white text-base md:text-[18px] font-bold transition-all shadow-lg hover:shadow-red-500/20">
                                 <span class="material-symbols-outlined">call</span>
@@ -73,7 +73,7 @@
                             </a>
                         </div>
 
-                        <!-- Feature Cards -->
+                        {{-- Feature Cards --}}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                             <div class="flex gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 p-4 md:p-5 transition-all hover:border-primary/50">
                                 <div class="text-secondary-dark dark:text-primary flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/10 shrink-0">
@@ -95,7 +95,7 @@
                             </div>
                         </div>
 
-                        <!-- Link Prosedur -->
+                        {{-- Link Prosedur --}}
                         <div class="pt-2">
                             <a href="#" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-semibold hover:text-primary transition-colors group">
                                 <span>Informasi Prosedur IGD</span>
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <!-- Subtle background elements -->
+    {{-- Subtle background elements --}}
     <div class="fixed top-0 right-0 -z-10 w-1/3 h-screen bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
     <div class="fixed bottom-0 left-0 -z-10 w-64 h-64 bg-secondary-dark/5 blur-3xl rounded-full pointer-events-none"></div>
 </div>
