@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <!-- Daftar Ruangan -->
+                {{-- Daftar Ruangan --}}
                 @php
                     $rooms = [
                         [
@@ -179,25 +179,25 @@
                     ];
                 @endphp
 
-                <!-- Grid Layout: 3 kolom pada desktop, 2 pada tablet, 1 pada mobile -->
+                {{-- Grid Layout: 3 kolom pada desktop, 2 pada tablet, 1 pada mobile --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                     @foreach ($rooms as $room)
                     <div class="group bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
-                        <!-- Gambar -->
+                        {{-- Gambar --}}
                         <div class="w-full aspect-[4/3] bg-center bg-cover bg-no-repeat" style="background-image: url('{{ $room['img'] }}');"></div>
                         
-                        <!-- Konten -->
+                        {{-- Konten --}}
                         <div class="p-5 flex flex-col flex-grow">
-                            <!-- Header: Nama & Status -->
+                            {{-- Header: Nama & Status --}}
                             <div class="flex justify-between items-start gap-2 mb-3">
                                 <h2 class="text-hospital-blue dark:text-slate-100 text-xl font-bold">{{ $room['name'] }}</h2>
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap {{ $room['status_badge'] }}">{{ $room['status'] }}</span>
                             </div>
                             
-                            <!-- Deskripsi -->
+                            {{-- Deskripsi --}}
                             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">{{ $room['description'] }}</p>
                             
-                            <!-- Fasilitas -->
+                            {{-- Fasilitas --}}
                             <div class="flex flex-wrap gap-3 mt-auto">
                                 @foreach ($room['amenities'] as $amenity)
                                 <div class="flex items-center gap-1 text-hospital-blue dark:text-primary">
@@ -211,7 +211,7 @@
                     @endforeach
                 </div>
 
-                <!-- CTA Section -->
+                {{-- CTA Section --}}
                 <div class="mt-10 p-6 md:p-8 rounded-xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6">
                     <div class="flex flex-col gap-2 text-center md:text-left">
                         <h3 class="text-xl md:text-2xl font-bold">Butuh bantuan memilih ruangan?</h3>
