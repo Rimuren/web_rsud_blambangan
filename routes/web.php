@@ -67,6 +67,8 @@ Route::get('/guest/index', function () {
     return view('guest.index');
 })->name('guest.index');
 
+
+
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
@@ -101,6 +103,8 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 
     Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
     Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
+
+    Route::get('/admin/dokumentasi/foto/create', function () {return view('admin.dokumentasi.foto.create');})->name('admin.dokumentasi.foto.create');
 
     Route::get('/admin/artikel/create', function () {return view('admin.artikel.create');})->name('admin.artikel.create');
 });
