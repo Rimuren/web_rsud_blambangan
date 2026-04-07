@@ -3,6 +3,7 @@
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KategoriArtikelController;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -76,7 +77,12 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 
     Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
 
-    Route::view('/admin/artikel/kategori/index', 'admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
+    Route::get('/admin/artikel/kategori', [KategoriArtikelController::class, 'index'])->name('admin.artikel.kategori.index');
+    Route::get('/admin/artikel/kategori/create', [KategoriArtikelController::class, 'create'])->name('admin.artikel.kategori.create');
+    Route::post('/admin/artikel/kategori', [KategoriArtikelController::class, 'store'])->name('admin.artikel.kategori.store');
+    Route::get('/admin/artikel/kategori/{kategori}/edit', [KategoriArtikelController::class, 'edit'])->name('admin.artikel.kategori.edit');
+    Route::put('/admin/artikel/kategori/{kategori}', [KategoriArtikelController::class, 'update'])->name('admin.artikel.kategori.update');
+    Route::delete('/admin/artikel/kategori/{kategori}', [KategoriArtikelController::class, 'destroy'])->name('admin.artikel.kategori.destroy');
 
     // ROUTE AKUN
     Route::get('/admin/akun', [UserController::class, 'index'])->name('admin.akun.index');
