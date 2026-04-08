@@ -31,7 +31,7 @@
                 {{ __('Dashboard') }}
             </flux:sidebar.item>
 
-            <!-- Manajemen Artikel -->
+            {{-- Manajemen Artikel --}}
             <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
                 <flux:sidebar.item
                     :href="route('admin.artikel.index')"
@@ -70,7 +70,7 @@
             </flux:sidebar.group>
             @endcan
 
-            <!-- Manajemen Dokumentasi -->
+            {{-- Manajemen Dokumentasi --}}
             <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
                 <flux:sidebar.item
                     :href="route('admin.dokumentasi.foto')"
@@ -105,7 +105,7 @@
             </flux:sidebar.group>
             @endcan
 
-            <!-- Manajemen Ruangan -->
+            {{-- Manajemen Ruangan --}}
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
                 <flux:sidebar.item href="#">
                     Daftar Bangsal
@@ -126,7 +126,7 @@
 
     </flux:sidebar>
 
-    <!-- Mobile Header -->
+    {{-- Mobile Header --}}
     <flux:header class="lg:hidden">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 

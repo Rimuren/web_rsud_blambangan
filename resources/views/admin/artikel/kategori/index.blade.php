@@ -4,7 +4,7 @@
     </x-slot:header>
 
     <div class="p-4 md:p-6 lg:p-8">
-        <!-- Header Section -->
+        {{-- Header Section --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen Kategori Artikel</h2>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <!-- Categories Table -->
+        {{-- Categories Table --}}
         <flux:card class="overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -94,7 +94,7 @@
             </div>
         </flux:card>
 
-        <!-- Pagination (Static) -->
+        {{-- Pagination --}}
         <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50/50 dark:bg-zinc-800/30">
             <p class="text-xs text-zinc-500">Menampilkan 1-3 dari 3 kategori</p>
             <div class="flex gap-2">
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    <!-- Modal Tambah Kategori (Frontend Only) -->
+    {{-- Modal Tambah Kategori --}}
     <div
         x-data="{ open: false }"
         x-on:open-modal.window="if ($event.detail === 'tambah-kategori') open = true"
@@ -118,7 +118,7 @@
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         style="display: none;"
     >
-        <!-- Backdrop -->
+        {{-- Backdrop --}}
         <div
             x-show="open"
             x-transition:enter="transition ease-out duration-200"
@@ -131,7 +131,7 @@
             @click="open = false"
         ></div>
 
-        <!-- Modal Content -->
+        {{-- Modal Content --}}
         <div
             x-show="open"
             x-transition:enter="transition ease-out duration-200"

@@ -68,10 +68,10 @@
 </head>
 <body>
 
-  <!-- ===== HERO ===== -->
+  {{-- HERO --}}
   <section class="hero-bg px-8 py-16 md:px-20">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center">
-      <!-- Left -->
+      {{-- Left --}}
       <div class="flex-1">
         <h1 class="text-4xl md:text-5xl font-black text-[#0d2d5e] leading-tight">Oncology &</h1>
         <h1 class="text-4xl md:text-5xl font-black text-[#e05a1a] leading-tight mb-6">Chemotherapy</h1>
@@ -83,19 +83,19 @@
 </button>
       </div>
 
-      <!-- Right: Hero Image -->
+      {{-- Right: Hero Image --}}
       <div class="flex-shrink-0">
         <img src="https://images.unsplash.com/photo-1588776814546-9c8b1e5a7c3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8b25jb2xvZ3l8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Oncology & Chemotherapy" class="w-full max-w-sm rounded-lg shadow-md"/>
   </section>
 
-  <!-- ===== 3 FEATURE CARDS ===== -->
+  {{-- 3 FEATURE CARDS --}}
   <section class="px-8 py-16 md:px-20 bg-white">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-5">
 
-      <!-- Card 1: Pendekatan Terpadu -->
+      {{-- Card 1: Pendekatan Terpadu --}}
       <div class="feature-card">
         <div class="icon-wrap">
-          <!-- Network/multidiscipline icon -->
+          {{-- Network/multidiscipline icon --}}
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
             <circle cx="13" cy="13" r="3" stroke="#0d2d5e" stroke-width="1.7" fill="none"/>
             <circle cx="4" cy="13" r="2" stroke="#0d2d5e" stroke-width="1.5" fill="none"/>
@@ -112,10 +112,10 @@
         <p class="text-gray-500 text-sm leading-relaxed">Kolaborasi multidisiplin antara ahli bedah, onkolog medis, radiolog, dan tim pendukung untuk rencana perawatan yang personal.</p>
       </div>
 
-      <!-- Card 2: Fasilitas Kemoterapi -->
+      {{-- Card 2: Fasilitas Kemoterapi --}}
       <div class="feature-card">
         <div class="icon-wrap">
-          <!-- IV bag / chemo icon -->
+          {{-- IV bag / chemo icon --}}
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
             <rect x="8" y="3" width="10" height="13" rx="3" stroke="#0d2d5e" stroke-width="1.7" fill="none"/>
             <line x1="13" y1="7" x2="13" y2="11" stroke="#0d2d5e" stroke-width="1.5" stroke-linecap="round"/>
@@ -128,10 +128,10 @@
         <p class="text-gray-500 text-sm leading-relaxed">Unit infus modern yang dirancang untuk kenyamanan maksimal pasien, dilengkapi dengan teknologi pemantauan terkini.</p>
       </div>
 
-      <!-- Card 3: Tim Bedah Onkologi -->
+      {{-- Card 3: Tim Bedah Onkologi --}}
       <div class="feature-card">
         <div class="icon-wrap">
-          <!-- Scalpel/surgery icon -->
+          {{-- Scalpel/surgery icon --}}
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
             <line x1="5" y1="21" x2="19" y2="7" stroke="#0d2d5e" stroke-width="1.8" stroke-linecap="round"/>
             <path d="M19 7 L22 4 L22 7 L19 10 Z" stroke="#0d2d5e" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
@@ -146,12 +146,12 @@
   </section>
 
   
-<!-- ===== DUKUNGAN PASIEN & KELUARGA ===== -->
+{{-- DUKUNGAN PASIEN & KELUARGA --}}
 <section class="px-8 py-10 md:px-20 bg-white">
     <div class="max-w-6xl mx-auto">
         <div class="support-bg rounded-2xl px-10 py-12" style="background-color: #e8f0fb;">
             <div class="flex flex-col md:flex-row gap-12 items-center">
-                <!-- Left -->
+                {{-- Left --}}
                 <div class="flex-1">
                     <h2 class="text-2xl font-black text-[#0d2d5e] leading-snug mb-5">
                         Dukungan Pasien &<br/>Keluarga
@@ -174,25 +174,25 @@
                         </div>
                     </div>
                 </div>
-                <!-- Right: 2x2 service cards -->
+                {{-- Right: 2x2 service cards --}}
                 <div class="flex-shrink-0">
                     <div class="grid grid-cols-2 gap-4" style="width: 290px;">
-                        <!-- Counseling -->
+                        {{-- Counseling --}}
                         <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">psychology</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Counseling</span>
                         </div>
-                        <!-- Dietary Plan -->
+                        {{-- Dietary Plan --}}
                         <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">restaurant_menu</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Dietary Plan</span>
                         </div>
-                        <!-- Support Group -->
+                        {{-- Support Group --}}
                         <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">group</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Support Group</span>
                         </div>
-                        <!-- Palliative Care -->
+                        {{-- Palliative Care --}}
                         <div class="flex flex-col items-center justify-center text-center gap-3 bg-white rounded-2xl shadow-sm py-6 px-4">
                             <span class="material-symbols-outlined text-[#0d2d5e] text-3xl">healing</span>
                             <span class="text-sm font-semibold text-[#0d2d5e]">Palliative Care</span>
@@ -204,7 +204,7 @@
     </div>
 </section>
 
-  <!-- ===== CTA SECTION ===== -->
+  {{-- ===== CTA SECTION --}}
   <section class="cta-bg px-8 py-16 md:px-20 mt-8">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-4">

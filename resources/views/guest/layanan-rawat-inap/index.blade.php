@@ -40,7 +40,7 @@
     <div class="flex flex-col">
         <div class="px-4 md:px-10 lg:px-20 flex justify-center py-10">
             <div class="max-w-[1280px] w-full">
-                <!-- Header -->
+                {{-- Header --}}
                 <div class="flex flex-wrap justify-between items-end gap-3 p-4 mb-6">
                     <div class="flex flex-col gap-3">
                         <h1 class="text-hospital-blue dark:text-primary text-3xl md:text-4xl lg:text-5xl font-black tracking-tight">Layanan Rawat Inap</h1>
