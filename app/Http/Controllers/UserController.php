@@ -19,8 +19,37 @@ class UserController extends Controller implements HasMiddleware
             new Middleware('permission:view daftar-akun', only: ['index']),
             new Middleware('permission:create akun', only: ['create', 'store']),
             new Middleware('permission:edit akun', only: ['edit', 'update']),
+            new Middleware('permission:reset password', only: ['resetPasswordForm', 'resetPassword']),
             new Middleware('permission:delete akun', only: ['destroy']),
         ];
+    }
+
+    /**
+     * Check whether the currently logged in user can grant the Super Admin role.
+     */
+    private function canAssignSuperAdmin(): bool
+    {
+        $currentUser = Auth::user();
+        return $currentUser && $currentUser->roles->contains('name', 'Super Admin');
+    }
+
+    /**
+     * Check whether the logged in user is allowed to modify the target user.
+     */
+    private function canModifyUser(User $targetUser): bool
+    {
+        $isTargetSuperAdmin = $targetUser->roles->contains('name', 'Super Admin');
+        if (!$isTargetSuperAdmin) {
+            return true; // Not Super Admin, user can edit with their assigned permission
+        }
+
+        $currentUser = Auth::user();
+        if (!$currentUser) {
+            return false;
+        }
+
+        $isCurrentSuperAdmin = $currentUser->roles->contains('name', 'Super Admin');
+        return $isCurrentSuperAdmin && $currentUser->id === $targetUser->id;
     }
 
     /**
@@ -28,6 +57,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function index()
     {
+        // BUSINESS LOGIC: get all users with their roles
         $users = User::with('roles')->paginate(10);
         $roles = Role::orderBy('name')->get();
         return view('admin.akun.index', compact('users', 'roles'));
@@ -38,7 +68,13 @@ class UserController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $roles = Role::orderBy('name')->get();
+        // DATA PREPARATION: filter roles based on super admin status.
+        $currentUser = Auth::user();
+        if ($currentUser->roles->contains('name', 'Super Admin')) {
+            $roles = Role::orderBy('name')->get();
+        } else {
+            $roles = Role::where('name', '!=', 'Super Admin')->orderBy('name')->get();
+        }
         return view('admin.akun.create', compact('roles'));
     }
 
@@ -47,6 +83,7 @@ class UserController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
+        // VALIDATION LOGIC
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|min:3|max:255',
             'email'    => 'required|email|unique:users,email',
@@ -60,15 +97,24 @@ class UserController extends Controller implements HasMiddleware
                 ->withInput();
         }
 
+        // SUPER ADMIN ASSIGNMENT CHECK
+        $selectedRole = $request->filled('role') ? Role::find($request->role) : null;
+        if ($selectedRole && $selectedRole->name === 'Super Admin' && !$this->canAssignSuperAdmin()) {
+            return redirect()->route('admin.akun.create')
+                ->with('error', 'Anda tidak memiliki izin untuk membuat akun dengan role Super Admin.')
+                ->withInput();
+        }
+
+        // USER CREATION
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        $role = Role::find($request->role);
-        if ($role) {
-            $user->assignRole($role);
+        // ASSIGN ROLE IF PROVIDED
+        if ($selectedRole) {
+            $user->assignRole($selectedRole);
         }
 
         return redirect()->route('admin.akun.index')
@@ -80,8 +126,21 @@ class UserController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::orderBy('name')->get();
+        // AUTHORIZATION CHECK
+        $user = User::with('roles')->findOrFail($id);
+        if (!$this->canModifyUser($user)) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Anda tidak memiliki izin untuk mengedit akun Super Admin lain.');
+        }
+
+        // DATA PREPARATION: filter roles based on super admin status
+        $currentUser = Auth::user();
+        if ($currentUser->roles->contains('name', 'Super Admin')) {
+            $roles = Role::orderBy('name')->get();
+        } else {
+            $roles = Role::where('name', '!=', 'Super Admin')->orderBy('name')->get();
+        }
+
         $userRole = $user->roles->first();
 
         return view('admin.akun.edit', compact('user', 'roles', 'userRole'));
@@ -92,8 +151,14 @@ class UserController extends Controller implements HasMiddleware
      */
     public function update(Request $request, string $id)
     {
+        // AUTHORIZATION CHECK
         $user = User::findOrFail($id);
+        if (!$this->canModifyUser($user)) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Tidak dapat mengedit akun Super Admin lain.');
+        }
 
+        // VALIDATION LOGIC
         $validator = Validator::make($request->all(), [
             'name'     => 'required|string|min:3|max:255',
             'email'    => 'required|email|unique:users,email,' . $id,
@@ -107,6 +172,7 @@ class UserController extends Controller implements HasMiddleware
                 ->withInput();
         }
 
+        // UPDATE BASIC DATA
         $data = [
             'name'  => $request->name,
             'email' => $request->email,
@@ -116,24 +182,53 @@ class UserController extends Controller implements HasMiddleware
         }
         $user->update($data);
 
-        // Sync role: jika role diisi, assign; jika tidak, hapus semua role
+        // ROLE SYNC LOGIC
         if ($request->filled('role')) {
             $role = Role::find($request->role);
             if ($role) {
+                // PREVENT SUPER ADMIN CHANGING ITS OWN ROLE
+                $isTargetSuperAdmin = $user->roles->contains('name', 'Super Admin');
+                if ($isTargetSuperAdmin && $role->name !== 'Super Admin') {
+                    return redirect()->route('admin.akun.edit', $id)
+                        ->with('error', 'Super Admin tidak dapat mengubah role sendiri menjadi selain Super Admin.');
+                }
+
+                // PREVENT ASSIGNING SUPER ADMIN TO OTHERS IF CURRENT USER IS NOT SUPER ADMIN
+                if ($role->name === 'Super Admin' && !$this->canAssignSuperAdmin()) {
+                    return redirect()->route('admin.akun.edit', $id)
+                        ->with('error', 'Anda tidak memiliki izin untuk memberikan role Super Admin.');
+                }
+
                 $user->syncRoles([$role]);
             }
         } else {
-            $user->syncRoles([]);
+            // IF NO ROLE SELECTED, DO NOT REMOVE SUPER ADMIN ROLE
+            if (!$user->roles->contains('name', 'Super Admin')) {
+                $user->syncRoles([]);
+            }
         }
 
         return redirect()->route('admin.akun.index')
             ->with('success', 'User berhasil diperbarui.');
     }
 
+    /**
+     * Show reset password form.
+     */
     public function resetPasswordForm($id)
     {
+        // AUTHORIZATION CHECK
         $user = User::findOrFail($id);
-        return view('admin.akun.reset-password', compact('user'));
+        if (!$this->canModifyUser($user)) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Anda tidak memiliki izin untuk mereset password Super Admin lain.');
+        }
+
+        // DATA PREPARATION
+        $roles = Role::orderBy('name')->get();
+        $userRole = $user->roles->first();
+
+        return view('admin.akun.reset-password', compact('user', 'roles', 'userRole'));
     }
 
     /**
@@ -141,21 +236,41 @@ class UserController extends Controller implements HasMiddleware
      */
     public function resetPassword(Request $request, $id)
     {
+        // AUTHORIZATION CHECK
+        $user = User::findOrFail($id);
+        if (!$this->canModifyUser($user)) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Tidak dapat mereset password Super Admin lain.');
+        }
+
+        // VALIDATION LOGIC
         $request->validate([
             'password' => 'required|string|min:8|confirmed',
         ]);
-        $user = User::findOrFail($id);
+
+        // PASSWORD UPDATE
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect()->route('admin.akun.index')->with('success', 'Password berhasil direset.');
+
+        return redirect()->route('admin.akun.index')
+            ->with('success', 'Password berhasil direset.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        // Cegah menghapus akun sendiri
+        // AUTHORIZATION AND BUSINESS LOGIC
+        $user = User::findOrFail($id);
+
+        // PREVENT DELETING SUPER ADMIN
+        if ($user->roles->contains('name', 'Super Admin')) {
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Tidak dapat menghapus akun Super Admin.');
+        }
+
+        // PREVENT DELETING OWN ACCOUNT
         if ($user->id === Auth::id()) {
             return redirect()->route('admin.akun.index')
                 ->with('error', 'Tidak dapat menghapus akun sendiri.');

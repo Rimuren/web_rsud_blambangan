@@ -51,25 +51,37 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if($user->roles->count())
-                                    @foreach($user->roles as $role)
-                                        <flux:badge color="blue" size="sm">{{ $role->name }}</flux:badge>
-                                    @endforeach
+                                @foreach($user->roles as $role)
+                                <flux:badge color="blue" size="sm">{{ $role->name }}</flux:badge>
+                                @endforeach
                                 @else
-                                    <flux:badge color="gray" size="sm">Tidak ada role</flux:badge>
+                                <flux:badge color="gray" size="sm">Tidak ada role</flux:badge>
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
+                                    @php
+                                    $isSuperAdmin = $user->roles->contains('name', 'Super Admin');
+                                    $currentIsSuperAdmin = auth()->user()->roles->contains('name', 'Super Admin');
+                                    @endphp
+
+                                    @if(!$isSuperAdmin || ($isSuperAdmin && $currentIsSuperAdmin))
                                     <a href="{{ route('admin.akun.edit', $user->id) }}" title="Edit">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </a>
+                                    @endif
+
+                                    @if(!$isSuperAdmin || ($isSuperAdmin && $currentIsSuperAdmin))
                                     <a href="{{ route('admin.akun.reset-password.form', $user->id) }}" title="Reset Password">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </a>
+                                    @endif
+
+                                    @if(!$isSuperAdmin)
                                     <form action="{{ route('admin.akun.destroy', $user->id) }}" method="POST" class="inline-block delete-user-form">
                                         @csrf
                                         @method('DELETE')
@@ -77,6 +89,7 @@
                                             <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

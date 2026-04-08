@@ -23,6 +23,8 @@
 
         <flux:sidebar.nav>
 
+            {{-- Dashboard --}}
+            @can('admin-access')
             <flux:sidebar.item
                 icon="home"
                 :href="route('admin.dashboard')"
@@ -30,24 +32,32 @@
                 wire:navigate>
                 {{ __('Dashboard') }}
             </flux:sidebar.item>
+            @endcan
 
-            <!-- Manajemen Artikel -->
+            {{-- Manajemen Artikel --}}
+            @can('manage artikel')
             <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
+                @can('view daftar-artikel')
                 <flux:sidebar.item
                     :href="route('admin.artikel.index')"
                     :current="request()->routeIs('admin.artikel.index')"
                     wire:navigate>
                     Daftar Artikel
                 </flux:sidebar.item>
+                @endcan
 
+                @can('view kategori')
                 <flux:sidebar.item
                     :href="route('admin.artikel.kategori.index')"
                     :current="request()->routeIs('admin.artikel.kategori.*')"
                     wire:navigate>
                     Daftar Kategori
                 </flux:sidebar.item>
+                @endcan
             </flux:sidebar.group>
+            @endcan
 
+            {{-- Manajemen Akun --}}
             @can('manage akun')
             <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
                 @can('view daftar-akun')
@@ -70,22 +80,30 @@
             </flux:sidebar.group>
             @endcan
 
-            <!-- Manajemen Dokumentasi -->
+            {{-- Manajemen Dokumentasi --}}
+            @can('manage dokumentasi')
             <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
+                @can('view foto')
                 <flux:sidebar.item
                     :href="route('admin.dokumentasi.foto')"
                     :current="request()->routeIs('admin.dokumentasi.foto')"
                     wire:navigate>
                     Foto
                 </flux:sidebar.item>
+                @endcan
+
+                @can('view video')
                 <flux:sidebar.item
                     :href="route('admin.dokumentasi.video')"
                     :current="request()->routeIs('admin.dokumentasi.video')"
                     wire:navigate>
                     Video
                 </flux:sidebar.item>
+                @endcan
             </flux:sidebar.group>
+            @endcan
 
+            {{-- Manajemen Dokter --}}
             @can('manage dokter')
             <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
                 @can('view daftar-dokter')
@@ -105,17 +123,22 @@
             </flux:sidebar.group>
             @endcan
 
-            <!-- Manajemen Ruangan -->
+            {{-- Manajemen Ruangan --}}
+            @can('manage ruangan')
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
+                @can('view daftar-bangsal')
                 <flux:sidebar.item href="#">
                     Daftar Bangsal
                 </flux:sidebar.item>
+                @endcan
 
+                @can('view daftar-kelas')
                 <flux:sidebar.item href="#">
                     Daftar Kelas
                 </flux:sidebar.item>
+                @endcan
             </flux:sidebar.group>
-
+            @endcan
         </flux:sidebar.nav>
 
         <flux:spacer />
@@ -126,7 +149,7 @@
 
     </flux:sidebar>
 
-    <!-- Mobile Header -->
+    {{-- Mobile Header --}}
     <flux:header class="lg:hidden">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
