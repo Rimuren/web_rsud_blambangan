@@ -22,7 +22,7 @@
 
   <div class="max-w-4xl mx-auto px-6 py-12">
 
-    <!-- PAGE TITLE -->
+    {{-- PAGE TITLE --}}
     <div class="mb-10">
       <h1 class="text-4xl font-black text-[#0a2a5e] leading-tight mb-3">
         Alur dan Persyaratan Pelayanan
@@ -33,26 +33,26 @@
       </p>
     </div>
 
-    <!-- ALUR PELAYANAN PASIEN -->
+    {{-- ALUR PELAYANAN PASIEN --}}
     <div class="mb-12">
 
-      <!-- Section Title -->
+      {{-- Section Title --}}
       <div class="flex items-center gap-3 mb-8">
-        <!-- Stethoscope-like icon -->
+        {{-- Stethoscope-like icon --}}
         <svg class="w-6 h-6 text-[#0a2a5e]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18"/>
         </svg>
         <h2 class="text-xl font-bold text-[#0a2a5e]">Alur Pelayanan Pasien</h2>
       </div>
 
-      <!-- Steps -->
+      {{-- Steps --}}
       <div class="flex flex-col gap-0">
 
-        <!-- Step 1 -->
+        {{-- Step 1 --}}
         <div class="flex items-start gap-5">
           <div class="flex flex-col items-center">
             <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 border border-gray-200">
-              <!-- Registration/queue icon -->
+              {{-- Registration --}}
               <svg class="w-6 h-6 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <circle cx="9" cy="7" r="1" fill="currentColor"/>
                 <circle cx="12" cy="7" r="1" fill="currentColor"/>
@@ -66,7 +66,7 @@
                 <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/>
               </svg>
             </div>
-            <!-- Vertical line -->
+            {{-- Vertical line --}}
             <div class="w-px h-12 bg-gray-200 mt-1"></div>
           </div>
           <div class="pt-2 pb-10">
@@ -75,11 +75,11 @@
           </div>
         </div>
 
-        <!-- Step 2 -->
+        {{-- Step 2 --}}
         <div class="flex items-start gap-5">
           <div class="flex flex-col items-center">
             <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 border border-gray-200">
-              <!-- First aid / medical bag icon -->
+              {{-- First aid / medical bag icon --}}
               <svg class="w-6 h-6 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <rect x="3" y="7" width="18" height="14" rx="2"/>
                 <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -87,7 +87,7 @@
                 <line x1="9" y1="14" x2="15" y2="14"/>
               </svg>
             </div>
-            <!-- Vertical line -->
+            {{-- Vertical line --}}
             <div class="w-px h-12 bg-gray-200 mt-1"></div>
           </div>
           <div class="pt-2 pb-10">
@@ -96,17 +96,17 @@
           </div>
         </div>
 
-        <!-- Step 3 -->
+        {{-- Step 3 --}}
         <div class="flex items-start gap-5">
           <div class="flex flex-col items-center">
             <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 border border-gray-200">
-              <!-- Stethoscope icon -->
+              {{-- Stethoscope icon --}}
               <svg class="w-6 h-6 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <path d="M4.5 6.5a4 4 0 004 4M4.5 6.5a4 4 0 00-4 4M4.5 6.5V4a1.5 1.5 0 013 0v2.5M8.5 10.5C8.5 14 11 16 14 16a4 4 0 004-4v-1"/>
                 <circle cx="18" cy="17" r="2"/>
               </svg>
             </div>
-            <!-- Vertical line -->
+            {{-- Vertical line --}}
             <div class="w-px h-12 bg-gray-200 mt-1"></div>
           </div>
           <div class="pt-2 pb-10">
@@ -115,11 +115,11 @@
           </div>
         </div>
 
-        <!-- Step 4 (last – no line below) -->
+        {{-- Step 4 --}}
         <div class="flex items-start gap-5">
           <div class="flex flex-col items-center">
             <div class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center flex-shrink-0 border border-gray-200">
-              <!-- Payment/cashier icon -->
+              {{-- Payment/cashier icon --}}
               <svg class="w-6 h-6 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <rect x="2" y="7" width="20" height="14" rx="2"/>
                 <path d="M16 11h2M2 11h14M2 15h8"/>
@@ -136,12 +136,12 @@
       </div>
     </div>
 
-    <!-- PERSYARATAN PENDAFTARAN -->
+    {{-- PERSYARATAN PENDAFTARAN --}}
     <div>
 
-      <!-- Section Title -->
+      {{-- Section Title --}}
       <div class="flex items-center gap-3 mb-8">
-        <!-- Checklist icon -->
+        {{-- Checklist icon --}}
         <svg class="w-6 h-6 text-[#0a2a5e]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <rect x="3" y="3" width="18" height="18" rx="2"/>
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
@@ -149,15 +149,15 @@
         <h2 class="text-xl font-bold text-[#0a2a5e]">Persyaratan Pendaftaran</h2>
       </div>
 
-      <!-- Two Cards -->
+      {{-- Two Cards --}}
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        <!-- Card: Pasien Umum -->
+        {{-- Card: Pasien Umum --}}
         <div class="border border-gray-200 rounded-2xl p-7">
-          <!-- Card Header -->
+          {{-- Card Header --}}
           <div class="flex items-center gap-3 mb-7">
             <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
-              <!-- Person icon -->
+              {{-- Person icon --}}
               <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <circle cx="12" cy="8" r="4"/>
                 <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
@@ -166,7 +166,7 @@
             <h3 class="font-bold text-[#1a1a1a] text-base">Pasien Umum</h3>
           </div>
 
-          <!-- Items -->
+          {{-- Items --}}
           <div class="flex flex-col gap-5">
             <div class="flex items-start gap-3">
               <svg class="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -192,12 +192,12 @@
           </div>
         </div>
 
-        <!-- Card: Pasien BPJS -->
+        {{-- Card: Pasien BPJS --}}
         <div class="border border-gray-200 rounded-2xl p-7">
-          <!-- Card Header -->
+          {{-- Card Header --}}
           <div class="flex items-center gap-3 mb-7">
             <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center border border-gray-200">
-              <!-- Card/ID icon -->
+              {{-- Card/ID icon --}}
               <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <rect x="2" y="5" width="20" height="14" rx="2"/>
                 <path d="M2 10h20"/>
@@ -207,7 +207,7 @@
             <h3 class="font-bold text-[#1a1a1a] text-base">Pasien BPJS</h3>
           </div>
 
-          <!-- Items -->
+          {{-- Items --}}
           <div class="flex flex-col gap-5">
             <div class="flex items-start gap-3">
               <svg class="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -242,10 +242,10 @@
 
 
       </div>
-  <!-- Icon box salmon/peach (tanpa flex-1) -->
+  {{-- Icon box salmon/peach --}}
   <div class="flex items-center gap-3">
   <div class="w-12 h-12 rounded-xl bg-[#fde8e0] flex items-center justify-center flex-shrink-0">
-    <!-- Icon from Heroicons: ClipboardDocumentListIcon (outline) -->
+    {{-- Icon from Heroicons: ClipboardDocumentListIcon (outline) --}}
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#e07a5f]">
       <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
     </svg>
@@ -253,21 +253,21 @@
   <h1 class="text-xl font-bold text-[#0f2d5e]">1. Pelayanan Pendaftaran (Admission)</h1>
 </div>
 
-    <!-- MAIN TABLE CARD -->
+    {{-- MAIN TABLE CARD --}}
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
 
-      <!-- Table Header -->
+      {{-- Table Header --}}
       <div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">NO</span>
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">KOMPONEN</span>
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">URAIAN</span>
       </div>
 
-      <!-- ROW 1: Persyaratan Pelayanan -->
+      {{-- ROW 1: Persyaratan Pelayanan --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
         <span class="text-sm text-gray-400 font-medium pt-0.5">1</span>
         <div class="flex items-start gap-2 pt-0.5">
-          <!-- document icon -->
+          {{-- document icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <rect x="5" y="2" width="14" height="20" rx="2"/>
             <line x1="9" y1="7" x2="15" y2="7"/>
@@ -284,11 +284,11 @@
         </div>
       </div>
 
-      <!-- ROW 2: Prosedur -->
+      {{-- ROW 2: Prosedur --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
         <span class="text-sm text-gray-400 font-medium pt-0.5">2</span>
         <div class="flex items-start gap-2 pt-0.5">
-          <!-- flow/procedure icon -->
+          {{-- flow/procedure icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <rect x="3" y="3" width="6" height="6" rx="1"/>
             <rect x="15" y="3" width="6" height="6" rx="1"/>
@@ -303,41 +303,41 @@
         </div>
         <div class="flex flex-col gap-5">
 
-          <!-- Flow diagram -->
+          {{-- Flow diagram --}}
           <div class="bg-[#fdf3ef] border border-[#f5d5c8] rounded-xl p-4">
             <div class="flex items-center gap-2 flex-wrap">
-              <!-- Step box 1 -->
+              {{-- Step box 1 --}}
               <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">
                 Penanggung<br/>jawab pasien
               </div>
-              <!-- Arrow -->
+              {{-- Arrow --}}
               <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
               </svg>
-              <!-- Step box 2 – highlighted -->
+              {{-- Step box 2 – highlighted --}}
               <div class="bg-white border border-gray-300 rounded-lg px-3 py-2.5 text-xs font-semibold text-gray-800 shadow-sm">
                 Admission
               </div>
-              <!-- Arrow -->
+              {{-- Arrow --}}
               <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
               </svg>
-              <!-- Step box 3 -->
+              {{-- Step box 3 --}}
               <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">
                 Menandatangani<br/>General Consent
               </div>
-              <!-- Arrow -->
+              {{-- Arrow --}}
               <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
               </svg>
-              <!-- Step box 4 -->
+              {{-- Step box 4 --}}
               <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">
                 Berkas rawat inap diberikan ke<br/>penanggung jawab pasien
               </div>
             </div>
           </div>
 
-          <!-- Numbered steps grid -->
+          {{-- Numbered steps grid --}}
           <div class="grid grid-cols-2 gap-x-6 gap-y-4">
             <div class="flex items-start gap-2.5">
               <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
@@ -360,11 +360,11 @@
         </div>
       </div>
 
-      <!-- ROW 3: Waktu Pelayanan -->
+      {{-- ROW 3: Waktu Pelayanan --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
         <span class="text-sm text-gray-400 font-medium">3</span>
         <div class="flex items-center gap-2">
-          <!-- Clock icon -->
+          {{-- Clock icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="9"/>
             <polyline points="12 7 12 12 15 15"/>
@@ -378,11 +378,11 @@
         </div>
       </div>
 
-      <!-- ROW 4: Biaya -->
+      {{-- ROW 4: Biaya --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
         <span class="text-sm text-gray-400 font-medium pt-1">4</span>
         <div class="flex items-center gap-2 pt-1">
-          <!-- Money/coin icon -->
+          {{-- Money/coin icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="9"/>
             <path d="M12 7v1m0 8v1M9.5 9.5A2.5 2.5 0 0112 8a2.5 2.5 0 010 5 2.5 2.5 0 000 5 2.5 2.5 0 002.5-1.5"/>
@@ -405,11 +405,11 @@
         </div>
       </div>
 
-      <!-- ROW 5: Produk Layanan -->
+      {{-- ROW 5: Produk Layanan --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
         <span class="text-sm text-gray-400 font-medium">5</span>
         <div class="flex items-center gap-2">
-          <!-- Server/product icon -->
+          {{-- Server/product icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <rect x="2" y="3" width="20" height="5" rx="1"/>
             <rect x="2" y="10" width="20" height="5" rx="1"/>
@@ -422,11 +422,11 @@
         <p class="text-sm text-gray-600">Pelayanan admission</p>
       </div>
 
-      <!-- ROW 6: Pengelolaan Pengaduan -->
+      {{-- ROW 6: Pengelolaan Pengaduan --}}
       <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 items-start">
         <span class="text-sm text-gray-400 font-medium pt-1">6</span>
         <div class="flex items-center gap-2 pt-1">
-          <!-- Headset/support icon -->
+          {{-- Headset/support icon --}}
           <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M3 18v-6a9 9 0 0118 0v6"/>
             <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>
@@ -443,11 +443,11 @@
         </div>
       </div>
 
-    </div><!-- end main card -->
+    </div>
 
-    <!-- INFORMASI TAMBAHAN -->
+    {{-- INFORMASI TAMBAHAN --}}
     <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-start gap-4">
-      <!-- Info circle icon -->
+      {{-- Info circle icon --}}
       <div class="flex-shrink-0 mt-0.5">
         <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="9"/>
@@ -464,10 +464,407 @@
     </div>
 
       </div>
+
+    <// !-- Icon box salmon/peach for Section 2 -->
+    <div class="flex items-center gap-3 mt-8">
+      <div class="w-12 h-12 rounded-xl bg-[#fde8e0] flex items-center justify-center flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#e07a5f]">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
+      </div>
+      <h1 class="text-xl font-bold text-[#0f2d5e]">2. Pelayanan Instalasi Rawat Jalan</h1>
     </div>
 
-    
+    <!-- MAIN TABLE CARD for Section 2 -->
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
 
+      <!-- Table Header -->
+      <div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">NO</span>
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">KOMPONEN</span>
+        <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">URAIAN</span>
+      </div>
+
+      <!-- Row 1: Persyaratan Pelayanan -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+        <span class="text-sm text-gray-400 font-medium pt-0.5">1</span>
+        <div class="flex items-start gap-2 pt-0.5">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Persyaratan Pelayanan</span>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <p class="text-sm text-gray-600">Kartu identitas / KTP / KK</p>
+          <p class="text-sm text-gray-600">Kartu asuransi Non JKN</p>
+          <p class="text-sm text-gray-600">Surat rujukan (Bila ada)</p>
+        </div>
+      </div>
+
+      <!-- Row 2: Prosedur -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+        <span class="text-sm text-gray-400 font-medium pt-0.5">2</span>
+        <div class="flex items-start gap-2 pt-0.5">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h8" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Prosedur</span>
+        </div>
+        <div class="flex flex-col gap-5">
+
+          <!-- Flow diagram -->
+          <div class="bg-[#fdf3ef] border border-[#f5d5c8] rounded-xl p-4">
+            <div class="flex items-center gap-2 flex-wrap text-sm">
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Ambil Nomor Antrean</div>
+              <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Menunggu Panggilan</div>
+              <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm">Pemeriksaan Dokter Spesialis</div>
+            </div>
+            <div class="flex items-center gap-2 flex-wrap text-sm mt-3">
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pengambilan Obat</div>
+              <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Administrasi di Kasir/UPP</div>
+              <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pasien Pulang / Dirawat</div>
+            </div>
+          </div>
+
+          <!-- Numbered steps grid -->
+          <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+              <p class="text-sm text-gray-600 leading-snug">Pengambilan Nomor Antrean oleh Pasien / Keluarga</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+              <p class="text-sm text-gray-600 leading-snug">Melakukan Pendaftaran & Verifikasi Berkas di loket pendaftaran</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+              <p class="text-sm text-gray-600 leading-snug">Menunggu Pemanggilan di Ruang Tunggu</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+              <p class="text-sm text-gray-600 leading-snug">Pemeriksaan oleh Dokter dan pemeriksaan penunjang (lab atau rontgen)</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">5</span>
+              <p class="text-sm text-gray-600 leading-snug">Pemberian Terapi atau Resep Obat</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">6</span>
+              <p class="text-sm text-gray-600 leading-snug">Pengambilan Obat & Administrasi</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">7</span>
+              <p class="text-sm text-gray-600 leading-snug">Pengambilan Obat & Administrasi</p>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">8</span>
+              <p class="text-sm text-gray-600 leading-snug">Pasien Pulang atau Dirawat</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Row 3: Waktu Pelayanan -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
+        <span class="text-sm text-gray-400 font-medium">3</span>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Waktu Pelayanan</span>
+        </div>
+        <div>
+          <span class="inline-block bg-[#dcfce7] text-[#15803d] text-xs font-semibold px-3 py-1 rounded-full border border-[#bbf7d0]">
+            1 - 2 Jam (Sesuai Prosedur)
+          </span>
+        </div>
+      </div>
+
+      <!-- Row 4: Biaya -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+        <span class="text-sm text-gray-400 font-medium pt-1">4</span>
+        <div class="flex items-center gap-2 pt-1">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Biaya</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Umum</span>
+            <span class="text-sm text-gray-700 font-medium text-right">Perda Kab. Banyuwangi No. 1 Th 2024</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">JKN/KIS</span>
+            <span class="text-sm font-bold text-green-600">GRATIS</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Asuransi lain</span>
+            <span class="text-sm text-gray-700">Sesuai Perjanjian Kerjasama</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 5: Produk Layanan Poliklinik -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
+        <span class="text-sm text-gray-400 font-medium">5</span>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Produk Layanan Poliklinik</span>
+        </div>
+        <p class="text-sm text-gray-600">THT, Syaraf, Bedah Umum, Penyakit Dalam, Anak, Mata, Gigi & Mulut, Kulit & Kelamin, Kandungan.</p>
+      </div>
+
+      <!-- Row 6: Pengelolaan Pengaduan -->
+      <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 items-start">
+        <span class="text-sm text-gray-400 font-medium pt-1">6</span>
+        <div class="flex items-center gap-2 pt-1">
+          <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+          </svg>
+          <span class="text-sm font-semibold text-[#1a1a2e]">Pengelolaan Pengaduan</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">
+            <svg class="w-3 h-3 text-[#1e3a5f] inline -mt-0.5 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+            </svg>
+            Email: rsudblambangan@gmail.com
+          </span>
+          <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Facebook: rsudblambangan</span>
+          <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">IG / Twitter: @rsudblambangan</span>
+          <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Kotak saran</span>
+          <span class="inline-block bg-[#fff3ed] border border-[#fed7b6] text-[#e07a2f] text-xs font-semibold px-3 py-1.5 rounded-full">Petugas informasi</span>
+          <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Telp / SMS: (0333) 421118</span>
+        </div>
+      </div>
+
+    </div>
+
+
+      </svg>
+      <div>
+        <p class="text-sm font-bold text-[#1a1a2e] mb-1">Informasi Tambahan</p>
+        <p class="text-sm text-gray-500 leading-relaxed">
+          Memberikan pelayanan kesehatan profesional dan berkualitas bagi masyarakat Banyuwangi dan sekitarnya.
+          Pastikan membawa dokumen lengkap saat kunjungan. Layanan darurat tersedia 24 jam.
+        </p>
+      </div>
+
+<!-- section 3 -->
+<!-- Icon box salmon/peach for Section 3 -->
+<div class="flex items-center gap-3 mt-8">
+  <div class="w-12 h-12 rounded-xl bg-[#fde8e0] flex items-center justify-center flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e07a5f" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+    </svg>
+  </div>
+  <h1 class="text-xl font-bold text-[#0f2d5e]">3. Pelayanan Instalasi Gawat Darurat</h1>
+</div>
+
+<!-- MAIN TABLE CARD for IGD -->
+<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6 mt-4">
+
+  <!-- Table Header -->
+  <div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
+    <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">NO</span>
+    <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">KOMPONEN</span>
+    <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">URAIAN</span>
+  </div>
+
+  <!-- ROW 1: Persyaratan Pelayanan -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+    <span class="text-sm text-gray-400 font-medium pt-0.5">1</span>
+    <div class="flex items-start gap-2 pt-0.5">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Persyaratan Pelayanan</span>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <p class="text-sm text-gray-600">Kartu identitas / KTP / KK</p>
+      <p class="text-sm text-gray-600">Kartu Asuransi Non JKN</p>
+      <p class="text-sm text-gray-600">Surat Pengantar IGD</p>
+    </div>
+  </div>
+
+  <!-- ROW 2: Prosedur -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+    <span class="text-sm text-gray-400 font-medium pt-0.5">2</span>
+    <div class="flex items-start gap-2 pt-0.5">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="6" height="6" rx="1"/>
+        <rect x="15" y="3" width="6" height="6" rx="1"/>
+        <rect x="3" y="15" width="6" height="6" rx="1"/>
+        <rect x="15" y="15" width="6" height="6" rx="1"/>
+        <line x1="9" y1="6" x2="15" y2="6"/>
+        <line x1="9" y1="18" x2="15" y2="18"/>
+        <line x1="6" y1="9" x2="6" y2="15"/>
+        <line x1="18" y1="9" x2="18" y2="15"/>
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Prosedur</span>
+    </div>
+
+    <div class="flex flex-col gap-5">
+
+      <!-- Flow diagram -->
+      <div class="bg-[#fdf3ef] border border-[#f5d5c8] rounded-xl p-4">
+        <div class="flex items-center gap-2 flex-wrap text-sm">
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pasien Datang</div>
+          <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pendaftaran</div>
+          <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm">Tindakan Medis</div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap text-sm mt-3">
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pengambilan Obat</div>
+          <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Administrasi Kasir</div>
+          <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          <div class="bg-white border border-gray-200 rounded-lg px-3 py-2.5 text-xs font-medium text-gray-700 shadow-sm leading-tight">Pasien Pulang/Dirawat</div>
+        </div>
+      </div>
+
+      <!-- Numbered steps grid -->
+      <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+          <p class="text-sm text-gray-600 leading-snug">Pasien Datang ke IGD</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+          <p class="text-sm text-gray-600 leading-snug">Pendaftaran oleh Keluarga/Pengantar</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+          <p class="text-sm text-gray-600 leading-snug">Tindakan Medis Sesuai Keluhan</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span>
+          <p class="text-sm text-gray-600 leading-snug">Pemeriksaan Penunjang (Bila Diperlukan)</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">5</span>
+          <p class="text-sm text-gray-600 leading-snug">Pengambilan Obat</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">6</span>
+          <p class="text-sm text-gray-600 leading-snug">Penyelesaian Administrasi Kasir/UPP</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">7</span>
+          <p class="text-sm text-gray-600 leading-snug">Pemberian Terapi atau Resep Obat</p>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">8</span>
+          <p class="text-sm text-gray-600 leading-snug">Pasien Pulang/Dirawat/Dirujuk</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROW 3: Waktu Pelayanan -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
+    <span class="text-sm text-gray-400 font-medium">3</span>
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <polyline points="12 7 12 12 15 15"/>
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Waktu Pelayanan</span>
+    </div>
+    <div>
+      <span class="inline-block bg-[#dcfce7] text-[#15803d] text-xs font-semibold px-3 py-1 rounded-full border border-[#bbf7d0]">
+        Kurang dari 5 menit (Respon)
+      </span>
+    </div>
+  </div>
+
+  <!-- ROW 4: Biaya -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-start">
+    <span class="text-sm text-gray-400 font-medium pt-1">4</span>
+    <div class="flex items-center gap-2 pt-1">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="14" rx="2"/>
+        <line x1="2" y1="10" x2="22" y2="10"/>
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Biaya</span>
+    </div>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-600">Umum</span>
+        <span class="text-sm text-gray-700 font-medium text-right">Perda Kab. Banyuwangi No. 1 Th 2024</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-600">JKN/KIS</span>
+        <span class="text-sm font-bold text-green-600">GRATIS</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-600">Asuransi lain</span>
+        <span class="text-sm text-gray-700">Sesuai Perjanjian Kerjasama</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 5: Produk Layanan -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 border-b border-gray-200 items-center">
+    <span class="text-sm text-gray-400 font-medium">5</span>
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Produk Layanan</span>
+    </div>
+    <p class="text-sm text-gray-600">Pelayanan gawat darurat</p>
+  </div>
+
+  <!-- ROW 6: Pengelolaan Pengaduan -->
+  <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 items-start">
+    <span class="text-sm text-gray-400 font-medium pt-1">6</span>
+    <div class="flex items-center gap-2 pt-1">
+      <svg class="w-4 h-4 text-[#1e3a5f] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-6a9 9 0 0118 0v6"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>
+      </svg>
+      <span class="text-sm font-semibold text-[#1a1a2e]">Pengelolaan Pengaduan</span>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Email: rsudblambangan@gmail.com</span>
+      <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Facebook: rsudblambangan</span>
+      <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">IG / Twitter: @rsudblambangan</span>
+      <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Kotak saran</span>
+      <span class="inline-block bg-[#fff3ed] border border-[#fed7b6] text-[#e07a2f] text-xs font-semibold px-3 py-1.5 rounded-full">Petugas informasi</span>
+      <span class="inline-block bg-gray-100 border border-gray-200 text-gray-600 text-xs px-3 py-1.5 rounded-full">Telp / SMS: (0333) 421118</span>
+    </div>
+  </div>
+
+<!-- INFORMASI TAMBAHAN IGD -->
+<div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-start gap-4">
+  <div class="flex-shrink-0 mt-0.5">
+    <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <line x1="12" y1="8" x2="12" y2="8.5" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="12" y1="11" x2="12" y2="17" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div>
+    <p class="text-sm font-bold text-[#1a1a2e] mb-1">Informasi Tambahan</p>
+    <p class="text-sm text-gray-500 leading-relaxed">
+      Memberikan pelayanan kegawatdaruratan medis yang cepat, tepat, dan profesional selama 24 jam penuh.
+      Pastikan keluarga segera mengurus administrasi setelah pasien mendapatkan penanganan awal.
+    </p>
+  </div>
+</div>
+<!-- end section 3 -->
 </body>
 </html>
 

@@ -7,27 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
     body { font-family: 'Nunito Sans', sans-serif; }
-    .blue-underline {
-        display: block;
-        width: 48px;
-        height: 4px;
-        background: #e05a1a;
-        border-radius: 2px;
-        margin-top: 8px;
-    }
     .hero-bg { background-color: #dde8f0; }
-    .card-advantage {
-        background: #f3f7fb;
-        border-radius: 20px;
-        padding: 28px 24px;
-        transition: all 0.3s ease;
-        border: 1px solid #e2e8f0;
-    }
-    .card-advantage:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
-        border-color: #e05a1a;
-    }
     .btn-outline {
         border: 1.5px solid #0d2d5e;
         color: #0d2d5e;
@@ -48,51 +28,52 @@
 
 <div class="bg-white text-gray-800">
     {{-- HERO SECTION --}}
-    <section class="hero-bg px-6 py-16 md:px-20">
-        <div class="max-w-2xl mx-auto md:mx-0">
-            <h1 class="text-4xl md:text-5xl font-black text-[#0d2d5e] leading-tight">
-                Catheterization Laboratory
-            </h1>
-            <h1 class="text-4xl md:text-5xl font-black text-[#e05a1a] leading-tight mb-4 md:mb-6">
-                (Cath Lab)
-            </h1>
-            <p class="text-gray-600 text-base leading-relaxed max-w-sm">
-                Layanan modern untuk memeriksa dan menangani masalah jantung serta pembuluh darah, dengan alat canggih yang membantu prosedur jantung demi menyelamatkan nyawa pasien.
-            </p>
+    <section class="hero-bg px-6 py-12 md:py-16 md:px-20">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+            {{-- Teks --}}
+            <div class="flex-1">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[#0d2d5e] leading-tight">
+                    Catheterization Laboratory
+                </h1>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[#e05a1a] leading-tight mb-4">
+                    (Cath Lab)
+                </h1>
+                <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-md">
+                    Layanan modern untuk memeriksa dan menangani masalah jantung serta pembuluh darah, dengan alat canggih yang membantu prosedur jantung demi menyelamatkan nyawa pasien.
+                </p>
+            </div>
+  
+            {{-- Gambar --}}
+            <div class="flex-1 flex justify-center">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-md">
+                    <img src="{{ asset('images/cathlab1.jpg') }}" alt="Cath Lab RSUD Blambangan" class="w-full h-auto object-cover">
+                </div>
+            </div>
         </div>
     </section>
 
     {{-- TENTANG CATH LAB --}}
-    <section class="px-6 py-12 md:px-20">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row gap-12 md:gap-16">
-                <!-- Judul & Deskripsi - lebih ke kiri -->
-                <div class="flex-1 md:pr-4">
-                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-1">Tentang Cath Lab</h2>
-                    <span class="blue-underline mb-6"></span>
-                    
-                    <div class="space-y-4 text-gray-600 text-[15px] leading-relaxed mt-4">
-                        <p>
-                            Cath Lab atau Laboratorium Kateterisasi adalah ruang prosedur di rumah sakit di mana spesialis jantung melakukan tes diagnostik dan prosedur invasif minimal untuk mendiagnosis dan mengobati penyakit kardiovaskular.
-                        </p>
-                        <p>
-                            Laboratorium kami beroperasi 24/7 untuk menangani keadaan darurat jantung seperti serangan jantung (STEMI), memastikan pasien menerima intervensi secepat mungkin untuk meminimalkan kerusakan otot jantung.
-                        </p>
-                        <div class="text-center md:text-left mt-6">
-                            <a href="https://www.instagram.com/reel/DP8ZHf5EUKd/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                                    <polygon points="7,4 20,12 7,20"/>
-                                </svg>
-                                Tonton Video Fasilitas Cath Lab
-                            </a>
-                        </div>
-                    </div>
+    <section class="px-6 py-10 md:px-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Tentang Cath Lab</h2>
+                    <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full"></div>
                 </div>
-
-                <!-- Gambar -->
-                <div class="flex-1 md:mt-18">
-                    <div class="bg-[#e4ecf3] rounded-2xl border border-gray-200 shadow-md overflow-hidden">
-                        <img src="{{ asset('images/cathlab.jpg') }}" alt="Cath Lab RSUD Blambangan" class="w-full h-full object-cover min-h-[250px] md:min-h-[300px]">
+                <div class="space-y-4 text-gray-700 text-base md:text-lg leading-relaxed text-center">
+                    <p>
+                        <span class="font-bold text-[#0d2d5e]">Cath Lab</span> atau Laboratorium Kateterisasi adalah ruang prosedur di rumah sakit di mana spesialis jantung melakukan tes diagnostik dan prosedur invasif minimal untuk mendiagnosis dan mengobati penyakit kardiovaskular.
+                    </p>
+                    <p>
+                        Laboratorium kami beroperasi <span class="font-bold text-[#e05a1a]">24/7</span> untuk menangani keadaan darurat jantung seperti serangan jantung (STEMI), memastikan pasien menerima intervensi secepat mungkin untuk meminimalkan kerusakan otot jantung.
+                    </p>
+                    <div class="text-center pt-4">
+                        <a href="https://www.instagram.com/reel/DP8ZHf5EUKd/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                                <polygon points="7,4 20,12 7,20"/>
+                            </svg>
+                            Tonton Video Fasilitas Cath Lab
+                        </a>
                     </div>
                 </div>
             </div>
@@ -100,12 +81,12 @@
     </section>
 
     {{-- JENIS TINDAKAN --}}
-    <section class="px-6 py-12 md:px-20">
+    <section class="px-6 py-10 md:px-20">
         <div class="max-w-5xl mx-auto">
-            <div class="bg-[#e4ecf4] rounded-2xl px-6 py-10 md:px-10 md:py-12">
-                <div class="text-center mb-8">
+            <div class="bg-[#e4ecf4] rounded-2xl px-6 py-8 md:px-8 md:py-10">
+                <div class="text-center mb-6">
                     <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Jenis Tindakan</h2>
-                    <p class="text-gray-500 text-sm max-w-md mx-auto">
+                    <p class="text-gray-500 text-sm md:text-base max-w-md mx-auto">
                         Layanan intervensi komprehensif untuk berbagai masalah jantung dan pembuluh darah.
                     </p>
                 </div>
@@ -118,7 +99,7 @@
                         ['title' => 'Peripheral Intervention', 'desc' => 'Tindakan intervensi pada pembuluh darah di luar jantung, seperti di kaki atau ginjal.']
                     ];
                 @endphp
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     @foreach ($procedures as $index => $proc)
                     <div class="flex gap-4 items-start bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition">
                         <div class="flex-shrink-0">
@@ -128,7 +109,7 @@
                         </div>
                         <div>
                             <h4 class="font-black text-[#0d2d5e] text-base md:text-lg mb-1">{{ $proc['title'] }}</h4>
-                            <p class="text-gray-500 text-sm leading-relaxed">{{ $proc['desc'] }}</p>
+                            <p class="text-gray-500 text-sm md:text-base leading-relaxed">{{ $proc['desc'] }}</p>
                         </div>
                     </div>
                     @endforeach
@@ -137,5 +118,4 @@
         </div>
     </section>
 
-</div>
 @endsection
