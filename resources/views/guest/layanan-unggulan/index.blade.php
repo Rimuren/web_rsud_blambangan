@@ -13,7 +13,7 @@
             extend: {
                 colors: {
                     "primary": "#137fec",
-                    "secondary": "#003366",
+                    "secondary": "#e05a1a",
                     "background-light": "#f6f7f8",
                     "background-dark": "#101922",
                 },
