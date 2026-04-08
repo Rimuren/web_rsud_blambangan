@@ -59,7 +59,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view roles')
+                @can('view role')
                 <flux:sidebar.item
                     :href="route('admin.akun.role.index')"
                     :current="request()->routeIs('admin.akun.role.index')"
