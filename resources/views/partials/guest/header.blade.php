@@ -1,28 +1,28 @@
-<!-- resources/views/partials/guest/header.blade.php -->
+{{-- resources/views/partials/guest/header.blade.php --}}
 <nav class="bg-white shadow-md sticky top-0 z-50 font-poppins">
     <div class="container mx-auto px-4 md:px-6 py-3">
         <div class="flex flex-wrap items-center justify-between">
-            <!-- Logo -->
+            {{-- Logo --}}
             <a href="{{ url('/') }}" class="flex items-center space-x-2">
                 <img src="{{ asset('images/nav.png') }}" alt="Logo RSUD Blambangan" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
                 <span class="font-bold text-gray-800 text-base md:text-lg">RSUD Blambangan</span>
             </a>
 
-            <!-- Mobile Menu Button -->
+            {{-- Mobile Menu Button --}}
             <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
 
-            <!-- Desktop Menu -->
+            {{-- Desktop Menu --}}
             <div class="hidden md:flex space-x-5 text-gray-700 font-medium">
                 <a href="#" class="hover:text-blue-700 transition">Profil</a>
                 <a href="#" class="hover:text-blue-700 transition">Dokter & Jadwal</a>
                 <a href="#" class="hover:text-blue-700 transition">Info Kamar</a>
                 <a href="#" class="hover:text-blue-700 transition">Artikel</a>
 
-                <!-- Layanan Dropdown -->
+                {{-- Layanan Dropdown --}}
                 <div class="relative group">
                     <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Layanan
@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <!-- Informasi Dropdown -->
+                {{-- Informasi Dropdown --}}
                 <div class="relative group">
                     <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Informasi
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <!-- Galeri Dropdown -->
+                {{-- Galeri Dropdown --}}
                 <div class="relative group">
                     <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none">
                         Galeri
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <!-- Mobile Menu -->
+        {{-- Mobile Menu --}}
         <div id="mobile-menu" class="md:hidden hidden mt-4 border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)]">
             <div class="py-2 space-y-1">
                 <a href="#" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
@@ -112,7 +112,7 @@
                     Artikel
                 </a>
 
-                <!-- Layanan Mobile -->
+                {{-- Layanan Mobile --}}
                 <div>
                     <button id="mobile-layanan-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
 
-                <!-- Informasi Mobile -->
+                {{-- Informasi Mobile --}}
                 <div>
                     <button id="mobile-informasi-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">
@@ -156,7 +156,7 @@
                     </div>
                 </div>
 
-                <!-- Galeri Mobile -->
+                {{-- Galeri Mobile --}}
                 <div>
                     <button id="mobile-galeri-btn" class="flex items-center justify-between w-full py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                         <div class="flex items-center">

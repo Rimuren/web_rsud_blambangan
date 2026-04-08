@@ -12,13 +12,13 @@
 
         <flux:card class="p-4 mb-6">
             <form method="GET" action="{{ route('admin.dokter.index') }}" class="flex flex-wrap items-start gap-4">
-                <!-- Label filter -->
+                {{-- Label filter --}}
                 <div class="flex items-center gap-2 shrink-0 mt-1">
                     <flux:icon name="funnel" class="size-5 text-zinc-400" />
                     <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Spesialis:</span>
                 </div>
 
-                <!-- Area scroll horizontal untuk tombol filter -->
+                {{-- Area scroll horizontal untuk tombol filter --}}
                 <div class="flex-1 min-w-0 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-600">
                     <div class="flex gap-2 whitespace-nowrap">
                         @php
@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <!-- Pencarian dan reset -->
+                {{-- Pencarian dan reset --}}
                 <div class="flex items-center gap-3 shrink-0">
                     <div class="relative">
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari dokter..."

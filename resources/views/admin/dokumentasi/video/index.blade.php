@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="p-4 md:p-6 lg:p-8">
-    <!-- Header Section -->
+    {{-- Header Section --}}
     <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
             <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Daftar Galeri Video</h2>
@@ -16,7 +16,7 @@
         </flux:button>
     </div>
 
-    <!-- Table Card - Matching Foto style -->
+    {{-- Table Card --}}
     <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-100 dark:divide-zinc-700">
-                    <!-- Row 1 -->
+                    {{-- Row 1 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">
@@ -61,7 +61,7 @@
                         </td>
                     </tr>
 
-                    <!-- Row 2 -->
+                    {{-- Row 2 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">
@@ -94,7 +94,7 @@
                         </td>
                     </tr>
 
-                    <!-- Row 3 -->
+                    {{-- Row 3 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">

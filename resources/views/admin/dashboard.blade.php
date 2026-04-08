@@ -93,7 +93,7 @@
                             <flux:badge color="amber" size="sm">Asset</flux:badge>
                         </div>
 
-                        <!-- Activity 4 -->
+                        {{-- Activity 4 --}}
                         <div class="px-6 py-4 flex items-start gap-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                             <div class="size-10 shrink-0 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
                                 <flux:icon name="chat-bubble-left" class="size-5" />

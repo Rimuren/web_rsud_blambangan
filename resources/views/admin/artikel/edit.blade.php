@@ -193,7 +193,6 @@
 
                 {{-- Toolbar --}}
                 <div class="px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-1">
-                    <!-- ... toolbar sama seperti sebelumnya ... -->
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
                         <button type="button" onclick="formatDoc('bold')" title="Tebal" class="toolbar-btn"><flux:icon name="bold" class="size-3.5" /></button>
                         <button type="button" onclick="formatDoc('italic')" title="Miring" class="toolbar-btn"><flux:icon name="italic" class="size-3.5" /></button>

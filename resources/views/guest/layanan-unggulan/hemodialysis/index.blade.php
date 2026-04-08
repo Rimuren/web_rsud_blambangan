@@ -70,10 +70,10 @@
 </head>
 <body>
 
-  <!-- ===== HERO ===== -->
+  {{-- HERO --}}
   <section class="hero-bg px-8 py-14 md:px-16">
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center">
-      <!-- Left -->
+      {{-- Left --}}
       <div class="flex-1">
         <h1 class="text-4xl md:text-5xl font-black text-[#0d2d5e] leading-tight">Hemodialysis</h1>
         <h1 class="text-4xl md:text-5xl font-black text-[#e05a1a] leading-tight mb-5">Center</h1>
@@ -85,10 +85,9 @@
           <button class="border border-[#0d2d5e] text-[#0d2d5e] text-sm font-bold px-6 py-3 rounded-lg bg-white hover:bg-[#f0f5fa] transition">Jadwal Dokter</button>
         </div>
       </div>
-      <!-- Right: image card -->
+      {{-- Right: image card --}}
       <div class="flex-1 flex justify-end">
         <div class="bg-white rounded-2xl shadow-sm flex items-center justify-center" style="width:320px;height:240px;">
-          <!-- Hemodialysis drop icon -->
           <svg width="100" height="110" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 8 C50 8 15 50 15 68 C15 87 30.5 100 50 100 C69.5 100 85 87 85 68 C85 50 50 8 50 8Z" stroke="#0d2d5e" stroke-width="4" fill="none"/>
             <line x1="50" y1="50" x2="50" y2="75" stroke="#0d2d5e" stroke-width="4.5" stroke-linecap="round"/>
@@ -100,7 +99,7 @@
     </div>
   </section>
 
-  <!-- ===== FASILITAS HEMODIALISIS ===== -->
+  {{-- FASILITAS HEMODIALISIS --}}
   <section class="px-8 py-16 md:px-16 bg-white">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-4">
@@ -112,7 +111,7 @@
       </div>
 
       <div class="flex flex-col md:flex-row gap-5 mt-10">
-        <!-- Reclining Chairs -->
+        {{-- Reclining Chairs --}}
         <div class="facility-card">
           <div class="icon-circle">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -125,7 +124,7 @@
           <h3 class="font-black text-[#0d2d5e] text-sm mb-2">Reclining Chairs</h3>
           <p class="text-gray-500 text-xs leading-relaxed">Kursi medis ergonomis yang dapat disesuaikan untuk kenyamanan maksimal selama prosedur.</p>
         </div>
-        <!-- Entertainment -->
+        {{-- Entertainment --}}
         <div class="facility-card">
           <div class="icon-circle">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -137,7 +136,7 @@
           <h3 class="font-black text-[#0d2d5e] text-sm mb-2">Entertainment</h3>
           <p class="text-gray-500 text-xs leading-relaxed">Dilengkapi dengan TV layar datar dan koneksi Wi-Fi berkecepatan tinggi di setiap unit.</p>
         </div>
-        <!-- Healthy Snacks -->
+        {{-- Healthy Snacks --}}
         <div class="facility-card">
           <div class="icon-circle">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -151,7 +150,7 @@
           <h3 class="font-black text-[#0d2d5e] text-sm mb-2">Healthy Snacks</h3>
           <p class="text-gray-500 text-xs leading-relaxed">Penyajian makanan ringan dan minuman sehat yang disesuaikan dengan diet pasien.</p>
         </div>
-        <!-- Full AC Room -->
+        {{-- Full AC Room --}}
         <div class="facility-card">
           <div class="icon-circle">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -169,7 +168,7 @@
     </div>
   </section>
 
-  <!-- ===== PROTOKOL KESEHATAN & KESELAMATAN ===== -->
+  {{-- PROTOKOL KESEHATAN & KESELAMATAN --}}
   <section class="px-8 py-14 md:px-16 bg-blue-800 bg-opacity-10">
     <div class="max-w-5xl mx-auto">
       <h2 class="text-xl font-black text-[#0d2d5e] mb-3">Protokol Kesehatan & Keselamatan</h2>
@@ -178,7 +177,7 @@
       </p>
 
       <div class="space-y-8 max-w-lg">
-        <!-- Item 1 -->
+        {{-- Item 1 --}}
         <div class="flex gap-5 items-start">
           <div class="protocol-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -191,7 +190,7 @@
             <p class="text-gray-500 text-xs leading-relaxed">Pembersihan menyeluruh area tindakan dan sterilisasi alat medis secara rutin sesuai regulasi.</p>
           </div>
         </div>
-        <!-- Item 2 -->
+        {{-- Item 2 --}}
         <div class="flex gap-5 items-start">
           <div class="protocol-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -206,7 +205,7 @@
             <p class="text-gray-500 text-xs leading-relaxed">Pemantauan tanda-tanda vital pasien secara real-time oleh perawat bersertifikat khusus hemodialisis.</p>
           </div>
         </div>
-        <!-- Item 3 -->
+        {{-- Item 3 --}}
         <div class="flex gap-5 items-start">
           <div class="protocol-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -222,7 +221,7 @@
     </div>
   </section>
 
-  <!-- ===== ALERT BAR ===== -->
+  {{-- ALERT BAR --}}
   <section class="px-8 py-6 md:px-16">
     <div class="max-w-5xl mx-auto">
         <div class="alert-bar flex items-center justify-center gap-3 px-6 py-4">
