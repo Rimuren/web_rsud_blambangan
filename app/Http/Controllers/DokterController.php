@@ -18,20 +18,23 @@ class DokterController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-
+        // VALIDATION LOGIC: filter input and filtering
         $validated = $request->validate([
             'search' => 'nullable|string|max:100|regex:/^[\w\s\-]+$/',
             'sort' => 'nullable|string|max:100|regex:/^[\w\s\-]+$/',
         ]);
 
+        // QUERY BUILDING: start with jadwal_dokter relation
         $query = dokter_model::with('jadwal_dokter');
 
+        // FILTER BY SPESIALIS
         if ($request->filled('spesialis')) {
             $query->where('spesialis', $request->spesialis);
         }
 
+        // FILTER BY SEARCH (nama OR spesialis)
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -40,8 +43,10 @@ class DokterController extends Controller implements HasMiddleware
             });
         }
 
+        // PAGINATION WITH QUERY STRING
         $dokters = $query->paginate(10)->withQueryString();
 
+        // DATA PREPARATION: // DATA PREPARATION: unique spesialis list for dropdown filtering
         $spesialisList = dokter_model::select('spesialis')->distinct()->whereNotNull('spesialis')->pluck('spesialis')->toArray();
 
         return view('admin.dokter.index', compact('dokters', 'spesialisList'));
