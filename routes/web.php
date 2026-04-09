@@ -72,6 +72,10 @@ Route::get('/informasi/alur-persyaratan', function () {
     return view('guest.informasi.alur-persyaratan.index');
 })->name('guest.informasi.alur-persyaratan.index');
 
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
+
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
