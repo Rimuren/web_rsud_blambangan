@@ -14,7 +14,7 @@ class KategoriArtikelController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('permission:view kategori', only: ['index']),
+            new Middleware('permission:view daftar-kategori', only: ['index']),
             new Middleware('permission:create kategori', only: ['create', 'store']),
             new Middleware('permission:edit kategori', only: ['edit', 'update']),
             new Middleware('permission:delete kategori', only: ['destroy']),
