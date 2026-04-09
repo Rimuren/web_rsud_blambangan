@@ -4,9 +4,17 @@
       <flux:card class="space-y-6">
         <div class="flex justify-between items-center">
           <flux:heading size="lg">Roles</flux:heading>
+
+          @php
+          $currentUser = auth()->user();
+          @endphp
+
+          {{-- Hanya Master yang bisa menambah role --}}
+          @can('create role')
           <flux:button as="a" href="{{ route('admin.akun.role.create') }}" variant="primary" icon="plus-circle">
             Tambah Role
           </flux:button>
+          @endcan
         </div>
 
         {{-- Flash Messages --}}
@@ -48,14 +56,20 @@
                     @endforelse
                   </div>
                 </flux:table.cell>
+
+                {{-- Kolom Aksi dengan aturan akses --}}
                 <flux:table.cell class="text-right">
                   <div class="flex justify-end gap-2">
+                    @if($role->can_edit)
                     <flux:button href="{{ route('admin.akun.role.edit', $role->id) }}" variant="ghost" icon="pencil-square" size="sm" />
+                    @endif
+                    @if($role->can_delete)
                     <form action="{{ route('admin.akun.role.destroy', $role->id) }}" method="POST" onsubmit="return confirm('Hapus role {{ $role->name }}?')" class="inline">
                       @csrf
                       @method('DELETE')
                       <flux:button type="submit" variant="ghost" icon="trash" size="sm" />
                     </form>
+                    @endif
                   </div>
                 </flux:table.cell>
 
