@@ -76,6 +76,18 @@ Route::get('/informasi/tarif', function () {
     return view('guest.informasi.tarif.index');
 })->name('guest.informasi.tarif.index');
 
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
+
+Route::get('/informasi/ikm', function () {
+    return view('guest.informasi.ikm.index');
+})->name('guest.informasi.ikm.index');
+
+Route::get('/informasi/petunjuk-umum', function () {
+    return view('guest.informasi.petunjuk-umum.index');
+})->name('guest.informasi.petunjuk-umum.index');
+
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
