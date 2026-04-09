@@ -9,7 +9,7 @@
           </flux:button>
         </div>
 
-        <!-- Flash Messages -->
+        {{-- Flash Messages --}}
         @if(session('success'))
         <div class="p-4 bg-green-100 text-green-700 rounded-lg">
           {{ session('success') }}
