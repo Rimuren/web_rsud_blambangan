@@ -64,7 +64,7 @@ class PermissionSeeder extends Seeder
         'view daftar-spesialis',
 
         // Ruangan permissions
-        'view bangsal',
+        'view daftar-bangsal',
         'view daftar-kelas',
         
     ];

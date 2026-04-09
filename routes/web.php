@@ -79,46 +79,57 @@ Route::get('/informasi/tarif', function () {
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
-
-
+    
+    
     Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
-
+    
+    // ROUTE ARTIKEL
     Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
+    Route::get('/admin/artikel/create', function () {return view('admin.artikel.create');})->name('admin.artikel.create');
 
-    Route::get('/admin/artikel/kategori', [KategoriArtikelController::class, 'index'])->name('admin.artikel.kategori.index');
-    Route::get('/admin/artikel/kategori/create', [KategoriArtikelController::class, 'create'])->name('admin.artikel.kategori.create');
-    Route::post('/admin/artikel/kategori', [KategoriArtikelController::class, 'store'])->name('admin.artikel.kategori.store');
-    Route::get('/admin/artikel/kategori/{kategori}/edit', [KategoriArtikelController::class, 'edit'])->name('admin.artikel.kategori.edit');
-    Route::put('/admin/artikel/kategori/{kategori}', [KategoriArtikelController::class, 'update'])->name('admin.artikel.kategori.update');
-    Route::delete('/admin/artikel/kategori/{kategori}', [KategoriArtikelController::class, 'destroy'])->name('admin.artikel.kategori.destroy');
+    // ROUTE KATEGORI
+    Route::controller(KategoriArtikelController::class)->prefix('artikel/kategori')->group(function () {
+        Route::get('/', 'index')->name('admin.artikel.kategori.index');
+        Route::get('/create', 'create')->name('admin.artikel.kategori.create');
+        Route::post('/', 'store')->name('admin.artikel.kategori.store');
+        Route::get('/{kategori}/edit', 'edit')->name('admin.artikel.kategori.edit');
+        Route::put('/{kategori}', 'update')->name('admin.artikel.kategori.update');
+        Route::delete('/{kategori}', 'destroy')->name('admin.artikel.kategori.destroy');
+    });
 
     // ROUTE AKUN
-    Route::get('/admin/akun', [UserController::class, 'index'])->name('admin.akun.index');
-    Route::get('/admin/akun/create', [UserController::class, 'create'])->name('admin.akun.create');
-    Route::post('/admin/akun', [UserController::class, 'store'])->name('admin.akun.store');
-    Route::get('/admin/akun/{user}/edit', [UserController::class, 'edit'])->name('admin.akun.edit');
-    Route::put('/admin/akun/{user}', [UserController::class, 'update'])->name('admin.akun.update');
-    Route::delete('/admin/akun/{user}', [UserController::class, 'destroy'])->name('admin.akun.destroy');
-    Route::get('/admin/akun/{user}/reset-password', [UserController::class, 'resetPasswordForm'])->name('admin.akun.reset-password.form');
-    Route::patch('/admin/akun/{user}/reset-password', [UserController::class, 'resetPassword'])->name('admin.akun.reset-password');
+    Route::controller(UserController::class)->prefix('akun')->group(function () {
+        Route::get('/', 'index')->name('admin.akun.index');
+        Route::get('/create', 'create')->name('admin.akun.create');
+        Route::post('/', 'store')->name('admin.akun.store');
+        Route::get('/{user}/edit', 'edit')->name('admin.akun.edit');
+        Route::put('/{user}', 'update')->name('admin.akun.update');
+        Route::delete('/{user}', 'destroy')->name('admin.akun.destroy');
+        Route::get('/{user}/reset-password', 'resetPasswordForm')->name('admin.akun.reset-password.form');
+        Route::patch('/{user}/reset-password', 'resetPassword')->name('admin.akun.reset-password');
+    });
 
     // ROUTE ROLE
-    Route::get('/admin/akun/role', [RoleController::class, 'index'])->name('admin.akun.role.index');
-    Route::get('/admin/akun/role/create', [RoleController::class, 'create'])->name('admin.akun.role.create');
-    Route::post('/admin/akun/role', [RoleController::class, 'store'])->name('admin.akun.role.store');
-    Route::get('/admin/akun/role/{role}/edit', [RoleController::class, 'edit'])->name('admin.akun.role.edit');
-    Route::put('/admin/akun/role/{role}', [RoleController::class, 'update'])->name('admin.akun.role.update');
-    Route::delete('/admin/akun/role/{role}', [RoleController::class, 'destroy'])->name('admin.akun.role.destroy');
+    Route::controller(RoleController::class)->prefix('akun/role')->group(function () {
+        Route::get('/', 'index')->name('admin.akun.role.index');
+        Route::get('/create', 'create')->name('admin.akun.role.create');
+        Route::post('/', 'store')->name('admin.akun.role.store');
+        Route::get('/{role}/edit', 'edit')->name('admin.akun.role.edit');
+        Route::put('/{role}', 'update')->name('admin.akun.role.update');
+        Route::delete('/{role}', 'destroy')->name('admin.akun.role.destroy');
+    });
 
     // ROUTE DOKTER
-    Route::get('/admin/dokter', [DokterController::class, 'index'])->name('admin.dokter.index');
+    Route::controller(DokterController::class)->prefix('dokter')->group(function () {
+        Route::get('/', 'index')->name('admin.dokter.index');
+    });
 
-    Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
-    Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
-
-    Route::get('/admin/dokumentasi/foto/create', function () {return view('admin.dokumentasi.foto.create');})->name('admin.dokumentasi.foto.create');
-
-    Route::get('/admin/artikel/create', function () {return view('admin.artikel.create');})->name('admin.artikel.create');
+    // Dokumentasi foto & video
+    Route::prefix('dokumentasi')->group(function () {
+        Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
+        Route::view('/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
+        Route::view('/foto/create', 'admin.dokumentasi.foto.create')->name('admin.dokumentasi.foto.create');
+    });
 });
 
 // Route::get('/test-api-dokter', function () {

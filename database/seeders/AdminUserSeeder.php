@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
 
         // Super Admin
         $superAdmin = User::firstOrCreate(
-            ['email' => 'superadmin@rsud.com'],
+            ['email' => 'administrator@rsud.com'],
             [
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password'),
@@ -48,7 +48,7 @@ class AdminUserSeeder extends Seeder
         $admin2->assignRole($adminRole);
 
         $this->command->info('Admin accounts created:');
-        $this->command->info('Super Admin: superadmin@rsud.com / password');
+        $this->command->info('Super Admin: administrator@rsud.com / password');
         $this->command->info('Admin 1: admin1@rsud.com / password');
         $this->command->info('Admin 2: admin2@rsud.com / password');
     }
