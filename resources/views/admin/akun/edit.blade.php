@@ -14,8 +14,10 @@
 
                 {{-- Profile Header --}}
                 <div class="flex items-center gap-4 px-6 py-5 border-b border-zinc-100 dark:border-zinc-700">
-                    <div class="size-12 rounded-full bg-cover bg-center bg-zinc-200 shadow-sm"
-                        style="background-image: url('https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff')">
+                    <div class="px-1 py-4">
+                        <div class="size-10 rounded-full bg-zinc-200 dark:bg-zinc-700 bg-cover bg-center shadow-sm"
+                            style="background-image: url('https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff')">
+                        </div>
                     </div>
                     <div>
                         <p class="text-base font-semibold text-zinc-900 dark:text-white">{{ $user->name }}</p>
@@ -37,7 +39,7 @@
                             <flux:label for="name">Nama Lengkap</flux:label>
                             <flux:input id="name" name="name" value="{{ old('name', $user->name) }}" placeholder="Masukkan nama lengkap" required autofocus />
                             @error('name')
-                                <flux:error>{{ $message }}</flux:error>
+                            <flux:error>{{ $message }}</flux:error>
                             @enderror
                         </div>
 
@@ -47,19 +49,25 @@
                                 <flux:label for="email">Email</flux:label>
                                 <flux:input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" placeholder="contoh@email.com" required />
                                 @error('email')
-                                    <flux:error>{{ $message }}</flux:error>
+                                <flux:error>{{ $message }}</flux:error>
                                 @enderror
                             </div>
                             <div class="space-y-1.5">
                                 <flux:label for="role">Role</flux:label>
-                                <flux:select id="role" name="role" :value="old('role', $userRole->id ?? '')">
-                                    <flux:select.option value="">-- Tidak ada role --</flux:select.option>
+                                <select
+                                    id="role"
+                                    name="role"
+                                    class="block w-full rounded-lg border-0 bg-zinc-200 dark:bg-zinc-800/50 px-3 py-2.5 text-zinc-900 dark:text-white shadow-sm ring-1 ring-inset ring-zinc-300 dark:ring-zinc-700 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500 sm:text-sm sm:leading-6">
+                                    <option value="">-- Tidak ada role --</option>
                                     @foreach($roles as $role)
-                                        <flux:select.option value="{{ $role->id }}">{{ $role->name }}</flux:select.option>
+                                    <option value="{{ $role->id }}"
+                                        {{ old('role', $userRole->id ?? '') == $role->id ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
                                     @endforeach
-                                </flux:select>
+                                </select>
                                 @error('role')
-                                    <flux:error>{{ $message }}</flux:error>
+                                <flux:error>{{ $message }}</flux:error>
                                 @enderror
                             </div>
                         </div>
