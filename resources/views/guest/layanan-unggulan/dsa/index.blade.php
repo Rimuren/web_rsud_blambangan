@@ -105,12 +105,17 @@
         </div>
     </section>
 
-    {{-- MANFAAT LAYANAN & PROSEDUR PEMERIKSAAN --}}
-    <section class="px-6 py-14 md:px-20">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row gap-12">
+ {{-- MANFAAT LAYANAN & PROSEDUR PEMERIKSAAN --}}
+<section class="px-6 py-10 md:px-20">
+    <div class="max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-12">
+                {{-- Manfaat Layanan --}}
                 <div class="flex-1">
-                    <h2 class="text-xl font-black text-[#0d2d5e] section-border-left mb-6">Manfaat Layanan</h2>
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Manfaat Layanan</h2>
+                        <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full"></div>
+                    </div>
                     <div class="space-y-4">
                         @php
                             $benefits = [
@@ -121,19 +126,23 @@
                             ];
                         @endphp
                         @foreach ($benefits as $benefit)
-                        <div class="check-item">
-                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                                <circle cx="11" cy="11" r="9.5" stroke="#374151" stroke-width="1.6" fill="none"/>
-                                <path d="M7 11 L10 14 L15 8" stroke="#374151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <div class="flex items-start gap-3">
+                            <svg class="flex-shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#0d2d5e" stroke-width="1.5" fill="none"/>
+                                <path d="M8 12 L11 15 L16 9" stroke="#e05a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span>{{ $benefit }}</span>
+                            <span class="text-gray-700 text-base md:text-lg">{{ $benefit }}</span>
                         </div>
                         @endforeach
                     </div>
                 </div>
 
+                {{-- Prosedur Pemeriksaan --}}
                 <div class="flex-1">
-                    <h2 class="text-xl font-black text-[#0d2d5e] section-border-left mb-6">Prosedur Pemeriksaan</h2>
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Prosedur Pemeriksaan</h2>
+                        <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full"></div>
+                    </div>
                     <div class="space-y-4">
                         @php
                             $procedures = [
@@ -144,19 +153,20 @@
                             ];
                         @endphp
                         @foreach ($procedures as $procedure)
-                        <div class="check-item">
-                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                                <circle cx="11" cy="11" r="9.5" stroke="#374151" stroke-width="1.6" fill="none"/>
-                                <path d="M7 11 L10 14 L15 8" stroke="#374151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <div class="flex items-start gap-3">
+                            <svg class="flex-shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#0d2d5e" stroke-width="1.5" fill="none"/>
+                                <path d="M8 12 L11 15 L16 9" stroke="#e05a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span>{{ $procedure }}</span>
+                            <span class="text-gray-700 text-base md:text-lg">{{ $procedure }}</span>
                         </div>
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     {{-- TIM DOKTER SPESIALIS --}}
     <section class="px-6 py-12 md:px-20">
