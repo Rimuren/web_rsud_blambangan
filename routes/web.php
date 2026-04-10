@@ -88,6 +88,24 @@ Route::get('/informasi/petunjuk-umum', function () {
     return view('guest.informasi.petunjuk-umum.index');
 })->name('guest.informasi.petunjuk-umum.index');
 
+Route::get('/profil', function () {
+    return view('guest.profil.index');
+})->name('guest.profil.index');
+
+Route::get('/artikel', function () {
+    return view('guest.artikel.index');
+})->name('guest.artikel.index');
+
+Route::prefix('galeri')->group(function () {
+    Route::get('/foto', function () {
+        return view('guest.galeri.foto.index');
+    })->name('guest.galeri.foto.index');
+    
+    Route::get('/video', function () {
+        return view('guest.galeri.video.index');
+    })->name('guest.galeri.video.index');
+});
+
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
