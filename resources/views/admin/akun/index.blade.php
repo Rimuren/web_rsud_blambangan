@@ -3,6 +3,8 @@
         {{ __('Manajemen User') }}
     </x-slot:header>
 
+    @can('view daftar-akun')
+
     <div class="p-4 md:p-6 lg:p-8">
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -10,12 +12,14 @@
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola akses dan akun pengguna untuk panel sistem rumah sakit.</p>
             </div>
             <div>
+                @can('create akun')
                 <a href="{{ route('admin.akun.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah User
                     </flux:button>
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -60,28 +64,26 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
-                                    @php
-                                    $isSuperAdmin = $user->roles->contains('name', 'Super Admin');
-                                    $currentIsSuperAdmin = auth()->user()->roles->contains('name', 'Super Admin');
-                                    @endphp
-
-                                    @if(!$isSuperAdmin || ($isSuperAdmin && $currentIsSuperAdmin))
+                                    @if($user->can_edit_reset)
+                                    @can('edit akun')
                                     <a href="{{ route('admin.akun.edit', $user->id) }}" title="Edit">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </a>
-                                    @endif
+                                    @endcan
 
-                                    @if(!$isSuperAdmin || ($isSuperAdmin && $currentIsSuperAdmin))
+                                    @can('reset password')
                                     <a href="{{ route('admin.akun.reset-password.form', $user->id) }}" title="Reset Password">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </a>
+                                    @endcan
                                     @endif
 
-                                    @if(!$isSuperAdmin)
+                                    @if($user->can_delete)
+                                    @can('delete akun')
                                     <form action="{{ route('admin.akun.destroy', $user->id) }}" method="POST" class="inline-block delete-user-form">
                                         @csrf
                                         @method('DELETE')
@@ -89,6 +91,7 @@
                                             <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </form>
+                                    @endcan
                                     @endif
                                 </div>
                             </td>
@@ -115,6 +118,7 @@
         </flux:card>
     </div>
 
+    @can('delete akun')
     <script>
         // Konfirmasi hapus user
         document.querySelectorAll('.delete-user-form').forEach(form => {
@@ -125,4 +129,8 @@
             });
         });
     </script>
+    @endcan
+    @else
+    <div class="p-4 text-red-600">Anda tidak memiliki izin untuk mengakses halaman ini.</div>
+    @endcan
 </x-layouts::app>
