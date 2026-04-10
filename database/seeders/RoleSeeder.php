@@ -15,6 +15,12 @@ class RoleSeeder extends Seeder
     public function run()
     {
         // Create roles
+
+        $MasterRole = Role::firstOrCreate([
+            'name' => 'Master',
+            'guard_name' => 'web'
+        ]);
+
         $superAdminRole = Role::firstOrCreate([
             'name' => 'Super Admin',
             'guard_name' => 'web'
@@ -30,10 +36,11 @@ class RoleSeeder extends Seeder
         }
 
         // Assign all permissions to Super Admin
+        $MasterRole->syncPermissions(Permission::all());
         $superAdminRole->syncPermissions(Permission::all());
         $adminRole->syncPermissions(Permission::all());
 
-        $this->command->info('Roles created: Super Admin, Admin');
-        $this->command->info('Super Admin has all permissions.');
+        $this->command->info('Roles created: Master, Super Admin, Admin');
+        $this->command->info('Master and Super Admin has all permissions.');
     }
 }

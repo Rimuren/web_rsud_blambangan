@@ -44,7 +44,7 @@
     <div class="mb-10 space-y-6">
         <div class="max-w-2xl mx-auto">
             <div class="relative">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">search</span>
+                <span class="material-symbols-outlined absolute left-4 top-10 -translate-y-1/2 text-primary">search</span>
                 <input type="text" class="block w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-700 dark:text-slate-200" placeholder="Cari nama dokter atau spesialisasi...">
             </div>
         </div>

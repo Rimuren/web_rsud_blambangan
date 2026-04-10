@@ -10,47 +10,47 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('guest.home.index');
-})->name('guest.home.index');;
+})->name('guest.home');;
 
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
-})->name('guest.info-kamar.index');;
+})->name('guest.info-kamar');;
 
 Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
-})->name('guest.daftar-dokter.index');;
+})->name('guest.daftar-dokter');;
 
 Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
-})->name('guest.layanan-rawat-inap.index');
+})->name('guest.layanan-rawat-inap');
 
 Route::get('/layanan-igd', function () {
     return view('guest.layanan-igd.index');
-})->name('guest.layanan-igd.index');
+})->name('guest.layanan-igd');
 
 Route::get('/layanan-rawat-jalan', function () {
     return view('guest.layanan-rawat-jalan.index');
-})->name('guest.layanan-rawat-jalan.index');
+})->name('guest.layanan-rawat-jalan');
 
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
-})->name('guest.layanan-unggulan.index');;
+})->name('guest.layanan-unggulan');;
 
 Route::get('/layanan-unggulan/cathlab', function () {
     return view('guest.layanan-unggulan.cathlab.index');
-})->name('guest.layanan-unggulan.cathlab.index');
+})->name('guest.layanan-unggulan.cathlab');
 
 Route::get('/layanan-unggulan/hemodialysis', function () {
     return view('guest.layanan-unggulan.hemodialysis.index');
-})->name('guest.layanan-unggulan.hemodialysis.index');
+})->name('guest.layanan-unggulan.hemodialysis');
 
 Route::get('/layanan-unggulan/oncology', function () {
     return view('guest.layanan-unggulan.oncology.index');
-})->name('guest.layanan-unggulan.oncology.index');
+})->name('guest.layanan-unggulan.oncology');
 
 Route::get('/layanan-unggulan/dsa', function () {
     return view('guest.layanan-unggulan.dsa.index');
-})->name('guest.layanan-unggulan.dsa.index');
+})->name('guest.layanan-unggulan.dsa');
 
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
@@ -71,6 +71,22 @@ Route::get('/guest/index', function () {
 Route::get('/informasi/alur-persyaratan', function () {
     return view('guest.informasi.alur-persyaratan.index');
 })->name('guest.informasi.alur-persyaratan.index');
+
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
+
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
+
+Route::get('/informasi/ikm', function () {
+    return view('guest.informasi.ikm.index');
+})->name('guest.informasi.ikm.index');
+
+Route::get('/informasi/petunjuk-umum', function () {
+    return view('guest.informasi.petunjuk-umum.index');
+})->name('guest.informasi.petunjuk-umum.index');
 
 Route::view('/admin', 'welcome')->name('home');
 

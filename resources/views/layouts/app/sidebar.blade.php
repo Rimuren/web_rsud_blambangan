@@ -46,7 +46,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view kategori')
+                @can('view daftar-kategori')
                 <flux:sidebar.item
                     :href="route('admin.artikel.kategori.index')"
                     :current="request()->routeIs('admin.artikel.kategori.*')"
@@ -69,7 +69,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view role')
+                @can('view daftar-role')
                 <flux:sidebar.item
                     :href="route('admin.akun.role.index')"
                     :current="request()->routeIs('admin.akun.role.index')"
@@ -83,7 +83,7 @@
             {{-- Manajemen Dokumentasi --}}
             @can('manage dokumentasi')
             <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
-                @can('view foto')
+                @can('view daftar-foto')
                 <flux:sidebar.item
                     :href="route('admin.dokumentasi.foto')"
                     :current="request()->routeIs('admin.dokumentasi.foto')"
@@ -92,7 +92,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view video')
+                @can('view daftar-video')
                 <flux:sidebar.item
                     :href="route('admin.dokumentasi.video')"
                     :current="request()->routeIs('admin.dokumentasi.video')"
