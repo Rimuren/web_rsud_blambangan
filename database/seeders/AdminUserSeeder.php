@@ -11,12 +11,24 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
+        $MasterRole = Role::firstOrCreate(['name' => 'Master','guard_name' => 'web']);
         $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
         $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
 
         // Super Admin
+
+        $MasterAdmin = User::firstOrCreate(
+            ['email' => 'master@rsud.com'],
+            [
+                'name' => 'Master Administrator',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $MasterAdmin->assignRole($MasterRole);
+
         $superAdmin = User::firstOrCreate(
-            ['email' => 'superadmin@rsud.com'],
+            ['email' => 'administrator@rsud.com'],
             [
                 'name' => 'Super Administrator',
                 'password' => Hash::make('password'),
@@ -48,7 +60,8 @@ class AdminUserSeeder extends Seeder
         $admin2->assignRole($adminRole);
 
         $this->command->info('Admin accounts created:');
-        $this->command->info('Super Admin: superadmin@rsud.com / password');
+        $this->command->info('Master : master@rsud.com / password');
+        $this->command->info('Super Admin: administrator@rsud.com / password');
         $this->command->info('Admin 1: admin1@rsud.com / password');
         $this->command->info('Admin 2: admin2@rsud.com / password');
     }

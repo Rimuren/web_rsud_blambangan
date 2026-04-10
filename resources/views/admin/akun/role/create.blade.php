@@ -27,16 +27,19 @@
                                     placeholder="Masukkan nama role"
                                     required />
                                 @error('name')
-                                    <flux:error>{{ $message }}</flux:error>
+                                <flux:error>{{ $message }}</flux:error>
                                 @enderror
                             </div>
 
                             {{-- Permissions --}}
                             <div class="space-y-1.5">
                                 <flux:label>Permissions</flux:label>
-                                <div class="border border-zinc-200 dark:border-zinc-700 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 max-h-72 overflow-y-auto p-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                        @foreach($permissions as $perm)
+                                <div class="border border-zinc-200 dark:border-zinc-700 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 max-h-96 overflow-y-auto p-4">
+                                    @foreach($groupedPermissions as $groupName => $perms)
+                                    <div class="mb-4 last:mb-0">
+                                        <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">{{ $groupName }}</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            @foreach($perms as $perm)
                                             <label class="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 cursor-pointer transition-colors">
                                                 <input
                                                     type="checkbox"
@@ -46,11 +49,13 @@
                                                     {{ in_array($perm->id, old('permissions', [])) ? 'checked' : '' }}>
                                                 <span class="text-sm text-zinc-700 dark:text-zinc-300">{{ $perm->name }}</span>
                                             </label>
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                     </div>
+                                    @endforeach
                                 </div>
                                 @error('permissions')
-                                    <flux:error>{{ $message }}</flux:error>
+                                <flux:error>{{ $message }}</flux:error>
                                 @enderror
                             </div>
                         </div>

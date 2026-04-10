@@ -29,7 +29,7 @@ class PermissionSeeder extends Seeder
         'delete artikel',
 
         // Kategori artikel permissions
-        'view kategori',
+        'view daftar-kategori',
         'create kategori',
         'edit kategori',
         'delete kategori',
@@ -42,19 +42,19 @@ class PermissionSeeder extends Seeder
         'delete akun',
 
         // Role permissions
-        'view role',
+        'view daftar-role',
         'create role',
         'edit role',
         'delete role',
 
         // Foto permissions
-        'view foto',
+        'view daftar-foto',
         'create foto',
         'edit foto',
         'delete foto',
 
         // Video permissions
-        'view video',
+        'view daftar-video',
         'create video',
         'edit video',
         'delete video',
@@ -64,7 +64,7 @@ class PermissionSeeder extends Seeder
         'view daftar-spesialis',
 
         // Ruangan permissions
-        'view bangsal',
+        'view daftar-bangsal',
         'view daftar-kelas',
         
     ];
