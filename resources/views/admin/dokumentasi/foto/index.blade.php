@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="p-4 md:p-6 lg:p-8">
-    <!-- Header Section -->
+    {{-- Header Section --}}
     <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
             <h1 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen Dokumentasi</h1>
@@ -16,7 +16,7 @@
         </button>
     </div>
 
-    <!-- Tabs -->
+    {{-- Tabs --}}
     <div class="border-b border-zinc-200 dark:border-zinc-800 mb-8">
         <div class="-mb-px flex space-x-8">
             <a href="#" class="pb-4 text-sm font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 whitespace-nowrap flex items-center gap-2">
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <!-- Table Card -->
+    {{-- Table Card --}}
     <flux:card class="overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -42,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
-                    <!-- Row 1 -->
+                    {{-- Row 1 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">
@@ -79,7 +79,7 @@
                         </td>
                     </tr>
 
-                    <!-- Row 2 -->
+                    {{-- Row 2 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">
@@ -116,7 +116,7 @@
                         </td>
                     </tr>
 
-                    <!-- Row 3 -->
+                    {{-- Row 3 --}}
                     <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                         <td class="px-6 py-4 align-top">
                             <div class="w-36 aspect-video rounded-lg bg-zinc-100 dark:bg-zinc-700 relative overflow-hidden group">

@@ -1,34 +1,56 @@
 <?php
 
 use App\Http\Controllers\DokterController;
-use Illuminate\Support\Facades\Route;
-use App\Services\RsudApiService;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KategoriArtikelController;
 
-// Route::view('/', 'welcome')->name('home');
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('guest.home.index');
-})->name('guest.home.index');;
+})->name('guest.home');;
 
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
-})->name('guest.info-kamar.index');;
+})->name('guest.info-kamar');;
 
 Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
-})->name('guest.daftar-dokter.index');;
+})->name('guest.daftar-dokter');;
+
+Route::get('/layanan-rawat-inap', function () {
+    return view('guest.layanan-rawat-inap.index');
+})->name('guest.layanan-rawat-inap');
+
+Route::get('/layanan-igd', function () {
+    return view('guest.layanan-igd.index');
+})->name('guest.layanan-igd');
+
+Route::get('/layanan-rawat-jalan', function () {
+    return view('guest.layanan-rawat-jalan.index');
+})->name('guest.layanan-rawat-jalan');
 
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
-})->name('guest.layanan-unggulan.index');;
+})->name('guest.layanan-unggulan');;
 
 Route::get('/layanan-unggulan/cathlab', function () {
     return view('guest.layanan-unggulan.cathlab.index');
-})->name('guest.layanan-unggulan.cathlab.index');
+})->name('guest.layanan-unggulan.cathlab');
 
 Route::get('/layanan-unggulan/hemodialysis', function () {
     return view('guest.layanan-unggulan.hemodialysis.index');
-})->name('guest.layanan-unggulan.hemodialysis.index');
+})->name('guest.layanan-unggulan.hemodialysis');
+
+Route::get('/layanan-unggulan/oncology', function () {
+    return view('guest.layanan-unggulan.oncology.index');
+})->name('guest.layanan-unggulan.oncology');
+
+Route::get('/layanan-unggulan/dsa', function () {
+    return view('guest.layanan-unggulan.dsa.index');
+})->name('guest.layanan-unggulan.dsa');
 
 Route::get('/dokter/spesialis', function() {
     return view('dokter.spesialis');
@@ -42,31 +64,85 @@ Route::get('/artikel/index', function() {
     return view('artikel.index');
 })->name('artikel.index');;
 
+Route::get('/guest/index', function () {
+    return view('guest.index');
+})->name('guest.index');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+Route::get('/informasi/alur-persyaratan', function () {
+    return view('guest.informasi.alur-persyaratan.index');
+})->name('guest.informasi.alur-persyaratan.index');
 
-    Route::view('/admin/artikel/index','admin.artikel.index')->name('admin.artikel.index');
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
 
-    Route::view('/admin/artikel/kategori/index','admin.artikel.kategori.index')->name('admin.artikel.kategori.index');
+Route::get('/informasi/tarif', function () {
+    return view('guest.informasi.tarif.index');
+})->name('guest.informasi.tarif.index');
 
-    Route::view('/admin/akun', 'admin.akun.index')->name('admin.akun.index');
+Route::get('/informasi/ikm', function () {
+    return view('guest.informasi.ikm.index');
+})->name('guest.informasi.ikm.index');
+
+Route::get('/informasi/petunjuk-umum', function () {
+    return view('guest.informasi.petunjuk-umum.index');
+})->name('guest.informasi.petunjuk-umum.index');
+
+Route::view('/admin', 'welcome')->name('home');
+
+Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     
-    Route::view('/admin/akun/role', 'admin.akun.role.index')->name('admin.akun.role.index');
+    
+    Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+    
+    // ROUTE ARTIKEL
+    Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
+    Route::get('/admin/artikel/create', function () {return view('admin.artikel.create');})->name('admin.artikel.create');
 
- // Route::view('/admin/dokter', 'admin.dokter.index')->name('admin.dokter.index');
-    Route::get('/admin/dokter', [DokterController::class, 'index'])->name('admin.dokter.index');
+    // ROUTE KATEGORI
+    Route::controller(KategoriArtikelController::class)->prefix('artikel/kategori')->group(function () {
+        Route::get('/', 'index')->name('admin.artikel.kategori.index');
+        Route::get('/create', 'create')->name('admin.artikel.kategori.create');
+        Route::post('/', 'store')->name('admin.artikel.kategori.store');
+        Route::get('/{kategori}/edit', 'edit')->name('admin.artikel.kategori.edit');
+        Route::put('/{kategori}', 'update')->name('admin.artikel.kategori.update');
+        Route::delete('/{kategori}', 'destroy')->name('admin.artikel.kategori.destroy');
+    });
 
-    Route::view('/admin/dokumentasi/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
-    Route::view('/admin/dokumentasi/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
+    // ROUTE AKUN
+    Route::controller(UserController::class)->prefix('akun')->group(function () {
+        Route::get('/', 'index')->name('admin.akun.index');
+        Route::get('/create', 'create')->name('admin.akun.create');
+        Route::post('/', 'store')->name('admin.akun.store');
+        Route::get('/{user}/edit', 'edit')->name('admin.akun.edit');
+        Route::put('/{user}', 'update')->name('admin.akun.update');
+        Route::delete('/{user}', 'destroy')->name('admin.akun.destroy');
+        Route::get('/{user}/reset-password', 'resetPasswordForm')->name('admin.akun.reset-password.form');
+        Route::patch('/{user}/reset-password', 'resetPassword')->name('admin.akun.reset-password');
+    });
 
-Route::get('/admin/artikel/create', function () 
-    { 
-        return view('admin.artikel.create');
-    })->name('admin.artikel.create');
+    // ROUTE ROLE
+    Route::controller(RoleController::class)->prefix('akun/role')->group(function () {
+        Route::get('/', 'index')->name('admin.akun.role.index');
+        Route::get('/create', 'create')->name('admin.akun.role.create');
+        Route::post('/', 'store')->name('admin.akun.role.store');
+        Route::get('/{role}/edit', 'edit')->name('admin.akun.role.edit');
+        Route::put('/{role}', 'update')->name('admin.akun.role.update');
+        Route::delete('/{role}', 'destroy')->name('admin.akun.role.destroy');
+    });
+
+    // ROUTE DOKTER
+    Route::controller(DokterController::class)->prefix('dokter')->group(function () {
+        Route::get('/', 'index')->name('admin.dokter.index');
+    });
+
+    // Dokumentasi foto & video
+    Route::prefix('dokumentasi')->group(function () {
+        Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
+        Route::view('/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
+        Route::view('/foto/create', 'admin.dokumentasi.foto.create')->name('admin.dokumentasi.foto.create');
+    });
 });
-
-
 
 // Route::get('/test-api-dokter', function () {
 //     $apiService = new RsudApiService();
@@ -92,4 +168,4 @@ Route::get('/admin/artikel/create', function ()
 //     return response()->json($data);
 // });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
