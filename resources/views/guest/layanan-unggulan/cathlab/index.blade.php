@@ -72,7 +72,7 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
                                 <polygon points="7,4 20,12 7,20"/>
                             </svg>
-                            Tonton Video Fasilitas Cath Lab
+                            Tonton Video Cath Lab Kami
                         </a>
                     </div>
                 </div>
