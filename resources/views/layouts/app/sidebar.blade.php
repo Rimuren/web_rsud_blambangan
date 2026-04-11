@@ -116,7 +116,10 @@
                 @endcan
 
                 @can('view daftar-spesialis')
-                <flux:sidebar.item href="#">
+                <flux:sidebar.item
+                    :href="route('admin.dokter.spesialis.index')"
+                    :current="request()->routeIs('admin.dokter.spesialis.index')"
+                    wire:navigate>
                     Daftar Spesialis
                 </flux:sidebar.item>
                 @endcan
