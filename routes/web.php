@@ -14,35 +14,35 @@ Route::get('/', function () {
 
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
-})->name('guest.info-kamar');;
+})->name('guest.info-kamar.index');;
 
 Route::get('/daftar-dokter', function () {
     return view('guest.daftar-dokter.index');
-})->name('guest.daftar-dokter');;
+})->name('guest.daftar-dokter.index');;
 
 Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
-})->name('guest.layanan-rawat-inap');
+})->name('guest.layanan-rawat-inap.index');
 
 Route::get('/layanan-igd', function () {
     return view('guest.layanan-igd.index');
-})->name('guest.layanan-igd');
+})->name('guest.layanan-igd.index');
 
 Route::get('/layanan-rawat-jalan', function () {
     return view('guest.layanan-rawat-jalan.index');
-})->name('guest.layanan-rawat-jalan');
+})->name('guest.layanan-rawat-jalan.index');
 
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
-})->name('guest.layanan-unggulan');;
+})->name('guest.layanan-unggulan.index');;
 
 Route::get('/layanan-unggulan/cathlab', function () {
     return view('guest.layanan-unggulan.cathlab.index');
-})->name('guest.layanan-unggulan.cathlab');
+})->name('guest.layanan-unggulan.cathlab.index');
 
 Route::get('/layanan-unggulan/hemodialysis', function () {
     return view('guest.layanan-unggulan.hemodialysis.index');
-})->name('guest.layanan-unggulan.hemodialysis');
+})->name('guest.layanan-unggulan.hemodialysis.index');
 
 Route::get('/layanan-unggulan/oncology', function () {
     return view('guest.layanan-unggulan.oncology.index');
@@ -87,6 +87,24 @@ Route::get('/informasi/ikm', function () {
 Route::get('/informasi/petunjuk-umum', function () {
     return view('guest.informasi.petunjuk-umum.index');
 })->name('guest.informasi.petunjuk-umum.index');
+
+Route::get('/profil', function () {
+    return view('guest.profil.index');
+})->name('guest.profil.index');
+
+Route::get('/artikel', function () {
+    return view('guest.artikel.index');
+})->name('guest.artikel.index');
+
+Route::prefix('galeri')->group(function () {
+    Route::get('/foto', function () {
+        return view('guest.galeri.foto.index');
+    })->name('guest.galeri.foto.index');
+    
+    Route::get('/video', function () {
+        return view('guest.galeri.video.index');
+    })->name('guest.galeri.video.index');
+});
 
 Route::view('/admin', 'welcome')->name('home');
 

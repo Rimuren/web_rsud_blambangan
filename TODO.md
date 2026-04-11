@@ -1,17 +1,27 @@
-# Task: Update admin/artikel/create.blade.php with Flux UI + Sidebar Layout
+# Task: Add routes to guest header menu items and dropdowns
 
-## Steps:
-# Task Completed: admin/artikel/create.blade.php updated with clean Flux UI
+## Steps to complete:
 
-✅ **Changes Applied:**
-- Clean Flux layout with sidebar integration
-- Only existing Flux icons used (image, plus, trash, pencil)
-- Custom SVG icons for editor toolbar (bold, italic, lists, align, link)
-- Functional WYSIWYG editor with document.execCommand
-- Proper form structure with @csrf, file upload
-- Responsive design matching index.blade.php
-- Clean JS for formatting, link/image prompts
+### 1. [x] Add missing routes to routes/web.php
+- Add routes for Profil, Artikel public, Galeri Foto/Video
+- Ensure all Layanan/Informasi routes exist
 
-**Test:** `php artisan serve` → visit /admin/artikel/create
+### 2. [x] Create stub views for missing pages
+- guest/profil/index.blade.php
+- guest/artikel/index.blade.php  
+- guest/galeri/foto/index.blade.php
+- guest/galeri/video/index.blade.php
 
-**Next:** Backend integration (controller/store route)
+### 3. [x] Update resources/views/partials/guest/header.blade.php
+- Replace all href="#" with {{ route('name') }}
+
+### 4. [ ] Test all navigation links
+- Check guest pages load correctly
+- Verify dropdown functionality
+
+### 5. [ ] Clear route cache
+- php artisan route:clear
+- php artisan route:cache
+
+**Progress: 3/5 completed**
+

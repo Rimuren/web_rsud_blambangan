@@ -18,9 +18,10 @@
             {{-- Desktop Menu --}}
             <div class="hidden md:flex space-x-5 text-gray-700 font-medium">
                 <a href="#" class="hover:text-blue-700 transition">Profil</a>
-                <a href="#" class="hover:text-blue-700 transition">Dokter & Jadwal</a>
-                <a href="#" class="hover:text-blue-700 transition">Info Kamar</a>
-                <a href="#" class="hover:text-blue-700 transition">Artikel</a>
+                <a href="{{ route('guest.profil.index') }}" class="hover:text-blue-700 transition">Profil</a>
+                <a href="{{ route('guest.daftar-dokter.index') }}" class="hover:text-blue-700 transition">Dokter & Jadwal</a>
+                <a href="{{ route('guest.info-kamar.index') }}" class="hover:text-blue-700 transition">Info Kamar</a>
+                <a href="{{ route('guest.artikel.index') }}" class="hover:text-blue-700 transition">Artikel</a>
 
                 {{-- Layanan Dropdown --}}
                 <div class="relative group">
@@ -33,11 +34,11 @@
                     <div class="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
                         <div class="bg-white rounded-[15px] shadow-xl border border-gray-100 overflow-hidden">
                             <ul class="py-2 text-sm">
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Rawat Inap</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Unggulan</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Rawat Jalan</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan IGD</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan MCU</a></li>
+                            <a href="{{ route('guest.layanan-rawat-inap.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Rawat Inap</a>
+                            <a href="{{ route('guest.layanan-unggulan.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Unggulan</a>
+                            <a href="{{ route('guest.layanan-rawat-jalan.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan Rawat Jalan</a>
+                            <a href="{{ route('guest.layanan-igd.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan IGD</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Layanan MCU</a>
                             </ul>
                         </div>
                     </div>
@@ -54,11 +55,11 @@
                     <div class="absolute left-0 pt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
                         <div class="bg-white rounded-[15px] shadow-xl border border-gray-100 overflow-hidden">
                             <ul class="py-2 text-sm">
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Alur dan Persyaratan</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Tarif</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Petunjuk Umum</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Indeks Kepuasan Masyarakat</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">SAKIP</a></li>
+                            <a href="{{ route('guest.informasi.alur-persyaratan.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Alur dan Persyaratan</a>
+                            <a href="{{ route('guest.informasi.tarif.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Tarif</a>
+                            <a href="{{ route('guest.informasi.petunjuk-umum.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Petunjuk Umum</a>
+                            <a href="{{ route('guest.informasi.ikm.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Indeks Kepuasan Masyarakat</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">SAKIP</a>
                             </ul>
                         </div>
                     </div>
@@ -87,19 +88,19 @@
         {{-- Mobile Menu --}}
         <div id="mobile-menu" class="md:hidden hidden mt-4 border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)]">
             <div class="py-2 space-y-1">
-                <a href="#" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
+                    <a href="{{ route('guest.profil.index') }}" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                     <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                     Profil
                 </a>
-                <a href="#" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
+                    <a href="{{ route('guest.daftar-dokter.index') }}" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                     <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                     Dokter & Jadwal
                 </a>
-                <a href="#" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
+                    <a href="{{ route('guest.info-kamar.index') }}" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
                     <svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                     </svg>
@@ -126,10 +127,10 @@
                         </svg>
                     </button>
                     <div id="mobile-layanan-menu" class="hidden ml-7 mt-1 space-y-1">
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Rawat Inap</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Unggulan</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Rawat Jalan</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan IGD</a>
+                    <a href="{{ route('guest.layanan-rawat-inap.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Rawat Inap</a>
+                    <a href="{{ route('guest.layanan-unggulan.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Unggulan</a>
+                    <a href="{{ route('guest.layanan-rawat-jalan.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan Rawat Jalan</a>
+                    <a href="{{ route('guest.layanan-igd.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan IGD</a>
                         <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Layanan MCU</a>
                     </div>
                 </div>
@@ -148,10 +149,10 @@
                         </svg>
                     </button>
                     <div id="mobile-informasi-menu" class="hidden ml-7 mt-1 space-y-1">
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Alur dan Persyaratan</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Tarif</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Petunjuk Umum</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Indeks Kepuasan Masyarakat</a>
+                        <a href="{{ route('guest.informasi.alur-persyaratan.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Alur dan Persyaratan</a>
+                        <a href="{{ route('guest.informasi.tarif.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Tarif</a>
+                        <a href="{{ route('guest.informasi.petunjuk-umum.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Petunjuk Umum</a>
+                        <a href="{{ route('guest.informasi.ikm.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Indeks Kepuasan Masyarakat</a>
                         <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">SAKIP</a>
                     </div>
                 </div>
@@ -170,8 +171,8 @@
                         </svg>
                     </button>
                     <div id="mobile-galeri-menu" class="hidden ml-7 mt-1 space-y-1">
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Foto</a>
-                        <a href="#" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Video</a>
+                    <a href="{{ route('guest.galeri.foto.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Foto</a>
+                    <a href="{{ route('guest.galeri.video.index') }}" class="block py-2 px-2 text-sm text-gray-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition pl-8">Video</a>
                     </div>
                 </div>
             </div>
