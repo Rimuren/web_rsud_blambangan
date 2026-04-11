@@ -53,12 +53,14 @@ Route::get('/layanan-unggulan/dsa', function () {
 })->name('guest.layanan-unggulan.dsa.index');
 
 Route::get('/dokter/spesialis', function() {
-    return view('dokter.spesialis');
-})->name('dokter.spesialis');;
+    return view('admin.dokter.spesialis.index');
+})->name('admin.dokter.spesialis.index');
+
 
 Route::get('/kamar/index', function() {
     return view('kamar.index');
 })->name('kamar.index');;
+
 
 Route::get('/artikel/index', function() {
     return view('artikel.index');
@@ -104,6 +106,7 @@ Route::prefix('galeri')->group(function () {
     Route::get('/video', function () {
         return view('guest.galeri.video.index');
     })->name('guest.galeri.video.index');
+
 });
 
 Route::view('/admin', 'welcome')->name('home');
