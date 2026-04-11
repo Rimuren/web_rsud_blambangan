@@ -18,9 +18,6 @@
             {{-- Desktop Menu --}}
             <div class="hidden md:flex space-x-5 text-gray-700 font-medium">
                 <a href="#" class="hover:text-blue-700 transition">Profil</a>
-                <a href="{{ route('guest.daftar-dokter') }}" class="hover:text-blue-700 transition"> Dokter & Jadwal </a>
-                <a href="{{ route('guest.info-kamar') }}" class="hover:text-blue-700 transition">Info Kamar</a>
-                <a href="#" class="hover:text-blue-700 transition">Artikel</a>
                 <a href="{{ route('guest.profil.index') }}" class="hover:text-blue-700 transition">Profil</a>
                 <a href="{{ route('guest.daftar-dokter.index') }}" class="hover:text-blue-700 transition">Dokter & Jadwal</a>
                 <a href="{{ route('guest.info-kamar.index') }}" class="hover:text-blue-700 transition">Info Kamar</a>
