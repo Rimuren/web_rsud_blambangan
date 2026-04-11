@@ -30,7 +30,7 @@
             <p class="text-white/80 text-xs md:text-sm font-medium tracking-widest uppercase mb-2 md:mb-3">Informasi & Layanan RSUD untuk Masyarakat</p>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 md:mb-5">RSUD<br>BLAMBANGAN</h1>
             <p class="text-white/90 text-sm md:text-base leading-relaxed mb-6 md:mb-8 max-w-md">Akses mudah layanan, jadwal dokter, dan informasi kesehatan dalam satu tempat.</p>
-            <a href="{{ route('guest.info-kamar') }}" class="bg-blue-600 hover:bg-blue-700 px-5 md:px-7 py-2.5 md:py-3 rounded-lg text-white font-semibold inline-block shadow-lg transition text-sm md:text-base">Lihat ketersediaan kamar</a>
+            <a href="{{ route('guest.info-kamar.index') }}" class="bg-blue-600 hover:bg-blue-700 px-5 md:px-7 py-2.5 md:py-3 rounded-lg text-white font-semibold inline-block shadow-lg transition text-sm md:text-base">Lihat ketersediaan kamar</a>
         </div>
     </div>
 </section>
@@ -116,12 +116,12 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-            @php
+@php
                 $services = [
-                    ['title' => 'Digital Subtraction Angiography', 'img' => 'dsa.jpg', 'route' => 'guest.layanan-unggulan.dsa'],
-                    ['title' => 'Cath Lab', 'img' => 'cathlab1.jpg', 'route' => 'guest.layanan-unggulan.cathlab'],
-                    ['title' => 'Hemodialysis Center', 'img' => 'hemodialysis.jpg', 'route' => 'guest.layanan-unggulan.hemodialysis'],
-                    ['title' => 'Oncology & Chemotherapy', 'img' => 'onco.jpg', 'route' => 'guest.layanan-unggulan.oncology'],
+                    ['title' => 'Digital Subtraction Angiography', 'img' => 'dsa.jpg', 'route' => 'guest.layanan-unggulan.dsa.index'],
+                    ['title' => 'Cath Lab', 'img' => 'cathlab1.jpg', 'route' => 'guest.layanan-unggulan.cathlab.index'],
+                    ['title' => 'Hemodialysis Center', 'img' => 'hemodialysis.jpg', 'route' => 'guest.layanan-unggulan.hemodialysis.index'],
+                    ['title' => 'Oncology & Chemotherapy', 'img' => 'onco.jpg', 'route' => 'guest.layanan-unggulan.oncology.index'],
                 ];
             @endphp
             @foreach ($services as $service)
