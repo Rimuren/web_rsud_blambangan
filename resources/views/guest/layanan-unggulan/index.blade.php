@@ -52,25 +52,25 @@
                         'name' => 'DSA',
                         'img' => 'images/icon-dsa.png',
                         'desc' => 'Pemeriksaan pembuluh darah dengan gambar tajam untuk mendiagnosis dan menangani penyempitan atau kelainan pembuluh darah secara minimal invasif.',
-                        'link' => route('guest.layanan-unggulan.dsa')
+                        'link' => route('guest.layanan-unggulan.dsa.index')
                     ],
                     [
                         'name' => 'Cath Lab',
                         'img' => 'images/icon-cathlab.png',
                         'desc' => 'Unit jantung canggih untuk tindakan darurat maupun terencana, seperti memasang ring jantung (stent) dan membuka pembuluh darah yang tersumbat.',
-                        'link' => route('guest.layanan-unggulan.cathlab')
+                        'link' => route('guest.layanan-unggulan.cathlab.index')
                     ],
                     [
                         'name' => 'Hemodialisis',
                         'img' => 'images/icon-hemo.png',
                         'desc' => 'Terapi cuci darah berkualitas dengan teknologi modern, didukung tim profesional yang selalu memantau kenyamanan dan keselamatan Anda.',
-                        'link' => route('guest.layanan-unggulan.hemodialysis')
+                        'link' => route('guest.layanan-unggulan.hemodialysis.index')
                     ],
                     [
                         'name' => 'Onkologi & Kemoterapi',
                         'img' => 'images/icon-onco.png',
                         'desc' => 'Penanganan kanker secara komprehensif, mulai dari tindakan bedah onkologi hingga kemoterapi modern, didukung tim multidisiplin yang peduli.',
-                        'link' => route('guest.layanan-unggulan.oncology')
+                        'link' => route('guest.layanan-unggulan.oncology.index')
                     ]
                 ];
             @endphp
