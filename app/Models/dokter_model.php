@@ -8,6 +8,9 @@ use App\Models\jadwal_dokter_model;
 
 class dokter_model extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'dokter';
     protected $fillable = [
         'nama', 

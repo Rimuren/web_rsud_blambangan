@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -121,14 +123,23 @@ Route::prefix('galeri')->group(function () {
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
-    Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+    
+    // ROUTE DASHBOARD ADMIN
+    Route::get('/admin/dashboard',[AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    // Artikel
-    Route::view('/admin/artikel/index', 'admin.artikel.index')->name('admin.artikel.index');
-    Route::view('/admin/artikel/create', 'admin.artikel.create')->name('admin.artikel.create');
+    // ROUTE ARTIKEL
+    Route::controller(ArtikelController::class)->prefix('admin/artikel')->group(function () {
+        Route::get('/', 'index')->name('admin.artikel.index');
+        Route::get('/create', 'create')->name('admin.artikel.create');
+        Route::post('/', 'store')->name('admin.artikel.store');
+        Route::get('/{id}/edit', 'edit')->name('admin.artikel.edit');
+        Route::put('/{id}', 'update')->name('admin.artikel.update');
+        Route::delete('/{id}', 'destroy')->name('admin.artikel.destroy');
+        Route::post('/upload-image', 'uploadImage')->name('admin.artikel.upload-image');
+    });
 
-    // Kategori Artikel
-    Route::controller(KategoriArtikelController::class)->prefix('artikel/kategori')->group(function () {
+    // ROUTE KATEGORI ARTIKEL
+    Route::controller(KategoriArtikelController::class)->prefix('admin/artikel/kategori')->group(function () {
         Route::get('/', 'index')->name('admin.artikel.kategori.index');
         Route::get('/create', 'create')->name('admin.artikel.kategori.create');
         Route::post('/', 'store')->name('admin.artikel.kategori.store');
@@ -137,8 +148,8 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::delete('/{kategori}', 'destroy')->name('admin.artikel.kategori.destroy');
     });
 
-    // Manajemen Akun
-    Route::controller(UserController::class)->prefix('akun')->group(function () {
+    // ROUTE AKUN
+    Route::controller(UserController::class)->prefix('admin/akun')->group(function () {
         Route::get('/', 'index')->name('admin.akun.index');
         Route::get('/create', 'create')->name('admin.akun.create');
         Route::post('/', 'store')->name('admin.akun.store');
@@ -149,8 +160,8 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::patch('/{user}/reset-password', 'resetPassword')->name('admin.akun.reset-password');
     });
 
-    // Manajemen Role
-    Route::controller(RoleController::class)->prefix('akun/role')->group(function () {
+    // ROUTE ROLE
+    Route::controller(RoleController::class)->prefix('admin/akun/role')->group(function () {
         Route::get('/', 'index')->name('admin.akun.role.index');
         Route::get('/create', 'create')->name('admin.akun.role.create');
         Route::post('/', 'store')->name('admin.akun.role.store');
@@ -159,13 +170,13 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::delete('/{role}', 'destroy')->name('admin.akun.role.destroy');
     });
 
-    // Dokter
-    Route::controller(DokterController::class)->prefix('dokter')->group(function () {
+    // ROUTE DOKTER
+    Route::controller(DokterController::class)->prefix('admin/dokter')->group(function () {
         Route::get('/', 'index')->name('admin.dokter.index');
     });
 
-    // Dokumentasi (Foto & Video)
-    Route::prefix('dokumentasi')->group(function () {
+    // Dokumentasi foto & video
+    Route::prefix('admin/dokumentasi')->group(function () {
         Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
         Route::view('/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
         Route::view('/foto/create', 'admin.dokumentasi.foto.create')->name('admin.dokumentasi.foto.create');
