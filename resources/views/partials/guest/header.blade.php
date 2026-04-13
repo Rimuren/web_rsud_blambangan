@@ -75,8 +75,8 @@
                     <div class="absolute left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
                         <div class="bg-white rounded-[15px] shadow-xl border border-gray-100 overflow-hidden">
                             <ul class="py-2 text-sm">
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Foto</a></li>
-                                <li><a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Video</a></li>
+                                <li><a href="{{ route('guest.galeri.foto.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Foto</a></li>
+                                <li><a href="{{ route('guest.galeri.video.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Video</a></li>
                             </ul>
                         </div>
                     </div>
