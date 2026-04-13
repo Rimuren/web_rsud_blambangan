@@ -47,7 +47,7 @@
         </button>
       </div>
 
-      <!-- TAB: TATA TERTIB -->
+      <!-- TAB: TATA TERTIB -->..
       <div id="content-tata-tertib" class="tab-content active">
         <div class="mb-8">
           <h2 class="text-3xl md:text-4xl font-extrabold text-[#0D2D5E]">Tata Tertib</h2>
