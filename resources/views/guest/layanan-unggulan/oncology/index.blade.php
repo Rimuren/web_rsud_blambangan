@@ -7,143 +7,148 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-    body { font-family: 'Nunito Sans', sans-serif; background: #fff; }
+    body { font-family: 'Nunito Sans', sans-serif; }
     .hero-bg { background-color: #dde8f0; }
-    .feature-card {
-        background: #f3f7fb;
-        border-radius: 18px;
-        padding: 28px 20px;
-        transition: all 0.2s ease;
-    }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1); }
-    .icon-wrap {
-        width: 48px; height: 48px;
-        background: #e4edf5;
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        margin-bottom: 18px;
-    }
-    .support-bg { background: #e8f0fb; border-radius: 24px; }
-    .support-card {
-        background: #fff;
-        border-radius: 14px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 18px 12px;
-        gap: 8px;
-        transition: all 0.2s;
-    }
-    .support-card:hover { transform: translateY(-3px); box-shadow: 0 5px 12px rgba(0,0,0,0.05); }
-    .cta-bg { background-color: #dde8f0; }
-    .check-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #4b6080; }
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
 </style>
 
 <div class="bg-white text-gray-800">
     {{-- HERO SECTION --}}
     <section class="hero-bg px-6 py-12 md:py-16 md:px-20">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-center">
             <div class="flex-1">
-                <h1 class="text-4xl md:text-5xl font-black text-[#0d2d5e] leading-tight">Oncology &</h1>
-                <h1 class="text-4xl md:text-5xl font-black text-[#e05a1a] leading-tight mb-6">Chemotherapy</h1>
-                <p class="text-gray-600 text-sm leading-relaxed max-w-sm mb-8">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[#0d2d5e] leading-tight">
+                    Oncology &
+                </h1>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[#e05a1a] leading-tight mb-4">
+                    Chemotherapy
+                </h1>
+                <p class="text-gray-600 text-base md:text-lg leading-relaxed max-w-md">
                     Kami memberikan perawatan kanker yang komprehensif, penuh kasih, dan canggih melalui kolaborasi bedah onkologi dan kemoterapi modern.
                 </p>
-                <button class="border border-[#0d2d5e] text-[#0d2d5e] text-sm font-bold px-6 py-3 rounded-lg bg-white hover:bg-[#0d2d5e] hover:text-white transition-all">
-                    Jadwal Dokter
-                </button>
             </div>
-            <div class="flex-shrink-1">
-                <img src="{{ asset('images/onco.jpg') }}" alt="Onkologi & Kemoterapi" class="w-full h-full max-w-sm rounded-lg shadow-md">
+            <div class="flex-1 flex justify-center">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-md">
+                    <img src="{{ asset('images/onco.jpg') }}" alt="Onkologi & Kemoterapi" class="w-full h-auto object-cover">
+                </div>
             </div>
         </div>
     </section>
 
-    {{-- PENJELASAN --}}
-<section class="px-6 py-8 md:px-20 bg-white">
-    <div class="max-w-4xl mx-auto text-center bg-blue-50 rounded-2xl p-6 md:p-8 border border-blue-100">
-        <h2 class="text-xl md:text-2xl font-black text-[#0d2d5e] mb-3">Apa Itu Onkologi dan Kemoterapi?</h2>
-        <p class="text-gray-700 text-sm md:text-base leading-relaxed">
-            <span class="font-bold text-[#0d2d5e]">Onkologi</span> adalah cabang ilmu kedokteran yang mempelajari kanker mulai dari diagnosis, pengobatan, hingga perawatan lanjutan. 
-            Sedangkan <span class="font-bold text-[#0d2d5e]">Kemoterapi</span> adalah salah satu metode pengobatan kanker dengan menggunakan obat-obatan khusus untuk membunuh sel kanker atau menghentikan perkembangannya. 
-            Kemoterapi bisa diberikan melalui infus atau tablet, dan biasanya dilakukan dalam beberapa siklus. Meskipun memiliki efek samping, tim medis kami akan selalu mendampingi Anda agar pengobatan berjalan senyaman mungkin.
-        </p>
-    </div>
-</section>
-
-{{-- DUKUNGAN PASIEN & KELUARGA --}}
-@php
-    $supportItems = [
-        ['icon' => 'psychology', 'label' => 'Counseling'],
-        ['icon' => 'restaurant_menu', 'label' => 'Dietary Plan'],
-        ['icon' => 'group', 'label' => 'Support Group'],
-        ['icon' => 'healing', 'label' => 'Palliative Care']
-    ];
-    $supportChecks = [
-        'Konsultasi Nutrisi Khusus Onkologi',
-        'Layanan Psikologi & Dukungan Emosional',
-        'Manajemen Nyeri (Pain Management)'
-    ];
-@endphp
-
-<section class="px-6 py-12 md:px-20 bg-white">
-    <div class="max-w-6xl mx-auto bg-[#eef4fb] rounded-3xl px-6 py-10 md:px-12 md:py-14">
-        <div class="flex flex-col md:flex-row items-center gap-12">
-            
-            {{-- LEFT CONTENT --}}
-            <div class="flex-1">
-                <h2 class="text-2xl md:text-3xl font-extrabold text-[#0d2d5e] leading-tight mb-4">
-                    Dukungan Pasien & Keluarga
-                </h2>
-
-                <p class="text-gray-600 text-sm md:text-base leading-relaxed mb-6 max-w-md">
-                    Kami memahami bahwa perjuangan melawan kanker tidak hanya secara medis. 
-                    Kami menyediakan dukungan menyeluruh mulai dari psikologis hingga nutrisi.
-                </p>
-
-                <div class="space-y-3">
-                    @foreach ($supportChecks as $check)
-                    <div class="flex items-start gap-3">
-                        <span class="material-symbols-outlined text-[#0d2d5e] text-lg mt-[2px]">check_circle</span>
-                        <span class="text-sm text-gray-700 leading-relaxed">{{ $check }}</span>
+    {{-- TENTANG ONKOLOGI & KEMOTERAPI --}}
+    <section class="px-6 py-10 md:px-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Tentang Onkologi & Kemoterapi</h2>
+                    <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full"></div>
+                </div>
+                <div class="space-y-4 text-gray-700 text-base md:text-lg leading-relaxed text-center">
+                    <p>
+                        <span class="font-bold text-[#0d2d5e]">Onkologi</span> adalah cabang ilmu kedokteran yang mempelajari kanker mulai dari diagnosis, pengobatan, hingga perawatan lanjutan. 
+                        Sedangkan <span class="font-bold text-[#0d2d5e]">Kemoterapi</span> adalah metode pengobatan kanker dengan obat-obatan khusus untuk membunuh sel kanker atau menghentikan perkembangannya.
+                    </p>
+                    <p>
+                        Kemoterapi dapat diberikan melalui infus atau tablet, biasanya dalam beberapa siklus. Tim medis kami selalu mendampingi Anda untuk meminimalkan efek samping dan memastikan pengobatan berjalan senyaman mungkin.
+                    </p>
+                    <div class="text-center pt-4">
+                        <a href="#" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                            Konsultasi Dokter
+                        </a>
                     </div>
-                    @endforeach
                 </div>
             </div>
-
-            {{-- RIGHT CARDS --}}
-            <div class="flex-shrink-1 w-full md:w-auto">
-                <div class="grid grid-cols-2 gap-5">
-                    @foreach ($supportItems as $item)
-                    <div class="bg-white rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition">
-                        <div class="w-12 h-12 flex items-center justify-center bg-[#e4edf5] rounded-xl mb-3">
-                            <span class="material-symbols-outlined text-[#0d2d5e] text-2xl">
-                                {{ $item['icon'] }}
-                            </span>
-                        </div>
-                        <span class="text-sm font-semibold text-[#0d2d5e]">
-                            {{ $item['label'] }}
-                        </span>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
+
+    {{-- LAYANAN & DUKUNGAN --}}
+    <section class="px-6 py-10 md:px-20">
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-[#e4ecf4] rounded-2xl px-6 py-8 md:px-8 md:py-10">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Dukungan Pasien & Keluarga</h2>
+                    <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full mb-4"></div>
+                    <p class="text-gray-500 text-sm md:text-base max-w-md mx-auto">
+                        Perjuangan melawan kanker tidak hanya medis. Kami menyediakan dukungan menyeluruh.
+                    </p>
+                </div>
+
+                @php
+                    $supportServices = [
+                        ['title' => 'Counseling', 'desc' => 'Dukungan psikologis dan konseling untuk pasien dan keluarga.'],
+                        ['title' => 'Dietary Plan', 'desc' => 'Rencana nutrisi khusus onkologi yang disusun oleh ahli gizi.'],
+                        ['title' => 'Support Group', 'desc' => 'Komunitas pasien untuk berbagi pengalaman dan motivasi.'],
+                        ['title' => 'Palliative Care', 'desc' => 'Perawatan paliatif untuk meningkatkan kualitas hidup.']
+                    ];
+                @endphp
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    @foreach ($supportServices as $index => $service)
+                    <div class="flex gap-4 items-start bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 bg-[#0d2d5e] rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-[#0d2d5e] text-base md:text-lg mb-1">{{ $service['title'] }}</h4>
+                            <p class="text-gray-500 text-sm md:text-base leading-relaxed">{{ $service['desc'] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- LAYANAN TAMBAHAN --}}
+    <section class="px-6 py-10 md:px-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Layanan Pendukung</h2>
+                    <div class="w-16 h-1 bg-[#e05a1a] mx-auto rounded-full"></div>
+                </div>
+                <div class="space-y-3">
+                    @php
+                        $additionalServices = [
+                            'Konsultasi Nutrisi Khusus Onkologi',
+                            'Layanan Psikologi & Dukungan Emosional',
+                            'Manajemen Nyeri (Pain Management)',
+                            'Rehabilitasi Medik Pasca Kemoterapi'
+                        ];
+                    @endphp
+                    @foreach ($additionalServices as $service)
+                    <div class="flex items-start gap-3">
+                        <svg class="flex-shrink-0 mt-1" width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="#0d2d5e" stroke-width="1.5" fill="none"/>
+                            <path d="M8 12 L11 15 L16 9" stroke="#e05a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-gray-700 text-base md:text-lg">{{ $service }}</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
 
     {{-- CTA SECTION --}}
-    <section class="cta-bg px-6 py-16 md:px-20 mt-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-4">
-                Siap membantu perjalanan kesembuhan Anda
-            </h2>
-            <p class="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
-                Tim spesialis kami siap memberikan konsultasi mendalam mengenai diagnosis dan pilihan terapi yang paling tepat untuk Anda.
-            </p>
+    <section class="px-6 py-10 md:px-20">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-[#e4ecf4] rounded-2xl p-8 text-center">
+                <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-4">Siap Membantu Perjalanan Kesembuhan Anda</h2>
+                <p class="text-gray-600 text-base max-w-md mx-auto leading-relaxed mb-6">
+                    Tim spesialis kami siap memberikan konsultasi mendalam mengenai diagnosis dan pilihan terapi yang paling tepat untuk Anda.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    Jadwalkan Konsultasi
+                </a>
+            </div>
         </div>
     </section>
 </div>
