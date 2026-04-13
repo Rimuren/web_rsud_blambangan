@@ -7,6 +7,26 @@
 
     <title>@yield('title', 'RSUD Blambangan') - {{ config('app.name', 'Laravel') }}</title>
 
+    {{-- Userway --}}
+    <script src="https://cdn.userway.org/widget.js" data-account="MXUJ6NMAPl" data-position="3"></script>
+
+        <style>
+        .uwy.userway_p1 .uai {
+            transform: scale(1.5) !important;
+           
+        }
+
+        .uai {
+            transform: scale(1.5) !important;
+        }
+        .uwy .uai {
+            width: 60px !important;
+            height: 60px !important;
+            bottom: 20px !important;
+            right: 20px !important;
+        }
+    </style>
+    
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
