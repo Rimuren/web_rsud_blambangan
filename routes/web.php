@@ -6,10 +6,13 @@ use App\Http\Controllers\DokterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriArtikelController;
-
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+/*
+|--------------------------------------------------------------------------
+| Guest Routes (Public)
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('guest.home.index');
 })->name('guest.home');
@@ -38,33 +41,33 @@ Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
 })->name('guest.layanan-unggulan.index');
 
-Route::get('/layanan-unggulan/cathlab', function () {
-    return view('guest.layanan-unggulan.cathlab.index');
-})->name('guest.layanan-unggulan.cathlab.index');
+Route::prefix('layanan-unggulan')->group(function () {
+    Route::get('/cathlab', function () {
+        return view('guest.layanan-unggulan.cathlab.index');
+    })->name('guest.layanan-unggulan.cathlab.index');
 
-Route::get('/layanan-unggulan/hemodialysis', function () {
-    return view('guest.layanan-unggulan.hemodialysis.index');
-})->name('guest.layanan-unggulan.hemodialysis.index');
+    Route::get('/hemodialysis', function () {
+        return view('guest.layanan-unggulan.hemodialysis.index');
+    })->name('guest.layanan-unggulan.hemodialysis.index');
 
-Route::get('/layanan-unggulan/oncology', function () {
-    return view('guest.layanan-unggulan.oncology.index');
-})->name('guest.layanan-unggulan.oncology.index');
+    Route::get('/oncology', function () {
+        return view('guest.layanan-unggulan.oncology.index');
+    })->name('guest.layanan-unggulan.oncology.index');
 
-Route::get('/layanan-unggulan/dsa', function () {
-    return view('guest.layanan-unggulan.dsa.index');
-})->name('guest.layanan-unggulan.dsa.index');
+    Route::get('/dsa', function () {
+        return view('guest.layanan-unggulan.dsa.index');
+    })->name('guest.layanan-unggulan.dsa.index');
+});
 
-Route::get('/dokter/spesialis', function() {
+Route::get('/dokter/spesialis', function () {
     return view('admin.dokter.spesialis.index');
 })->name('admin.dokter.spesialis.index');
 
-
-Route::get('/kamar/index', function() {
+Route::get('/kamar/index', function () {
     return view('kamar.index');
 })->name('kamar.index');
 
-
-Route::get('/artikel/index', function() {
+Route::get('/artikel/index', function () {
     return view('artikel.index');
 })->name('artikel.index');
 
@@ -72,25 +75,23 @@ Route::get('/guest/index', function () {
     return view('guest.index');
 })->name('guest.index');
 
-Route::get('/informasi/alur-persyaratan', function () {
-    return view('guest.informasi.alur-persyaratan.index');
-})->name('guest.informasi.alur-persyaratan.index');
+Route::prefix('informasi')->group(function () {
+    Route::get('/alur-persyaratan', function () {
+        return view('guest.informasi.alur-persyaratan.index');
+    })->name('guest.informasi.alur-persyaratan.index');
 
-Route::get('/informasi/tarif', function () {
-    return view('guest.informasi.tarif.index');
-})->name('guest.informasi.tarif.index');
+    Route::get('/tarif', function () {
+        return view('guest.informasi.tarif.index');
+    })->name('guest.informasi.tarif.index'); // Duplicate removed
 
-Route::get('/informasi/tarif', function () {
-    return view('guest.informasi.tarif.index');
-})->name('guest.informasi.tarif.index');
+    Route::get('/ikm', function () {
+        return view('guest.informasi.ikm.index');
+    })->name('guest.informasi.ikm.index');
 
-Route::get('/informasi/ikm', function () {
-    return view('guest.informasi.ikm.index');
-})->name('guest.informasi.ikm.index');
-
-Route::get('/informasi/petunjuk-umum', function () {
-    return view('guest.informasi.petunjuk-umum.index');
-})->name('guest.informasi.petunjuk-umum.index');
+    Route::get('/petunjuk-umum', function () {
+        return view('guest.informasi.petunjuk-umum.index');
+    })->name('guest.informasi.petunjuk-umum.index');
+});
 
 Route::get('/profil', function () {
     return view('guest.profil.index');
@@ -100,17 +101,25 @@ Route::get('/artikel', function () {
     return view('guest.artikel.index');
 })->name('guest.artikel.index');
 
+Route::get('/artikel/{id}', function ($id) {
+    return view('guest.artikel.detail');
+})->name('guest.artikel.detail');
+
 Route::prefix('galeri')->group(function () {
     Route::get('/foto', function () {
         return view('guest.galeri.foto.index');
     })->name('guest.galeri.foto.index');
-    
+
     Route::get('/video', function () {
         return view('guest.galeri.video.index');
     })->name('guest.galeri.video.index');
-
 });
 
+/*
+|--------------------------------------------------------------------------
+| Admin Routes (Authenticated & Authorized)
+|--------------------------------------------------------------------------
+*/
 Route::view('/admin', 'welcome')->name('home');
 
 Route::middleware(['auth', 'permission:admin-access'])->group(function () {
@@ -174,10 +183,15 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     });
 });
 
+/*
+|--------------------------------------------------------------------------
+| Debug / Test Routes (Commented)
+|--------------------------------------------------------------------------
+*/
 // Route::get('/test-api-dokter', function () {
 //     $apiService = new RsudApiService();
 //     $data = $apiService->get('doctors');
-
+//
 //     if ($data) {
 //         return response()->json([
 //             'status' => 'success',
@@ -191,7 +205,7 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
 //         ], 500);
 //     }
 // });
-
+//
 // Route::get('/debug-api-dokter', function () {
 //     $api = new App\Services\RsudApiService();
 //     $data = $api->get('doctors');
