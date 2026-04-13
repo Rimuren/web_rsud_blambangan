@@ -51,13 +51,13 @@
       <!-- Right: Image + Overlay -->
       <div class="relative">
         <img
-          src="https://images.unsplash.com/photo-1587351021759-3772687fe598?w=700&auto=format&fit=crop"
+          src="{{ asset('images/gambar-1.jpg') }}"
           alt="Rumah Sakit"
           class="w-full rounded-2xl object-cover"
           style="height: 280px;"
         />
         <!-- Overlay Card -->
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
+        <div class="absolute bottom-10 left-8 translate-y-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
           <p class="text-4xl font-extrabold" style="color: #2BB7A3;">90+</p>
           <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Tahun Melayani</p>
         </div>
