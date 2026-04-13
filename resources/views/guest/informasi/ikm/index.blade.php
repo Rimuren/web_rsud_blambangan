@@ -3,7 +3,6 @@
 
 @section('content')
 
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -30,9 +29,11 @@
     }
   </script>
 </head>
-<body class="bg-slate-100 min-h-screen py-10 px-4 font-sans">
+<body class="bg-slate-100 min-h-screen font-sans">
+  <!-- Hapus py-10 di body, ganti dengan padding di container agar jarak ke header/footer normal -->
 
-  <div class="max-w-3xl mx-auto space-y-10">
+  <div class="max-w-3xl mx-auto space-y-10 py-8">
+    <!-- py-8 memberi jarak vertikal atas dan bawah yang cukup -->
 
     <!-- Hero -->
     <div class="bg-navy rounded-xl px-8 py-10 text-center">
