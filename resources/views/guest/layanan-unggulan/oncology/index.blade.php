@@ -51,14 +51,6 @@
                     <p>
                         Kemoterapi dapat diberikan melalui infus atau tablet, biasanya dalam beberapa siklus. Tim medis kami selalu mendampingi Anda untuk meminimalkan efek samping dan memastikan pengobatan berjalan senyaman mungkin.
                     </p>
-                    <div class="text-center pt-4">
-                        <a href="#" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                            </svg>
-                            Konsultasi Dokter
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -142,12 +134,6 @@
                 <p class="text-gray-600 text-base max-w-md mx-auto leading-relaxed mb-6">
                     Tim spesialis kami siap memberikan konsultasi mendalam mengenai diagnosis dan pilihan terapi yang paling tepat untuk Anda.
                 </p>
-                <a href="#" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                    </svg>
-                    Jadwalkan Konsultasi
-                </a>
             </div>
         </div>
     </section>
