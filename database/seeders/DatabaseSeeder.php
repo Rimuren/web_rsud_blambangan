@@ -19,11 +19,5 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class
         ]);
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'name'=> 'admin_1',
-            'email' => 'admin@mail.com',
-            'password' => 'admin@mail.com',
-        ]);
     }
 }
