@@ -62,7 +62,7 @@
         </div>
     </section>
 
-    {{-- FASILITAS & LAYANAN (mirip Jenis Tindakan) --}}
+    {{-- FASILITAS & LAYANAN --}}
     <section class="px-6 py-10 md:px-20">
         <div class="max-w-5xl mx-auto">
             <div class="bg-[#e4ecf4] rounded-2xl px-6 py-8 md:px-8 md:py-10">
@@ -113,7 +113,7 @@
         </div>
     </section>
 
-    {{-- PROSEDUR HEMODIALISIS (card tambahan) --}}
+    {{-- PROSEDUR HEMODIALISIS --}}
     <section class="px-6 py-10 md:px-20">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
@@ -133,7 +133,7 @@
         </div>
     </section>
 
-    {{-- ALERT BAR 24/7 (card kecil) --}}
+    {{-- ALERT BAR 24/7 --}}
     <section class="px-6 py-6 md:px-20">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center gap-3 px-6 py-4">
@@ -147,4 +147,4 @@
         </div>
     </section>
 </div>
-@endsection
+@endsection 
