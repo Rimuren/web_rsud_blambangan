@@ -57,7 +57,7 @@
           style="height: 280px;"
         />
         <!-- Overlay Card -->
-        <div class="absolute bottom-10 left-8 translate-y-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
+        <div class="absolute bottom-10 left-015 translate-y-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
           <p class="text-4xl font-extrabold" style="color: #2BB7A3;">90+</p>
           <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Tahun Melayani</p>
         </div>

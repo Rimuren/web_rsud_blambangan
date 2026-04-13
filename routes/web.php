@@ -91,6 +91,11 @@ Route::prefix('informasi')->group(function () {
     Route::get('/petunjuk-umum', function () {
         return view('guest.informasi.petunjuk-umum.index');
     })->name('guest.informasi.petunjuk-umum.index');
+
+    Route::get('/sakip', function () {
+        return view('guest.informasi.sakip.index');
+    })->name('guest.informasi.sakip.index');
+    
 });
 
 Route::get('/profil', function () {

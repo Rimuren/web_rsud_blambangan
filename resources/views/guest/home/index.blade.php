@@ -201,7 +201,7 @@
             <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
         </div>
         <div class="text-center">
-            <a href="#" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-semibold px-8 md:px-10 py-3 rounded-xl shadow transition text-sm md:text-base">Lihat Lebih Banyak</a>
+            <a href="{{ route('guest.artikel.index') }}" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-semibold px-8 md:px-10 py-3 rounded-xl shadow transition text-sm md:text-base">Lihat Lebih Banyak</a>
         </div>
     </div>
 </section>

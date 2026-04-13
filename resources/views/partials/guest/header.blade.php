@@ -58,7 +58,7 @@
                             <a href="{{ route('guest.informasi.tarif.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Tarif</a>
                             <a href="{{ route('guest.informasi.petunjuk-umum.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Petunjuk Umum</a>
                             <a href="{{ route('guest.informasi.ikm.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">Indeks Kepuasan Masyarakat</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">SAKIP</a>
+                            <a href="{{ route('guest.informasi.sakip.index') }}" class="block px-4 py-2 hover:bg-blue-50 hover:text-blue-700 transition">SAKIP</a>
                             </ul>
                         </div>
                     </div>
