@@ -1,19 +1,15 @@
-<x-layouts::app :title="__('Manajemen Artikel')">
+<x-layouts::app :title="__('Tambah Artikel')">
     <x-slot:header>
-        {{ __('Manajemen Artikel') }}
+        {{ __('Tambah Artikel') }}
     </x-slot:header>
 
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
-    <h1 class="text-lg font-bold text-zinc-800 dark:text-white">
-        Tambah Artikel
-    </h1>
-    <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-        Isi form di bawah untuk menambahkan artikel baru
-    </p>
-</div>
+        <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Tambah Artikel</h1>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Isi form di bawah untuk menambahkan artikel baru</p>
+    </div>
 
-<div class="w-full max-w-5xl mx-auto px-6 py-6 space-y-6">
-        <form method="POST" enctype="multipart/form-data" id="artikel-form">
+    <div class="w-full max-w-5xl mx-auto px-6 py-6 space-y-6">
+        <form method="POST" action="{{ route('admin.artikel.store') }}" enctype="multipart/form-data" id="artikel-form">
             @csrf
 
             {{-- INFORMASI ARTIKEL --}}
@@ -27,13 +23,10 @@
                     <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                         Judul Artikel <span class="text-red-500">*</span>
                     </label>
-                    <input
-                        type="text"
-                        name="title"
-                        required
-                        placeholder="Masukkan judul artikel yang menarik..."
-                        class="w-full px-3 py-2 text-sm font-semibold border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                    />
+                    <input type="text" name="judul" value="{{ old('judul') }}" required
+                           placeholder="Masukkan judul artikel yang menarik..."
+                           class="w-full px-3 py-2 text-sm font-semibold border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+                    @error('judul') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,29 +35,25 @@
                             Kategori <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
-                            <select
-                                name="kategori"
-                                required
-                                class="w-full pl-3 pr-8 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                            >
-                                <option value="" disabled selected>Pilih kategori...</option>
-                                <option value="kesehatan">Kesehatan</option>
-                                <option value="tips">Tips Kesehatan</option>
-                                <option value="berita">Berita RS</option>
+                            <select name="kategori_id" required
+                                    class="w-full pl-3 pr-8 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+                                <option value="" disabled {{ old('kategori_id') ? '' : 'selected' }}>Pilih kategori...</option>
+                                @foreach($kategoris as $kat)
+                                <option value="{{ $kat->id }}" {{ old('kategori_id') == $kat->id ? 'selected' : '' }}>{{ $kat->nama }}</option>
+                                @endforeach
                             </select>
                             <flux:icon name="chevron-down" class="size-3.5 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
+                        @error('kategori_id') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="space-y-2">
                         <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">Status Publikasi</label>
                         <div class="relative">
-                            <select
-                                name="status"
-                                class="w-full pl-3 pr-8 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                            >
-                                <option value="draft">Draft</option>
-                                <option value="published">Diterbitkan</option>
+                            <select name="status"
+                                    class="w-full pl-3 pr-8 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
+                                <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                                <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Diterbitkan</option>
                             </select>
                             <flux:icon name="chevron-down" class="size-3.5 text-zinc-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
@@ -80,12 +69,9 @@
                 </div>
 
                 <label class="cursor-pointer block">
-                    <div
-                        id="foto-dropzone"
-                        class="border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-center"
-                    >
-                        <img id="foto-preview" src="" alt="Preview" class="hidden w-full max-h-36 object-cover rounded-md mb-1" />
-
+                    <div id="foto-dropzone"
+                         class="border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-center">
+                        <img id="foto-preview" src="#" alt="Preview" class="hidden w-full max-h-36 object-cover rounded-md mb-1" />
                         <div id="foto-placeholder" class="flex flex-col items-center gap-2">
                             <div class="w-9 h-9 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
                                 <flux:icon name="arrow-up-tray" class="size-4 text-zinc-400" />
@@ -95,66 +81,14 @@
                                 <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">PNG, JPG, JPEG · Maks. 5MB · Rekomendasi 1200×630px</p>
                             </div>
                         </div>
-
                         <p id="foto-filename" class="hidden text-xs font-medium text-primary"></p>
                     </div>
-                    <input
-                        type="file"
-                        name="image"
-                        id="foto-input"
-                        accept="image/png,image/jpeg,image/jpg"
-                        class="sr-only"
-                        onchange="handleFotoChange(this)"
-                    />
+                    <input type="file" name="thumbnail" id="foto-input" accept="image/png,image/jpeg,image/jpg" class="sr-only" onchange="handleFotoChange(this)">
                 </label>
+                @error('thumbnail') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
             </flux:card>
 
-            {{-- LAMPIRAN DOKUMEN --}}
-            <flux:card class="p-4 space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
-                    <div class="flex items-center gap-2">
-                        <flux:icon name="paper-clip" class="size-3.5 text-primary" />
-                        <h2 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Lampiran Dokumen</h2>
-                    </div>
-                    <span class="text-[10px] text-zinc-400 dark:text-zinc-600">PDF &amp; Word (.doc, .docx)</span>
-                </div>
-
-                <label class="cursor-pointer block">
-                    <div
-                        id="file-dropzone"
-                        class="border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-center"
-                        ondragover="event.preventDefault(); this.classList.add('border-primary','bg-primary/5')"
-                        ondragleave="this.classList.remove('border-primary','bg-primary/5')"
-                        ondrop="handleFileDrop(event)"
-                    >
-                        <div class="flex gap-1.5">
-                            <div class="w-8 h-8 rounded-md bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/30 flex items-center justify-center">
-                                <flux:icon name="document" class="size-4 text-red-500" />
-                            </div>
-                            <div class="w-8 h-8 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/30 flex items-center justify-center">
-                                <flux:icon name="document-text" class="size-4 text-blue-500" />
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Klik atau seret file ke sini</p>
-                            <p class="text-[11px] text-zinc-400 dark:text-zinc-500 mt-0.5">PDF, DOC, DOCX · Maks. 10MB per file · Bisa beberapa file</p>
-                        </div>
-                    </div>
-                    <input
-                        type="file"
-                        name="dokumen[]"
-                        id="file-input"
-                        accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        multiple
-                        class="sr-only"
-                        onchange="handleFileChange(this)"
-                    />
-                </label>
-
-                <ul id="file-list" class="space-y-1.5 hidden"></ul>
-            </flux:card>
-
-            {{-- KONTEN ARTIKEL --}}
+            {{-- KONTEN ARTIKEL (Custom Editor) --}}
             <flux:card class="overflow-hidden p-0">
                 <div class="px-4 py-2.5 border-b border-zinc-100 dark:border-zinc-800 flex items-center gap-2">
                     <flux:icon name="pencil-square" class="size-3.5 text-primary" />
@@ -164,71 +98,40 @@
                 {{-- Toolbar --}}
                 <div class="px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-1">
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="formatDoc('bold')" title="Tebal" class="toolbar-btn">
-                            <flux:icon name="bold" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('italic')" title="Miring" class="toolbar-btn">
-                            <flux:icon name="italic" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('underline')" title="Garis bawah" class="toolbar-btn">
-                            <flux:icon name="underline" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('strikeThrough')" title="Coret" class="toolbar-btn">
-                            <flux:icon name="strikethrough" class="size-3.5" />
-                        </button>
+                        <button type="button" onclick="formatDoc('bold')" title="Tebal" class="toolbar-btn"><flux:icon name="bold" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('italic')" title="Miring" class="toolbar-btn"><flux:icon name="italic" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('underline')" title="Garis bawah" class="toolbar-btn"><flux:icon name="underline" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('strikeThrough')" title="Coret" class="toolbar-btn"><flux:icon name="strikethrough" class="size-3.5" /></button>
                     </div>
-
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
                         <button type="button" onclick="formatDoc('formatBlock','H2')" title="Heading 2" class="toolbar-btn text-[11px] font-bold px-1.5">H2</button>
                         <button type="button" onclick="formatDoc('formatBlock','H3')" title="Heading 3" class="toolbar-btn text-[11px] font-bold px-1.5">H3</button>
                         <button type="button" onclick="formatDoc('formatBlock','P')" title="Paragraf" class="toolbar-btn text-[11px] px-1.5">P</button>
                     </div>
-
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="formatDoc('insertUnorderedList')" title="Daftar Bullet" class="toolbar-btn">
-                            <flux:icon name="list-bullet" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('insertOrderedList')" title="Daftar Angka" class="toolbar-btn">
-                            <flux:icon name="numbered-list" class="size-3.5" />
-                        </button>
+                        <button type="button" onclick="formatDoc('insertUnorderedList')" title="Daftar Bullet" class="toolbar-btn"><flux:icon name="list-bullet" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('insertOrderedList')" title="Daftar Angka" class="toolbar-btn"><flux:icon name="numbered-list" class="size-3.5" /></button>
                     </div>
-
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="formatDoc('justifyLeft')" title="Rata Kiri" class="toolbar-btn">
-                            <flux:icon name="bars-3-bottom-left" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('justifyCenter')" title="Rata Tengah" class="toolbar-btn">
-                            <flux:icon name="bars-3" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="formatDoc('justifyRight')" title="Rata Kanan" class="toolbar-btn">
-                            <flux:icon name="bars-3-bottom-right" class="size-3.5" />
-                        </button>
+                        <button type="button" onclick="formatDoc('justifyLeft')" title="Rata Kiri" class="toolbar-btn"><flux:icon name="bars-3-bottom-left" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('justifyCenter')" title="Rata Tengah" class="toolbar-btn"><flux:icon name="bars-3" class="size-3.5" /></button>
+                        <button type="button" onclick="formatDoc('justifyRight')" title="Rata Kanan" class="toolbar-btn"><flux:icon name="bars-3-bottom-right" class="size-3.5" /></button>
                     </div>
-
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="addLink()" title="Tambah Link" class="toolbar-btn">
-                            <flux:icon name="link" class="size-3.5" />
-                        </button>
-                        <button type="button" onclick="addImageUrl()" title="Tambah Gambar URL" class="toolbar-btn">
-                            <flux:icon name="photo" class="size-3.5" />
-                        </button>
+                        <button type="button" onclick="addLink()" title="Tambah Link" class="toolbar-btn"><flux:icon name="link" class="size-3.5" /></button>
+                        <button type="button" onclick="addImageUrl()" title="Tambah Gambar URL" class="toolbar-btn"><flux:icon name="photo" class="size-3.5" /></button>
                     </div>
-
                     <div class="ml-auto">
-                        <button type="button" onclick="formatDoc('removeFormat')" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500">
-                            <flux:icon name="x-mark" class="size-3.5" />
-                        </button>
+                        <button type="button" onclick="formatDoc('removeFormat')" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500"><flux:icon name="x-mark" class="size-3.5" /></button>
                     </div>
                 </div>
 
                 {{-- Editor Area --}}
-                <div
-                    id="editor"
-                    contenteditable="true"
-                    class="min-h-[280px] p-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300 outline-none"
-                >Mulai menulis artikel Anda di sini...</div>
-
-                <textarea name="content" id="content-field" class="sr-only"></textarea>
+                <div id="editor" contenteditable="true"
+                     class="min-h-[280px] p-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300 outline-none">
+                    {!! old('konten', 'Mulai menulis artikel Anda di sini...') !!}
+                </div>
+                <textarea name="konten" id="content-field" class="sr-only"></textarea>
             </flux:card>
 
             {{-- ACTION BUTTONS --}}
@@ -254,14 +157,13 @@
                     </button>
                 </div>
             </div>
-
         </form>
     </div>
 
     <script>
-        const editor       = document.getElementById('editor');
+        const editor = document.getElementById('editor');
         const contentField = document.getElementById('content-field');
-        const PLACEHOLDER  = 'Mulai menulis artikel Anda di sini...';
+        const PLACEHOLDER = 'Mulai menulis artikel Anda di sini...';
 
         function formatDoc(cmd, val = null) {
             editor.focus();
@@ -270,7 +172,8 @@
         }
 
         function syncContent() {
-            contentField.value = editor.innerText.trim() === PLACEHOLDER ? '' : editor.innerHTML;
+            const html = editor.innerHTML;
+            contentField.value = (html === PLACEHOLDER || html.trim() === '') ? '' : html;
         }
 
         function addLink() {
@@ -283,22 +186,26 @@
             if (url) formatDoc('insertImage', url);
         }
 
+        // Initial sync
+        syncContent();
+
         editor.addEventListener('focus', () => {
             if (editor.innerText.trim() === PLACEHOLDER) editor.innerHTML = '';
         });
         editor.addEventListener('blur', () => {
             if (editor.innerText.trim() === '') editor.innerHTML = PLACEHOLDER;
+            syncContent();
         });
         editor.addEventListener('input', syncContent);
 
-        /* Foto Upload */
+        // Thumbnail preview
         function handleFotoChange(input) {
             const file = input.files[0];
             if (!file) return;
-            const preview     = document.getElementById('foto-preview');
+            const preview = document.getElementById('foto-preview');
             const placeholder = document.getElementById('foto-placeholder');
-            const filename    = document.getElementById('foto-filename');
-            const reader      = new FileReader();
+            const filename = document.getElementById('foto-filename');
+            const reader = new FileReader();
             reader.onload = e => {
                 preview.src = e.target.result;
                 preview.classList.remove('hidden');
@@ -307,64 +214,6 @@
                 filename.classList.remove('hidden');
             };
             reader.readAsDataURL(file);
-        }
-
-        /* Dokumen Upload */
-        const allowedExts = ['pdf', 'doc', 'docx'];
-        let uploadedFiles = [];
-
-        function handleFileDrop(e) {
-            e.preventDefault();
-            document.getElementById('file-dropzone').classList.remove('border-primary', 'bg-primary/5');
-            addFiles(Array.from(e.dataTransfer.files));
-        }
-
-        function handleFileChange(input) {
-            addFiles(Array.from(input.files));
-        }
-
-        function addFiles(files) {
-            files.forEach(file => {
-                const ext = file.name.split('.').pop().toLowerCase();
-                if (!allowedExts.includes(ext)) return;
-                const id = Date.now() + Math.random();
-                uploadedFiles.push({
-                    id, file,
-                    name : file.name,
-                    ext  : ext.toUpperCase(),
-                    size : (file.size / 1048576).toFixed(2)
-                });
-            });
-            renderFileList();
-        }
-
-        function removeFile(id) {
-            uploadedFiles = uploadedFiles.filter(f => f.id !== id);
-            renderFileList();
-        }
-
-        function renderFileList() {
-            const list = document.getElementById('file-list');
-            if (!uploadedFiles.length) { list.classList.add('hidden'); list.innerHTML = ''; return; }
-            list.classList.remove('hidden');
-            list.innerHTML = uploadedFiles.map(f => `
-                <li class="flex items-center gap-2.5 px-3 py-2 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800">
-                    <span class="w-7 h-7 rounded-md flex items-center justify-center text-[10px] font-black shrink-0
-                        ${f.ext === 'PDF' ? 'bg-red-100 dark:bg-red-950/40 text-red-600' : 'bg-blue-100 dark:bg-blue-950/40 text-blue-600'}">
-                        ${f.ext}
-                    </span>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-xs font-medium text-zinc-800 dark:text-zinc-200 truncate">${f.name}</p>
-                        <p class="text-[11px] text-zinc-400">${f.size} MB</p>
-                    </div>
-                    <button type="button" onclick="removeFile(${f.id})"
-                            class="w-6 h-6 rounded-md flex items-center justify-center text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
-                            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z"/>
-                        </svg>
-                    </button>
-                </li>
-            `).join('');
         }
     </script>
 
@@ -388,7 +237,6 @@
             background-color: #3f3f46;
             color: var(--color-primary, #0d7ff2);
         }
-
         #editor h2 {
             font-size: 1.25rem;
             font-weight: 700;
@@ -402,16 +250,12 @@
         #editor p {
             margin: 0.4rem 0;
         }
-        #editor ul {
-            list-style: disc;
+        #editor ul, #editor ol {
             padding-left: 1.5rem;
             margin: 0.4rem 0;
         }
-        #editor ol {
-            list-style: decimal;
-            padding-left: 1.5rem;
-            margin: 0.4rem 0;
-        }
+        #editor ul { list-style: disc; }
+        #editor ol { list-style: decimal; }
         #editor a {
             color: var(--color-primary, #0d7ff2);
             text-decoration: underline;
@@ -429,5 +273,4 @@
             margin: 0.5rem 0;
         }
     </style>
-
-</x-layouts::app.sidebar>
+</x-layouts::app>

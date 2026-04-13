@@ -70,4 +70,9 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    public function artikel()
+    {
+        return $this->hasMany(artikel_model::class, 'penulis_id');
+    }
 }
