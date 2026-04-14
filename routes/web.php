@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\ArtikelController;
-use App\Http\Controllers\DokterController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\KategoriArtikelController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    AdminDashboardController,
+    ArtikelController,
+    DokterController,
+    RoleController,
+    UserController,
+    KategoriArtikelController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +23,7 @@ Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
 })->name('guest.info-kamar.index');
 
-Route::get('/daftar-dokter', function () {
-    return view('guest.daftar-dokter.index');
-})->name('guest.daftar-dokter.index');
+Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
 
 Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
@@ -141,9 +141,9 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::get('/', 'index')->name('admin.artikel.index');
         Route::get('/create', 'create')->name('admin.artikel.create');
         Route::post('/', 'store')->name('admin.artikel.store');
-        Route::get('/{id}/edit', 'edit')->name('admin.artikel.edit');
-        Route::put('/{id}', 'update')->name('admin.artikel.update');
-        Route::delete('/{id}', 'destroy')->name('admin.artikel.destroy');
+        Route::get('/{artikel}/edit', 'edit')->name('admin.artikel.edit');
+        Route::put('/{artikel}', 'update')->name('admin.artikel.update');
+        Route::delete('/{artikel}', 'destroy')->name('admin.artikel.destroy');
         Route::post('/upload-image', 'uploadImage')->name('admin.artikel.upload-image');
     });
 
