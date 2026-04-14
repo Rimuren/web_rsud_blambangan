@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     AdminDashboardController,
     ArtikelController,
     DokterController,
+    GuestHomeController,
     RoleController,
     UserController,
     KategoriArtikelController,
@@ -15,9 +16,7 @@ use App\Http\Controllers\{
 | Guest Routes (Public)
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return view('guest.home.index');
-})->name('guest.home');
+Route::get('/',[GuestHomeController::class,'index'])->name('guest.home');
 
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
@@ -74,10 +73,6 @@ Route::get('/kamar/index', function () {
 Route::get('/artikel/index', function () {
     return view('artikel.index');
 })->name('artikel.index');
-
-Route::get('/guest/index', function () {
-    return view('guest.index');
-})->name('guest.index');
 
 Route::prefix('informasi')->group(function () {
     Route::get('/alur-persyaratan', function () {

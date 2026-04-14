@@ -32,9 +32,14 @@ class DokterController extends Controller implements HasMiddleware
             });
         }
 
-        // Filter menggunakan parameter 'spesialis' (konsisten dengan admin)
         if ($request->filled('spesialis') && $request->spesialis != 'Semua Spesialis') {
             $query->where('spesialis', $request->spesialis);
+        }
+
+        if ($request->filled('hari')) {
+            $query->whereHas('jadwal_dokter', function ($q) use ($request) {
+                $q->where('hari', $request->hari);
+            });
         }
 
         $dokters = $query->paginate(10)->withQueryString();
