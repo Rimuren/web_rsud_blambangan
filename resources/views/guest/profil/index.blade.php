@@ -11,7 +11,7 @@
 </style>
 
 <div class="bg-slate-50 text-gray-800">
-    {{-- ===================== SECTION 1: HERO ===================== --}}
+    {{-- HERO --}}
     <section class="bg-blue-50 py-16 px-6 text-center">
         <div class="max-w-2xl mx-auto">
             <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl mb-6 bg-white shadow-md">
@@ -24,7 +24,7 @@
         </div>
     </section>
 
-    {{-- ===================== SECTION 2: SEJARAH ===================== --}}
+    {{-- SEJARAH --}}
     <section class="max-w-6xl mx-auto px-6 py-20">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
@@ -47,7 +47,7 @@
         </div>
     </section>
 
-    {{-- ===================== SECTION 3: KOMITMEN ===================== --}}
+    {{-- KOMITMEN --}}
     <section class="max-w-6xl mx-auto px-6 pb-8 pt-12">
         <div class="rounded-3xl px-6 md:px-10 py-12 md:py-14 text-center text-white bg-[#0F3D5E]">
             <div class="flex items-center justify-center gap-3 mb-6">
@@ -70,7 +70,7 @@
         </div>
     </section>
 
-    {{-- ===================== SECTION 4: VISI & MISI ===================== --}}
+    {{-- VISI & MISI --}}
     <section class="max-w-6xl mx-auto px-6 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="rounded-2xl p-8 text-white bg-[#0F3D5E]">
@@ -110,7 +110,7 @@
         </div>
     </section>
 
-    {{-- ===================== SECTION 5: FASILITAS ===================== --}}
+    {{-- FASILITAS --}}
     <section class="max-w-6xl mx-auto px-6 py-12">
         <div class="flex items-center gap-3 mb-8">
             <div class="w-1 h-7 rounded-full bg-teal-500"></div>
@@ -156,7 +156,7 @@
         </div>
     </section>
 
-    {{-- ===================== SECTION 6: CTA ===================== --}}
+    {{-- CTA --}}
     <section class="max-w-6xl mx-auto px-6 pb-16">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border-2 border-dashed border-teal-500 bg-teal-50 px-8 py-6">
             <div class="flex items-center gap-4">
