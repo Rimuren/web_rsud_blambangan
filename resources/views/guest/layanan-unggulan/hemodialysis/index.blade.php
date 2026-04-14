@@ -49,20 +49,13 @@
                     <p>
                         Tim profesional kami siap membantu Anda 24/7 dengan protokol keamanan ketat dan peralatan <span class="font-bold text-[#e05a1a]">high-flux</span> untuk hasil terapi yang optimal dan kenyamanan maksimal.
                     </p>
-                    <div class="text-center pt-4">
-                        <a href="#" class="inline-flex items-center gap-2 bg-[#0d2d5e] hover:bg-[#e05a1a] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                            </svg>
-                            Konsultasi Sekarang
-                        </a>
-                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- FASILITAS & LAYANAN (mirip Jenis Tindakan) --}}
+    {{-- FASILITAS & LAYANAN --}}
     <section class="px-6 py-10 md:px-20">
         <div class="max-w-5xl mx-auto">
             <div class="bg-[#e4ecf4] rounded-2xl px-6 py-8 md:px-8 md:py-10">
@@ -113,7 +106,7 @@
         </div>
     </section>
 
-    {{-- PROSEDUR HEMODIALISIS (card tambahan) --}}
+    {{-- PROSEDUR HEMODIALISIS --}}
     <section class="px-6 py-10 md:px-20">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
@@ -133,7 +126,7 @@
         </div>
     </section>
 
-    {{-- ALERT BAR 24/7 (card kecil) --}}
+    {{-- ALERT BAR 24/7 --}}
     <section class="px-6 py-6 md:px-20">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center gap-3 px-6 py-4">
@@ -147,4 +140,4 @@
         </div>
     </section>
 </div>
-@endsection
+@endsection 

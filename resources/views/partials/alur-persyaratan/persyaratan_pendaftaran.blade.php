@@ -15,7 +15,7 @@
   {{-- Two Cards --}}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    {{-- Card: Pasien Umum --}}
+    {{-- Card Pasien Umum --}}
     <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
       {{-- Card Header --}}
       <div class="flex items-center gap-4 mb-8">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    {{-- Card: Pasien BPJS --}}
+    {{-- Card Pasien BPJS --}}
     <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
       {{-- Card Header --}}
       <div class="flex items-center gap-4 mb-8">
