@@ -62,8 +62,6 @@
                 <span class="material-symbols-outlined text-medical-blue">domain</span>
             </div>
             <p class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold">450</p>
-            <div class="flex items-center gap-1">
-            </div>
         </div>
         <div class="flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex justify-between items-start">
@@ -102,34 +100,94 @@
             @php
                 $filters = ['Semua Kelas', 'VIP / VVIP', 'Kelas 1', 'Kelas 2', 'Kelas 3', 'Intensif', 'Isolasi'];
             @endphp
-            <button class="px-4 py-2 rounded-full bg-medical-blue text-white text-sm font-semibold transition-all">{{ $filters[0] }}</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-medical-blue text-white text-sm font-semibold transition-all">{{ $filters[0] }}</button>
             @foreach (array_slice($filters, 1) as $filter)
-                <button class="px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary hover:text-primary transition-all">{{ $filter }}</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary hover:text-primary transition-all">{{ $filter }}</button>
             @endforeach
         </div>
     </div>
 
-    {{-- Data Kamar: Tabel untuk desktop, Card untuk mobile --}}
+    {{-- Data Kamar --}}
     <div class="mb-6">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <h2 class="text-slate-900 dark:text-white text-lg md:text-xl font-bold tracking-tight">Daftar Ruangan</h2>
             <div class="relative w-full sm:w-auto">
                 <span class="material-symbols-outlined absolute left-3 top-[85%] -translate-y-1/2 text-slate-400 text-sm">search</span>
-                <input class="pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary outline-none w-full sm:min-w-[240px]" placeholder="Cari nama ruangan..." type="text">
+                <input type="text" id="searchInput" class="pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary outline-none w-full sm:min-w-[240px]" placeholder="Cari nama ruangan...">
             </div>
         </div>
 
         @php
             $rooms = [
-                ['name' => 'Suite Anggrek 01', 'class' => 'VVIP', 'class_badge' => 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300', 'total' => 1, 'available' => 1, 'status' => 'Tersedia', 'status_badge' => 'bg-emerald-100 text-emerald-800', 'icon' => 'king_bed', 'icon_bg' => 'bg-primary/10', 'icon_color' => 'text-primary'],
-                ['name' => 'Ruang Melati', 'class' => 'Kelas 1', 'class_badge' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300', 'total' => 24, 'available' => 8, 'status' => 'Tersedia', 'status_badge' => 'bg-emerald-100 text-emerald-800', 'icon' => 'bedroom_parent', 'icon_bg' => 'bg-medical-blue/10', 'icon_color' => 'text-medical-blue'],
-                ['name' => 'ICU (Intensive Care)', 'class' => 'Intensif', 'class_badge' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300', 'total' => 10, 'available' => 2, 'status' => 'Terbatas', 'status_badge' => 'bg-amber-100 text-amber-800', 'icon' => 'emergency', 'icon_bg' => 'bg-red-100', 'icon_color' => 'text-red-600'],
-                ['name' => 'Bangsal Mawar (A-F)', 'class' => 'Kelas 3', 'class_badge' => 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300', 'total' => 60, 'available' => 45, 'status' => 'Tersedia', 'status_badge' => 'bg-emerald-100 text-emerald-800', 'icon' => 'hotel', 'icon_bg' => 'bg-slate-100 dark:bg-slate-800', 'icon_color' => 'text-slate-500'],
-                ['name' => 'Isolasi Pinere', 'class' => 'Isolasi', 'class_badge' => 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300', 'total' => 15, 'available' => 0, 'status' => 'Penuh', 'status_badge' => 'bg-slate-100 text-slate-800', 'icon' => 'masks', 'icon_bg' => 'bg-orange-100', 'icon_color' => 'text-orange-600'],
+                [
+                    'name' => 'Suite Anggrek 01',
+                    'class' => 'VVIP',
+                    'filter_class' => 'VIP / VVIP',
+                    'class_badge' => 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300',
+                    'total' => 1,
+                    'available' => 1,
+                    'status' => 'Tersedia',
+                    'status_badge' => 'bg-emerald-100 text-emerald-800',
+                    'icon' => 'king_bed',
+                    'icon_bg' => 'bg-primary/10',
+                    'icon_color' => 'text-primary',
+                ],
+                [
+                    'name' => 'Ruang Melati',
+                    'class' => 'Kelas 1',
+                    'filter_class' => 'Kelas 1',
+                    'class_badge' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+                    'total' => 24,
+                    'available' => 8,
+                    'status' => 'Tersedia',
+                    'status_badge' => 'bg-emerald-100 text-emerald-800',
+                    'icon' => 'bedroom_parent',
+                    'icon_bg' => 'bg-medical-blue/10',
+                    'icon_color' => 'text-medical-blue',
+                ],
+                [
+                    'name' => 'ICU (Intensive Care)',
+                    'class' => 'Intensif',
+                    'filter_class' => 'Intensif',
+                    'class_badge' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
+                    'total' => 10,
+                    'available' => 2,
+                    'status' => 'Terbatas',
+                    'status_badge' => 'bg-amber-100 text-amber-800',
+                    'icon' => 'emergency',
+                    'icon_bg' => 'bg-red-100',
+                    'icon_color' => 'text-red-600',
+                ],
+                [
+                    'name' => 'Bangsal Mawar (A-F)',
+                    'class' => 'Kelas 3',
+                    'filter_class' => 'Kelas 3',
+                    'class_badge' => 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300',
+                    'total' => 60,
+                    'available' => 45,
+                    'status' => 'Tersedia',
+                    'status_badge' => 'bg-emerald-100 text-emerald-800',
+                    'icon' => 'hotel',
+                    'icon_bg' => 'bg-slate-100 dark:bg-slate-800',
+                    'icon_color' => 'text-slate-500',
+                ],
+                [
+                    'name' => 'Isolasi Pinere',
+                    'class' => 'Isolasi',
+                    'filter_class' => 'Isolasi',
+                    'class_badge' => 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300',
+                    'total' => 15,
+                    'available' => 0,
+                    'status' => 'Penuh',
+                    'status_badge' => 'bg-slate-100 text-slate-800',
+                    'icon' => 'masks',
+                    'icon_bg' => 'bg-orange-100',
+                    'icon_color' => 'text-orange-600',
+                ],
             ];
         @endphp
 
-        {{-- Tampilan Tabel (Desktop) --}}
+        {{-- Tabel Desktop --}}
         <div class="hidden md:block overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -143,7 +201,7 @@
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                     @foreach ($rooms as $room)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                        <tr class="room-row hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors" data-class="{{ $room['filter_class'] }}" data-name="{{ strtolower($room['name']) }}">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-lg {{ $room['icon_bg'] }} flex items-center justify-center">
@@ -170,10 +228,10 @@
             </table>
         </div>
 
-        {{-- Tampilan Card (Mobile) --}}
-        <div class="md:hidden flex flex-col gap-3">
+        {{-- Card Mobile --}}
+        <div class="md:hidden flex flex-col gap-3" id="mobileCardsContainer">
             @foreach ($rooms as $room)
-                <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4">
+                <div class="room-card bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4" data-class="{{ $room['filter_class'] }}" data-name="{{ strtolower($room['name']) }}">
                     <div class="flex items-start gap-3">
                         <div class="w-10 h-10 rounded-lg {{ $room['icon_bg'] }} flex items-center justify-center shrink-0">
                             <span class="material-symbols-outlined {{ $room['icon_color'] }} text-xl">{{ $room['icon'] }}</span>
@@ -206,7 +264,7 @@
 
         {{-- Pagination --}}
         <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-slate-500">
-            <p>Menampilkan 5 dari 18 unit ruangan</p>
+            <p>Menampilkan <span id="visibleCount">5</span> dari <span id="totalCount">5</span> unit ruangan</p>
             <div class="flex gap-1">
                 <button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 bg-white hover:bg-slate-50 transition-colors">
                     <span class="material-symbols-outlined text-sm">chevron_left</span>
@@ -239,4 +297,79 @@
         </div>
     </div>
 </div>
+
+{{-- JavaScript untuk Filter Kelas & Pencarian --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Elemen filter
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const roomRows = document.querySelectorAll('.room-row');
+    const roomCards = document.querySelectorAll('.room-card');
+    const searchInput = document.getElementById('searchInput');
+    const visibleCountSpan = document.getElementById('visibleCount');
+    const totalCountSpan = document.getElementById('totalCount');
+
+    let activeFilter = 'Semua Kelas';
+    let searchTerm = '';
+
+    function updateDisplay() {
+        let visible = 0;
+        // Filter berdasarkan kelas dan pencarian
+        roomRows.forEach(row => {
+            const rowClass = row.getAttribute('data-class');
+            const rowName = row.getAttribute('data-name');
+            const matchesFilter = (activeFilter === 'Semua Kelas' || rowClass === activeFilter);
+            const matchesSearch = rowName.includes(searchTerm);
+            if (matchesFilter && matchesSearch) {
+                row.style.display = '';
+                visible++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        roomCards.forEach(card => {
+            const cardClass = card.getAttribute('data-class');
+            const cardName = card.getAttribute('data-name');
+            const matchesFilter = (activeFilter === 'Semua Kelas' || cardClass === activeFilter);
+            const matchesSearch = cardName.includes(searchTerm);
+            if (matchesFilter && matchesSearch) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        // Update counter 
+        if (visibleCountSpan && totalCountSpan) {
+            visibleCountSpan.innerText = visible;
+            totalCountSpan.innerText = roomRows.length;
+        }
+    }
+
+    // Event listener untuk tombol filter
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const selected = this.textContent.trim();
+            activeFilter = selected;
+            // Update style tombol
+            filterButtons.forEach(btn => {
+                btn.classList.remove('bg-medical-blue', 'text-white');
+                btn.classList.add('bg-white', 'dark:bg-slate-800', 'border', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            });
+            this.classList.remove('bg-white', 'dark:bg-slate-800', 'border', 'border-slate-200', 'dark:border-slate-700', 'text-slate-600', 'dark:text-slate-300');
+            this.classList.add('bg-medical-blue', 'text-white');
+            updateDisplay();
+        });
+    });
+
+    // Event listener untuk pencarian
+    if (searchInput) {
+        searchInput.addEventListener('input', function (e) {
+            searchTerm = e.target.value.toLowerCase().trim();
+            updateDisplay();
+        });
+    }
+
+    updateDisplay();
+});
+</script>
 @endsection
