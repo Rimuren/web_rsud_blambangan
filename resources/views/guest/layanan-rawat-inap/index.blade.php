@@ -210,18 +210,6 @@
                     </div>
                     @endforeach
                 </div>
-
-                {{-- CTA Section --}}
-                <div class="mt-10 p-6 md:p-8 rounded-xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="flex flex-col gap-2 text-center md:text-left">
-                        <h3 class="text-xl md:text-2xl font-bold">Butuh bantuan memilih ruangan?</h3>
-                        <p class="text-slate-400 text-sm md:text-base">Tim admisi medis kami siap membantu Anda 24/7.</p>
-                    </div>
-                    <a href="#" class="flex items-center gap-2 rounded-lg px-6 md:px-8 py-3 md:py-4 bg-primary hover:bg-primary/90 text-white font-semibold transition shadow-lg">
-                        <span class="material-symbols-outlined text-lg md:text-xl">phone_in_talk</span>
-                        <span>Hubungi Kami</span>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
