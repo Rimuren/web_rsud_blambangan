@@ -15,8 +15,59 @@ class DokterController extends Controller implements HasMiddleware
             new Middleware('permission:view daftar-dokter', only: ['index']),
         ];
     }
+
+    public function guestIndex(Request $request)
+    {
+        $query = dokter_model::with('jadwal_dokter');
+
+        $request->validate([
+            'search' => 'nullable|string|max:100|regex:/^[\w\s\-]+$/',
+        ]);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('spesialis', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter menggunakan parameter 'spesialis' (konsisten dengan admin)
+        if ($request->filled('spesialis') && $request->spesialis != 'Semua Spesialis') {
+            $query->where('spesialis', $request->spesialis);
+        }
+
+        $dokters = $query->paginate(10)->withQueryString();
+
+        $doctors = [];
+        foreach ($dokters as $dokter) {
+            $schedule = ['Senin' => 'Tutup', 'Selasa' => 'Tutup', 'Rabu' => 'Tutup', 'Kamis' => 'Tutup', 'Jumat' => 'Tutup', 'Sabtu' => 'Tutup'];
+            foreach ($dokter->jadwal_dokter as $jadwal) {
+                if ($jadwal->hari && $jadwal->jam_mulai && $jadwal->jam_selesai) {
+                    $jam = $jadwal->jam_mulai . '-' . $jadwal->jam_selesai;
+                    $schedule[$jadwal->hari] = $jam;
+                }
+            }
+
+            $doctors[] = [
+                'name'      => $dokter->nama,
+                'spesialis' => $dokter->spesialis, 
+                'img'       => $dokter->image_url,
+                'schedule'  => $schedule,
+            ];
+        }
+
+        $spesialisList = dokter_model::select('spesialis')
+            ->distinct()
+            ->whereNotNull('spesialis')
+            ->pluck('spesialis')
+            ->toArray();
+
+        return view('guest.daftar-dokter.index', compact('doctors', 'spesialisList', 'dokters'));
+    }
+
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.   
      */
     public function index(Request $request)
     {

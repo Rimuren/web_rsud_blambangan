@@ -23,9 +23,7 @@ Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
 })->name('guest.info-kamar.index');
 
-Route::get('/daftar-dokter', function () {
-    return view('guest.daftar-dokter.index');
-})->name('guest.daftar-dokter.index');
+Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
 
 Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
