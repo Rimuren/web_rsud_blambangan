@@ -16,14 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminUserSeeder::class,
             PermissionSeeder::class,
-            RoleSeeder::class
+            RoleSeeder::class,
+            KategoriArtikelSeeder::class,
+            
         ]);
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'name'=> 'admin_1',
-            'email' => 'admin@mail.com',
-            'password' => 'admin@mail.com',
-        ]);
     }
 }

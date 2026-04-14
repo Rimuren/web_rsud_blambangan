@@ -8,6 +8,9 @@ use App\Models\jadwal_dokter_model;
 
 class dokter_model extends Model
 {
+
+    use HasFactory;
+
     protected $table = 'dokter';
     protected $fillable = [
         'nama', 
@@ -27,16 +30,15 @@ class dokter_model extends Model
 
     public function getImageUrlAttribute()
     {
-        if (empty($this->image_path)) {
-            return null;
+        if (!empty($this->image_path)) {
+            if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+                return $this->image_path;
+            }
+            $baseUrl = config('api.rsud.base_url');
+            $baseUrlForImage = str_replace('/api/online', '', $baseUrl);
+            return rtrim($baseUrlForImage, '/') . '/' . ltrim($this->image_path, '/');
         }
 
-        if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
-            return $this->image_path;
-        }
-
-        $baseUrl = config('api.rsud.base_url');
-        $baseUrlForImage = str_replace('/api/online', '', $baseUrl);
-        return rtrim($baseUrlForImage, '/') . '/' . ltrim($this->image_path, '/');
+        return 'https://ui-avatars.com/api/?background=003366&color=fff&name=' . urlencode($this->nama) . '&size=128';
     }
 }

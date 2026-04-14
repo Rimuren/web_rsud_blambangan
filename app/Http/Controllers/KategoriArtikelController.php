@@ -27,7 +27,7 @@ class KategoriArtikelController extends Controller implements HasMiddleware
     public function index()
     {
         // BUSINESS LOGIC: ambil semua kategori artikel diurutkan berdasarkan nama
-        $kategori = kategori_artikel_model::orderBy('nama')->get();
+        $kategori = kategori_artikel_model::orderBy('nama')->paginate(10);
         return view('admin.artikel.kategori.index', compact('kategori'));
     }
 
