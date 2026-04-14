@@ -36,9 +36,9 @@ Route::get('/layanan-rawat-jalan', function () {
     return view('guest.layanan-rawat-jalan.index');
 })->name('guest.layanan-rawat-jalan.index');
 
-Route::get('/layanan-rawat-jalan/anasthesi-klinik', function () {
-    return view('guest.layanan-rawat-jalan.anasthesi-klinik.index');
-})->name('guest.layanan-rawat-jalan.anasthesi-klinik.index');
+Route::get('/layanan-rawat-jalan/anasthesi', function () {
+    return view('guest.layanan-rawat-jalan.anasthesi.index');
+})->name('guest.layanan-rawat-jalan.anasthesi.index');
 
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
