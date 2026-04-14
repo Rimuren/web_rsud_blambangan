@@ -39,7 +39,7 @@
             </div>
             <div class="relative">
                 <img src="{{ asset('images/gambar-1.jpg') }}" alt="Rumah Sakit" class="w-full rounded-2xl object-cover h-64 md:h-72">
-                <div class="absolute bottom-0 left-10 transform translate-y-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
+                <div class="absolute bottom-9 left-10 transform translate-y-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-lg px-8 py-4 text-center min-w-max">
                     <p class="text-4xl font-extrabold text-teal-600">90+</p>
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mt-1">Tahun Melayani</p>
                 </div>
