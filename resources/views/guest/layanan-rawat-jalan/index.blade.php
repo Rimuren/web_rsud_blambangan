@@ -73,7 +73,7 @@
 <span class="material-symbols-outlined !text-xl md:!text-3xl">medical_services</span>
 </div>
 <div class="flex flex-col gap-0.5 md:gap-1">
-<h2 class="text-secondary-blue dark:text-slate-100 text-[10px] md:text-sm font-extrabold leading-tight uppercase">ANASTHESI</h2>
+<h2  href="{{ route('guest.layanan-rawat-jalan.anasthesi.index') }}" class="text-secondary-blue dark:text-slate-100 text-[10px] md:text-sm font-extrabold leading-tight uppercase">ANASTHESI</h2>
 <p class="text-slate-500 dark:text-slate-400 text-[8px] md:text-xs font-medium">Spesialis</p>
 </div>
 </div>
