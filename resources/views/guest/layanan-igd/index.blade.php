@@ -94,14 +94,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{-- Link Prosedur --}}
-                        <div class="pt-2">
-                            <a href="#" class="flex items-center gap-2 text-slate-600 dark:text-slate-400 font-semibold hover:text-primary transition-colors group">
-                                <span>Informasi Prosedur IGD</span>
-                                <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
