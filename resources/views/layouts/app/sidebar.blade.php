@@ -136,7 +136,7 @@
                 @endcan
 
                 @can('view daftar-kelas')
-                <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.kelas.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.kelas.index')" wire:navigate>
+                <flux:sidebar.item wire:navigate>
                     Daftar Kelas
                 </flux:sidebar.item>
                 @endcan
