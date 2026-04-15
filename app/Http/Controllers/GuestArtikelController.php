@@ -5,102 +5,105 @@ namespace App\Http\Controllers;
 use App\Models\artikel_model;
 use App\Models\kategori_artikel_model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GuestArtikelController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Halaman daftar artikel (publik)
      */
     public function index(Request $request)
     {
-        $query = artikel_model::with(['kategori', 'penulis'])->where('status', 'published')
-            ->orderBy('published_at', 'desc');
+        // Buat cache key unik berdasarkan parameter request
+        $cacheKey = 'guest_articles_' . md5(json_encode($request->only(['kategori', 'search', 'page'])));
 
-        if ($request->filled('kategori')) {
-            $query->whereHas('kategori', fn($q) => $q->where('slug', $request->kategori));
-        }
-        if ($request->filled('search')) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
-        }
+        $data = Cache::remember($cacheKey, now()->addHours(1), function () use ($request) {
+            $query = artikel_model::with(['kategori', 'penulis'])
+                        ->published()
+                        ->orderBy('published_at', 'desc');
 
-        $artikels = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
-        $kategoris = kategori_artikel_model::orderBy('nama')->get();
+            // Filter berdasarkan kategori (slug)
+            if ($request->filled('kategori')) {
+                $query->whereHas('kategori', function ($q) use ($request) {
+                    $q->where('slug', $request->kategori);
+                });
+            }
 
-        return view('admin.artikel.index', compact('artikels', 'kategoris'));
+            // Pencarian berdasarkan judul
+            if ($request->filled('search')) {
+                $query->where('judul', 'like', '%' . $request->search . '%');
+            }
+
+            $articles = $query->paginate(9);
+
+            // Ambil semua kategori untuk filter (jarang berubah, cache terpisah)
+            $categories = Cache::remember('guest_categories_all', now()->addDay(), function () {
+                return kategori_artikel_model::orderBy('nama')->get();
+            });
+
+            return [
+                'articles' => $articles,
+                'categories' => $categories,
+            ];
+        });
+
+        return view('guest.artikel.index', [
+            'articles' => $data['articles'],
+            'categories' => $data['categories'],
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Halaman detail artikel (publik)
      */
     public function show($slug)
     {
-        $artikel = artikel_model::with(['kategori', 'penulis'])
-            ->where('slug', $slug)
-            ->where('status', 'published')
-            ->firstOrFail();
+        $cacheKey = "guest_article_{$slug}";
 
-        // Artikel terkait (kategori sama, exclude artikel ini)
-        $related = artikel_model::with('kategori')
-            ->where('kategori_id', $artikel->kategori_id)
-            ->where('id', '!=', $artikel->id)
-            ->where('status', 'published')
-            ->limit(3)
-            ->get();
+        $article = Cache::remember($cacheKey, now()->addHours(6), function () use ($slug) {
+            return artikel_model::with(['kategori', 'penulis'])
+                    ->published()
+                    ->where('slug', $slug)
+                    ->firstOrFail();
+        });
 
-        // Berita terbaru (3 artikel terbaru selain artikel ini)
-        $latestNews = artikel_model::with('kategori')
-            ->where('status', 'published')
-            ->where('id', '!=', $artikel->id)
-            ->orderBy('published_at', 'desc')
-            ->limit(3)
-            ->get();
+        // Artikel terkait (cache terpisah)
+        $relatedCacheKey = "guest_article_{$article->id}_related";
+        $relatedArticles = Cache::remember($relatedCacheKey, now()->addHours(3), function () use ($article) {
+            return artikel_model::with('kategori')
+                    ->published()
+                    ->where('kategori_id', $article->kategori_id)
+                    ->where('id', '!=', $article->id)
+                    ->latest('published_at')
+                    ->take(3)
+                    ->get();
+        });
 
-        // Topik populer (kategori dengan jumlah artikel terbanyak)
-        $trendingCategories = kategori_artikel_model::withCount('artikel')
-            ->orderBy('artikel_count', 'desc')
-            ->limit(6)
-            ->get();
+        // Artikel Terbaru (global)
+    $latestCacheKey = "guest_latest_articles";
+    $latestArticles = Cache::remember($latestCacheKey, now()->addHours(2), function () {
+        return artikel_model::with('kategori')
+                ->published()
+                ->latest('published_at')
+                ->take(5)
+                ->get();
+    });
 
-        return view('guest.artikel.detail', compact('artikel', 'related', 'latestNews', 'trendingCategories'));
-    }
+    $recommendedCacheKey = "guest_recommended_articles_except_{$article->id}";
+    $recommendedArticles = Cache::remember($recommendedCacheKey, now()->addHours(2), function () use ($article) {
+        return artikel_model::with('kategori')
+                ->published()
+                ->where('id', '!=', $article->id)
+                ->inRandomOrder()
+                ->take(5)
+                ->get();
+    });
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    return view('guest.artikel.show', compact(
+        'article',
+        'relatedArticles',
+        'latestArticles',
+        'recommendedArticles'
+    ));
     }
 }
