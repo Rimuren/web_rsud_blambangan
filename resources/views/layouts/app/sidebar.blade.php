@@ -130,13 +130,13 @@
             @can('manage ruangan')
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
                 @can('view daftar-bangsal')
-                <flux:sidebar.item href="#">
+                <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.bangsal.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.bangsal.index')" wire:navigate>
                     Daftar Bangsal
                 </flux:sidebar.item>
                 @endcan
 
                 @can('view daftar-kelas')
-                <flux:sidebar.item href="#">
+                <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.kelas.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.kelas.index')" wire:navigate>
                     Daftar Kelas
                 </flux:sidebar.item>
                 @endcan
