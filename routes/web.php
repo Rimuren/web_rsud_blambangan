@@ -183,6 +183,9 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::get('/', 'index')->name('admin.dokter.index');
     });
 
+    // ROUTE MANAJEMEN RUANGAN (BANGSAL)
+    Route::view('/admin/manajemen-ruangan', 'admin.manajemen-ruangan.index')->name('admin.manajemen-ruangan.index');
+
     // Dokumentasi foto & video
     Route::prefix('admin/dokumentasi')->group(function () {
         Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
