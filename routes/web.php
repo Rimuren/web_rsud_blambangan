@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AdminDashboardController,
     ArtikelController,
+    GuestArtikelController,
     DokterController,
     GuestHomeController,
     RoleController,
@@ -16,34 +17,43 @@ use App\Http\Controllers\{
 | Guest Routes (Public)
 |--------------------------------------------------------------------------
 */
+
+// Homepage
 Route::get('/',[GuestHomeController::class,'index'])->name('guest.home');
 
+// Profil
+Route::get('/profil', function () {
+    return view('guest.profil.index');
+})->name('guest.profil.index');
+
+// Daftar dokter
+Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
+
+Route::get('/dokter/spesialis', function () {
+    return view('admin.dokter.spesialis.index');
+})->name('admin.dokter.spesialis.index');
+
+// Info kamar
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
 })->name('guest.info-kamar.index');
 
-Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
+Route::get('/kamar/index', function () {
+    return view('kamar.index');
+})->name('kamar.index');
 
+// Artikel
+Route::prefix('artikel')->name('guest.artikel.')->group(function () {
+    Route::get('/', [GuestArtikelController::class, 'index'])->name('index');
+    Route::get('/{slug}', [GuestArtikelController::class, 'show'])->name('detail');
+});
+
+// Layanan Rawat Inap
 Route::get('/layanan-rawat-inap', function () {
     return view('guest.layanan-rawat-inap.index');
 })->name('guest.layanan-rawat-inap.index');
 
-Route::get('/layanan-igd', function () {
-    return view('guest.layanan-igd.index');
-})->name('guest.layanan-igd.index');
-
-Route::get('/layanan-rawat-jalan', function () {
-    return view('guest.layanan-rawat-jalan.index');
-})->name('guest.layanan-rawat-jalan.index');
-
-Route::get('/layanan-rawat-jalan/anasthesi', function () {
-    return view('guest.layanan-rawat-jalan.anasthesi.index');
-})->name('guest.layanan-rawat-jalan.anasthesi.index');
-
-// Route Sementara
-Route::get('/layanan-rawat-jalan/{slug}')->name('guest.layanan-rawat-jalan.detail');
-// Route::get('/layanan-rawat-jalan/{slug}', [LayananRawatJalanController::class, 'detail'])->name('guest.layanan-rawat-jalan.detail');
-
+// Layanan Unggulan
 Route::get('/layanan-unggulan', function () {
     return view('guest.layanan-unggulan.index');
 })->name('guest.layanan-unggulan.index');
@@ -66,18 +76,25 @@ Route::prefix('layanan-unggulan')->group(function () {
     })->name('guest.layanan-unggulan.dsa.index');
 });
 
-Route::get('/dokter/spesialis', function () {
-    return view('admin.dokter.spesialis.index');
-})->name('admin.dokter.spesialis.index');
+// Layanan Rawat Jalan
+Route::get('/layanan-rawat-jalan', function () {
+    return view('guest.layanan-rawat-jalan.index');
+})->name('guest.layanan-rawat-jalan.index');
 
-Route::get('/kamar/index', function () {
-    return view('kamar.index');
-})->name('kamar.index');
+Route::get('/layanan-rawat-jalan/anasthesi', function () {
+    return view('guest.layanan-rawat-jalan.anasthesi.index');
+})->name('guest.layanan-rawat-jalan.anasthesi.index');
 
-Route::get('/artikel/index', function () {
-    return view('artikel.index');
-})->name('artikel.index');
+// Route Sementara
+Route::get('/layanan-rawat-jalan/{slug}')->name('guest.layanan-rawat-jalan.detail');
+// Route::get('/layanan-rawat-jalan/{slug}', [LayananRawatJalanController::class, 'detail'])->name('guest.layanan-rawat-jalan.detail');
 
+// Layanan IGD
+Route::get('/layanan-igd', function () {
+    return view('guest.layanan-igd.index');
+})->name('guest.layanan-igd.index');
+
+// Informasi
 Route::prefix('informasi')->group(function () {
     Route::get('/alur-persyaratan', function () {
         return view('guest.informasi.alur-persyaratan.index');
@@ -101,18 +118,7 @@ Route::prefix('informasi')->group(function () {
     
 });
 
-Route::get('/profil', function () {
-    return view('guest.profil.index');
-})->name('guest.profil.index');
-
-Route::get('/artikel', function () {
-    return view('guest.artikel.index');
-})->name('guest.artikel.index');
-
-Route::get('/artikel/{id}', function ($id) {
-    return view('guest.artikel.detail');
-})->name('guest.artikel.detail');
-
+// Dokumentasi
 Route::prefix('galeri')->group(function () {
     Route::get('/foto', function () {
         return view('guest.galeri.foto.index');
