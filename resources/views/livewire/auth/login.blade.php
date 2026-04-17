@@ -1,11 +1,16 @@
 <x-layouts::auth :title="__('Log in')">
-    <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
+    <div class="flex flex-col gap-8 w-full max-w-2xl px-8 py-6">
+        {{-- Logo --}}
+        <div class="flex justify-center mb-4">
+            <img src="{{ asset('images/LOGO-RSUD.png') }}" alt="Logo RSUD Blambangan" class="h-20 w-auto object-contain" loading="lazy" />
+        </div>
+
+        <x-auth-header :title="__('Sign in to Dashboard Portal')"/>
 
         {{-- Session Status --}}
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">
+        <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-8">
             @csrf
 
             {{-- Email Address --}}
@@ -18,6 +23,7 @@
                 autofocus
                 autocomplete="email"
                 placeholder="email@example.com"
+                class="py-3"
             />
 
             {{-- Password --}}
@@ -30,6 +36,7 @@
                     autocomplete="current-password"
                     :placeholder="__('Password')"
                     viewable
+                    class="py-3"
                 />
 
                 @if (Route::has('password.request'))
@@ -42,8 +49,11 @@
             {{-- Remember Me --}}
             <flux:checkbox name="remember" :label="__('Remember me')" :checked="old('remember')" />
 
+            {{-- reCAPTCHA --}}
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+
             <div class="flex items-center justify-end">
-                <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
+                <flux:button variant="primary" type="submit" class="w-full py-3 text-base font-semibold" data-test="login-button">
                     {{ __('Log in') }}
                 </flux:button>
             </div>
