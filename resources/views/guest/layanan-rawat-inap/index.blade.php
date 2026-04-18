@@ -5,6 +5,8 @@
 @section('content')
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+{{-- AOS CSS --}}
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
     tailwind.config = {
@@ -25,6 +27,20 @@
     }
 </script>
 <style>
+    /* Sembunyikan scrollbar untuk semua browser modern */
+    /* Chrome, Safari, Edge */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    /* Firefox */
+    html {
+        scrollbar-width: none;
+    }
+    /* Internet Explorer 10+ (opsional) */
+    body {
+        -ms-overflow-style: none;
+    }
+
     body { font-family: 'Inter', sans-serif; }
     .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -34,14 +50,27 @@
         width: 100%;
         max-width: 100%;
     }
+    /* Optimasi performa: hindari repaint berlebihan */
+    .group {
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+    /* Optimasi gambar background agar smooth */
+    [style*="background-image"] {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: translateZ(0);
+    }
 </style>
 
 <div class="relative min-h-screen w-full overflow-x-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
     <div class="flex flex-col">
         <div class="px-4 md:px-10 lg:px-20 flex justify-center py-10">
             <div class="max-w-[1280px] w-full">
-                {{-- Header --}}
-                <div class="flex flex-wrap justify-between items-end gap-3 p-4 mb-6">
+                {{-- Header dengan animasi fade-down --}}
+                <div class="flex flex-wrap justify-between items-end gap-3 p-4 mb-6" data-aos="fade-down" data-aos-duration="800">
                     <div class="flex flex-col gap-3">
                         <h1 class="text-hospital-blue dark:text-primary text-3xl md:text-4xl lg:text-5xl font-black tracking-tight">Layanan Rawat Inap</h1>
                         <p class="text-slate-600 dark:text-slate-400 text-base md:text-lg max-w-2xl">Berbagai pilihan ruang perawatan yang nyaman, dari suite premium hingga unit perawatan intensif.</p>
@@ -181,23 +210,22 @@
 
                 {{-- Grid Layout: 3 kolom pada desktop, 2 pada tablet, 1 pada mobile --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-                    @foreach ($rooms as $room)
-                    <div class="group bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
-                        {{-- Gambar --}}
+                    @foreach ($rooms as $index => $room)
+                    <div class="group bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
+                         data-aos="fade-up" 
+                         data-aos-duration="600" 
+                         data-aos-delay="{{ $index * 50 }}" 
+                         data-aos-offset="50">
+                        {{-- Gambar dengan lazy loading menggunakan background-image (tetap smooth) --}}
                         <div class="w-full aspect-[4/3] bg-center bg-cover bg-no-repeat" style="background-image: url('{{ $room['img'] }}');"></div>
                         
                         {{-- Konten --}}
                         <div class="p-5 flex flex-col flex-grow">
-                            {{-- Header: Nama & Status --}}
                             <div class="flex justify-between items-start gap-2 mb-3">
                                 <h2 class="text-hospital-blue dark:text-slate-100 text-xl font-bold">{{ $room['name'] }}</h2>
                                 <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold whitespace-nowrap {{ $room['status_badge'] }}">{{ $room['status'] }}</span>
                             </div>
-                            
-                            {{-- Deskripsi --}}
                             <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">{{ $room['description'] }}</p>
-                            
-                            {{-- Fasilitas --}}
                             <div class="flex flex-wrap gap-3 mt-auto">
                                 @foreach ($room['amenities'] as $amenity)
                                 <div class="flex items-center gap-1 text-hospital-blue dark:text-primary">
@@ -214,4 +242,19 @@
         </div>
     </div>
 </div>
+
+{{-- AOS JS --}}
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Inisialisasi AOS dengan konfigurasi ringan dan optimal
+    AOS.init({
+        once: true,          // Animasi sekali saja
+        offset: 80,         // Jarak scroll sebelum animasi
+        duration: 600,      // Durasi animasi
+        easing: 'ease-out', // Efek easing
+        mirror: false,      // Tidak animasi ulang saat scroll ke atas
+        disable: false,     // Aktif di semua device
+        startEvent: 'DOMContentLoaded', // Mulai setelah DOM siap
+    });
+</script>
 @endsection
