@@ -9,13 +9,43 @@
     body { font-family: 'Nunito Sans', sans-serif; }
     .hero-bg { background-color: #dde8f0; }
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+
+    /* ===== ANIMATION STYLES ===== */
+    .fade-up, .fade-left, .fade-right, .fade-in {
+        opacity: 0;
+        transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        will-change: opacity, transform;
+    }
+    .fade-up {
+        transform: translateY(30px);
+    }
+    .fade-left {
+        transform: translateX(-30px);
+    }
+    .fade-right {
+        transform: translateX(30px);
+    }
+    .fade-in {
+        transform: scale(0.98);
+    }
+    /* Visible state */
+    .fade-up.visible, .fade-left.visible, .fade-right.visible, .fade-in.visible {
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+    }
+
+    /* Staggered delay for facility cards */
+    .stagger-facility:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-facility:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-facility:nth-child(3) { transition-delay: 0.15s; }
+    .stagger-facility:nth-child(4) { transition-delay: 0.2s; }
 </style>
 
 <div class="bg-white text-gray-800">
     {{-- HERO SECTION --}}
     <section class="hero-bg px-6 py-12 md:py-16 md:px-20">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-center">
-            <div class="flex-1">
+            <div class="flex-1 fade-left">
                 <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[#0d2d5e] leading-tight">
                     Hemodialysis
                 </h1>
@@ -26,7 +56,7 @@
                     Pusat hemodialisis modern dengan teknologi high-flux, dirancang untuk kenyamanan dan keamanan Anda selama terapi ginjal.
                 </p>
             </div>
-            <div class="flex-1 flex justify-center">
+            <div class="flex-1 flex justify-center fade-right">
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-md">
                     <img src="{{ asset('images/hemodialysis.jpg') }}" alt="Hemodialysis Center" class="w-full h-auto object-cover">
                 </div>
@@ -36,7 +66,7 @@
 
     {{-- TENTANG HEMODIALISIS --}}
     <section class="px-6 py-10 md:px-20">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto fade-up">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Tentang Hemodialisis</h2>
@@ -49,7 +79,6 @@
                     <p>
                         Tim profesional kami siap membantu Anda 24/7 dengan protokol keamanan ketat dan peralatan <span class="font-bold text-[#e05a1a]">high-flux</span> untuk hasil terapi yang optimal dan kenyamanan maksimal.
                     </p>
-
                 </div>
             </div>
         </div>
@@ -89,7 +118,7 @@
                 @endphp
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     @foreach ($facilities as $index => $facility)
-                    <div class="flex gap-4 items-start bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition">
+                    <div class="flex gap-4 items-start bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition fade-up stagger-facility">
                         <div class="flex-shrink-0">
                             <div class="w-10 h-10 bg-[#0d2d5e] rounded-full flex items-center justify-center text-white font-bold text-sm">
                                 {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
@@ -108,7 +137,7 @@
 
     {{-- PROSEDUR HEMODIALISIS --}}
     <section class="px-6 py-10 md:px-20">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto fade-up">
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Prosedur Hemodialisis</h2>
@@ -128,7 +157,7 @@
 
     {{-- ALERT BAR 24/7 --}}
     <section class="px-6 py-6 md:px-20">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-4xl mx-auto fade-in">
             <div class="bg-white rounded-2xl shadow-md border border-gray-100 flex items-center justify-center gap-3 px-6 py-4">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="#e05a1a" stroke-width="1.6"/>
@@ -140,4 +169,58 @@
         </div>
     </section>
 </div>
-@endsection 
+
+<script>
+    (function() {
+        // Semua elemen dengan kelas animasi
+        const animatedElements = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .fade-in');
+        
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+        
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Untuk jaga-jaga jika sudah terlihat sebelum observer
+        const checkVisibleOnLoad = () => {
+            animatedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50 && !el.classList.contains('visible')) {
+                    el.classList.add('visible');
+                }
+            });
+        };
+        window.addEventListener('load', checkVisibleOnLoad);
+        window.addEventListener('scroll', () => {
+            animatedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50 && !el.classList.contains('visible')) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+        
+        // Efek hover tambahan pada card fasilitas
+        const facilityCards = document.querySelectorAll('.stagger-facility');
+        facilityCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.transition = 'transform 0.25s ease, box-shadow 0.25s ease';
+                card.style.boxShadow = '0 10px 25px -5px rgba(0,0,0,0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.boxShadow = '';
+            });
+        });
+    })();
+</script>
+@endsection
