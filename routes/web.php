@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     RoleController,
     UserController,
     KategoriArtikelController,
+    PhotoController,
 };
 
 /*
@@ -120,9 +121,8 @@ Route::prefix('informasi')->group(function () {
 
 // Dokumentasi
 Route::prefix('galeri')->group(function () {
-    Route::get('/foto', function () {
-        return view('guest.galeri.foto.index');
-    })->name('guest.galeri.foto.index');
+    Route::get('/foto', [PhotoController::class, 'guestIndex'])->name('guest.galeri.foto.index');
+    
 
     Route::get('/video', function () {
         return view('guest.galeri.video.index');
@@ -192,12 +192,26 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     // ROUTE MANAJEMEN RUANGAN (BANGSAL)
     Route::view('/admin/manajemen-ruangan/bangsal', 'admin.manajemen-ruangan.bangsal.index')->name('admin.manajemen-ruangan.bangsal.index');
 
-    // Dokumentasi foto & video
-    Route::prefix('admin/dokumentasi')->group(function () {
-        Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
-        Route::view('/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
-        Route::view('/foto/create', 'admin.dokumentasi.foto.create')->name('admin.dokumentasi.foto.create');
-    });
+    // Rute untuk manajemen foto (CRUD)
+Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(function () {
+    Route::get('/', [PhotoController::class, 'index'])->name('index');
+    Route::get('/create', [PhotoController::class, 'create'])->name('create');
+    Route::post('/', [PhotoController::class, 'store'])->name('store');
+    Route::get('/{foto}/edit', [PhotoController::class, 'edit'])->name('edit');
+    Route::put('/{foto}', [PhotoController::class, 'update'])->name('update');
+    Route::delete('/{foto}', [PhotoController::class, 'destroy'])->name('destroy');
+});
+
+// Rute untuk manajemen video (sementara, bisa dikembangkan nanti)
+Route::prefix('admin/dokumentasi/video')->group(function () {
+    Route::get('/', function () {
+        return view('admin.dokumentasi.video.index');
+    })->name('admin.dokumentasi.video.index');
+    
+    Route::get('/create', function () {
+        return view('admin.dokumentasi.video.create');
+    })->name('admin.dokumentasi.video.create');
+});
 });
 
 /*

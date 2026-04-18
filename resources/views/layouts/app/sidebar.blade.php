@@ -81,27 +81,27 @@
             @endcan
 
             {{-- Manajemen Dokumentasi --}}
-            @can('manage dokumentasi')
-            <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
-                @can('view daftar-foto')
-                <flux:sidebar.item
-                    :href="route('admin.dokumentasi.foto')"
-                    :current="request()->routeIs('admin.dokumentasi.foto')"
-                    wire:navigate>
-                    Foto
-                </flux:sidebar.item>
-                @endcan
+@can('manage dokumentasi')
+<flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
+    @can('view daftar-foto')
+    <flux:sidebar.item
+        :href="route('admin.dokumentasi.foto.index')"
+        :current="request()->routeIs('admin.dokumentasi.foto.index')"
+        wire:navigate>
+        Foto
+    </flux:sidebar.item>
+    @endcan
 
-                @can('view daftar-video')
-                <flux:sidebar.item
-                    :href="route('admin.dokumentasi.video')"
-                    :current="request()->routeIs('admin.dokumentasi.video')"
-                    wire:navigate>
-                    Video
-                </flux:sidebar.item>
-                @endcan
-            </flux:sidebar.group>
-            @endcan
+    @can('view daftar-video')
+    <flux:sidebar.item
+        :href="route('admin.dokumentasi.video.index')"
+        :current="request()->routeIs('admin.dokumentasi.video.index')"
+        wire:navigate>
+        Video
+    </flux:sidebar.item>
+    @endcan
+</flux:sidebar.group>
+@endcan
 
             {{-- Manajemen Dokter --}}
             @can('manage dokter')

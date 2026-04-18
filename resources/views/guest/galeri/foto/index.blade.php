@@ -3,106 +3,79 @@
 @section('title', 'Galeri Foto')
 
 @section('content')
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Photo Gallery</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
-  </style>
-</head>
-<body class="bg-white text-gray-900">
-
-  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-7 py-12">
-
-    <!-- Section Header -->
-    <div class="flex items-center gap-2 mb-8 pb-4 border-b border-gray-200">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-        <circle cx="8.5" cy="8.5" r="1.5"/>
-        <polyline points="21 15 16 10 5 21"/>
-      </svg>
-      <h1 class="text-xl font-bold tracking-widest uppercase text-gray-900" style="letter-spacing: 0.1em;">Photo Gallery</h1>
+<div class="max-w-6xl mx-auto px-6 py-12">
+    {{-- Header --}}
+    <div class="flex items-center gap-2 mb-6 pb-4 border-b border-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+        </svg>
+        <h1 class="text-lg font-bold tracking-widest uppercase text-gray-900" style="letter-spacing: 0.1em;">Photo Gallery</h1>
     </div>
 
-    <!-- Gallery Grid - Ukuran card lebih besar di desktop -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
-      
-      <!-- Card 1 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800&auto=format&fit=crop" alt="Advanced Surgery Center" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">Advanced Surgery Center</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">Equipped with robotic-assisted technology.</p>
+    {{-- Grid Galeri --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-9">
+        @forelse($fotos as $foto)
+        <div class="gallery-card border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-lg transition">
+            <img src="{{ $foto->gambar ? asset('storage/' . $foto->gambar) : asset('images/placeholder.jpg') }}"
+                 alt="{{ $foto->judul }}"
+                 class="w-full h-56 object-cover">
+            <div class="px-4 py-3">
+                <p class="text-sm font-semibold text-gray-900">{{ $foto->judul }}</p>
+                <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ $foto->deskripsi }}</p>
+                <span class="inline-block mt-2 text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full capitalize">{{ $foto->kategori }}</span>
+            </div>
         </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1587351021759-3772687fe598?w=800&auto=format&fit=crop" alt="Premium Recovery Suites" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">Premium Recovery Suites</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">Designed for comfort and rapid healing.</p>
+        @empty
+        <div class="col-span-full text-center py-24">
+            <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke-width="1.5"/>
+                <circle cx="8.5" cy="8.5" r="1.5" stroke-width="1.5"/>
+                <polyline points="21 15 16 10 5 21" stroke-width="1.5"/>
+            </svg>
+            <h3 class="text-xl font-medium text-gray-700">Belum ada foto</h3>
+            <p class="text-gray-500 mt-2">Galeri foto akan segera diisi.</p>
         </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop" alt="24/7 Trauma Care" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">24/7 Trauma Care</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">Swift response and life-saving interventions.</p>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&auto=format&fit=crop" alt="Main Atrium" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">Main Atrium</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">A welcoming environment for patients and families.</p>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&auto=format&fit=crop" alt="Radiology & Diagnostics" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">Radiology & Diagnostics</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">High-resolution MRI and CT scanning units.</p>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <img src="https://images.unsplash.com/photo-1576765608622-067973a79f53?w=800&auto=format&fit=crop" alt="Pediatric Care Center" class="w-full h-56 sm:h-64 lg:h-72 object-cover">
-        <div class="p-4 md:p-5">
-          <p class="text-sm md:text-base font-semibold text-gray-900">Pediatric Care Center</p>
-          <p class="text-xs md:text-sm text-gray-500 mt-1">Specialized medical care for children.</p>
-        </div>
-      </div>
-
+        @endforelse
     </div>
 
-    <!-- Pagination -->
-    <div class="flex items-center justify-center gap-1 mt-12">
-      <button class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 text-sm">&#8249;</button>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white text-sm font-medium">1</button>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 text-sm">2</button>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 text-sm">3</button>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 text-sm">4</button>
-      <span class="w-8 h-8 flex items-center justify-center text-gray-400 text-sm">...</span>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 text-sm">12</button>
-      <button class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 text-sm">&#8250;</button>
+    {{-- Pagination Custom --}}
+    @if($fotos->hasPages())
+    <div class="flex items-center justify-center gap-1 mt-10">
+        {{-- Previous --}}
+        @if($fotos->onFirstPage())
+            <span class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-300 text-sm cursor-not-allowed">&#8249;</span>
+        @else
+            <a href="{{ $fotos->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 text-sm">&#8249;</a>
+        @endif
+
+        {{-- Pagination Elements --}}
+        @foreach($fotos->getUrlRange(1, $fotos->lastPage()) as $page => $url)
+            @if($page == $fotos->currentPage())
+                <span class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white text-sm font-medium">{{ $page }}</span>
+            @else
+                <a href="{{ $url }}" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 text-sm">{{ $page }}</a>
+            @endif
+        @endforeach
+
+        {{-- Next --}}
+        @if($fotos->hasMorePages())
+            <a href="{{ $fotos->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100 text-sm">&#8250;</a>
+        @else
+            <span class="w-8 h-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-300 text-sm cursor-not-allowed">&#8250;</span>
+        @endif
     </div>
+    @endif
+</div>
 
-  </div>
-
-</body>
-</html>
-
+{{-- Optional: tambahan CSS untuk line-clamp jika belum support --}}
+<style>
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
 @endsection
