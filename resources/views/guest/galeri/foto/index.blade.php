@@ -17,7 +17,7 @@
 </head>
 <body class="bg-white text-gray-900">
 
-  <div class="max-w-screen-1xl mx-auto px-4 sm:px-6 lg:px-7 py-12">
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-7 py-12">
 
     <!-- Section Header -->
     <div class="flex items-center gap-2 mb-8 pb-4 border-b border-gray-200">
