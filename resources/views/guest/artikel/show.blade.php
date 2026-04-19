@@ -29,12 +29,6 @@
     .prose li {
         margin-bottom: 0.25em;
     }
-    .prose img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 0.75rem;
-        margin: 1.5em 0;
-    }
     .prose blockquote {
         border-left: 4px solid #f97316;
         padding-left: 1.5em;
@@ -57,6 +51,64 @@
         overflow: hidden;
     }
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+
+    /* =============================================
+       🔥 FIX ALIGNMENT GAMBAR & TEKS (SAMA DENGAN EDITOR)
+    ============================================= */
+    .prose img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.75rem;
+        margin: 1.5em 0;
+        display: block;
+    }
+
+    /* Alignment teks */
+    .prose .ql-align-center {
+        text-align: center;
+    }
+    .prose .ql-align-right {
+        text-align: right;
+    }
+    .prose .ql-align-left {
+        text-align: left;
+    }
+
+    /* Gambar dalam paragraf default rata kiri */
+    .prose p img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* Gambar di dalam elemen dengan alignment */
+    .prose .ql-align-center img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .prose .ql-align-right img {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .prose .ql-align-left img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* Pastikan gambar dalam figure atau div juga terpengaruh */
+    .prose figure img,
+    .prose div[class*="ql-align"] img {
+        display: block;
+    }
+    .prose figure.ql-align-center img,
+    .prose div.ql-align-center img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .prose figure.ql-align-right img,
+    .prose div.ql-align-right img {
+        margin-left: auto;
+        margin-right: 0;
+    }
 </style>
 
 <div class="min-h-screen py-10 px-7 bg-[#e8f0f7]">
