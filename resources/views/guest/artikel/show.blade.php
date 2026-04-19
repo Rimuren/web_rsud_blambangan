@@ -50,11 +50,9 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+    html, body { overflow-x: hidden; width: 100%; max-width: 100%; 
 
-    /* =============================================
-       🔥 FIX ALIGNMENT GAMBAR & TEKS (SAMA DENGAN EDITOR)
-    ============================================= */
+    {{ -- ALIGNMENT GAMBAR & TEKS -- }}
     .prose img {
         max-width: 100%;
         height: auto;
@@ -93,8 +91,6 @@
         margin-left: 0;
         margin-right: auto;
     }
-
-    /* Pastikan gambar dalam figure atau div juga terpengaruh */
     .prose figure img,
     .prose div[class*="ql-align"] img {
         display: block;
@@ -136,7 +132,7 @@
             </ol>
         </nav>
 
-        {{-- Grid Utama: Konten (kiri) + Sidebar (kanan) --}}
+        {{-- Grid Utama: Konten + Sidebar --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {{-- Kolom Kiri: Artikel Utama --}}
             <div class="lg:col-span-2">
@@ -208,7 +204,7 @@
                     </div>
                 </article>
 
-                {{-- Artikel Terkait (tetap di bawah konten utama) --}}
+                {{-- Artikel Terkait --}}
                 @if($relatedArticles->count())
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold text-blue-900 mb-5 flex items-center">
@@ -245,7 +241,7 @@
                 @endif
             </div>
 
-            {{-- Kolom Kanan: Sidebar (Artikel Terbaru & Rekomendasi) --}}
+            {{-- Kolom Kanan: Sidebar --}}
             <div class="lg:col-span-1 space-y-8">
                 {{-- Artikel Terbaru --}}
                 <div class="bg-white rounded-2xl shadow-sm p-6">
