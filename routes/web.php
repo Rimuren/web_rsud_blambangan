@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     UserController,
     KategoriArtikelController,
     PhotoController,
+    VideoController
 };
 
 /*
@@ -119,14 +120,9 @@ Route::prefix('informasi')->group(function () {
     
 });
 
-// Dokumentasi
 Route::prefix('galeri')->group(function () {
     Route::get('/foto', [PhotoController::class, 'guestIndex'])->name('guest.galeri.foto.index');
-    
-
-    Route::get('/video', function () {
-        return view('guest.galeri.video.index');
-    })->name('guest.galeri.video.index');
+    Route::get('/video', [VideoController::class, 'guestIndex'])->name('guest.galeri.video.index');
 });
 
 /*
@@ -202,17 +198,20 @@ Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(
     Route::delete('/{foto}', [PhotoController::class, 'destroy'])->name('destroy');
 });
 
-// Rute untuk manajemen video (sementara, bisa dikembangkan nanti)
-Route::prefix('admin/dokumentasi/video')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dokumentasi.video.index');
-    })->name('admin.dokumentasi.video.index');
     
-    Route::get('/create', function () {
-        return view('admin.dokumentasi.video.create');
-    })->name('admin.dokumentasi.video.create');
-});
-});
+
+// Rute untuk manajemen video (CRUD)
+  Route::prefix('admin/dokumentasi/video')->name('admin.dokumentasi.video.')->group(function () {
+        Route::get('/', [VideoController::class, 'index'])->name('index');
+        Route::get('/create', [VideoController::class, 'create'])->name('create');
+        Route::post('/', [VideoController::class, 'store'])->name('store');
+        Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
+        Route::put('/{video}', [VideoController::class, 'update'])->name('update');
+        Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
+    });
+
+    });
+
 
 /*
 |--------------------------------------------------------------------------
