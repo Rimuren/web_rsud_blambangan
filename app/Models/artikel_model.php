@@ -17,6 +17,7 @@ class artikel_model extends Model
         'slug',
         'konten',
         'thumbnail',
+        'views',
         'kategori_id',
         'penulis_id',
         'status',
