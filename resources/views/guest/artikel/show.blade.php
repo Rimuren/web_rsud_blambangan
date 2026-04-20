@@ -29,12 +29,6 @@
     .prose li {
         margin-bottom: 0.25em;
     }
-    .prose img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 0.75rem;
-        margin: 1.5em 0;
-    }
     .prose blockquote {
         border-left: 4px solid #f97316;
         padding-left: 1.5em;
@@ -56,7 +50,61 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+    html, body { overflow-x: hidden; width: 100%; max-width: 100%; 
+
+    {{ -- ALIGNMENT GAMBAR & TEKS -- }}
+    .prose img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.75rem;
+        margin: 1.5em 0;
+        display: block;
+    }
+
+    /* Alignment teks */
+    .prose .ql-align-center {
+        text-align: center;
+    }
+    .prose .ql-align-right {
+        text-align: right;
+    }
+    .prose .ql-align-left {
+        text-align: left;
+    }
+
+    /* Gambar dalam paragraf default rata kiri */
+    .prose p img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* Gambar di dalam elemen dengan alignment */
+    .prose .ql-align-center img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .prose .ql-align-right img {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .prose .ql-align-left img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    .prose figure img,
+    .prose div[class*="ql-align"] img {
+        display: block;
+    }
+    .prose figure.ql-align-center img,
+    .prose div.ql-align-center img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .prose figure.ql-align-right img,
+    .prose div.ql-align-right img {
+        margin-left: auto;
+        margin-right: 0;
+    }
 </style>
 
 <div class="min-h-screen py-10 px-7 bg-[#e8f0f7]">
@@ -84,7 +132,7 @@
             </ol>
         </nav>
 
-        {{-- Grid Utama: Konten (kiri) + Sidebar (kanan) --}}
+        {{-- Grid Utama: Konten + Sidebar --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {{-- Kolom Kiri: Artikel Utama --}}
             <div class="lg:col-span-2">
@@ -156,7 +204,7 @@
                     </div>
                 </article>
 
-                {{-- Artikel Terkait (tetap di bawah konten utama) --}}
+                {{-- Artikel Terkait --}}
                 @if($relatedArticles->count())
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold text-blue-900 mb-5 flex items-center">
@@ -193,7 +241,7 @@
                 @endif
             </div>
 
-            {{-- Kolom Kanan: Sidebar (Artikel Terbaru & Rekomendasi) --}}
+            {{-- Kolom Kanan: Sidebar --}}
             <div class="lg:col-span-1 space-y-8">
                 {{-- Artikel Terbaru --}}
                 <div class="bg-white rounded-2xl shadow-sm p-6">
