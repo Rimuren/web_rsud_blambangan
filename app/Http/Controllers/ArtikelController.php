@@ -25,22 +25,38 @@ class ArtikelController extends Controller
 
     public function index(Request $request)
     {
-        $query = artikel_model::with(['kategori', 'penulis']);
+        // Statistik untuk card informatif
+        $totalArtikel = artikel_model::count();
+        $publishedCount = artikel_model::where('status', 'published')->count();
+        $draftCount = artikel_model::where('status', 'draft')->count();
+        $totalViews = artikel_model::sum('views');
 
-        if ($request->filled('kategori')) {
-            $query->whereHas('kategori', fn($q) => $q->where('slug', $request->kategori));
-        }
-        if ($request->filled('search')) {
-            $query->where('judul', 'like', '%' . $request->search . '%');
-        }
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
+        // Kategori dengan jumlah artikel (perhatikan nama relasi 'artikels')
+        $kategoris = kategori_artikel_model::withCount('artikels')->orderBy('nama')->get();
 
-        $artikels = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
-        $kategoris = kategori_artikel_model::orderBy('nama')->get();
+        // Query utama artikel
+        $artikels = artikel_model::with(['kategori', 'penulis'])
+            ->when($request->filled('kategori'), function ($query) use ($request) {
+                $query->whereHas('kategori', fn($q) => $q->where('slug', $request->kategori));
+            })
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->where('judul', 'like', '%' . $request->search . '%');
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('admin.artikel.index', compact('artikels', 'kategoris'));
+        return view('admin.artikel.index', compact(
+            'artikels',
+            'kategoris',
+            'totalArtikel',
+            'publishedCount',
+            'draftCount',
+            'totalViews'
+        ));
     }
 
     public function create()
