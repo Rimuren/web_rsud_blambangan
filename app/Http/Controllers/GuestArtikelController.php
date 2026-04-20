@@ -31,7 +31,7 @@ class GuestArtikelController extends Controller
 
         $articles = $query->paginate(9);
 
-        // Kategori (langsung ambil, tanpa cache)
+        // Kategori 
         $categories = kategori_artikel_model::orderBy('nama')->get();
 
         return view('guest.artikel.index', compact('articles', 'categories'));
@@ -40,42 +40,77 @@ class GuestArtikelController extends Controller
     /**
      * Halaman detail artikel (publik)
      */
-    public function show($slug)
-    {
-        $article = artikel_model::with(['kategori', 'penulis'])
-                    ->published()
-                    ->where('slug', $slug)
-                    ->firstOrFail();
-
-        // Artikel terkait
-        $relatedArticles = artikel_model::with('kategori')
+public function show($slug)
+{
+    $article = artikel_model::with(['kategori', 'penulis'])
                 ->published()
-                ->where('kategori_id', $article->kategori_id)
-                ->where('id', '!=', $article->id)
-                ->latest('published_at')
-                ->take(3)
-                ->get();
+                ->where('slug', $slug)
+                ->firstOrFail();
 
-        // Artikel terbaru
-        $latestArticles = artikel_model::with('kategori')
-                ->published()
-                ->latest('published_at')
-                ->take(5)
-                ->get();
-
-        // Rekomendasi random
-        $recommendedArticles = artikel_model::with('kategori')
-                ->published()
-                ->where('id', '!=', $article->id)
-                ->inRandomOrder()
-                ->take(5)
-                ->get();
-
-        return view('guest.artikel.show', compact(
-            'article',
-            'relatedArticles',
-            'latestArticles',
-            'recommendedArticles'
-        ));
+    // === INCREMENT VIEWS (hanya sekali per session) ===
+    $sessionKey = 'viewed_article_' . $article->id;
+    if (!session()->has($sessionKey)) {
+        $article->increment('views');
+        session()->put($sessionKey, true);
     }
+
+    // === REKOMENDASI (Hybrid: kategori sama → views terbanyak → terbaru) ===
+    // Prioritas 1: Artikel dengan kategori yang sama
+    $recommendedArticles = artikel_model::with('kategori')
+        ->published()
+        ->where('kategori_id', $article->kategori_id)
+        ->where('id', '!=', $article->id)
+        ->orderBy('views', 'desc')
+        ->orderBy('published_at', 'desc')
+        ->take(5)
+        ->get();
+
+    // Jika kurang dari 5, ambil artikel populer (views terbanyak) dari kategori lain
+    if ($recommendedArticles->count() < 5) {
+        $needed = 5 - $recommendedArticles->count();
+        $excludeIds = $recommendedArticles->pluck('id')->push($article->id);
+        $popular = artikel_model::published()
+            ->whereNotIn('id', $excludeIds)
+            ->orderBy('views', 'desc')
+            ->orderBy('published_at', 'desc')
+            ->take($needed)
+            ->get();
+        $recommendedArticles = $recommendedArticles->concat($popular);
+    }
+
+    // Jika masih kurang (misal total artikel sedikit), tambahkan artikel terbaru
+    if ($recommendedArticles->count() < 5) {
+        $needed = 5 - $recommendedArticles->count();
+        $excludeIds = $recommendedArticles->pluck('id')->push($article->id);
+        $latest = artikel_model::published()
+            ->whereNotIn('id', $excludeIds)
+            ->orderBy('published_at', 'desc')
+            ->take($needed)
+            ->get();
+        $recommendedArticles = $recommendedArticles->concat($latest);
+    }
+
+    // === ARTIKEL TERKAIT (tetap berdasarkan kategori) ===
+    $relatedArticles = artikel_model::with('kategori')
+        ->published()
+        ->where('kategori_id', $article->kategori_id)
+        ->where('id', '!=', $article->id)
+        ->latest('published_at')
+        ->take(3)
+        ->get();
+
+    // === ARTIKEL TERBARU (sidebar) ===
+    $latestArticles = artikel_model::with('kategori')
+        ->published()
+        ->latest('published_at')
+        ->take(5)
+        ->get();
+
+    return view('guest.artikel.show', compact(
+        'article',
+        'relatedArticles',
+        'latestArticles',
+        'recommendedArticles'
+    ));
+}
 }
