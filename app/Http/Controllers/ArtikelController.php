@@ -123,127 +123,136 @@ class ArtikelController extends Controller
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    public function destroy($id)
-    {
-        $artikel = artikel_model::findOrFail($id);
-
-        if ($artikel->thumbnail && Storage::disk('public')->exists($artikel->thumbnail)) {
-            Storage::disk('public')->delete($artikel->thumbnail);
-        }
-
-        $artikel->delete();
-
-        return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil dihapus.');
-    }
-
-private function uploadThumbnail($file, $oldFile = null)
+public function destroy(artikel_model $artikel)
 {
-    if ($oldFile && Storage::disk('public')->exists($oldFile)) {
-        Storage::disk('public')->delete($oldFile);
+    if ($artikel->thumbnail && Storage::disk('public')->exists($artikel->thumbnail)) {
+        Storage::disk('public')->delete($artikel->thumbnail);
     }
 
-    $filename = 'artikel-' . now()->timestamp . '-' . Str::random(6) . '.webp';
-    $path = "artikel-thumbnails/{$filename}";
+    $artikel->delete();
 
-    // GD native
-    $source = $file->getPathname();
-    list($width, $height, $type) = getimagesize($source);
-
-    $img = $this->createImageFromFile($source, $type);
-    if (!$img) {
-        // Fallback simpan asli
-        return $file->store('artikel-thumbnails', 'public');
-    }
-
-    // Crop ke 1200x630 (center)
-    $targetWidth = 1200;
-    $targetHeight = 630;
-    $srcRatio = $width / $height;
-    $dstRatio = $targetWidth / $targetHeight;
-
-    if ($srcRatio > $dstRatio) {
-        $cropWidth = $height * $dstRatio;
-        $cropHeight = $height;
-        $srcX = ($width - $cropWidth) / 2;
-        $srcY = 0;
-    } else {
-        $cropWidth = $width;
-        $cropHeight = $width / $dstRatio;
-        $srcX = 0;
-        $srcY = ($height - $cropHeight) / 2;
-    }
-
-    $cropped = imagecreatetruecolor($targetWidth, $targetHeight);
-    imagecopyresampled($cropped, $img, 0, 0, $srcX, $srcY, $targetWidth, $targetHeight, $cropWidth, $cropHeight);
-    imagedestroy($img);
-
-    // Simpan sebagai WebP
-    ob_start();
-    imagewebp($cropped, null, 80);
-    $webpData = ob_get_clean();
-    imagedestroy($cropped);
-
-    Storage::disk('public')->put($path, $webpData);
-    return $path;
+    return redirect()->route('admin.artikel.index')
+        ->with('success', 'Artikel berhasil dihapus.');
 }
 
-public function uploadImage(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120'
-    ]);
+    public function massDestroy(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (!$ids || !is_array($ids)) {
+            return redirect()->back()->with('error', 'Tidak ada artikel yang dipilih.');
+        }
+        artikel_model::whereIn('id', $ids)->delete();
+        return redirect()->back()->with('success', count($ids) . ' artikel berhasil dihapus.');
+    }
 
-    $file = $request->file('image');
-    $filename = 'artikel-' . now()->timestamp . '-' . Str::random(6) . '.webp';
-    $path = "artikel-images/{$filename}";
+    private function uploadThumbnail($file, $oldFile = null)
+    {
+        if ($oldFile && Storage::disk('public')->exists($oldFile)) {
+            Storage::disk('public')->delete($oldFile);
+        }
 
-    $source = $file->getPathname();
-    list($width, $height, $type) = getimagesize($source);
+        $filename = 'artikel-' . now()->timestamp . '-' . Str::random(6) . '.webp';
+        $path = "artikel-thumbnails/{$filename}";
 
-    $img = $this->createImageFromFile($source, $type);
-    if (!$img) {
-        // Fallback simpan asli
-        $path = $file->store('artikel-images', 'public');
+        // GD native
+        $source = $file->getPathname();
+        list($width, $height, $type) = getimagesize($source);
+
+        $img = $this->createImageFromFile($source, $type);
+        if (!$img) {
+            // Fallback simpan asli
+            return $file->store('artikel-thumbnails', 'public');
+        }
+
+        // Crop ke 1200x630 (center)
+        $targetWidth = 1200;
+        $targetHeight = 630;
+        $srcRatio = $width / $height;
+        $dstRatio = $targetWidth / $targetHeight;
+
+        if ($srcRatio > $dstRatio) {
+            $cropWidth = $height * $dstRatio;
+            $cropHeight = $height;
+            $srcX = ($width - $cropWidth) / 2;
+            $srcY = 0;
+        } else {
+            $cropWidth = $width;
+            $cropHeight = $width / $dstRatio;
+            $srcX = 0;
+            $srcY = ($height - $cropHeight) / 2;
+        }
+
+        $cropped = imagecreatetruecolor($targetWidth, $targetHeight);
+        imagecopyresampled($cropped, $img, 0, 0, $srcX, $srcY, $targetWidth, $targetHeight, $cropWidth, $cropHeight);
+        imagedestroy($img);
+
+        // Simpan sebagai WebP
+        ob_start();
+        imagewebp($cropped, null, 80);
+        $webpData = ob_get_clean();
+        imagedestroy($cropped);
+
+        Storage::disk('public')->put($path, $webpData);
+        return $path;
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120'
+        ]);
+
+        $file = $request->file('image');
+        $filename = 'artikel-' . now()->timestamp . '-' . Str::random(6) . '.webp';
+        $path = "artikel-images/{$filename}";
+
+        $source = $file->getPathname();
+        list($width, $height, $type) = getimagesize($source);
+
+        $img = $this->createImageFromFile($source, $type);
+        if (!$img) {
+            // Fallback simpan asli
+            $path = $file->store('artikel-images', 'public');
+            $url = Storage::url($path);
+            return response()->json(['url' => $url]);
+        }
+
+        // Resize jika lebar > 1200
+        if ($width > 1200) {
+            $newHeight = ($height / $width) * 1200;
+            $resized = imagecreatetruecolor(1200, (int)$newHeight);
+            imagecopyresampled($resized, $img, 0, 0, 0, 0, 1200, (int)$newHeight, $width, $height);
+            imagedestroy($img);
+            $img = $resized;
+        }
+
+        ob_start();
+        imagewebp($img, null, 80);
+        $webpData = ob_get_clean();
+        imagedestroy($img);
+
+        Storage::disk('public')->put($path, $webpData);
         $url = Storage::url($path);
+
         return response()->json(['url' => $url]);
     }
 
-    // Resize jika lebar > 1200
-    if ($width > 1200) {
-        $newHeight = ($height / $width) * 1200;
-        $resized = imagecreatetruecolor(1200, (int)$newHeight);
-        imagecopyresampled($resized, $img, 0, 0, 0, 0, 1200, (int)$newHeight, $width, $height);
-        imagedestroy($img);
-        $img = $resized;
+    // Helper untuk membuat resource gambar dari berbagai tipe
+    private function createImageFromFile($source, $type)
+    {
+        switch ($type) {
+            case IMAGETYPE_JPEG:
+                return imagecreatefromjpeg($source);
+            case IMAGETYPE_PNG:
+                $img = imagecreatefrompng($source);
+                imagepalettetotruecolor($img);
+                imagealphablending($img, true);
+                imagesavealpha($img, true);
+                return $img;
+            case IMAGETYPE_WEBP:
+                return imagecreatefromwebp($source);
+            default:
+                return null;
+        }
     }
-
-    ob_start();
-    imagewebp($img, null, 80);
-    $webpData = ob_get_clean();
-    imagedestroy($img);
-
-    Storage::disk('public')->put($path, $webpData);
-    $url = Storage::url($path);
-
-    return response()->json(['url' => $url]);
-}
-
-// Helper untuk membuat resource gambar dari berbagai tipe
-private function createImageFromFile($source, $type)
-{
-    switch ($type) {
-        case IMAGETYPE_JPEG:
-            return imagecreatefromjpeg($source);
-        case IMAGETYPE_PNG:
-            $img = imagecreatefrompng($source);
-            imagepalettetotruecolor($img);
-            imagealphablending($img, true);
-            imagesavealpha($img, true);
-            return $img;
-        case IMAGETYPE_WEBP:
-            return imagecreatefromwebp($source);
-        default:
-            return null;
-    }
-}
 }
