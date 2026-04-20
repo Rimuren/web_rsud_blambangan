@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\artikel_model;
 use App\Models\kategori_artikel_model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class GuestArtikelController extends Controller
 {
@@ -14,90 +13,98 @@ class GuestArtikelController extends Controller
      */
     public function index(Request $request)
     {
-        // Buat cache key unik berdasarkan parameter request
-        $cacheKey = 'guest_articles_' . md5(json_encode($request->only(['kategori', 'search', 'page'])));
+        $query = artikel_model::with(['kategori', 'penulis'])
+                    ->published()
+                    ->orderBy('published_at', 'desc');
 
-        $data = Cache::remember($cacheKey, now()->addHours(1), function () use ($request) {
-            $query = artikel_model::with(['kategori', 'penulis'])
-                        ->published()
-                        ->orderBy('published_at', 'desc');
-
-            // Filter berdasarkan kategori (slug)
-            if ($request->filled('kategori')) {
-                $query->whereHas('kategori', function ($q) use ($request) {
-                    $q->where('slug', $request->kategori);
-                });
-            }
-
-            // Pencarian berdasarkan judul
-            if ($request->filled('search')) {
-                $query->where('judul', 'like', '%' . $request->search . '%');
-            }
-
-            $articles = $query->paginate(9);
-
-            // Ambil semua kategori untuk filter (jarang berubah, cache terpisah)
-            $categories = Cache::remember('guest_categories_all', now()->addDay(), function () {
-                return kategori_artikel_model::orderBy('nama')->get();
+        // Filter kategori
+        if ($request->filled('kategori')) {
+            $query->whereHas('kategori', function ($q) use ($request) {
+                $q->where('slug', $request->kategori);
             });
+        }
 
-            return [
-                'articles' => $articles,
-                'categories' => $categories,
-            ];
-        });
+        // Search judul
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
 
-        return view('guest.artikel.index', [
-            'articles' => $data['articles'],
-            'categories' => $data['categories'],
-        ]);
+        $articles = $query->paginate(9);
+
+        // Kategori 
+        $categories = kategori_artikel_model::orderBy('nama')->get();
+
+        return view('guest.artikel.index', compact('articles', 'categories'));
     }
 
     /**
      * Halaman detail artikel (publik)
      */
-    public function show($slug)
-    {
-        $cacheKey = "guest_article_{$slug}";
-
-        $article = Cache::remember($cacheKey, now()->addHours(6), function () use ($slug) {
-            return artikel_model::with(['kategori', 'penulis'])
-                    ->published()
-                    ->where('slug', $slug)
-                    ->firstOrFail();
-        });
-
-        // Artikel terkait (cache terpisah)
-        $relatedCacheKey = "guest_article_{$article->id}_related";
-        $relatedArticles = Cache::remember($relatedCacheKey, now()->addHours(3), function () use ($article) {
-            return artikel_model::with('kategori')
-                    ->published()
-                    ->where('kategori_id', $article->kategori_id)
-                    ->where('id', '!=', $article->id)
-                    ->latest('published_at')
-                    ->take(3)
-                    ->get();
-        });
-
-        // Artikel Terbaru (global)
-    $latestCacheKey = "guest_latest_articles";
-    $latestArticles = Cache::remember($latestCacheKey, now()->addHours(2), function () {
-        return artikel_model::with('kategori')
+public function show($slug)
+{
+    $article = artikel_model::with(['kategori', 'penulis'])
                 ->published()
-                ->latest('published_at')
-                ->take(5)
-                ->get();
-    });
+                ->where('slug', $slug)
+                ->firstOrFail();
 
-    $recommendedCacheKey = "guest_recommended_articles_except_{$article->id}";
-    $recommendedArticles = Cache::remember($recommendedCacheKey, now()->addHours(2), function () use ($article) {
-        return artikel_model::with('kategori')
-                ->published()
-                ->where('id', '!=', $article->id)
-                ->inRandomOrder()
-                ->take(5)
-                ->get();
-    });
+    // === INCREMENT VIEWS (hanya sekali per session) ===
+    $sessionKey = 'viewed_article_' . $article->id;
+    if (!session()->has($sessionKey)) {
+        $article->increment('views');
+        session()->put($sessionKey, true);
+    }
+
+    // === REKOMENDASI (Hybrid: kategori sama → views terbanyak → terbaru) ===
+    // Prioritas 1: Artikel dengan kategori yang sama
+    $recommendedArticles = artikel_model::with('kategori')
+        ->published()
+        ->where('kategori_id', $article->kategori_id)
+        ->where('id', '!=', $article->id)
+        ->orderBy('views', 'desc')
+        ->orderBy('published_at', 'desc')
+        ->take(5)
+        ->get();
+
+    // Jika kurang dari 5, ambil artikel populer (views terbanyak) dari kategori lain
+    if ($recommendedArticles->count() < 5) {
+        $needed = 5 - $recommendedArticles->count();
+        $excludeIds = $recommendedArticles->pluck('id')->push($article->id);
+        $popular = artikel_model::published()
+            ->whereNotIn('id', $excludeIds)
+            ->orderBy('views', 'desc')
+            ->orderBy('published_at', 'desc')
+            ->take($needed)
+            ->get();
+        $recommendedArticles = $recommendedArticles->concat($popular);
+    }
+
+    // Jika masih kurang (misal total artikel sedikit), tambahkan artikel terbaru
+    if ($recommendedArticles->count() < 5) {
+        $needed = 5 - $recommendedArticles->count();
+        $excludeIds = $recommendedArticles->pluck('id')->push($article->id);
+        $latest = artikel_model::published()
+            ->whereNotIn('id', $excludeIds)
+            ->orderBy('published_at', 'desc')
+            ->take($needed)
+            ->get();
+        $recommendedArticles = $recommendedArticles->concat($latest);
+    }
+
+    // === ARTIKEL TERKAIT (tetap berdasarkan kategori) ===
+    $relatedArticles = artikel_model::with('kategori')
+        ->published()
+        ->where('kategori_id', $article->kategori_id)
+        ->where('id', '!=', $article->id)
+        ->latest('published_at')
+        ->take(3)
+        ->get();
+
+    // === ARTIKEL TERBARU (sidebar) ===
+    $latestArticles = artikel_model::with('kategori')
+        ->published()
+        ->latest('published_at')
+        ->take(5)
+        ->get();
 
     return view('guest.artikel.show', compact(
         'article',
@@ -105,5 +112,5 @@ class GuestArtikelController extends Controller
         'latestArticles',
         'recommendedArticles'
     ));
-    }
+}
 }

@@ -1,5 +1,6 @@
 {{-- Icon box salmon/peach --}}
-<div class="flex items-center gap-3 mt-6 mb-6">
+<div class="flex flex-col sm:flex-row sm:items-center items-start gap-3 mt-6 mb-6">
+
     <div class="w-12 h-12 rounded-xl bg-[#fde8e0] flex items-center justify-center flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#e07a5f]">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
@@ -12,7 +13,8 @@
 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-4">
 
     {{-- Table Header --}}
-    <div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
+
+<div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">NO</span>
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">KOMPONEN</span>
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">URAIAN</span>
@@ -96,7 +98,8 @@
 
     {{-- Looping rows --}}
     @foreach ($rows as $row)
-    <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 {{ !$loop->last ? 'border-b border-gray-200' : '' }} items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[60px_220px_1fr] px-4 sm:px-6 py-4 sm:py-6 {{ !$loop->last ? 'border-b border-gray-200' : '' }} items-start gap-4 lg:gap-0">
+
         {{-- Nomor --}}
         <span class="text-sm text-gray-400 font-medium pt-0.5">{{ $row['no'] }}</span>
 
@@ -121,7 +124,8 @@
                 <div class="flex flex-col gap-5">
                     {{-- Flow diagram --}}
                     <div class="bg-[#fdf3ef] border border-[#f5d5c8] rounded-xl p-4">
-                        <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex items-center gap-3 sm:gap-2 flex-wrap">
+
                             @foreach ($row['flow_steps'] as $index => $step)
                                 <div class="bg-white border {{ $step == 'Admission' ? 'border-gray-300 font-semibold' : 'border-gray-200 font-medium' }} rounded-lg px-3 py-2.5 text-xs text-gray-700 shadow-sm leading-tight">
                                     {{ $step }}
@@ -136,7 +140,8 @@
                     </div>
 
                     {{-- Numbered steps grid --}}
-                    <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                         @foreach ($row['numbered_steps'] as $index => $step)
                         <div class="flex items-start gap-2.5">
                             <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{{ $index + 1 }}</span>
@@ -152,7 +157,8 @@
                 </span>
 
             @elseif ($row['content_type'] == 'biaya')
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
+
                     @foreach ($row['biaya_items'] as $item)
                     <div class="flex items-center justify-between">
                         <span class="text-sm text-gray-600">{{ $item['label'] }}</span>
@@ -179,7 +185,8 @@
 </div>
 
 {{-- INFORMASI TAMBAHAN --}}
-<div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-start gap-4">
+<div class="bg-white rounded-2xl border border-gray-200 px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+
     <div class="flex-shrink-0 mt-0.5">
         <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="9"/>

@@ -28,13 +28,43 @@
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     }
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+
+    /* ===== ANIMATION STYLES ===== */
+    .fade-up, .fade-left, .fade-right, .fade-in {
+        opacity: 0;
+        transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        will-change: opacity, transform;
+    }
+    .fade-up {
+        transform: translateY(30px);
+    }
+    .fade-left {
+        transform: translateX(-30px);
+    }
+    .fade-right {
+        transform: translateX(30px);
+    }
+    .fade-in {
+        transform: scale(0.98);
+    }
+    /* Visible state */
+    .fade-up.visible, .fade-left.visible, .fade-right.visible, .fade-in.visible {
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+    }
+
+    /* Stagger delays for cards */
+    .stagger-card:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-card:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-card:nth-child(3) { transition-delay: 0.15s; }
+    .stagger-card:nth-child(4) { transition-delay: 0.2s; }
 </style>
 
 <div class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
     <div class="px-6 lg:px-40 py-10 lg:py-20">
         <div class="max-w-[1200px] mx-auto">
             {{-- Header --}}
-            <div class="flex flex-wrap justify-between items-end gap-6 p-4 mb-8">
+            <div class="flex flex-wrap justify-between items-end gap-6 p-4 mb-8 fade-up">
                 <div class="flex flex-col gap-4 max-w-2xl text-left">
                     <h1 class="text-slate-900 dark:text-slate-50 text-4xl md:text-5xl font-black leading-tight tracking-tight">
                         Pusat <span class="text-secondary">Layanan Unggulan</span>
@@ -76,8 +106,8 @@
             @endphp
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
-                @foreach ($services as $service)
-                <div class="flex flex-col items-center text-center gap-5 p-8 md:p-10 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+                @foreach ($services as $index => $service)
+                <div class="flex flex-col items-center text-center gap-5 p-8 md:p-10 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all duration-300 fade-up stagger-card">
                     <div class="flex items-center justify-center w-28 h-28 md:w-32 md:h-32 rounded-full bg-slate-50 dark:bg-slate-900 overflow-hidden">
                         <img src="{{ asset($service['img']) }}" alt="{{ $service['name'] }}" class="w-full h-full object-cover">
                     </div>
@@ -94,4 +124,58 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function() {
+        // All animated elements
+        const animatedElements = document.querySelectorAll('.fade-up, .fade-left, .fade-right, .fade-in');
+        
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+        
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Fallback for elements already visible before observer
+        const checkVisibleOnLoad = () => {
+            animatedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50 && !el.classList.contains('visible')) {
+                    el.classList.add('visible');
+                }
+            });
+        };
+        window.addEventListener('load', checkVisibleOnLoad);
+        window.addEventListener('scroll', () => {
+            animatedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50 && !el.classList.contains('visible')) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+        
+        // Hover effect on cards (additional smooth interaction)
+        const cards = document.querySelectorAll('.stagger-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-6px)';
+                card.style.transition = 'transform 0.25s ease, box-shadow 0.25s ease';
+                card.style.boxShadow = '0 20px 25px -12px rgba(0,0,0,0.15)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.boxShadow = '';
+            });
+        });
+    })();
+</script>
 @endsection

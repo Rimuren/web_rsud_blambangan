@@ -10,6 +10,8 @@ use App\Http\Controllers\{
     RoleController,
     UserController,
     KategoriArtikelController,
+    PhotoController,
+    VideoController
 };
 
 /*
@@ -118,15 +120,9 @@ Route::prefix('informasi')->group(function () {
     
 });
 
-// Dokumentasi
 Route::prefix('galeri')->group(function () {
-    Route::get('/foto', function () {
-        return view('guest.galeri.foto.index');
-    })->name('guest.galeri.foto.index');
-
-    Route::get('/video', function () {
-        return view('guest.galeri.video.index');
-    })->name('guest.galeri.video.index');
+    Route::get('/foto', [PhotoController::class, 'guestIndex'])->name('guest.galeri.foto.index');
+    Route::get('/video', [VideoController::class, 'guestIndex'])->name('guest.galeri.video.index');
 });
 
 /*
@@ -148,7 +144,8 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::post('/', 'store')->name('admin.artikel.store');
         Route::get('/{artikel}/edit', 'edit')->name('admin.artikel.edit');
         Route::put('/{artikel}', 'update')->name('admin.artikel.update');
-        Route::delete('/{artikel}', 'destroy')->name('admin.artikel.destroy');
+        Route::delete('/mass-destroy', 'massDestroy')->name('admin.artikel.mass-destroy');
+        Route::delete('/delete/{artikel}', 'destroy')->name('admin.artikel.destroy');
         Route::post('/upload-image', 'uploadImage')->name('admin.artikel.upload-image');
     });
 
@@ -192,13 +189,30 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     // ROUTE MANAJEMEN RUANGAN (BANGSAL)
     Route::view('/admin/manajemen-ruangan/bangsal', 'admin.manajemen-ruangan.bangsal.index')->name('admin.manajemen-ruangan.bangsal.index');
 
-    // Dokumentasi foto & video
-    Route::prefix('admin/dokumentasi')->group(function () {
-        Route::view('/foto', 'admin.dokumentasi.foto.index')->name('admin.dokumentasi.foto');
-        Route::view('/video', 'admin.dokumentasi.video.index')->name('admin.dokumentasi.video');
-        Route::view('/foto/create', 'admin.dokumentasi.foto.create')->name('admin.dokumentasi.foto.create');
-    });
+    // Rute untuk manajemen foto (CRUD)
+Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(function () {
+    Route::get('/', [PhotoController::class, 'index'])->name('index');
+    Route::get('/create', [PhotoController::class, 'create'])->name('create');
+    Route::post('/', [PhotoController::class, 'store'])->name('store');
+    Route::get('/{foto}/edit', [PhotoController::class, 'edit'])->name('edit');
+    Route::put('/{foto}', [PhotoController::class, 'update'])->name('update');
+    Route::delete('/{foto}', [PhotoController::class, 'destroy'])->name('destroy');
 });
+
+    
+
+// Rute untuk manajemen video (CRUD)
+  Route::prefix('admin/dokumentasi/video')->name('admin.dokumentasi.video.')->group(function () {
+        Route::get('/', [VideoController::class, 'index'])->name('index');
+        Route::get('/create', [VideoController::class, 'create'])->name('create');
+        Route::post('/', [VideoController::class, 'store'])->name('store');
+        Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
+        Route::put('/{video}', [VideoController::class, 'update'])->name('update');
+        Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
+    });
+
+    });
+
 
 /*
 |--------------------------------------------------------------------------

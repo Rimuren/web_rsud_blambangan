@@ -95,47 +95,52 @@
                     <h2 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Isi Artikel</h2>
                 </div>
 
-                {{-- Toolbar Kustom dengan Ikon Flux --}}
-                <div class="px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-1">
+                {{-- Toolbar Kustom --}}
+                <div class="px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-1 toolbar-container">
+                    {{-- Format Teks --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="quill.format('bold', true)" title="Tebal" class="toolbar-btn">
+                        <button type="button" onclick="toggleFormat('bold')" title="Tebal" class="toolbar-btn">
                             <flux:icon name="bold" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('italic', true)" title="Miring" class="toolbar-btn">
+                        <button type="button" onclick="toggleFormat('italic')" title="Miring" class="toolbar-btn">
                             <flux:icon name="italic" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('underline', true)" title="Garis bawah" class="toolbar-btn">
+                        <button type="button" onclick="toggleFormat('underline')" title="Garis bawah" class="toolbar-btn">
                             <flux:icon name="underline" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('strike', true)" title="Coret" class="toolbar-btn">
+                        <button type="button" onclick="toggleFormat('strike')" title="Coret" class="toolbar-btn">
                             <flux:icon name="strikethrough" class="size-3.5" />
                         </button>
                     </div>
+                    {{-- Heading --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="quill.format('header', 1)" title="Heading 1" class="toolbar-btn text-[11px] font-bold px-1.5">H1</button>
-                        <button type="button" onclick="quill.format('header', 2)" title="Heading 2" class="toolbar-btn text-[11px] font-bold px-1.5">H2</button>
-                        <button type="button" onclick="quill.format('header', 3)" title="Heading 3" class="toolbar-btn text-[11px] font-bold px-1.5">H3</button>
-                        <button type="button" onclick="quill.format('header', false)" title="Paragraf" class="toolbar-btn text-[11px] px-1.5">P</button>
+                        <button type="button" onclick="toggleHeader(1)" title="Heading 1" class="toolbar-btn text-[11px] font-bold px-1.5">H1</button>
+                        <button type="button" onclick="toggleHeader(2)" title="Heading 2" class="toolbar-btn text-[11px] font-bold px-1.5">H2</button>
+                        <button type="button" onclick="toggleHeader(3)" title="Heading 3" class="toolbar-btn text-[11px] font-bold px-1.5">H3</button>
+                        <button type="button" onclick="toggleHeader(false)" title="Paragraf" class="toolbar-btn text-[11px] px-1.5">P</button>
                     </div>
+                    {{-- List --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="quill.format('list', 'ordered')" title="Daftar Angka" class="toolbar-btn">
+                        <button type="button" onclick="toggleList('ordered')" title="Daftar Angka" class="toolbar-btn">
                             <flux:icon name="numbered-list" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('list', 'bullet')" title="Daftar Bullet" class="toolbar-btn">
+                        <button type="button" onclick="toggleList('bullet')" title="Daftar Bullet" class="toolbar-btn">
                             <flux:icon name="list-bullet" class="size-3.5" />
                         </button>
                     </div>
+                    {{-- Alignment --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" onclick="quill.format('align', 'left')" title="Rata Kiri" class="toolbar-btn">
+                        <button type="button" onclick="toggleAlign('')" title="Rata Kiri" class="toolbar-btn align-btn">
                             <flux:icon name="bars-3-bottom-left" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('align', 'center')" title="Rata Tengah" class="toolbar-btn">
+                        <button type="button" onclick="toggleAlign('center')" title="Rata Tengah" class="toolbar-btn align-btn">
                             <flux:icon name="bars-3" class="size-3.5" />
                         </button>
-                        <button type="button" onclick="quill.format('align', 'right')" title="Rata Kanan" class="toolbar-btn">
+                        <button type="button" onclick="toggleAlign('right')" title="Rata Kanan" class="toolbar-btn align-btn">
                             <flux:icon name="bars-3-bottom-right" class="size-3.5" />
                         </button>
                     </div>
+                    {{-- Insert Link, Gambar, Upload --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
                         <button type="button" onclick="addQuillLink()" title="Tambah Link" class="toolbar-btn">
                             <flux:icon name="link" class="size-3.5" />
@@ -146,15 +151,19 @@
                         <button type="button" onclick="uploadQuillImage()" title="Upload Gambar" class="toolbar-btn">
                             <flux:icon name="arrow-up-tray" class="size-3.5" />
                         </button>
+                        <button type="button" onclick="deleteSelectedImage()" title="Hapus Gambar Terpilih" class="toolbar-btn text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20">
+                            <flux:icon name="trash" class="size-3.5" />
+                        </button>
                     </div>
+                    {{-- Remove Format --}}
                     <div class="ml-auto">
-                        <button type="button" onclick="quill.removeFormat(quill.getSelection())" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500">
+                        <button type="button" onclick="removeFormat()" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500">
                             <flux:icon name="x-mark" class="size-3.5" />
                         </button>
                     </div>
                 </div>
 
-                {{-- Quill Editor Area (tanpa toolbar bawaan) --}}
+                {{-- Quill Editor --}}
                 <div id="quill-editor" class="min-h-[280px] p-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300 outline-none"></div>
                 <textarea name="konten" id="content-field" class="sr-only"></textarea>
             </flux:card>
@@ -183,11 +192,13 @@
     </div>
 
     {{-- Quill CSS & JS --}}
-    <link href=" https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
     <script>
-        // Inisialisasi Quill
+        // ===================
+        // INISIALISASI QUILL
+        // ===================
         const quill = new Quill('#quill-editor', {
             theme: 'snow',
             placeholder: 'Mulai menulis artikel Anda di sini...',
@@ -196,74 +207,338 @@
             }
         });
 
-        // Set old content jika ada
-        const oldContent = <?php echo json_encode(old('konten', '')); ?>;
+        setTimeout(() => quill.focus(), 100);
+
+        const oldContent = {!! json_encode(old('konten', '')) !!};
         if (oldContent) {
             quill.root.innerHTML = oldContent;
         }
 
-        // Fungsi untuk menambah link
-        function addQuillLink() {
-            const url = prompt('Masukkan URL (contoh: https://example.com):');
-            if (url) {
-                const range = quill.getSelection();
-                if (range) {
-                    quill.format('link', url);
-                } else {
-                    alert('Silakan pilih teks terlebih dahulu');
+        // =======================================
+        // FUNGSI TOGGLE FORMAT (B, I, U, Strike)
+        // =======================================
+        function toggleFormat(format) {
+            const range = quill.getSelection(true);
+            if (!range || range.length === 0) {
+                const current = quill.getFormat();
+                quill.format(format, !current[format]);
+            } else {
+                const current = quill.getFormat(range);
+                quill.format(format, !current[format], 'user');
+            }
+            updateToolbarState();
+        }
+
+        function toggleHeader(level) {
+            const range = quill.getSelection(true);
+            const current = quill.getFormat(range);
+            const currentHeader = current.header;
+            if (currentHeader === level) {
+                quill.format('header', false, 'user');
+            } else {
+                quill.format('header', level, 'user');
+            }
+            updateToolbarState();
+        }
+
+        function toggleList(type) {
+            const range = quill.getSelection(true);
+            const current = quill.getFormat(range);
+            if (current.list === type) {
+                quill.format('list', false, 'user');
+            } else {
+                quill.format('list', type, 'user');
+            }
+            updateToolbarState();
+        }
+
+        // =================
+        // TOGGLE ALIGNMENT
+        // =================
+        function toggleAlign(align) {
+            const range = quill.getSelection(true);
+            if (!range) {
+                alert('Klik pada teks atau gambar terlebih dahulu');
+                return;
+            }
+
+            const [leaf] = quill.getLeaf(range.index);
+            const isImage = leaf && leaf.domNode && leaf.domNode.tagName === 'IMG';
+
+            let targetRange = range;
+            if (isImage) {
+                const blot = Quill.find(leaf.domNode);
+                if (blot && blot.parent) {
+                    const parent = blot.parent;
+                    const index = quill.getIndex(parent);
+                    const length = parent.length();
+                    targetRange = { index, length };
                 }
+            }
+
+            const formats = quill.getFormat(targetRange);
+            const currentAlign = formats.align || '';
+
+            if (currentAlign === align) {
+                quill.formatLine(targetRange.index, targetRange.length, 'align', false, 'user');
+            } else {
+                if (align === '') {
+                    quill.formatLine(targetRange.index, targetRange.length, 'align', false, 'user');
+                } else {
+                    quill.formatLine(targetRange.index, targetRange.length, 'align', align, 'user');
+                }
+            }
+            updateToolbarState();
+        }
+
+        function removeFormat() {
+            const range = quill.getSelection();
+            if (range) {
+                quill.removeFormat(range.index, range.length);
+                updateToolbarState();
+            } else {
+                alert('Pilih teks terlebih dahulu');
             }
         }
 
-        // Fungsi untuk menambah gambar dari URL
-        function addQuillImage() {
-            const url = prompt('Masukkan URL gambar:');
-            if (url) {
-                const range = quill.getSelection();
-                if (range) {
-                    quill.insertEmbed(range.index, 'image', url);
-                } else {
-                    quill.insertEmbed(quill.getLength() - 1, 'image', url);
-                }
-            }
-        }
+        // ===========
+        // MODAL LINK
+        // ===========
+        let linkModal = null;
 
-        // Fungsi untuk upload gambar ke server
-        function uploadQuillImage() {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-            input.click();
-            input.onchange = async () => {
-                const file = input.files[0];
-                if (!file) return;
-                const formData = new FormData();
-                formData.append('image', file);
-                const response = await fetch('{{ route("admin.artikel.upload-image") }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                });
-                const data = await response.json();
-                const range = quill.getSelection();
-                if (range) {
-                    quill.insertEmbed(range.index, 'image', data.url);
-                } else {
-                    quill.insertEmbed(quill.getLength() - 1, 'image', data.url);
-                }
+        function createLinkModal(initialText, callback) {
+            if (linkModal) linkModal.remove();
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-zinc-800 rounded-xl shadow-xl w-full max-w-md p-6 border border-zinc-200 dark:border-zinc-700">
+                    <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-4">Tambah Link</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Teks Link</label>
+                            <input type="text" id="link-text-input" value="${initialText}" placeholder="Masukkan teks link" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                        <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">URL</label>
+                            <input type="text" id="link-url-input" placeholder="https://example.com" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                    </div>
+                    <div class="flex justify-end gap-2 mt-6">
+                        <button id="link-cancel-btn" class="px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">Batal</button>
+                        <button id="link-ok-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Oke</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            linkModal = modal;
+
+            const textInput = modal.querySelector('#link-text-input');
+            const urlInput = modal.querySelector('#link-url-input');
+            const close = () => { modal.remove(); linkModal = null; };
+            const submit = () => {
+                const text = textInput.value.trim();
+                let url = urlInput.value.trim();
+                if (!text || !url) return alert('Teks dan URL harus diisi');
+                if (!url.startsWith('http')) url = 'https://' + url;
+                close();
+                callback(text, url);
             };
+            modal.querySelector('#link-ok-btn').addEventListener('click', submit);
+            modal.querySelector('#link-cancel-btn').addEventListener('click', close);
+            textInput.focus();
+            [textInput, urlInput].forEach(i => i.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } }));
+            modal.addEventListener('click', e => { if (e.target === modal) close(); });
         }
 
-        // Sinkronisasi konten ke textarea sebelum submit
+        function addQuillLink() {
+            const range = quill.getSelection(true);
+            const selectedText = quill.getText(range.index, range.length).trim();
+            createLinkModal(selectedText, (text, url) => {
+                if (selectedText) quill.deleteText(range.index, range.length);
+                const idx = range.index;
+                quill.insertText(idx, text, 'user');
+                quill.setSelection(idx, text.length);
+                quill.format('link', url);
+                quill.setSelection(idx + text.length, 0);
+                updateToolbarState();
+            });
+        }
+
+        // =================
+        // MODAL GAMBAR URL
+        // =================
+        let imageModal = null;
+
+        function createImageModal(callback) {
+            if (imageModal) imageModal.remove();
+
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-zinc-800 rounded-xl shadow-xl w-full max-w-md p-6 border border-zinc-200 dark:border-zinc-700">
+                    <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-4">Tambah Gambar dari URL</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">URL Gambar</label>
+                            <input type="text" id="image-url-input" placeholder="https://example.com/gambar.jpg" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                        <div id="image-preview-container" class="hidden border rounded-lg p-2 bg-zinc-100 dark:bg-zinc-900">
+                            <p class="text-xs text-zinc-500 mb-2">Pratinjau:</p>
+                            <img id="image-preview" src="#" alt="Preview" class="max-w-full max-h-48 object-contain mx-auto" />
+                        </div>
+                        <p id="image-error" class="text-xs text-red-500 hidden"></p>
+                    </div>
+                    <div class="flex justify-end gap-2 mt-6">
+                        <button id="image-cancel-btn" class="px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">Batal</button>
+                        <button id="image-insert-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Sisipkan</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            imageModal = modal;
+
+            const urlInput = modal.querySelector('#image-url-input');
+            const previewContainer = modal.querySelector('#image-preview-container');
+            const previewImg = modal.querySelector('#image-preview');
+            const errorMsg = modal.querySelector('#image-error');
+            const insertBtn = modal.querySelector('#image-insert-btn');
+            const cancelBtn = modal.querySelector('#image-cancel-btn');
+
+            const close = () => { modal.remove(); imageModal = null; };
+            const insert = () => {
+                const url = urlInput.value.trim();
+                if (!url) return alert('URL tidak boleh kosong');
+                close();
+                callback(url);
+            };
+
+            insertBtn.addEventListener('click', insert);
+            cancelBtn.addEventListener('click', close);
+            urlInput.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); insert(); } });
+            modal.addEventListener('click', e => { if (e.target === modal) close(); });
+            urlInput.focus();
+
+            // Opsional: preview saat input berubah (tanpa tombol)
+            urlInput.addEventListener('input', () => {
+                const url = urlInput.value.trim();
+                if (!url) return previewContainer.classList.add('hidden');
+                const img = new Image();
+                img.onload = () => { previewImg.src = url; previewContainer.classList.remove('hidden'); errorMsg.classList.add('hidden'); };
+                img.onerror = () => { errorMsg.textContent = 'URL tidak valid'; errorMsg.classList.remove('hidden'); previewContainer.classList.add('hidden'); };
+                img.src = url;
+            });
+        }
+
+        function addQuillImage() {
+            createImageModal(url => {
+                const range = quill.getSelection(true);
+                quill.insertEmbed(range.index, 'image', url);
+                quill.setSelection(range.index + 1, 0);
+            });
+        }
+
+        // ==============
+        // UPLOAD GAMBAR
+        // ==============
+async function uploadQuillImage() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/jpeg,image/png,image/webp';
+    input.click();
+    input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Validasi ukuran client-side
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Ukuran gambar maksimal 5MB');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const res = await fetch('{{ route("admin.artikel.upload-image") }}', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: formData
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                // Tangani error validasi dari Laravel (status 422)
+                if (res.status === 422 && data.errors) {
+                    const firstError = Object.values(data.errors)[0][0];
+                    alert(firstError);
+                } else {
+                    alert(data.message || 'Upload gagal');
+                }
+                return;
+            }
+
+            const range = quill.getSelection(true);
+            quill.insertEmbed(range.index, 'image', data.url);
+            quill.setSelection(range.index + 1, 0);
+        } catch (e) {
+            alert('Terjadi kesalahan jaringan');
+            console.error(e);
+        }
+    };
+}
+
+        // ==================
+        // SINKRONISASI FORM
+        // ==================
         const form = document.getElementById('artikel-form');
         const contentField = document.getElementById('content-field');
-        form.addEventListener('submit', () => {
-            contentField.value = quill.root.innerHTML;
-        });
+        form.addEventListener('submit', () => contentField.value = quill.root.innerHTML);
 
-        // Thumbnail preview
+        // ==============
+        // TOOLBAR STATE
+        // ==============
+        function updateToolbarState() {
+            const range = quill.getSelection();
+            if (!range) return;
+
+            let format = quill.getFormat(range);
+            const [leaf] = quill.getLeaf(range.index);
+            if (leaf?.domNode?.tagName === 'IMG') {
+                const blot = Quill.find(leaf.domNode);
+                if (blot?.parent) {
+                    const parent = blot.parent;
+                    const idx = quill.getIndex(parent);
+                    format = quill.getFormat({ index: idx, length: 1 });
+                }
+            }
+
+            document.querySelectorAll('[onclick*="toggleFormat"]').forEach(btn => {
+                const m = btn.getAttribute('onclick').match(/'([^']+)'/);
+                if (m) btn.classList.toggle('active', !!format[m[1]]);
+            });
+            const header = format.header;
+            document.querySelectorAll('[onclick*="toggleHeader"]').forEach(btn => {
+                const m = btn.getAttribute('onclick').match(/\(([^)]+)\)/);
+                if (m) {
+                    let v = m[1];
+                    if (v === 'false') v = false;
+                    else if (!isNaN(v)) v = parseInt(v);
+                    btn.classList.toggle('active', v === false ? !header : header === v);
+                }
+            });
+            document.querySelectorAll('[onclick*="toggleList"]').forEach(btn => {
+                const m = btn.getAttribute('onclick').match(/'([^']+)'/);
+                if (m) btn.classList.toggle('active', format.list === m[1]);
+            });
+            const align = format.align || '';
+            document.querySelectorAll('[onclick*="toggleAlign"]').forEach(btn => {
+                const m = btn.getAttribute('onclick').match(/'([^']*)'/);
+                if (m) btn.classList.toggle('active', align === m[1]);
+            });
+        }
+
+        quill.on('editor-change', updateToolbarState);
+        quill.on('selection-change', updateToolbarState);
+
+        // ==================
+        // THUMBNAIL PREVIEW
+        // ==================
         function handleFotoChange(input) {
             const file = input.files[0];
             if (!file) return;
@@ -280,92 +555,163 @@
             };
             reader.readAsDataURL(file);
         }
+
+        const dropzone = document.getElementById('foto-dropzone');
+        ['dragenter','dragover','dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); }));
+        dropzone.addEventListener('dragover', () => dropzone.classList.add('border-primary','bg-primary/10'));
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-primary','bg-primary/10'));
+        dropzone.addEventListener('drop', e => {
+            dropzone.classList.remove('border-primary','bg-primary/10');
+            const file = e.dataTransfer.files[0];
+            if (file?.type.startsWith('image/')) {
+                document.getElementById('foto-input').files = e.dataTransfer.files;
+                handleFotoChange(document.getElementById('foto-input'));
+            }
+        });
     </script>
 
     <style>
-        .toolbar-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 0.25rem;
-            color: #52525b;
-            transition: background-color 0.15s, color 0.15s;
-        }
+    .toolbar-btn { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        min-width: 1.75rem; 
+        height: 1.75rem; 
+        border-radius: 0.25rem; 
+        color: #52525b; 
+        transition: all 0.15s; 
+        cursor: pointer; 
+    }
 
-        .dark .toolbar-btn {
-            color: #a1a1aa;
-        }
+    .toolbar-btn > * { pointer-events: none !important; }
 
-        .toolbar-btn:hover {
-            background-color: #f4f4f5;
-            color: var(--color-primary, #0d7ff2);
-        }
+    .dark .toolbar-btn { color: #a1a1aa; }
 
-        .dark .toolbar-btn:hover {
-            background-color: #3f3f46;
-            color: var(--color-primary, #0d7ff2);
-        }
+    .toolbar-btn:hover { 
+        background-color: #f4f4f5; 
+        color: #0d7ff2; 
+    }
 
-        .ql-container.ql-snow {
-            border: none !important;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
+    .dark .toolbar-btn:hover { 
+        background-color: #3f3f46; 
+        color: #60a5fa; 
+    }
 
-        .ql-editor {
-            padding: 1rem;
-            font-family: inherit;
-        }
+    .toolbar-btn.active { 
+        background-color: #0d7ff2 !important; 
+        color: white !important; 
+    }
 
-        .ql-editor h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 1rem 0 0.4rem;
-        }
+    .dark .toolbar-btn.active { 
+        background-color: #2563eb !important; 
+        color: white !important; 
+    }
 
-        .ql-editor h3 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin: 0.75rem 0 0.3rem;
-        }
+    /* QUILL */
+    .ql-container.ql-snow { 
+        border: none !important; 
+        font-size: 0.875rem; 
+        line-height: 1.5; 
+    }
 
-        .ql-editor p {
-            margin: 0.4rem 0;
-        }
+    .ql-editor { 
+        padding: 1rem; 
+        font-family: inherit; 
+    }
 
-        .ql-editor ul,
-        .ql-editor ol {
-            padding-left: 1.5rem;
-            margin: 0.4rem 0;
-        }
+    .ql-editor:focus { outline: none; }
 
-        .ql-editor ul {
-            list-style: disc;
-        }
+    /* TEXT */
+    .ql-editor p { margin: 0.4rem 0; }
 
-        .ql-editor ol {
-            list-style: decimal;
-        }
+    .ql-editor h2 { 
+        font-size: 1.25rem; 
+        font-weight: 700; 
+        margin: 1rem 0 0.4rem; 
+    }
 
-        .ql-editor a {
-            color: var(--color-primary, #0d7ff2);
-            text-decoration: underline;
-        }
+    .ql-editor h3 { 
+        font-size: 1.05rem; 
+        font-weight: 600; 
+        margin: 0.75rem 0 0.3rem; 
+    }
 
-        .ql-editor img {
-            max-width: 100%;
-            border-radius: 0.375rem;
-            margin: 0.4rem 0;
-        }
+    /* LIST */
+    .ql-editor ul, .ql-editor ol { 
+        padding-left: 1.5rem; 
+        margin: 0.4rem 0; 
+    }
 
-        .ql-editor blockquote {
-            border-left: 3px solid var(--color-primary, #0d7ff2);
-            padding: 0.4rem 0.75rem;
-            color: #64748b;
-            font-style: italic;
-            margin: 0.5rem 0;
-        }
-    </style>
+    .ql-editor ul { list-style: disc; }
+    .ql-editor ol { list-style: decimal; }
+
+    /* LINK */
+    .ql-editor a { 
+        color: #0d7ff2; 
+        text-decoration: underline; 
+        cursor: pointer; 
+    }
+
+    .ql-editor a:hover { 
+        color: #2563eb !important; 
+        text-decoration: none !important; 
+    }
+
+    /* =========================
+        UTAMA GAMBAR
+    ========================= */
+    .ql-editor img {
+        max-width: 100%;
+        border-radius: 0.375rem;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        display: block;
+    }
+
+    /* default kiri */
+    .ql-editor p img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* center */
+    .ql-editor .ql-align-center img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* right */
+    .ql-editor .ql-align-right img {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    /* left explicit */
+    .ql-editor .ql-align-left img {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* ALIGN TEXT */
+    .ql-editor .ql-align-center {
+        text-align: center;
+    }
+
+    .ql-editor .ql-align-right {
+        text-align: right;
+    }
+
+    .ql-editor .ql-align-left {
+        text-align: left;
+    }
+
+    /* BLOCKQUOTE */
+    .ql-editor blockquote { 
+        border-left: 3px solid #0d7ff2; 
+        padding: 0.4rem 0.75rem; 
+        color: #64748b; 
+        font-style: italic; 
+        margin: 0.5rem 0; 
+    }
+</style>
 </x-layouts::app>
