@@ -148,7 +148,8 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
         Route::post('/', 'store')->name('admin.artikel.store');
         Route::get('/{artikel}/edit', 'edit')->name('admin.artikel.edit');
         Route::put('/{artikel}', 'update')->name('admin.artikel.update');
-        Route::delete('/{artikel}', 'destroy')->name('admin.artikel.destroy');
+        Route::delete('/mass-destroy', 'massDestroy')->name('admin.artikel.mass-destroy');
+        Route::delete('/delete/{artikel}', 'destroy')->name('admin.artikel.destroy');
         Route::post('/upload-image', 'uploadImage')->name('admin.artikel.upload-image');
     });
 
