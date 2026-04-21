@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AdminDashboardController,
+    AdminDokterController,
     ArtikelController,
     GuestArtikelController,
-    DokterController,
+    GuestDokterController,
     GuestHomeController,
     RoleController,
     UserController,
@@ -27,7 +28,7 @@ Route::get('/profil', function () {
 })->name('guest.profil.index');
 
 // Daftar dokter
-Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
+Route::get('/daftar-dokter', [GuestDokterController::class, 'Index'])->name('guest.daftar-dokter.index');
 
 Route::get('/dokter/spesialis', function () {
     return view('admin.dokter.spesialis.index');
@@ -185,7 +186,7 @@ Route::middleware(['auth', 'permission:admin-access'])->group(function () {
     });
 
     // ROUTE DOKTER
-    Route::controller(DokterController::class)->prefix('admin/dokter')->group(function () {
+    Route::controller(AdminDokterController::class)->prefix('admin/dokter')->group(function () {
         Route::get('/', 'index')->name('admin.dokter.index');
     });
 
