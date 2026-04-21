@@ -21,6 +21,7 @@ class PermissionSeeder extends Seeder
         'manage dokumentasi',
         'manage dokter',
         'manage ruangan',
+        'manage jam operasional',
         
         // Artikel permissions
         'view daftar-artikel',
@@ -58,6 +59,12 @@ class PermissionSeeder extends Seeder
         'create video',
         'edit video',
         'delete video',
+
+        // Jam operasional permissions
+        'view jam-operasional',
+        'create jam-operasional',
+        'edit jam-operasional',
+        'delete jam-operasional',
 
         // Dokter permissions
         'view daftar-dokter',

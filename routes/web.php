@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     GuestArtikelController,
     DokterController,
     GuestHomeController,
+    JamOperasionalController,
     RoleController,
     UserController,
     KategoriArtikelController,
@@ -209,6 +210,16 @@ Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(
         Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
         Route::put('/{video}', [VideoController::class, 'update'])->name('update');
         Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('admin/jam-operasional')->name('admin.jam-operasional.')->group(function () {
+        Route::get('/', [JamOperasionalController::class, 'index'])->name('index');
+        Route::get('/create', [JamOperasionalController::class, 'create'])->name('create');
+        Route::post('/', [JamOperasionalController::class, 'store'])->name('store');
+        Route::get('/{jamOperasional}/edit', [JamOperasionalController::class, 'edit'])->name('edit');
+        Route::put('/{jamOperasional}', [JamOperasionalController::class, 'update'])->name('update');
+        Route::patch('/{jamOperasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{jamOperasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
     });
 
     });

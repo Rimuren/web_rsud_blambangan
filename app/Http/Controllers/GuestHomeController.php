@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JamOperasional;
 use App\Models\dokter_model;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,11 @@ class GuestHomeController extends Controller
             ->pluck('spesialis')
             ->toArray();
 
-        return view('guest.home.index', compact('spesialisList'));
+        $jamOperasionals = JamOperasional::query()
+            ->orderBy('hari')
+            ->get();
+
+        return view('guest.home.index', compact('spesialisList', 'jamOperasionals'));
     }
 
     /**

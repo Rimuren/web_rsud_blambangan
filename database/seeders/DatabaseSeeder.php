@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             ArticleSeeder::class,
             KategoriArtikelSeeder::class,
+            JamOperasionalSeeder::class,
             
         ]);
         // User::factory(10)->create();
