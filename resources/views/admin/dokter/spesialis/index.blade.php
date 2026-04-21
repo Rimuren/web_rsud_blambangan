@@ -3,6 +3,7 @@
         {{ __('Manajemen Spesialis') }}
     </x-slot:header>
 
+    @can('view daftar-spesialis')
     <div class="p-4 md:p-6 lg:p-8">
         {{-- Header Section --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -167,4 +168,5 @@
             </div>
         </flux:card>
     </div>
+    @endcan
 </x-layouts::app>

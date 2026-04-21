@@ -3,6 +3,7 @@
 @section('title', 'Tambah Video')
 
 @section('content')
+@can('create video')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-2xl mx-auto">
         <div class="mb-6">
@@ -89,4 +90,5 @@
     // Trigger once if old value exists
     if (linkInput.value) updatePreview();
 </script>
+@endcan
 @endsection

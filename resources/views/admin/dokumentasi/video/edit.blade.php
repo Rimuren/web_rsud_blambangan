@@ -3,6 +3,7 @@
 @section('title', 'Edit Video')
 
 @section('content')
+@can('edit video')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-2xl mx-auto">
         <div class="mb-6">
@@ -83,4 +84,5 @@
 
     linkInput.addEventListener('input', updatePreview);
 </script>
+@endcan
 @endsection

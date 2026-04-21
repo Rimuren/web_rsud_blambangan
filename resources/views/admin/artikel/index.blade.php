@@ -1,6 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
+    @can('view daftar-artikel')
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -12,19 +13,23 @@
             </div>
 
             <div class="flex gap-3">
+                @can('delete artikel')
                 <button type="button" id="delete-selected-btn"
                     class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>
                     <flux:icon name="trash" class="size-4" />
                     Hapus Terpilih (<span id="selected-count">0</span>)
                 </button>
+                @endcan
 
+                @can('create artikel')
                 <a href="{{ route('admin.artikel.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah Artikel Baru
                     </flux:button>
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -137,10 +142,12 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
+        @can('delete artikel')
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
+        @endcan
 
         {{-- TABEL ARTIKEL --}}
         <flux:card class="overflow-hidden">
@@ -243,11 +250,15 @@
                             </td>
                             <td class="px-3 py-3">
                                 <div class="flex justify-center items-center gap-1">
+                                    @can('edit artikel')
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
                                         </flux:button>
                                     </a>
+                                    @endcan
+
+                                    @can('delete artikel')
                                     <form action="{{ route('admin.artikel.destroy', $artikel->id) }}"
                                         method="POST"
                                         class="delete-single-form inline-flex">
@@ -260,6 +271,7 @@
                                             <flux:icon name="trash" class="size-4" />
                                         </flux:button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -340,4 +352,5 @@
             updateDeleteButton();
         });
     </script>
+    @endcan
 </x-layouts::app>

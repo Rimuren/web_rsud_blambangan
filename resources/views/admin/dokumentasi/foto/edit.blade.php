@@ -1,5 +1,6 @@
 <x-layouts::app.sidebar :title="'Edit Foto'">
     <flux:main>
+        @can('edit foto')
         <div class="py-6 px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto">
 
@@ -68,5 +69,6 @@
 
             </div>
         </div>
+        @endcan
     </flux:main>
 </x-layouts::app.sidebar>

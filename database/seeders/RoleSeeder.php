@@ -9,38 +9,50 @@ use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
-        // Create roles
+        // Roles yang sudah ada
+        $masterRole = Role::firstOrCreate(['name' => 'Master', 'guard_name' => 'web']);
+        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
+        $reviewRole = Role::firstOrCreate(['name' => 'Review', 'guard_name' => 'web']);
 
-        $MasterRole = Role::firstOrCreate([
-            'name' => 'Master',
-            'guard_name' => 'web'
-        ]);
+        // === ROLE BARU ===
+        $editorRole = Role::firstOrCreate(['name' => 'Editor', 'guard_name' => 'web']);
+        $viewerRole = Role::firstOrCreate(['name' => 'Viewer', 'guard_name' => 'web']);
 
-        $superAdminRole = Role::firstOrCreate([
-            'name' => 'Super Admin',
-            'guard_name' => 'web'
-        ]);
-
-        $adminRole = Role::firstOrCreate([
-            'name' => 'Admin',
-            'guard_name' => 'web'
-        ]);
-
+        // Jalankan PermissionSeeder jika belum ada permission
         if (Permission::count() === 0) {
             $this->call(PermissionSeeder::class);
         }
 
-        // Assign all permissions to Super Admin
-        $MasterRole->syncPermissions(Permission::all());
+        // 1. Master, Super Admin, Admin : semua permission
+        $masterRole->syncPermissions(Permission::all());
         $superAdminRole->syncPermissions(Permission::all());
         $adminRole->syncPermissions(Permission::all());
 
-        $this->command->info('Roles created: Master, Super Admin, Admin');
-        $this->command->info('Master and Super Admin has all permissions.');
+        // 2. Review : semua permission yang mengandung 'view'
+        $viewPermissions = Permission::where('name', 'like', '%view%')->get();
+        $reviewRole->syncPermissions($viewPermissions);
+
+        // 3. Editor : permission create, edit, delete untuk artikel, kategori, foto, video
+        $editorPermissions = Permission::where(function ($query) {
+            $query->where('name', 'like', 'create%')
+                ->orWhere('name', 'like', 'edit%')
+                ->orWhere('name', 'like', 'delete%');
+        })->where(function ($query) {
+            $query->where('name', 'like', '%artikel%')
+                ->orWhere('name', 'like', '%kategori%')
+                ->orWhere('name', 'like', '%foto%')
+                ->orWhere('name', 'like', '%video%');
+        })->get();
+        $editorRole->syncPermissions($editorPermissions);
+
+        // 4. Viewer : hanya permission 'view daftar-*' (semua view)
+        $viewerPermissions = Permission::where('name', 'like', 'view daftar-%')->get();
+        $viewerRole->syncPermissions($viewerPermissions);
+
+        $this->command->info('Roles created: Master, Super Admin, Admin, Review, Editor, Viewer');
+        $this->command->info('Permission assignments completed.');
     }
 }

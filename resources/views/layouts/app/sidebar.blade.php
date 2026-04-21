@@ -32,7 +32,9 @@
                 wire:navigate>
                 {{ __('Dashboard') }}
             </flux:sidebar.item>
+            @endcan
 
+            @can('view jam-operasional')
             <flux:sidebar.item
                 icon="clock"
                 :href="route('admin.jam-operasional.index')"
@@ -53,7 +55,7 @@
             @endcan
 
             {{-- Manajemen Artikel --}}
-            @can('manage artikel')
+            @canany(['view daftar-artikel', 'view daftar-kategori'])
             <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
                 @can('view daftar-artikel')
                 <flux:sidebar.item
@@ -73,10 +75,10 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Akun --}}
-            @can('manage akun')
+            @canany(['view daftar-akun', 'view daftar-role'])
             <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
                 @can('view daftar-akun')
                 <flux:sidebar.item
@@ -96,33 +98,33 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Dokumentasi --}}
-@can('manage dokumentasi')
-<flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
-    @can('view daftar-foto')
-    <flux:sidebar.item
-        :href="route('admin.dokumentasi.foto.index')"
-        :current="request()->routeIs('admin.dokumentasi.foto.index')"
-        wire:navigate>
-        Foto
-    </flux:sidebar.item>
-    @endcan
+            @canany(['view daftar-foto', 'view daftar-video'])
+            <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
+                @can('view daftar-foto')
+                <flux:sidebar.item
+                    :href="route('admin.dokumentasi.foto.index')"
+                    :current="request()->routeIs('admin.dokumentasi.foto.index')"
+                    wire:navigate>
+                    Foto
+                </flux:sidebar.item>
+                @endcan
 
-    @can('view daftar-video')
-    <flux:sidebar.item
-        :href="route('admin.dokumentasi.video.index')"
-        :current="request()->routeIs('admin.dokumentasi.video.index')"
-        wire:navigate>
-        Video
-    </flux:sidebar.item>
-    @endcan
-</flux:sidebar.group>
-@endcan
+                @can('view daftar-video')
+                <flux:sidebar.item
+                    :href="route('admin.dokumentasi.video.index')"
+                    :current="request()->routeIs('admin.dokumentasi.video.index')"
+                    wire:navigate>
+                    Video
+                </flux:sidebar.item>
+                @endcan
+            </flux:sidebar.group>
+            @endcanany
 
             {{-- Manajemen Dokter --}}
-            @can('manage dokter')
+            @canany(['view daftar-dokter', 'view daftar-spesialis'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
                 @can('view daftar-dokter')
                 <flux:sidebar.item
@@ -142,10 +144,10 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Ruangan --}}
-            @can('manage ruangan')
+            @canany(['view daftar-bangsal', 'view daftar-kelas'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
                 @can('view daftar-bangsal')
                 <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.bangsal.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.bangsal.index')" wire:navigate>
@@ -159,7 +161,7 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
         </flux:sidebar.nav>
 
         <flux:spacer />

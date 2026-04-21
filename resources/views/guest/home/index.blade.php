@@ -186,42 +186,53 @@
 
     {{-- SEARCH BAR --}}
     <div class="container mx-auto px-4 -mt-4 md:-mt-12 relative z-20 scroll-reveal">
-        <div class="bg-white rounded-2xl shadow-2xl p-5 max-w-4xl mx-auto">
-            <form method="GET" action="{{ route('guest.daftar-dokter.index') }}" class="flex flex-col md:flex-row gap-3 md:gap-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-5 max-w-5xl mx-auto">
+            <form method="GET" action="{{ route('guest.daftar-dokter.index') }}" class="flex flex-col md:flex-row gap-4 md:gap-5">
+                {{-- Cari Nama Dokter --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">CARI DOKTER</label>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama Dokter" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama Dokter"
+                        class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                 </div>
+
+                {{-- Filter Poliklinik (dari database) --}}
                 <div class="flex-1">
-                    <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">SPESIALISASI</label>
-                    <select name="spesialis" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                        <option value="">Semua Spesialis</option>
-                        @foreach ($spesialisList as $sp)
-                        <option value="{{ $sp }}" {{ request('spesialis') == $sp ? 'selected' : '' }}>
-                            {{ str_replace('Spesialis ', '', $sp) }}
+                    <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">POLIKLINIK</label>
+                    <select name="poliklinik" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                        <option value="">Semua Poliklinik</option>
+                        @php
+                        // Jika $poliklinikList tidak tersedia dari controller, gunakan array kosong
+                        $poliklinikList = $poliklinikList ?? [];
+                        @endphp
+                        @foreach ($poliklinikList as $poli)
+                        <option value="{{ $poli }}" {{ request('poliklinik') == $poli ? 'selected' : '' }}>
+                            {{ $poli }}
                         </option>
                         @endforeach
                     </select>
                 </div>
+
+                {{-- Filter Hari --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">PILIH HARI</label>
                     <select name="hari" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                        <option value="">Pilih Hari</option>
-                        <option value="Senin" {{ request('hari') == 'Senin' ? 'selected' : '' }}>Senin</option>
-                        <option value="Selasa" {{ request('hari') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
-                        <option value="Rabu" {{ request('hari') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
-                        <option value="Kamis" {{ request('hari') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
-                        <option value="Jumat" {{ request('hari') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
-                        <option value="Sabtu" {{ request('hari') == 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
+                        <option value="">Semua Hari</option>
+                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $day)
+                        <option value="{{ $day }}" {{ request('hari') == $day ? 'selected' : '' }}>{{ $day }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <button type="submit" class="md:w-auto w-full h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center px-4 transition shrink-0 mt-6">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
-                    <span class="md:hidden ml-2 text-sm font-semibold">Cari Dokter</span>
-                </button>
+
+                {{-- Tombol Cari --}}
+                <div class="md:w-auto w-full flex items-end">
+                    <button type="submit" class="w-full bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg py-2.5 px-4 transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <span class="text-sm font-semibold">Cari Dokter</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>

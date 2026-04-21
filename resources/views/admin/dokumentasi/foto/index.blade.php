@@ -3,6 +3,7 @@
 @section('title', 'Manajemen Dokumentasi Foto')
 
 @section('content')
+@can('view daftar-foto')
 <div class="p-4 md:p-6 lg:p-8">
     {{-- Header Section --}}
     <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -10,10 +11,12 @@
             <h1 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Manajemen Dokumentasi</h1>
             <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola galeri foto dan video rumah sakit untuk konten dokumentasi.</p>
         </div>
+        @can('create foto')
         <flux:button as="a" href="{{ route('admin.dokumentasi.foto.create') }}" variant="primary" size="lg" class="shadow-lg">
             <flux:icon name="plus" class="w-5 h-5" />
             Tambah Foto
         </flux:button>
+        @endcan
     </div>
 
     {{-- Tabs --}}
@@ -105,11 +108,15 @@
                         </td>
                         <td class="px-6 py-4 align-top whitespace-nowrap">
                             <div class="flex justify-end items-center gap-1">
+                                @can('edit foto')
                                 <a href="{{ route('admin.dokumentasi.foto.edit', $foto) }}" 
                                    class="p-2 rounded-lg text-zinc-500 hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
                                    title="Edit">
                                     <flux:icon name="pencil" class="w-5 h-5" />
                                 </a>
+                                @endcan
+
+                                @can('delete foto')
                                 <form action="{{ route('admin.dokumentasi.foto.destroy', $foto) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus foto ini?')">
                                     @csrf
                                     @method('DELETE')
@@ -119,6 +126,7 @@
                                         <flux:icon name="trash" class="w-5 h-5" />
                                     </button>
                                 </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>
@@ -128,9 +136,11 @@
                             <div class="flex flex-col items-center gap-3">
                                 <flux:icon name="image" class="w-14 h-14 text-zinc-400 dark:text-zinc-600" />
                                 <p class="text-zinc-500 dark:text-zinc-400 text-lg font-medium">Belum ada foto dokumentasi</p>
+                                @can('create foto')
                                 <flux:button as="a" href="{{ route('admin.dokumentasi.foto.create') }}" variant="primary" size="sm" class="mt-2">
                                     Tambah Foto Pertama
                                 </flux:button>
+                                @endcan
                             </div>
                         </td>
                     </tr>
@@ -145,4 +155,5 @@
         @endif
     </flux:card>
 </div>
+@endcan
 @endsection
