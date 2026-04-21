@@ -24,7 +24,6 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Thumbnail</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Judul</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Kategori</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Dibuat</th>
                             <th class="px-6 py-4 text-right text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Aksi</th>
                         </tr>
@@ -41,9 +40,6 @@
                                     {{ Str::limit($video->link, 50) }}
                                     <flux:icon name="link" variant="micro" class="w-3 h-3" />
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 text-zinc-500 dark:text-zinc-400">
-                                {{ $video->kategori ?? '-' }}
                             </td>
                             <td class="px-6 py-4 text-zinc-500 dark:text-zinc-400">
                                 {{ $video->created_at->format('d/m/Y') }}

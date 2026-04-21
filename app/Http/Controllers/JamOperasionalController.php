@@ -29,9 +29,10 @@ class JamOperasionalController extends Controller
 
     public function store(JamOperasionalRequest $request): RedirectResponse
     {
-        JamOperasional::create($request->validated() + [
-            'is_closed' => $request->boolean('is_closed'),
-        ]);
+        $data = $request->validated();
+        $data['is_closed'] = $request->boolean('is_closed');
+
+        JamOperasional::create($data);
 
         return redirect()
             ->route('admin.jam-operasional.index')
@@ -48,9 +49,10 @@ class JamOperasionalController extends Controller
 
     public function update(JamOperasionalRequest $request, JamOperasional $jamOperasional): RedirectResponse
     {
-        $jamOperasional->update($request->validated() + [
-            'is_closed' => $request->boolean('is_closed'),
-        ]);
+        $data = $request->validated();
+        $data['is_closed'] = $request->boolean('is_closed');
+
+        $jamOperasional->update($data);
 
         return redirect()
             ->route('admin.jam-operasional.index')
@@ -60,12 +62,6 @@ class JamOperasionalController extends Controller
     public function toggleStatus(JamOperasional $jamOperasional): RedirectResponse
     {
         $newStatus = !$jamOperasional->is_closed;
-
-        if (!$newStatus && (!$jamOperasional->jam_buka || !$jamOperasional->jam_tutup)) {
-            return redirect()
-                ->route('admin.jam-operasional.index')
-                ->with('error', 'Status tidak bisa diubah ke buka karena jam buka dan jam tutup belum lengkap.');
-        }
 
         $jamOperasional->update([
             'is_closed' => $newStatus,

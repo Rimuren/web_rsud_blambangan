@@ -42,6 +42,16 @@
             </flux:sidebar.item>
             @endcan
 
+            @can('manage iklan')
+            <flux:sidebar.item
+                icon="megaphone"
+                :href="route('admin.iklan.index')"
+                :current="request()->routeIs('admin.iklan.*')"
+                wire:navigate>
+                Manajemen Iklan
+            </flux:sidebar.item>
+            @endcan
+
             {{-- Manajemen Artikel --}}
             @can('manage artikel')
             <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
