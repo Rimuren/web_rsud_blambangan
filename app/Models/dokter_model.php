@@ -13,14 +13,15 @@ class dokter_model extends Model
 
     protected $table = 'dokter';
     protected $fillable = [
-        'nama', 
+        'api_id',
+        'nama',
         'kode',
-        'kode_bpjs', 
-        'spesialis', 
+        'kode_bpjs',
+        'spesialis',
         'subspesialis',
-        'pendidikan', 
-        'umur', 
-        'rating', 
+        'pendidikan',
+        'umur',
+        'rating',
         'image_path'
     ];
     public function jadwal_dokter()
