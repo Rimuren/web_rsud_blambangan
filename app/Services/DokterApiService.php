@@ -116,7 +116,7 @@ class DokterApiService
   }
 
   // ----------------------------------------------------------------------
-  // Helper methods (sama seperti sebelumnya)
+  // Helper methods
   // ----------------------------------------------------------------------
   private function formatJadwalArray(array $jadwalItems): array
   {
