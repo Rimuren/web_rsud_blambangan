@@ -14,14 +14,6 @@ class PermissionSeeder extends Seeder
     protected $defaultPermissions = [
         // Access permissions
         'admin-access',
-
-        // Manage option permissions
-        'manage artikel',
-        'manage akun',
-        'manage dokumentasi',
-        'manage dokter',
-        'manage ruangan',
-        'manage jam operasional',
         
         // Artikel permissions
         'view daftar-artikel',
