@@ -4,7 +4,6 @@
     </x-slot:header>
 
     @can('view daftar-akun')
-
     <div class="p-4 md:p-6 lg:p-8">
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -131,6 +130,6 @@
     </script>
     @endcan
     @else
-    <div class="p-4 text-red-600">Anda tidak memiliki izin untuk mengakses halaman ini.</div>
+        <div class="p-4 text-red-600">Anda tidak memiliki izin untuk mengakses halaman ini.</div>
     @endcan
 </x-layouts::app>

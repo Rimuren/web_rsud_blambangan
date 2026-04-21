@@ -2,7 +2,8 @@
     <x-slot:header>
         {{ __('Tambah Artikel') }}
     </x-slot:header>
-
+    
+    @can('create artikel')
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
         <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Tambah Artikel</h1>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Isi form di bawah untuk menambahkan artikel baru</p>
@@ -875,4 +876,5 @@
         pointer-events: none;
     }
     </style>
+    @endcan
 </x-layouts::app>

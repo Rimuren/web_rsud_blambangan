@@ -3,6 +3,7 @@
 @section('title', 'Tambah Foto Dokumentasi')
 
 @section('content')
+@can('create foto')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-2xl mx-auto">
         {{-- Header --}}
@@ -155,4 +156,5 @@
         }
     });
 </script>
+@endcan
 @endsection

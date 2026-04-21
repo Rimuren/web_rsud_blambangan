@@ -98,7 +98,7 @@ class RoleController extends Controller implements HasMiddleware
     {
         $groups = [
             'Akses ke halaman admin' => ['admin-access'],
-            'Manage' => ['manage artikel', 'manage akun', 'manage dokumentasi', 'manage dokter', 'manage ruangan'],
+            'jam operasional' => ['view jam-operasional', 'create jam-operasional', 'edit jam-operasional', 'delete jam-operasional'],
             'Artikel' => ['view daftar-artikel', 'create artikel', 'edit artikel', 'delete artikel'],
             'Kategori Artikel' => ['view daftar-kategori', 'create kategori', 'edit kategori', 'delete kategori'],
             'Akun' => ['view daftar-akun', 'create akun', 'edit akun', 'reset password', 'delete akun'],
