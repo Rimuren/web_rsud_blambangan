@@ -32,6 +32,14 @@
                 wire:navigate>
                 {{ __('Dashboard') }}
             </flux:sidebar.item>
+
+            <flux:sidebar.item
+                icon="clock"
+                :href="route('admin.jam-operasional.index')"
+                :current="request()->routeIs('admin.jam-operasional.*')"
+                wire:navigate>
+                Jam Operasional
+            </flux:sidebar.item>
             @endcan
 
             {{-- Manajemen Artikel --}}

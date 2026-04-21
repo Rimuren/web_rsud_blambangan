@@ -153,11 +153,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h2>
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between"><span class="font-semibold">Senin - Kamis</span><span>07:00 - 14:00</span></div>
-                    <div class="flex justify-between"><span class="font-semibold">Jumat</span><span>07:00 - 11:00</span></div>
-                    <div class="flex justify-between"><span class="font-semibold">Sabtu</span><span>07:00 - 12:00</span></div>
-                </div>
+                @if($jamOperasionals->isNotEmpty())
+                    <div class="space-y-3 text-sm">
+                        @foreach($jamOperasionals as $item)
+                            <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
+                                <span class="font-semibold">{{ $item->hari_label }}</span>
+                                <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
+                        Jam operasional belum tersedia.
+                    </div>
+                @endif
             </div>
             <div class="bg-[#D10000] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-2">Layanan Darurat 24 Jam</h2>
