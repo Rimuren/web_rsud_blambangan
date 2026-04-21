@@ -103,7 +103,7 @@ Route::prefix('informasi')->group(function () {
 
     Route::get('/tarif', function () {
         return view('guest.informasi.tarif.index');
-    })->name('guest.informasi.tarif.index'); // Duplicate removed
+    })->name('guest.informasi.tarif.index');
 
     Route::get('/ikm', function () {
         return view('guest.informasi.ikm.index');
