@@ -12,77 +12,106 @@ use Illuminate\View\View;
 
 class IklanController extends Controller implements HasMiddleware
 {
-
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    */
     public static function middleware()
     {
         return [
-            new Middleware('permission:artikel.view', only: ['index']),
-            new Middleware('permission:artikel.create', only: ['create', 'store', 'uploadThumbnail', 'uploadImage', 'createImageFromFile']),
-            new Middleware('permission:artikel.update', only: ['edit', 'update']),
-            new Middleware('permission:artikel.delete', only: ['destroy', 'massDestroy']),
+            new Middleware('permission:iklan.view', only: ['index']),
+            new Middleware('permission:iklan.create', only: ['create', 'store']),
+            new Middleware('permission:iklan.update', only: ['edit', 'update', 'toggleStatus']),
+            new Middleware('permission:iklan.delete', only: ['destroy']),
         ];
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX
+    |--------------------------------------------------------------------------
+    */
     public function index(): View
     {
-        $iklans = Iklan::latest()->paginate(10);
-        return view('admin.iklan.index', compact('iklans'));
+        $iklanList = Iklan::latest()->paginate(10);
+
+        return view('admin.iklan.index', compact('iklanList'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE
+    |--------------------------------------------------------------------------
+    */
     public function create(): View
     {
         return view('admin.iklan.create');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate($this->rules(true), $this->messages());
+        $data = $request->validate($this->rules(true), $this->messages());
 
         if ($request->hasFile('gambar')) {
-            $validated['gambar'] = $request->file('gambar')->store('iklans', 'public');
+            $data['gambar'] = $request->file('gambar')->store('iklans', 'public');
         }
 
-        $validated['is_active'] = $request->boolean('is_active');
-        $validated['cta_label'] = $validated['cta_label'] ?? null;
-        $validated['cta_url'] = $validated['cta_url'] ?? null;
+        $data['is_active'] = $request->boolean('is_active');
 
-        Iklan::create($validated);
+        Iklan::create($data);
 
         return redirect()
             ->route('admin.iklan.index')
             ->with('success', 'Iklan berhasil ditambahkan.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
     public function edit(Iklan $iklan): View
     {
         return view('admin.iklan.edit', compact('iklan'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
     public function update(Request $request, Iklan $iklan): RedirectResponse
     {
-        $validated = $request->validate($this->rules(false), $this->messages());
+        $data = $request->validate($this->rules(false), $this->messages());
 
         if ($request->hasFile('gambar')) {
-            $newPath = $request->file('gambar')->store('iklans', 'public');
-            $oldPath = $iklan->gambar;
-            $validated['gambar'] = $newPath;
-
-            if ($oldPath) {
-                Storage::disk('public')->delete($oldPath);
+            if ($iklan->gambar) {
+                Storage::disk('public')->delete($iklan->gambar);
             }
+
+            $data['gambar'] = $request->file('gambar')->store('iklans', 'public');
         }
 
-        $validated['is_active'] = $request->boolean('is_active');
-        $validated['cta_label'] = $validated['cta_label'] ?? null;
-        $validated['cta_url'] = $validated['cta_url'] ?? null;
+        $data['is_active'] = $request->boolean('is_active');
 
-        $iklan->update($validated);
+        $iklan->update($data);
 
         return redirect()
             ->route('admin.iklan.index')
             ->with('success', 'Iklan berhasil diperbarui.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | TOGGLE STATUS
+    |--------------------------------------------------------------------------
+    */
     public function toggleStatus(Iklan $iklan): RedirectResponse
     {
         $iklan->update([
@@ -94,6 +123,11 @@ class IklanController extends Controller implements HasMiddleware
             ->with('success', 'Status iklan berhasil diperbarui.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE
+    |--------------------------------------------------------------------------
+    */
     public function destroy(Iklan $iklan): RedirectResponse
     {
         if ($iklan->gambar) {
@@ -107,23 +141,28 @@ class IklanController extends Controller implements HasMiddleware
             ->with('success', 'Iklan berhasil dihapus.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | VALIDATION
+    |--------------------------------------------------------------------------
+    */
     private function rules(bool $isCreate = false): array
     {
         return [
-            'nama' => ['required', 'string', 'max:255'],
-            'gambar' => [$isCreate ? 'required' : 'nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
-            'deskripsi' => ['nullable', 'string'],
-            'cta_label' => ['nullable', 'string', 'max:50', 'required_with:cta_url'],
-            'cta_url' => ['nullable', 'url', 'max:255', 'required_with:cta_label'],
-            'is_active' => ['nullable', 'boolean'],
+            'nama'       => ['required', 'string', 'max:255'],
+            'gambar'     => [$isCreate ? 'required' : 'nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'deskripsi'  => ['nullable', 'string'],
+            'cta_label'  => ['nullable', 'string', 'max:50', 'required_with:cta_url'],
+            'cta_url'    => ['nullable', 'url', 'max:255', 'required_with:cta_label'],
+            'is_active'  => ['nullable', 'boolean'],
         ];
     }
 
     private function messages(): array
     {
         return [
-            'cta_label.required_with' => 'Teks tombol aksi wajib diisi jika link tombol aksi diisi.',
-            'cta_url.required_with' => 'Link tombol aksi wajib diisi jika teks tombol aksi diisi.',
+            'cta_label.required_with' => 'Teks tombol aksi wajib diisi jika link diisi.',
+            'cta_url.required_with'   => 'Link tombol aksi wajib diisi jika teks diisi.',
         ];
     }
 }

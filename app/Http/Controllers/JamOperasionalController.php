@@ -11,36 +11,52 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class JamOperasionalController extends Controller implements HasMiddleware
 {
-
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    */
     public static function middleware()
     {
         return [
             new Middleware('permission:jam_operasional.view', only: ['index']),
-            new Middleware('permission:jam_operasional.view', only: ['create', 'store']),
+            new Middleware('permission:jam_operasional.create', only: ['create', 'store']),
             new Middleware('permission:jam_operasional.update', only: ['edit', 'update']),
             new Middleware('permission:jam_operasional.delete', only: ['destroy']),
-            new Middleware('permission:jam_operasional.toggle_status',only:['toggleStatus']),
+            new Middleware('permission:jam_operasional.toggle_status', only: ['toggleStatus']),
         ];
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX
+    |--------------------------------------------------------------------------
+    */
     public function index(): View
     {
-        $jamOperasionals = JamOperasional::query()
-            ->orderBy('hari')
+        $jamOperasionalList = JamOperasional::orderBy('hari')
             ->paginate(10);
 
-        return view('admin.jam-operasional.index', [
-            'jamOperasionals' => $jamOperasionals,
-        ]);
+        return view('admin.jam-operasional.index', compact('jamOperasionalList'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE
+    |--------------------------------------------------------------------------
+    */
     public function create(): View
     {
-        return view('admin.jam-operasional.create', [
-            'hariOptions' => JamOperasional::HARI_OPTIONS,
-        ]);
+        $hariOptions = JamOperasional::HARI_OPTIONS;
+
+        return view('admin.jam-operasional.create', compact('hariOptions'));
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
     public function store(JamOperasionalRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -53,16 +69,27 @@ class JamOperasionalController extends Controller implements HasMiddleware
             ->with('success', 'Jam operasional berhasil ditambahkan.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
     public function edit(JamOperasional $jamOperasional): View
     {
-        return view('admin.jam-operasional.edit', [
-            'jamOperasional' => $jamOperasional,
-            'hariOptions' => JamOperasional::HARI_OPTIONS,
-        ]);
+        $hariOptions = JamOperasional::HARI_OPTIONS;
+
+        return view('admin.jam-operasional.edit', compact('jamOperasional', 'hariOptions'));
     }
 
-    public function update(JamOperasionalRequest $request, JamOperasional $jamOperasional): RedirectResponse
-    {
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+    public function update(
+        JamOperasionalRequest $request,
+        JamOperasional $jamOperasional
+    ): RedirectResponse {
         $data = $request->validated();
         $data['is_closed'] = $request->boolean('is_closed');
 
@@ -73,12 +100,15 @@ class JamOperasionalController extends Controller implements HasMiddleware
             ->with('success', 'Jam operasional berhasil diperbarui.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | TOGGLE STATUS
+    |--------------------------------------------------------------------------
+    */
     public function toggleStatus(JamOperasional $jamOperasional): RedirectResponse
     {
-        $newStatus = !$jamOperasional->is_closed;
-
         $jamOperasional->update([
-            'is_closed' => $newStatus,
+            'is_closed' => !$jamOperasional->is_closed,
         ]);
 
         return redirect()
@@ -86,6 +116,11 @@ class JamOperasionalController extends Controller implements HasMiddleware
             ->with('success', 'Status jam operasional berhasil diperbarui.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE
+    |--------------------------------------------------------------------------
+    */
     public function destroy(JamOperasional $jamOperasional): RedirectResponse
     {
         $jamOperasional->delete();
