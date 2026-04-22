@@ -6,6 +6,7 @@ use App\Models\Iklan;
 use App\Models\JamOperasional;
 use App\Models\artikel_model;
 use App\Models\dokter_model;
+use App\Models\poliklinik_model;
 use Illuminate\Http\Request;
 
 class GuestHomeController extends Controller
@@ -20,6 +21,9 @@ class GuestHomeController extends Controller
             ->whereNotNull('spesialis')
             ->pluck('spesialis')
             ->toArray();
+
+
+        $poliklinikList = poliklinik_model::pluck('nama')->toArray();
 
         $jamOperasionals = JamOperasional::query()
             ->orderBy('hari')
@@ -53,7 +57,6 @@ class GuestHomeController extends Controller
             'topArticleCategories'
         ));
     }
-
     /**
      * Show the form for creating a new resource.
      */
