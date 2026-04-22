@@ -7,7 +7,7 @@ use App\Http\Controllers\{
     ArtikelController,
     GuestArtikelController,
     IklanController,
-    DokterController,
+    GuestDokterController,
     GuestHomeController,
     JamOperasionalController,
     RoleController,

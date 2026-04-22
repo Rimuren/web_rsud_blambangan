@@ -54,7 +54,8 @@ class GuestHomeController extends Controller
             'jamOperasionals',
             'popupIklan',
             'topArticles',
-            'topArticleCategories'
+            'topArticleCategories',
+            'poliklinikList'
         ));
     }
     /**
