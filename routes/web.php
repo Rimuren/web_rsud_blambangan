@@ -6,7 +6,8 @@ use App\Http\Controllers\{
     AdminDokterController,
     ArtikelController,
     GuestArtikelController,
-    GuestDokterController,
+    IklanController,
+    DokterController,
     GuestHomeController,
     JamOperasionalController,
     RoleController,
@@ -221,6 +222,16 @@ Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(
         Route::put('/{jamOperasional}', [JamOperasionalController::class, 'update'])->name('update');
         Route::patch('/{jamOperasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
         Route::delete('/{jamOperasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('admin/iklan')->name('admin.iklan.')->group(function () {
+        Route::get('/', [IklanController::class, 'index'])->name('index');
+        Route::get('/create', [IklanController::class, 'create'])->name('create');
+        Route::post('/', [IklanController::class, 'store'])->name('store');
+        Route::get('/{iklan}/edit', [IklanController::class, 'edit'])->name('edit');
+        Route::put('/{iklan}', [IklanController::class, 'update'])->name('update');
+        Route::patch('/{iklan}/toggle-status', [IklanController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{iklan}', [IklanController::class, 'destroy'])->name('destroy');
     });
 
     });

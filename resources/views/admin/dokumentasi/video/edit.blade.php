@@ -38,19 +38,7 @@
                         <p class="text-xs text-zinc-400">Thumbnail akan diperbarui otomatis jika link diubah.</p>
                     </div>
 
-                    {{-- Kategori --}}
-                    <div class="space-y-1.5">
-                        <flux:label for="kategori">Kategori</flux:label>
-                        <flux:select id="kategori" name="kategori">
-                            <option value="">-- Pilih kategori --</option>
-                            <option value="profil" {{ old('kategori', $video->kategori) == 'profil' ? 'selected' : '' }}>Profil Rumah Sakit</option>
-                            <option value="layanan" {{ old('kategori', $video->kategori) == 'layanan' ? 'selected' : '' }}>Layanan Medis</option>
-                            <option value="edukasi" {{ old('kategori', $video->kategori) == 'edukasi' ? 'selected' : '' }}>Edukasi Kesehatan</option>
-                            <option value="kegiatan" {{ old('kategori', $video->kategori) == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
-                            <option value="testimoni" {{ old('kategori', $video->kategori) == 'testimoni' ? 'selected' : '' }}>Testimoni Pasien</option>
-                        </flux:select>
-                        @error('kategori') <flux:error>{{ $message }}</flux:error> @enderror
-                    </div>
+
 
                     {{-- Deskripsi --}}
                     <div class="space-y-1.5">

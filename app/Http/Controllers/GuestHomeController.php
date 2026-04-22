@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Iklan;
 use App\Models\JamOperasional;
+use App\Models\artikel_model;
 use App\Models\dokter_model;
 use App\Models\poliklinik_model;
 use Illuminate\Http\Request;
@@ -27,7 +29,33 @@ class GuestHomeController extends Controller
             ->orderBy('hari')
             ->get();
 
-        return view('guest.home.index', compact('spesialisList', 'jamOperasionals', 'poliklinikList'));
+        $popupIklan = Iklan::query()
+            ->where('is_active', true)
+            ->latest()
+            ->first();
+
+        $topArticles = artikel_model::query()
+            ->with('kategori')
+            ->published()
+            ->orderByDesc('views')
+            ->orderByDesc('published_at')
+            ->take(3)
+            ->get();
+
+        $topArticleCategories = $topArticles
+            ->pluck('kategori.nama')
+            ->filter()
+            ->unique()
+            ->take(4)
+            ->values();
+
+        return view('guest.home.index', compact(
+            'spesialisList',
+            'jamOperasionals',
+            'popupIklan',
+            'topArticles',
+            'topArticleCategories'
+        ));
     }
     /**
      * Show the form for creating a new resource.
