@@ -1,5 +1,4 @@
 <div class="space-y-6">
-    @canany('jam_operasional.create','jam_operasional.update')
     <div class="grid gap-6 md:grid-cols-2">
         <div class="space-y-2">
             <flux:label for="hari">Hari <span class="text-red-500">*</span></flux:label>
@@ -68,5 +67,4 @@
             </div>
         </div>
     </div>
-    @endcanany
 </div>
