@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\JamOperasional;
+use App\Models\jam_operasional;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,14 +15,14 @@ class JamOperasionalRequest extends FormRequest
 
     public function rules(): array
     {
-        $jamOperasionalId = $this->route('jamOperasional')?->id;
+        $jam_operasionalId = $this->route('jam_operasional')?->id;
 
         return [
             'hari' => [
                 'required',
                 'integer',
-                Rule::in(array_keys(JamOperasional::HARI_OPTIONS)),
-                Rule::unique('jam_operasionals', 'hari')->ignore($jamOperasionalId),
+                Rule::in(array_keys(jam_operasional::HARI_OPTIONS)),
+                Rule::unique('jam_operasionals', 'hari')->ignore($jam_operasionalId),
             ],
             'jam_buka' => ['nullable', 'date_format:H:i'],
             'jam_tutup' => ['nullable', 'date_format:H:i', 'after:jam_buka'],

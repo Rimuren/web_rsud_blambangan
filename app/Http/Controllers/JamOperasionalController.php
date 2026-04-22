@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JamOperasionalRequest;
-use App\Models\JamOperasional;
+use App\Models\jam_operasional;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -11,25 +11,25 @@ class JamOperasionalController extends Controller
 {
     public function index(): View
     {
-        $jamOperasionals = JamOperasional::query()
+        $jam_operasionals = jam_operasional::query()
             ->orderBy('hari')
             ->paginate(10);
 
         return view('admin.jam-operasional.index', [
-            'jamOperasionals' => $jamOperasionals,
+            'jam_operasionals' => $jam_operasionals,
         ]);
     }
 
     public function create(): View
     {
         return view('admin.jam-operasional.create', [
-            'hariOptions' => JamOperasional::HARI_OPTIONS,
+            'hariOptions' => jam_operasional::HARI_OPTIONS,
         ]);
     }
 
     public function store(JamOperasionalRequest $request): RedirectResponse
     {
-        JamOperasional::create($request->validated() + [
+        jam_operasional::create($request->validated() + [
             'is_closed' => $request->boolean('is_closed'),
         ]);
 
@@ -38,17 +38,17 @@ class JamOperasionalController extends Controller
             ->with('success', 'Jam operasional berhasil ditambahkan.');
     }
 
-    public function edit(JamOperasional $jamOperasional): View
+    public function edit(jam_operasional $jam_operasionals): View
     {
         return view('admin.jam-operasional.edit', [
-            'jamOperasional' => $jamOperasional,
-            'hariOptions' => JamOperasional::HARI_OPTIONS,
+            'jam_operasional' => $jam_operasionals,
+            'hariOptions' => jam_operasional::HARI_OPTIONS,
         ]);
     }
 
-    public function update(JamOperasionalRequest $request, JamOperasional $jamOperasional): RedirectResponse
+    public function update(JamOperasionalRequest $request, jam_operasional $jam_operasionals): RedirectResponse
     {
-        $jamOperasional->update($request->validated() + [
+        $jam_operasionals->update($request->validated() + [
             'is_closed' => $request->boolean('is_closed'),
         ]);
 
@@ -57,17 +57,17 @@ class JamOperasionalController extends Controller
             ->with('success', 'Jam operasional berhasil diperbarui.');
     }
 
-    public function toggleStatus(JamOperasional $jamOperasional): RedirectResponse
+    public function toggleStatus(jam_operasional $jam_operasionals): RedirectResponse
     {
-        $newStatus = !$jamOperasional->is_closed;
+        $newStatus = !$jam_operasionals->is_closed;
 
-        if (!$newStatus && (!$jamOperasional->jam_buka || !$jamOperasional->jam_tutup)) {
+        if (!$newStatus && (!$jam_operasionals->jam_buka || !$jam_operasionals->jam_tutup)) {
             return redirect()
                 ->route('admin.jam-operasional.index')
                 ->with('error', 'Status tidak bisa diubah ke buka karena jam buka dan jam tutup belum lengkap.');
         }
 
-        $jamOperasional->update([
+        $jam_operasionals->update([
             'is_closed' => $newStatus,
         ]);
 
@@ -76,9 +76,9 @@ class JamOperasionalController extends Controller
             ->with('success', 'Status jam operasional berhasil diperbarui.');
     }
 
-    public function destroy(JamOperasional $jamOperasional): RedirectResponse
+    public function destroy(jam_operasional $jam_operasionals): RedirectResponse
     {
-        $jamOperasional->delete();
+        $jam_operasionals->delete();
 
         return redirect()
             ->route('admin.jam-operasional.index')

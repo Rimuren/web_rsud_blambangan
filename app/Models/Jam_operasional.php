@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JamOperasional extends Model
+class jam_operasional extends Model
 {
     use HasFactory;
 
