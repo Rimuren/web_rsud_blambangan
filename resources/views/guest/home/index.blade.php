@@ -65,6 +65,7 @@
             opacity: 0;
             transform: translateY(15px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
@@ -143,13 +144,13 @@
 
                 <div class="mt-6 flex flex-wrap items-center gap-3">
                     @if ($popupIklan->cta_label && $popupIklan->cta_url)
-                        <a
-                            href="{{ $popupIklan->cta_url }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-900">
-                            {{ $popupIklan->cta_label }}
-                        </a>
+                    <a
+                        href="{{ $popupIklan->cta_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-900">
+                        {{ $popupIklan->cta_label }}
+                    </a>
                     @endif
 
                     <button
@@ -243,18 +244,18 @@
             <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h2>
                 @if($jamOperasionals->isNotEmpty())
-                    <div class="space-y-3 text-sm">
-                        @foreach($jamOperasionals as $item)
-                            <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-                                <span class="font-semibold">{{ $item->hari_label }}</span>
-                                <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
-                            </div>
-                        @endforeach
+                <div class="space-y-3 text-sm">
+                    @foreach($jamOperasionals as $item)
+                    <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
+                        <span class="font-semibold">{{ $item->hari_label }}</span>
+                        <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
                     </div>
+                    @endforeach
+                </div>
                 @else
-                    <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
-                        Jam operasional belum tersedia.
-                    </div>
+                <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
+                    Jam operasional belum tersedia.
+                </div>
                 @endif
             </div>
             <div class="bg-[#D10000] text-white px-6 md:px-8 py-8">
@@ -326,72 +327,72 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
                 @forelse ($topArticles as $article)
-                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
-                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="block">
-                            <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
-                                @if ($article->thumbnail)
-                                    <img
-                                        src="{{ asset('storage/' . $article->thumbnail) }}"
-                                        alt="{{ $article->judul }}"
-                                        class="h-full w-full object-cover transition duration-300 hover:scale-105">
-                                @else
-                                    <div class="flex h-full items-center justify-center">
-                                        <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A3.375 3.375 0 0011.25 4.875V3.75m0 0A2.25 2.25 0 019 1.5m2.25 2.25A2.25 2.25 0 0013.5 1.5m-9 12.75h15a1.5 1.5 0 011.5 1.5v4.125a1.125 1.125 0 01-1.125 1.125H4.125A1.125 1.125 0 013 19.875V15.75a1.5 1.5 0 011.5-1.5z" />
-                                        </svg>
-                                    </div>
-                                @endif
+                <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
+                    <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="block">
+                        <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
+                            @if ($article->thumbnail)
+                            <img
+                                src="{{ asset('storage/' . $article->thumbnail) }}"
+                                alt="{{ $article->judul }}"
+                                class="h-full w-full object-cover transition duration-300 hover:scale-105">
+                            @else
+                            <div class="flex h-full items-center justify-center">
+                                <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A3.375 3.375 0 0011.25 4.875V3.75m0 0A2.25 2.25 0 019 1.5m2.25 2.25A2.25 2.25 0 0013.5 1.5m-9 12.75h15a1.5 1.5 0 011.5 1.5v4.125a1.125 1.125 0 01-1.125 1.125H4.125A1.125 1.125 0 013 19.875V15.75a1.5 1.5 0 011.5-1.5z" />
+                                </svg>
                             </div>
-                        </a>
-
-                        <div class="p-4">
-                            <div class="flex items-center justify-between gap-3">
-                                <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">
-                                    {{ $article->kategori->nama ?? 'Artikel' }}
-                                </span>
-                                <span class="text-[11px] font-semibold text-gray-400">
-                                    {{ number_format($article->views ?? 0) }} views
-                                </span>
-                            </div>
-
-                            <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">
-                                <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="hover:text-blue-700 transition">
-                                    {{ $article->judul }}
-                                </a>
-                            </h3>
-
-                            <p class="text-xs text-gray-500 mb-3">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($article->konten), 110) }}
-                            </p>
-
-                            <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:underline">
-                                Baca Selengkapnya →
-                            </a>
+                            @endif
                         </div>
-                    </article>
-                @empty
-                    <div class="sm:col-span-2 md:col-span-3 bg-white rounded-2xl border border-gray-200 px-6 py-12 text-center text-gray-500">
-                        Artikel populer belum tersedia.
+                    </a>
+
+                    <div class="p-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">
+                                {{ $article->kategori->nama ?? 'Artikel' }}
+                            </span>
+                            <span class="text-[11px] font-semibold text-gray-400">
+                                {{ number_format($article->views ?? 0) }} views
+                            </span>
+                        </div>
+
+                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">
+                            <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="hover:text-blue-700 transition">
+                                {{ $article->judul }}
+                            </a>
+                        </h3>
+
+                        <p class="text-xs text-gray-500 mb-3">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($article->konten), 110) }}
+                        </p>
+
+                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:underline">
+                            Baca Selengkapnya →
+                        </a>
                     </div>
+                </article>
+                @empty
+                <div class="sm:col-span-2 md:col-span-3 bg-white rounded-2xl border border-gray-200 px-6 py-12 text-center text-gray-500">
+                    Artikel populer belum tersedia.
+                </div>
                 @endforelse
             </div>
             <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
                 <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
                     <span class="font-bold text-gray-800">Kategori Artikel:</span>
                     @forelse ($topArticleCategories as $index => $categoryName)
-                        @php
-                            $categoryClasses = [
-                                'bg-blue-100 text-blue-800',
-                                'bg-red-100 text-red-700',
-                                'bg-green-100 text-green-700',
-                                'bg-purple-100 text-purple-700',
-                            ];
-                        @endphp
-                        <span class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full">
-                            {{ $categoryName }}
-                        </span>
+                    @php
+                    $categoryClasses = [
+                    'bg-blue-100 text-blue-800',
+                    'bg-red-100 text-red-700',
+                    'bg-green-100 text-green-700',
+                    'bg-purple-100 text-purple-700',
+                    ];
+                    @endphp
+                    <span class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full">
+                        {{ $categoryName }}
+                    </span>
                     @empty
-                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Belum ada kategori</span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Belum ada kategori</span>
                     @endforelse
                 </div>
                 <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
@@ -412,10 +413,10 @@
         const popupDurationMs = 600000;
         const popupDurationSeconds = Math.ceil(popupDurationMs / 1000);
         const navigationEntry = performance.getEntriesByType('navigation')[0];
-        const isReload = navigationEntry
-            ? navigationEntry.type === 'reload'
-            : performance.navigation && performance.navigation.type === 1;
-        const popupSessionKey = @json($popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : null);
+        const isReload = navigationEntry ?
+            navigationEntry.type === 'reload' :
+            performance.navigation && performance.navigation.type === 1;
+        const popupSessionKey = <?php echo json_encode($popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : null); ?>;
         const hasShownInSession = popupSessionKey ? sessionStorage.getItem(popupSessionKey) === '1' : false;
 
         const closeIklanPopup = () => {
