@@ -4,135 +4,156 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class VideoController extends Controller
+class VideoController extends Controller implements HasMiddleware
 {
-    // Helper: extract YouTube ID dari berbagai format URL
-   private function extractYouTubeId($url)
-{
-    // Support berbagai format URL YouTube
-    $patterns = [
-        '/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/',
-        '/youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/',
-        '/youtube\.com\/v\/([a-zA-Z0-9_-]{11})/',
-    ];
-    
-    foreach ($patterns as $pattern) {
-        if (preg_match($pattern, $url, $matches)) {
-            return $matches[1];
-        }
-    }
-    return null;
-}
-
-    // Helper: get thumbnail URL from YouTube ID
-    private function getThumbnailUrl($youtubeId)
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    */
+    public static function middleware()
     {
-        // Gunakan thumbnail HQ default (maxresdefault bisa saja tidak ada, fallback ke hqdefault)
-        return "https://img.youtube.com/vi/{$youtubeId}/hqdefault.jpg";
+        return [
+            new Middleware('permission:video.view', only: ['index']),
+            new Middleware('permission:video.create', only: ['create', 'store']),
+            new Middleware('permission:video.update', only: ['edit', 'update']),
+            new Middleware('permission:video.delete', only: ['destroy']),
+        ];
     }
 
-    // ADMIN: index
+    /*
+    |--------------------------------------------------------------------------
+    | Helper
+    |--------------------------------------------------------------------------
+    */
+
+    private function extractYoutubeId(string $url): ?string
+    {
+        $patterns = [
+            '/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/',
+            '/youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $url, $match)) {
+                return $match[1];
+            }
+        }
+
+        return null;
+    }
+
+    private function thumbnailUrl(string $id): string
+    {
+        return "https://img.youtube.com/vi/{$id}/hqdefault.jpg";
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUEST
+    |--------------------------------------------------------------------------
+    */
+
+    public function guestIndex()
+    {
+        $videos = Video::latest()->paginate(12);
+
+        return view('guest.galeri.video.index', compact('videos'));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         $videos = Video::latest()->paginate(10);
+
         return view('admin.dokumentasi.video.index', compact('videos'));
     }
 
-    // ADMIN: form create
     public function create()
     {
         return view('admin.dokumentasi.video.create');
     }
 
-    // ADMIN: store
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'link' => 'required|url',
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'link'      => 'required|url',
             'deskripsi' => 'nullable|string',
-            'kategori' => 'nullable|string|max:100',
+            'kategori'  => 'nullable|string|max:100',
         ]);
 
-       $youtubeId = $this->extractYouTubeId($request->link);
-if (!$youtubeId) {
-    return back()->withErrors(['link' => 'Link YouTube tidak valid. Pastikan URL benar.'])->withInput();
-}
+        $youtubeId = $this->extractYoutubeId($data['link']);
 
-// Cek duplikat
-if (Video::where('youtube_id', $youtubeId)->exists()) {
-    return back()->withErrors(['link' => 'Video ini sudah pernah ditambahkan.'])->withInput();
-}
+        if (!$youtubeId) {
+            return back()->withErrors(['link' => 'Link YouTube tidak valid'])->withInput();
+        }
 
-$thumbnail = "https://img.youtube.com/vi/{$youtubeId}/hqdefault.jpg";
+        if (Video::where('youtube_id', $youtubeId)->exists()) {
+            return back()->withErrors(['link' => 'Video sudah ada'])->withInput();
+        }
 
-Video::create([
-    'judul' => $request->judul,
-    'link' => $request->link,
-    'youtube_id' => $youtubeId,  // <-- pastikan ini terisi
-    'thumbnail' => $thumbnail,
-    'deskripsi' => $request->deskripsi,
-    'kategori' => $request->kategori,
-]);
+        $data['youtube_id'] = $youtubeId;
+        $data['thumbnail']  = $this->thumbnailUrl($youtubeId);
 
-        return redirect()->route('admin.dokumentasi.video.index')
-                         ->with('success', 'Video berhasil ditambahkan.');
+        Video::create($data);
+
+        return redirect()
+            ->route('admin.dokumentasi.video.index')
+            ->with('success', 'Video berhasil ditambahkan');
     }
 
-    // ADMIN: edit
     public function edit(Video $video)
     {
         return view('admin.dokumentasi.video.edit', compact('video'));
     }
 
-    // ADMIN: update
     public function update(Request $request, Video $video)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'link' => 'required|url',
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'link'      => 'required|url',
             'deskripsi' => 'nullable|string',
-            'kategori' => 'nullable|string|max:100',
+            'kategori'  => 'nullable|string|max:100',
         ]);
 
-        $youtubeId = $this->extractYouTubeId($request->link);
+        $youtubeId = $this->extractYoutubeId($data['link']);
+
         if (!$youtubeId) {
-            return back()->withErrors(['link' => 'Link YouTube tidak valid.'])->withInput();
+            return back()->withErrors(['link' => 'Link YouTube tidak valid'])->withInput();
         }
 
-        // Jika ID berubah, cek duplikat kecuali video itu sendiri
-        if ($youtubeId !== $video->youtube_id && Video::where('youtube_id', $youtubeId)->exists()) {
-            return back()->withErrors(['link' => 'Video dengan link ini sudah ada.'])->withInput();
+        if (
+            $youtubeId !== $video->youtube_id &&
+            Video::where('youtube_id', $youtubeId)->exists()
+        ) {
+            return back()->withErrors(['link' => 'Video sudah ada'])->withInput();
         }
 
-        $thumbnail = $this->getThumbnailUrl($youtubeId);
+        $data['youtube_id'] = $youtubeId;
+        $data['thumbnail']  = $this->thumbnailUrl($youtubeId);
 
-        $video->update([
-            'judul' => $request->judul,
-            'link' => $request->link,
-            'youtube_id' => $youtubeId,
-            'thumbnail' => $thumbnail,
-            'deskripsi' => $request->deskripsi,
-            'kategori' => $request->kategori,
-        ]);
+        $video->update($data);
 
-        return redirect()->route('admin.dokumentasi.video.index')
-                         ->with('success', 'Video berhasil diperbarui.');
+        return redirect()
+            ->route('admin.dokumentasi.video.index')
+            ->with('success', 'Video berhasil diperbarui');
     }
 
-    // ADMIN: destroy
     public function destroy(Video $video)
     {
         $video->delete();
-        return redirect()->route('admin.dokumentasi.video.index')
-                         ->with('success', 'Video berhasil dihapus.');
-    }
 
-    // GUEST: halaman publik (opsional)
-    public function guestIndex()
-    {
-        $videos = Video::latest()->paginate(12);
-        return view('guest.galeri.video.index', compact('videos'));
+        return redirect()
+            ->route('admin.dokumentasi.video.index')
+            ->with('success', 'Video berhasil dihapus');
     }
 }

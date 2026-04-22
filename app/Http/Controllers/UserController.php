@@ -6,23 +6,34 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller implements HasMiddleware
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    */
     public static function middleware()
     {
         return [
-            new Middleware('permission:view daftar-akun', only: ['index']),
-            new Middleware('permission:create akun', only: ['create', 'store']),
-            new Middleware('permission:edit akun', only: ['edit', 'update']),
-            new Middleware('permission:reset password', only: ['resetPasswordForm', 'resetPassword']),
-            new Middleware('permission:delete akun', only: ['destroy']),
+            new Middleware('permission:akun.view', only: ['index']),
+            new Middleware('permission:akun.create', only: ['create', 'store']),
+            new Middleware('permission:akun.update', only: ['edit', 'update']),
+            new Middleware('permission:akun.reset_password', only: ['resetPasswordForm', 'resetPassword']),
+            new Middleware('permission:akun.delete', only: ['destroy']),
         ];
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helper Methods
+    |--------------------------------------------------------------------------
+    */
 
     private function isMasterUser($user): bool
     {
@@ -34,9 +45,8 @@ class UserController extends Controller implements HasMiddleware
         return $user->roles->contains('name', 'Super Admin') && !$this->isMasterUser($user);
     }
 
-    private function isReservedUserName($name)
+    private function isReservedUserName(string $name): bool
     {
-        $nameLower = strtolower(trim($name));
         $reserved = [
             'master',
             'master administrator',
@@ -46,43 +56,53 @@ class UserController extends Controller implements HasMiddleware
             'admin master',
             'master admin'
         ];
-        return in_array($nameLower, $reserved);
+
+        return in_array(strtolower(trim($name)), $reserved);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
+    private function validateRequest(Request $request, ?int $userId = null)
+    {
+        return Validator::make($request->all(), [
+            'name'     => 'required|string|min:3|max:255',
+            'email'    => 'required|email|unique:users,email,' . $userId,
+            'password' => $userId ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
+            'role'     => 'nullable|exists:roles,id',
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN - LIST & CREATE
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
-        $currentUser = Auth::user();
         $currentUserId = Auth::id();
         $isMaster = RoleController::isMaster();
-        $isSuperAdmin = $currentUser && $currentUser->roles->contains('name', 'Super Admin') && !$isMaster;
+        $isSuperAdmin = Auth::user()?->roles->contains('name', 'Super Admin') && !$isMaster;
 
         $query = User::with('roles');
 
         if ($isMaster) {
             $users = $query->paginate(10);
         } elseif ($isSuperAdmin) {
-            $users = $query->whereDoesntHave('roles', function ($q) {
-                $q->where('name', 'Master');
-            })->paginate(10);
+            $users = $query->whereDoesntHave('roles', fn($q) => $q->where('name', 'Master'))->paginate(10);
         } else {
-            $users = $query->whereDoesntHave('roles', function ($q) {
-                $q->whereIn('name', ['Master', 'Super Admin']);
-            })->paginate(10);
+            $users = $query->whereDoesntHave('roles', fn($q) => $q->whereIn('name', ['Master', 'Super Admin']))->paginate(10);
         }
 
-        // Add virtual properties
         $users->getCollection()->transform(function ($user) use ($currentUserId) {
             $user->can_edit_reset = RoleController::canModifyUser($user);
             $user->can_delete = RoleController::canModifyUser($user)
-                && !$user->roles->contains('name', 'Master')
+                && !$this->isMasterUser($user)
                 && $user->id !== $currentUserId;
+
             return $user;
         });
 
         $roles = RoleController::getAvailableRoles();
+
         return view('admin.akun.index', compact('users', 'roles'));
     }
 
@@ -94,44 +114,26 @@ class UserController extends Controller implements HasMiddleware
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|min:3|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role'     => 'nullable|exists:roles,id',
-        ]);
+        $validator = $this->validateRequest($request);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.akun.create')
-                ->withErrors($validator)
-                ->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
-        // Hanya non-Master yang dicek nama reserved-nya
         if (!RoleController::isMaster() && $this->isReservedUserName($request->name)) {
-            return redirect()->route('admin.akun.create')
-                ->with('error', 'Nama akun tidak boleh menggunakan kata "Master" atau "Super Administrator".')
-                ->withInput();
+            return back()->with('error', 'Nama akun tidak diperbolehkan.')->withInput();
         }
 
-        $selectedRole = $request->filled('role') ? Role::find($request->role) : null;
+        $role = $request->filled('role') ? Role::find($request->role) : null;
 
-        if (RoleController::isMaster()) {
-            if ($selectedRole && $selectedRole->name === 'Master') {
-                return redirect()->route('admin.akun.create')
-                    ->with('error', 'Role Master tidak dapat diassign.')
-                    ->withInput();
+        // Validasi role
+        if ($role) {
+            if ($role->name === 'Master') {
+                return back()->with('error', 'Role Master tidak dapat diassign.')->withInput();
             }
-        } else {
-            if ($selectedRole && $selectedRole->name === 'Master') {
-                return redirect()->route('admin.akun.create')
-                    ->with('error', 'Role Master tidak dapat diassign ke akun manapun.')
-                    ->withInput();
-            }
-            if ($selectedRole && $selectedRole->name === 'Super Admin') {
-                return redirect()->route('admin.akun.create')
-                    ->with('error', 'Hanya Master yang dapat memberikan role Super Admin.')
-                    ->withInput();
+
+            if (!RoleController::isMaster() && $role->name === 'Super Admin') {
+                return back()->with('error', 'Hanya Master yang dapat assign Super Admin.')->withInput();
             }
         }
 
@@ -141,173 +143,158 @@ class UserController extends Controller implements HasMiddleware
             'password' => Hash::make($request->password),
         ]);
 
-        if ($selectedRole) {
-            $user->assignRole($selectedRole);
+        if ($role) {
+            $user->assignRole($role);
         }
 
         return redirect()->route('admin.akun.index')->with('success', 'User berhasil ditambahkan.');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN - EDIT & UPDATE
+    |--------------------------------------------------------------------------
+    */
+
     public function edit(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
+
         if (!RoleController::canModifyUser($user)) {
-            return redirect()->route('admin.akun.index')->with('error', 'Anda tidak memiliki izin untuk mengedit akun ini.');
+            return redirect()->route('admin.akun.index')
+                ->with('error', 'Tidak memiliki izin.');
         }
+
         $roles = RoleController::getAvailableRoles();
         $userRole = $user->roles->first();
+
         return view('admin.akun.edit', compact('user', 'roles', 'userRole'));
     }
 
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
+
         if (!RoleController::canModifyUser($user)) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Tidak dapat mengedit akun ini.');
+            return redirect()->route('admin.akun.index')->with('error', 'Tidak dapat mengedit.');
         }
 
+        // Khusus Master: hanya boleh ubah password
         if ($this->isMasterUser($user)) {
-            $validator = Validator::make($request->all(), [
-                'password' => 'nullable|string|min:8|confirmed',
-            ]);
-            if ($validator->fails()) {
-                return redirect()->route('admin.akun.edit', $id)
-                    ->withErrors($validator)
-                    ->withInput();
-            }
+            $request->validate(['password' => 'nullable|string|min:8|confirmed']);
+
             if ($request->filled('password')) {
-                $user->password = Hash::make($request->password);
-                $user->save();
-                return redirect()->route('admin.akun.index')
-                    ->with('success', 'Password Master berhasil diubah.');
+                $user->update(['password' => Hash::make($request->password)]);
+                return redirect()->route('admin.akun.index')->with('success', 'Password Master diubah.');
             }
-            return redirect()->route('admin.akun.index')
-                ->with('info', 'Tidak ada perubahan pada akun Master.');
+
+            return redirect()->route('admin.akun.index')->with('info', 'Tidak ada perubahan.');
         }
 
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|min:3|max:255',
-            'email'    => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role'     => 'nullable|exists:roles,id',
-        ]);
+        $validator = $this->validateRequest($request, $id);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.akun.edit', $id)
-                ->withErrors($validator)
-                ->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
-        // Hanya non-Master yang dicek nama reserved
         if (!RoleController::isMaster() && $this->isReservedUserName($request->name)) {
-            return redirect()->route('admin.akun.edit', $id)
-                ->with('error', 'Nama akun tidak boleh menggunakan kata "Master" atau "Super Administrator".')
-                ->withInput();
+            return back()->with('error', 'Nama tidak diperbolehkan.')->withInput();
         }
 
-        $data = [
+        $user->update([
             'name'  => $request->name,
             'email' => $request->email,
-        ];
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
-        $user->update($data);
+            'password' => $request->filled('password')
+                ? Hash::make($request->password)
+                : $user->password,
+        ]);
 
-        // ROLE SYNC LOGIC (sama seperti sebelumnya)
-        if (RoleController::isMaster()) {
-            if ($request->filled('role')) {
-                $role = Role::find($request->role);
-                if ($role && $role->name !== 'Master') {
-                    $user->syncRoles([$role]);
-                } else {
-                    $user->syncRoles([]);
-                }
-            } else {
+        $this->syncRole($request, $user);
+
+        return redirect()->route('admin.akun.index')->with('success', 'User diperbarui.');
+    }
+
+    private function syncRole(Request $request, User $user)
+    {
+        if (!$request->filled('role')) {
+            if (!$this->isSuperAdminUser($user)) {
                 $user->syncRoles([]);
             }
-        } else {
-            if ($request->filled('role')) {
-                $role = Role::find($request->role);
-                if ($role) {
-                    if ($role->name === 'Master') {
-                        return redirect()->route('admin.akun.edit', $id)
-                            ->with('error', 'Role Master tidak dapat diassign.');
-                    }
-                    if ($this->isSuperAdminUser($user) && $role->name !== 'Super Admin') {
-                        return redirect()->route('admin.akun.edit', $id)
-                            ->with('error', 'Super Admin tidak dapat mengubah role sendiri menjadi selain Super Admin.');
-                    }
-                    if ($role->name === 'Super Admin') {
-                        return redirect()->route('admin.akun.edit', $id)
-                            ->with('error', 'Hanya Master yang dapat memberikan role Super Admin.');
-                    }
-                    $user->syncRoles([$role]);
-                }
-            } else {
-                if (!$this->isSuperAdminUser($user)) {
-                    $user->syncRoles([]);
-                }
-            }
+            return;
         }
 
-        return redirect()->route('admin.akun.index')->with('success', 'User berhasil diperbarui.');
+        $role = Role::find($request->role);
+        if (!$role) return;
+
+        if ($role->name === 'Master') return;
+
+        if (!RoleController::isMaster() && $role->name === 'Super Admin') return;
+
+        if ($this->isSuperAdminUser($user) && $role->name !== 'Super Admin') return;
+
+        $user->syncRoles([$role]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN - RESET PASSWORD
+    |--------------------------------------------------------------------------
+    */
 
     public function resetPasswordForm($id)
     {
         $user = User::findOrFail($id);
+
         if (!RoleController::canModifyUser($user)) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Anda tidak memiliki izin untuk mereset password akun ini.');
+            return redirect()->route('admin.akun.index')->with('error', 'Tidak diizinkan.');
         }
-        $roles = RoleController::getAvailableRoles();
-        $userRole = $user->roles->first();
-        return view('admin.akun.reset-password', compact('user', 'roles', 'userRole'));
+
+        return view('admin.akun.reset-password', compact('user'));
     }
 
     public function resetPassword(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
         if (!RoleController::canModifyUser($user)) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Tidak dapat mereset password akun ini.');
+            return redirect()->route('admin.akun.index')->with('error', 'Tidak diizinkan.');
         }
 
         $request->validate([
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $user->password = Hash::make($request->password);
-        $user->save();
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
 
-        return redirect()->route('admin.akun.index')->with('success', 'Password berhasil direset.');
+        return redirect()->route('admin.akun.index')->with('success', 'Password direset.');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN - DELETE
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
 
-        // Gunakan canModifyUser untuk otorisasi dasar (termasuk cek Master & Super Admin)
         if (!RoleController::canModifyUser($user)) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Anda tidak memiliki izin untuk menghapus akun ini.');
+            return back()->with('error', 'Tidak diizinkan.');
         }
 
-        // Master tidak bisa dihapus (walaupun canModifyUser mengizinkan dirinya sendiri, kita cegah)
         if ($this->isMasterUser($user)) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Akun Master tidak dapat dihapus.');
+            return back()->with('error', 'Master tidak bisa dihapus.');
         }
 
-        // Cegah menghapus akun sendiri
         if ($user->id === Auth::id()) {
-            return redirect()->route('admin.akun.index')
-                ->with('error', 'Tidak dapat menghapus akun sendiri.');
+            return back()->with('error', 'Tidak bisa hapus diri sendiri.');
         }
 
         $user->delete();
-        return redirect()->route('admin.akun.index')->with('success', 'User berhasil dihapus.');
+
+        return back()->with('success', 'User dihapus.');
     }
 }

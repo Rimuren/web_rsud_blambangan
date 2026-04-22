@@ -1,7 +1,7 @@
 <x-layouts::app :title="__('Edit User')">
     <x-slot:header>{{ __('Edit User') }}</x-slot:header>
 
-    @can('edit akun')
+    @can('akun.update')
     <div class="py-6 px-4 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto">
             {{-- Header halaman --}}

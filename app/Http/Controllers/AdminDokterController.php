@@ -19,7 +19,7 @@ class AdminDokterController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            new Middleware('permission:view daftar-dokter', only: ['index']),
+            new Middleware('permission:dokter.view', only: ['index']),
         ];
     }
 

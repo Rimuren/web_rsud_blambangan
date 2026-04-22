@@ -3,7 +3,7 @@
         {{ __('Manajemen User') }}
     </x-slot:header>
 
-    @can('view daftar-akun')
+    @can('akun.view')
     <div class="p-4 md:p-6 lg:p-8">
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -11,7 +11,7 @@
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola akses dan akun pengguna untuk panel sistem rumah sakit.</p>
             </div>
             <div>
-                @can('create akun')
+                @can('akun.create')
                 <a href="{{ route('admin.akun.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
@@ -64,7 +64,7 @@
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
                                     @if($user->can_edit_reset)
-                                    @can('edit akun')
+                                    @can('akun.update')
                                     <a href="{{ route('admin.akun.edit', $user->id) }}" title="Edit">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
@@ -72,7 +72,7 @@
                                     </a>
                                     @endcan
 
-                                    @can('reset password')
+                                    @can('akun.reset_password')
                                     <a href="{{ route('admin.akun.reset-password.form', $user->id) }}" title="Reset Password">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="key" class="size-4 group-hover:scale-110 transition-transform" />
@@ -82,7 +82,7 @@
                                     @endif
 
                                     @if($user->can_delete)
-                                    @can('delete akun')
+                                    @can('akun.delete')
                                     <form action="{{ route('admin.akun.destroy', $user->id) }}" method="POST" class="inline-block delete-user-form">
                                         @csrf
                                         @method('DELETE')
@@ -117,7 +117,7 @@
         </flux:card>
     </div>
 
-    @can('delete akun')
+    @can('akun.delete')
     <script>
         // Konfirmasi hapus user
         document.querySelectorAll('.delete-user-form').forEach(form => {
