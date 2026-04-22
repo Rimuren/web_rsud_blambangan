@@ -3,6 +3,8 @@
 @section('title', 'Manajemen Iklan')
 
 @section('content')
+
+@can('iklan.view')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-6xl mx-auto space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -11,10 +13,12 @@
                 <p class="mt-2 text-zinc-500 dark:text-zinc-400">Kelola popup iklan yang tampil di halaman utama portal RSUD.</p>
             </div>
 
+            @can('iklan.create')
             <flux:button as="a" href="{{ route('admin.iklan.create') }}" variant="primary" size="lg" class="shadow-lg">
                 <flux:icon name="plus" class="h-5 w-5" />
                 Tambah Iklan
             </flux:button>
+            @endcan
         </div>
 
         @if (session('success'))
@@ -60,6 +64,7 @@
                                         <span class="text-sm text-zinc-400 dark:text-zinc-500">Tanpa tombol aksi</span>
                                     @endif
                                 </td>
+                                @can('iklan.toggle_status')
                                 <td class="px-6 py-4">
                                     <form action="{{ route('admin.iklan.toggle-status', $iklan) }}" method="POST" class="flex items-center gap-3">
                                         @csrf
@@ -77,12 +82,16 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endcan
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-2">
+                                        @can('iklan.update')
                                         <flux:button as="a" href="{{ route('admin.iklan.edit', $iklan) }}" variant="ghost" size="sm" class="rounded-xl p-2">
                                             <flux:icon name="pencil-square" class="h-5 w-5" />
                                         </flux:button>
+                                        @endcan
 
+                                        @can('iklan.delete')
                                         <form action="{{ route('admin.iklan.destroy', $iklan) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus iklan ini?')">
                                             @csrf
                                             @method('DELETE')
@@ -90,6 +99,7 @@
                                                 <flux:icon name="trash" class="h-5 w-5" />
                                             </flux:button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
@@ -120,4 +130,5 @@
         </flux:card>
     </div>
 </div>
+@endcan
 @endsection

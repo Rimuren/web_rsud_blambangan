@@ -3,7 +3,7 @@
         {{ __('Edit Artikel') }}
     </x-slot:header>
     
-    @can('edit artikel')
+    @can('artikel.update')
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
         <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Edit Artikel</h1>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Perbarui informasi artikel di bawah ini</p>

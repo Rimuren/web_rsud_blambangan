@@ -1,7 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
-    @can('view daftar-artikel')
+    @can('artikel.view')
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -13,7 +13,7 @@
             </div>
 
             <div class="flex gap-3">
-                @can('delete artikel')
+                @can('artikel.delete')
                 <button type="button" id="delete-selected-btn"
                     class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>
@@ -22,7 +22,7 @@
                 </button>
                 @endcan
 
-                @can('create artikel')
+                @can('artikel.create')
                 <a href="{{ route('admin.artikel.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
@@ -142,7 +142,7 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
-        @can('delete artikel')
+        @can('artikel.delete')
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')

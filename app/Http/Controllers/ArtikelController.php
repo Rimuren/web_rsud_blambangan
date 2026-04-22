@@ -16,10 +16,10 @@ class ArtikelController extends Controller
     public static function middleware()
     {
         return [
-            new Middleware('permission:view daftar-artikel', only: ['index']),
-            new Middleware('permission:create artikel', only: ['create', 'store']),
-            new Middleware('permission:edit artikel', only: ['edit', 'update']),
-            new Middleware('permission:delete artikel', only: ['destroy']),
+            new Middleware('permission:artikel.view', only: ['index']),
+            new Middleware('permission:artikel.create', only: ['create', 'store','uploadThumbnail','uploadImage','createImageFromFile']),
+            new Middleware('permission:artikel.update', only: ['edit', 'update']),
+            new Middleware('permission:artikel.delete', only: ['destroy', 'massDestroy']),
         ];
     }
 
@@ -139,17 +139,17 @@ class ArtikelController extends Controller
         return redirect()->route('admin.artikel.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
-public function destroy(artikel_model $artikel)
-{
-    if ($artikel->thumbnail && Storage::disk('public')->exists($artikel->thumbnail)) {
-        Storage::disk('public')->delete($artikel->thumbnail);
+    public function destroy(artikel_model $artikel)
+    {
+        if ($artikel->thumbnail && Storage::disk('public')->exists($artikel->thumbnail)) {
+            Storage::disk('public')->delete($artikel->thumbnail);
+        }
+
+        $artikel->delete();
+
+        return redirect()->route('admin.artikel.index')
+            ->with('success', 'Artikel berhasil dihapus.');
     }
-
-    $artikel->delete();
-
-    return redirect()->route('admin.artikel.index')
-        ->with('success', 'Artikel berhasil dihapus.');
-}
 
     public function massDestroy(Request $request)
     {

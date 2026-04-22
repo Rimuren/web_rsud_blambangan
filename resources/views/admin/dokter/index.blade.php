@@ -8,7 +8,7 @@
         </div>
     </x-slot:header>
 
-    @can('view daftar-dokter')
+    @can('dokter.view')
     <div class="p-4 md:p-6 lg:p-8">
         <flux:card class="p-4 mb-6">
             <form method="GET" action="{{ route('admin.dokter.index') }}" class="flex flex-wrap items-start gap-4">

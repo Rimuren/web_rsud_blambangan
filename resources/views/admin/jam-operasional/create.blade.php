@@ -3,6 +3,7 @@
 @section('title', 'Tambah Jam Operasional')
 
 @section('content')
+@can('jam_operasional.create')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-3xl mx-auto space-y-6">
         <div>
@@ -41,4 +42,5 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection

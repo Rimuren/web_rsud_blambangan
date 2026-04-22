@@ -3,7 +3,7 @@
 @section('title', 'Manajemen Dokumentasi Video')
 
 @section('content')
-@can('view daftar-video')
+@can('video.view')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-7xl mx-auto">
         {{-- Header Section --}}
@@ -12,7 +12,7 @@
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Daftar Galeri Video</h2>
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola galeri video dokumentasi rumah sakit.</p>
             </div>
-            @can('create video')
+            @can('video.create')
             <flux:button as="a" href="{{ route('admin.dokumentasi.video.create') }}" variant="primary" icon="plus">
                 Tambah Video
             </flux:button>
@@ -49,13 +49,13 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center gap-2 justify-end">
-                                    @can('edit video')
+                                    @can('video.update')
                                     <flux:button as="a" href="{{ route('admin.dokumentasi.video.edit', $video) }}" size="sm" variant="ghost" class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">
                                         <flux:icon name="pencil" class="w-5 h-5" />
                                     </flux:button>
                                     @endcan
 
-                                    @can('delete video')
+                                    @can('video.delete')
                                     <form action="{{ route('admin.dokumentasi.video.destroy', $video) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin hapus video ini?')">
                                         @csrf
                                         @method('DELETE')

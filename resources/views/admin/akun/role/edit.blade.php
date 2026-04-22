@@ -1,6 +1,6 @@
 <x-layouts::app.sidebar :title="'Edit Role'">
     <flux:main>
-        @can('edit role')
+        @can('role.update')
         <div class="py-6 px-4 sm:px-6 lg:px-8">
             <div class="max-w-2xl mx-auto">
 
