@@ -38,13 +38,6 @@ class JamOperasionalRequest extends FormRequest
             'hari' => $this->filled('hari') ? (int) $this->input('hari') : null,
             'is_closed' => $isClosed,
         ]);
-
-        if ($isClosed) {
-            $this->merge([
-                'jam_buka' => null,
-                'jam_tutup' => null,
-            ]);
-        }
     }
 
     public function messages(): array

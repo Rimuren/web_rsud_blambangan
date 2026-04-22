@@ -87,9 +87,87 @@
     .scroll-reveal-child {
         transition-delay: 0.1s;
     }
+
+    .popup-hidden {
+        display: none !important;
+    }
+
+    .popup-progress-bar {
+        animation: popupProgressShrink 5s linear forwards;
+        transform-origin: left center;
+    }
+
+    @keyframes popupProgressShrink {
+        from {
+            transform: scaleX(1);
+        }
+
+        to {
+            transform: scaleX(0);
+        }
+    }
 </style>
 
 <div class="page-fade">
+    @if($popupIklan)
+    <div id="iklan-popup-overlay" class="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/70 px-4 py-8 backdrop-blur-sm">
+        <div class="relative w-full max-w-4xl overflow-hidden rounded-[2rem] bg-white shadow-2xl">
+            <button
+                type="button"
+                id="close-iklan-popup"
+                class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black"
+                aria-label="Tutup iklan">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="bg-slate-100">
+                <img
+                    src="{{ asset('storage/' . $popupIklan->gambar) }}"
+                    alt="{{ $popupIklan->nama }}"
+                    class="block max-h-[75vh] w-full object-contain">
+            </div>
+
+            <div class="bg-gradient-to-b from-white to-slate-50 p-6 md:p-8">
+                <div class="mb-4 flex flex-wrap items-center gap-3">
+                    <span class="inline-flex w-fit items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-700">Informasi Iklan</span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                        Tertutup otomatis dalam <span id="iklan-popup-countdown">600 detik</span>
+                    </span>
+                </div>
+
+                <h2 class="heading-font text-2xl font-bold leading-tight text-slate-900 md:text-3xl">{{ $popupIklan->nama }}</h2>
+                <p class="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}</p>
+
+                <div class="mt-6 flex flex-wrap items-center gap-3">
+                    @if ($popupIklan->cta_label && $popupIklan->cta_url)
+                        <a
+                            href="{{ $popupIklan->cta_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-900">
+                            {{ $popupIklan->cta_label }}
+                        </a>
+                    @endif
+
+                    <button
+                        type="button"
+                        id="close-iklan-popup-action"
+                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                        Tutup
+                    </button>
+                </div>
+
+                <div class="mt-6 overflow-hidden rounded-full bg-slate-200/80">
+                    <div class="popup-progress-bar h-2 rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- HERO SECTION --}}
     <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
         <img src="{{ asset('images/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
@@ -244,57 +322,77 @@
         <div class="container mx-auto">
             <div class="flex justify-between items-center mb-5 md:mb-6 flex-wrap gap-2">
                 <h2 class="text-lg md:text-xl font-bold text-gray-900">Berita &amp; Artikel Kesehatan</h2>
-                <a href="#" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
+                <a href="{{ route('guest.artikel.index') }}" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
-                {{-- Artikel 1 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-green-800 to-green-600 flex items-center justify-center">
-                        <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
+                @forelse ($topArticles as $article)
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
+                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="block">
+                            <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
+                                @if ($article->thumbnail)
+                                    <img
+                                        src="{{ asset('storage/' . $article->thumbnail) }}"
+                                        alt="{{ $article->judul }}"
+                                        class="h-full w-full object-cover transition duration-300 hover:scale-105">
+                                @else
+                                    <div class="flex h-full items-center justify-center">
+                                        <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A3.375 3.375 0 0011.25 4.875V3.75m0 0A2.25 2.25 0 019 1.5m2.25 2.25A2.25 2.25 0 0013.5 1.5m-9 12.75h15a1.5 1.5 0 011.5 1.5v4.125a1.125 1.125 0 01-1.125 1.125H4.125A1.125 1.125 0 013 19.875V15.75a1.5 1.5 0 011.5-1.5z" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                        </a>
+
+                        <div class="p-4">
+                            <div class="flex items-center justify-between gap-3">
+                                <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">
+                                    {{ $article->kategori->nama ?? 'Artikel' }}
+                                </span>
+                                <span class="text-[11px] font-semibold text-gray-400">
+                                    {{ number_format($article->views ?? 0) }} views
+                                </span>
+                            </div>
+
+                            <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">
+                                <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="hover:text-blue-700 transition">
+                                    {{ $article->judul }}
+                                </a>
+                            </h3>
+
+                            <p class="text-xs text-gray-500 mb-3">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($article->konten), 110) }}
+                            </p>
+
+                            <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:underline">
+                                Baca Selengkapnya →
+                            </a>
+                        </div>
+                    </article>
+                @empty
+                    <div class="sm:col-span-2 md:col-span-3 bg-white rounded-2xl border border-gray-200 px-6 py-12 text-center text-gray-500">
+                        Artikel populer belum tersedia.
                     </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Kesehatan</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Sentuhan Kasih Merawat Bayi dengan Prematuritas</h3>
-                        <p class="text-xs text-gray-500 mb-3">Perawatan penuh kasih untuk buah hati tercinta dengan metode terkini.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
-                    </div>
-                </div>
-                {{-- Artikel 2 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-800 to-blue-600 flex flex-col items-center justify-center gap-1 text-center">
-                        <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
-                        <span class="text-white font-extrabold text-base text-center leading-snug px-2">AL APOTEKER ISUN</span>
-                    </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wide">Edukasi</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Hotline Al_Apoteker Isun | Konsultasi Obat</h3>
-                        <p class="text-xs text-gray-500 mb-3">Layanan konsultasi apoteker online siap membantu kebutuhan obat Anda 24/7.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
-                    </div>
-                </div>
-                {{-- Artikel 3 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all sm:col-span-2 md:col-span-1 scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-green-900 to-green-700 flex flex-col items-center justify-center gap-1">
-                        <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
-                        <span class="text-white font-extrabold text-base text-center leading-snug px-2">CC-GANCANG ARON</span>
-                    </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Layanan Darurat</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Hotline Gancang Aron - Siaga 24 Jam</h3>
-                        <p class="text-xs text-gray-500 mb-3">Informasi layanan darurat dan pengantaran pasien cepat tanggap.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
-                    </div>
-                </div>
+                @endforelse
             </div>
             <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
                 <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
                     <span class="font-bold text-gray-800">Kategori Artikel:</span>
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Kategori</span>
+                    @forelse ($topArticleCategories as $index => $categoryName)
+                        @php
+                            $categoryClasses = [
+                                'bg-blue-100 text-blue-800',
+                                'bg-red-100 text-red-700',
+                                'bg-green-100 text-green-700',
+                                'bg-purple-100 text-purple-700',
+                            ];
+                        @endphp
+                        <span class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full">
+                            {{ $categoryName }}
+                        </span>
+                    @empty
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Belum ada kategori</span>
+                    @endforelse
                 </div>
                 <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
             </div>
@@ -307,6 +405,76 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const iklanPopup = document.getElementById('iklan-popup-overlay');
+        const iklanCountdown = document.getElementById('iklan-popup-countdown');
+        let iklanTimer = null;
+        let iklanCountdownInterval = null;
+        const popupDurationMs = 600000;
+        const popupDurationSeconds = Math.ceil(popupDurationMs / 1000);
+        const navigationEntry = performance.getEntriesByType('navigation')[0];
+        const isReload = navigationEntry
+            ? navigationEntry.type === 'reload'
+            : performance.navigation && performance.navigation.type === 1;
+        const popupSessionKey = @json($popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : null);
+        const hasShownInSession = popupSessionKey ? sessionStorage.getItem(popupSessionKey) === '1' : false;
+
+        const closeIklanPopup = () => {
+            if (!iklanPopup) {
+                return;
+            }
+
+            if (iklanTimer) {
+                clearTimeout(iklanTimer);
+                iklanTimer = null;
+            }
+
+            if (iklanCountdownInterval) {
+                clearInterval(iklanCountdownInterval);
+                iklanCountdownInterval = null;
+            }
+
+            iklanPopup.classList.add('popup-hidden');
+        };
+
+        document.getElementById('close-iklan-popup')?.addEventListener('click', closeIklanPopup);
+        document.getElementById('close-iklan-popup-action')?.addEventListener('click', closeIklanPopup);
+
+        iklanPopup?.addEventListener('click', function(event) {
+            if (event.target === iklanPopup) {
+                closeIklanPopup();
+            }
+        });
+
+        if (iklanPopup) {
+            if (isReload || hasShownInSession) {
+                iklanPopup.classList.add('popup-hidden');
+            } else {
+                if (popupSessionKey) {
+                    sessionStorage.setItem(popupSessionKey, '1');
+                }
+
+                if (iklanCountdown) {
+                    let remainingSeconds = popupDurationSeconds;
+                    iklanCountdown.textContent = remainingSeconds + ' detik';
+
+                    iklanCountdownInterval = setInterval(() => {
+                        remainingSeconds -= 1;
+
+                        if (remainingSeconds <= 0) {
+                            iklanCountdown.textContent = '0 detik';
+                            clearInterval(iklanCountdownInterval);
+                            iklanCountdownInterval = null;
+                            return;
+                        }
+
+                        iklanCountdown.textContent = remainingSeconds + ' detik';
+                    }, 1000);
+                }
+
+                iklanTimer = setTimeout(closeIklanPopup, popupDurationMs);
+            }
+        }
+
         // Hero slider (existing)
         const heroImages = [
             "{{ asset('images/hero1.png') }}",

@@ -37,19 +37,7 @@
                         <p class="text-xs text-zinc-400">Thumbnail akan disimpan otomatis dari YouTube.</p>
                     </div>
 
-                    {{-- Kategori --}}
-                    <div class="space-y-1.5">
-                        <flux:label for="kategori">Kategori</flux:label>
-                        <flux:select id="kategori" name="kategori">
-                            <flux:select.option value="">-- Pilih kategori --</flux:select.option>
-                            <flux:select.option value="profil">Profil Rumah Sakit</flux:select.option>
-                            <flux:select.option value="layanan">Layanan Medis</flux:select.option>
-                            <flux:select.option value="edukasi">Edukasi Kesehatan</flux:select.option>
-                            <flux:select.option value="kegiatan">Kegiatan</flux:select.option>
-                            <flux:select.option value="testimoni">Testimoni Pasien</flux:select.option>
-                        </flux:select>
-                        @error('kategori') <flux:error>{{ $message }}</flux:error> @enderror
-                    </div>
+                    
 
                     {{-- Deskripsi --}}
                     <div class="space-y-1.5">
