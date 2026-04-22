@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Iklan;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class IklanController extends Controller
+class IklanController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:artikel.view', only: ['index']),
+            new Middleware('permission:artikel.create', only: ['create', 'store', 'uploadThumbnail', 'uploadImage', 'createImageFromFile']),
+            new Middleware('permission:artikel.update', only: ['edit', 'update']),
+            new Middleware('permission:artikel.delete', only: ['destroy', 'massDestroy']),
+        ];
+    }
+
     public function index(): View
     {
         $iklans = Iklan::latest()->paginate(10);
-
         return view('admin.iklan.index', compact('iklans'));
     }
 

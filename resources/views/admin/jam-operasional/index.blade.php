@@ -3,6 +3,7 @@
 @section('title', 'Jam Operasional')
 
 @section('content')
+@can('jam_operasional.view')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-6xl mx-auto space-y-6">
         <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -11,10 +12,12 @@
                 <p class="mt-2 text-zinc-500 dark:text-zinc-400">Atur hari layanan dan jam operasional portal RSUD dari panel admin.</p>
             </div>
 
+            @can('jam_operasional.create')
             <flux:button as="a" href="{{ route('admin.jam-operasional.create') }}" variant="primary" size="lg" class="shadow-lg">
                 <flux:icon name="plus" class="h-5 w-5" />
                 Tambah Jadwal
             </flux:button>
+            @endcan
         </div>
 
         @if (session('success'))
@@ -61,6 +64,7 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
+                                    @can('jam_operasional.toggle_status')
                                     <form action="{{ route('admin.jam-operasional.toggle-status', $item) }}" method="POST" class="flex items-center gap-3">
                                         @csrf
                                         @method('PATCH')
@@ -79,13 +83,17 @@
                                             </span>
                                         </button>
                                     </form>
+                                    @endcan
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-2">
+                                        @can('jam_operasional.update')
                                         <flux:button as="a" href="{{ route('admin.jam-operasional.edit', $item) }}" variant="ghost" size="sm" class="rounded-xl p-2">
                                             <flux:icon name="pencil-square" class="h-5 w-5" />
                                         </flux:button>
+                                        @endcan
 
+                                        @can('jam_operasional.delete')
                                         <form action="{{ route('admin.jam-operasional.destroy', $item) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus jam operasional ini?')">
                                             @csrf
                                             @method('DELETE')
@@ -93,6 +101,7 @@
                                                 <flux:icon name="trash" class="h-5 w-5" />
                                             </flux:button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
@@ -123,4 +132,5 @@
         </flux:card>
     </div>
 </div>
+@endcan
 @endsection

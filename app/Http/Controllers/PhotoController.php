@@ -5,90 +5,118 @@ namespace App\Http\Controllers;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PhotoController extends Controller
+class PhotoController extends Controller implements HasMiddleware
 {
-    // Halaman guest (dokumentasi foto)
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    */
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:foto.view', only: ['index']),
+            new Middleware('permission:foto.create', only: ['create', 'store']),
+            new Middleware('permission:foto.update', only: ['edit', 'update']),
+            new Middleware('permission:foto.delete', only: ['destroy']),
+        ];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUEST
+    |--------------------------------------------------------------------------
+    */
+
     public function guestIndex()
     {
-        $fotos = Photo::latest()->paginate(12);
-        return view('guest.galeri.foto.index', compact('fotos'));
+        $photos = Photo::latest()->paginate(12);
+
+        return view('guest.galeri.foto.index', compact('photos'));
     }
 
-    // ADMIN: daftar semua foto
+    /*
+    |--------------------------------------------------------------------------
+    | ADMIN
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
-        $fotos = Photo::latest()->paginate(10);
-        return view('admin.dokumentasi.foto.index', compact('fotos'));
+        $photos = Photo::latest()->paginate(10);
+
+        return view('admin.dokumentasi.foto.index', compact('photos'));
     }
 
-    // ADMIN: form tambah
     public function create()
     {
         return view('admin.dokumentasi.foto.create');
     }
 
-    // ADMIN: simpan foto
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'gambar'    => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'nullable|string',
-            'kategori' => 'required|string|max:100',
+            'kategori'  => 'required|string|max:100',
         ]);
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('photos', 'public');
-            $validated['gambar'] = $path;
+            $data['gambar'] = $request->file('gambar')
+                ->store('photos', 'public');
         }
 
-        Photo::create($validated);
+        Photo::create($data);
 
-        return redirect()->route('admin.dokumentasi.foto.index')
-                         ->with('success', 'Foto berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.dokumentasi.foto.index')
+            ->with('success', 'Foto berhasil ditambahkan.');
     }
 
-    // ADMIN: form edit
-    public function edit(Photo $foto)
+    public function edit(Photo $photo)
     {
-        return view('admin.dokumentasi.foto.edit', compact('foto'));
+        return view('admin.dokumentasi.foto.edit', compact('photo'));
     }
 
-    // ADMIN: update foto
-    public function update(Request $request, Photo $foto)
+    public function update(Request $request, Photo $photo)
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $data = $request->validate([
+            'judul'     => 'required|string|max:255',
+            'gambar'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deskripsi' => 'nullable|string',
-            'kategori' => 'required|string|max:100',
+            'kategori'  => 'required|string|max:100',
         ]);
 
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
-            if ($foto->gambar) {
-                Storage::disk('public')->delete($foto->gambar);
+            if ($photo->gambar) {
+                Storage::disk('public')->delete($photo->gambar);
             }
-            $path = $request->file('gambar')->store('photos', 'public');
-            $validated['gambar'] = $path;
+
+            $data['gambar'] = $request->file('gambar')
+                ->store('photos', 'public');
         }
 
-        $foto->update($validated);
+        $photo->update($data);
 
-        return redirect()->route('admin.dokumentasi.foto.index')
-                         ->with('success', 'Foto berhasil diperbarui.');
+        return redirect()
+            ->route('admin.dokumentasi.foto.index')
+            ->with('success', 'Foto berhasil diperbarui.');
     }
 
-    // ADMIN: hapus foto
-    public function destroy(Photo $foto)
+    public function destroy(Photo $photo)
     {
-        if ($foto->gambar) {
-            Storage::disk('public')->delete($foto->gambar);
+        if ($photo->gambar) {
+            Storage::disk('public')->delete($photo->gambar);
         }
-        $foto->delete();
 
-        return redirect()->route('admin.dokumentasi.foto.index')
-                         ->with('success', 'Foto berhasil dihapus.');
+        $photo->delete();
+
+        return redirect()
+            ->route('admin.dokumentasi.foto.index')
+            ->with('success', 'Foto berhasil dihapus.');
     }
 }

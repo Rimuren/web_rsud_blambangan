@@ -6,9 +6,23 @@ use App\Http\Requests\JamOperasionalRequest;
 use App\Models\JamOperasional;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class JamOperasionalController extends Controller
+class JamOperasionalController extends Controller implements HasMiddleware
 {
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:jam_operasional.view', only: ['index']),
+            new Middleware('permission:jam_operasional.view', only: ['create', 'store']),
+            new Middleware('permission:jam_operasional.update', only: ['edit', 'update']),
+            new Middleware('permission:jam_operasional.delete', only: ['destroy']),
+            new Middleware('permission:jam_operasional.toggle_status',only:['toggleStatus']),
+        ];
+    }
+
     public function index(): View
     {
         $jamOperasionals = JamOperasional::query()
