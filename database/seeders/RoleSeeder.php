@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -11,48 +10,112 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        // Roles yang sudah ada
-        $masterRole = Role::firstOrCreate(['name' => 'Master', 'guard_name' => 'web']);
-        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
-        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
-        $reviewRole = Role::firstOrCreate(['name' => 'Review', 'guard_name' => 'web']);
+        /*
+        |--------------------------------------------------------------------------
+        | Roles
+        |--------------------------------------------------------------------------
+        */
+        $roles = [
+            'Master',
+            'Super Admin',
+            'Admin',
+            'Review',
+            'Editor',
+            'Viewer',
+        ];
 
-        // === ROLE BARU ===
-        $editorRole = Role::firstOrCreate(['name' => 'Editor', 'guard_name' => 'web']);
-        $viewerRole = Role::firstOrCreate(['name' => 'Viewer', 'guard_name' => 'web']);
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate([
+                'name' => $roleName,
+                'guard_name' => 'web'
+            ]);
+        }
 
-        // Jalankan PermissionSeeder jika belum ada permission
+        $master      = Role::findByName('Master');
+        $superAdmin  = Role::findByName('Super Admin');
+        $admin       = Role::findByName('Admin');
+        $review      = Role::findByName('Review');
+        $editor      = Role::findByName('Editor');
+        $viewer      = Role::findByName('Viewer');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ensure Permissions Exist
+        |--------------------------------------------------------------------------
+        */
         if (Permission::count() === 0) {
             $this->call(PermissionSeeder::class);
         }
 
-        // 1. Master, Super Admin, Admin : semua permission
-        $masterRole->syncPermissions(Permission::all());
-        $superAdminRole->syncPermissions(Permission::all());
-        $adminRole->syncPermissions(Permission::all());
+        $allPermissions = Permission::all();
 
-        // 2. Review : semua permission yang mengandung 'view'
-        $viewPermissions = Permission::where('name', 'like', '%view%')->get();
-        $reviewRole->syncPermissions($viewPermissions);
+        /*
+        |--------------------------------------------------------------------------
+        | 1. Full Access Roles
+        |--------------------------------------------------------------------------
+        */
+        $master->syncPermissions($allPermissions);
+        $superAdmin->syncPermissions($allPermissions);
+        $admin->syncPermissions($allPermissions);
 
-        // 3. Editor : permission create, edit, delete untuk artikel, kategori, foto, video
+        /*
+        |--------------------------------------------------------------------------
+        | 2. Review (View Only)
+        |--------------------------------------------------------------------------
+        */
+        $reviewPermissions = Permission::where('name', 'like', '%.view')->get();
+        $review->syncPermissions($reviewPermissions);
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. Editor (CRUD Tanpa View Global Sensitif)
+        |--------------------------------------------------------------------------
+        */
         $editorPermissions = Permission::where(function ($query) {
-            $query->where('name', 'like', 'create%')
-                ->orWhere('name', 'like', 'edit%')
-                ->orWhere('name', 'like', 'delete%');
-        })->where(function ($query) {
-            $query->where('name', 'like', '%artikel%')
-                ->orWhere('name', 'like', '%kategori%')
-                ->orWhere('name', 'like', '%foto%')
-                ->orWhere('name', 'like', '%video%');
+            $query->whereIn('name', [
+                // FOTO
+                'foto.create',
+                'foto.update',
+                'foto.delete',
+
+                // VIDEO
+                'video.create',
+                'video.update',
+                'video.delete',
+
+                // ARTIKEL
+                'artikel.create',
+                'artikel.update',
+                'artikel.delete',
+
+                // KATEGORI
+                'kategori.create',
+                'kategori.update',
+                'kategori.delete',
+            ]);
         })->get();
-        $editorRole->syncPermissions($editorPermissions);
 
-        // 4. Viewer : hanya permission 'view daftar-*' (semua view)
-        $viewerPermissions = Permission::where('name', 'like', 'view daftar-%')->get();
-        $viewerRole->syncPermissions($viewerPermissions);
+        $editor->syncPermissions($editorPermissions);
 
-        $this->command->info('Roles created: Master, Super Admin, Admin, Review, Editor, Viewer');
-        $this->command->info('Permission assignments completed.');
+        /*
+        |--------------------------------------------------------------------------
+        | 4. Viewer (Read Only)
+        |--------------------------------------------------------------------------
+        */
+        $viewerPermissions = Permission::whereIn('name', [
+            'foto.view',
+            'video.view',
+            'artikel.view',
+            'kategori.view',
+        ])->get();
+
+        $viewer->syncPermissions($viewerPermissions);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Output
+        |--------------------------------------------------------------------------
+        */
+        $this->command->info('Roles & permissions berhasil disinkronisasi.');
     }
 }

@@ -1,5 +1,4 @@
 <div class="space-y-6">
-    @canany('iklan.create','iklan.update')
     <div class="space-y-2">
         <flux:label for="nama">Nama Iklan <span class="text-red-500">*</span></flux:label>
         <flux:input id="nama" name="nama" value="{{ old('nama', $iklan->nama ?? '') }}" placeholder="Contoh: Promo Layanan MCU" required />
@@ -70,5 +69,4 @@
             <span>Aktifkan iklan ini untuk popup home page</span>
         </label>
     </div>
-    @endcanany
 </div>
