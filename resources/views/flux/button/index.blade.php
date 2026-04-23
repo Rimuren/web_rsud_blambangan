@@ -78,9 +78,17 @@ $classes = Flux::classes()
         ),
         'sm' => 'h-8 text-sm rounded-md' . ' ' . ($square ? 'w-8' : 'px-3'),
         'xs' => 'h-6 text-xs rounded-md' . ' ' . ($square ? 'w-6' : 'px-2'),
+        'lg' => 'h-12 text-base rounded-xl' . ' ' . (
+            $square
+                ? 'w-12'
+                : ($iconLeading && $iconLeading !== '' ? 'ps-4' : 'ps-5') . ' ' . ($iconTrailing && $iconTrailing !== '' ? 'pe-4' : 'pe-5')
+        ),
     })
     ->add('inline-flex') // Buttons are inline by default but links are blocks, so inline-flex is needed here to ensure link-buttons are displayed the same as buttons...
     ->add($inset ? match ($size) { // Inset...
+        'lg' => $square
+            ? Flux::applyInset($inset, top: '-mt-3', right: '-me-3', bottom: '-mb-3', left: '-ms-3')
+            : Flux::applyInset($inset, top: '-mt-3', right: '-me-5', bottom: '-mb-4', left: '-ms-5'),
         'base' => $square
             ? Flux::applyInset($inset, top: '-mt-2.5', right: '-me-2.5', bottom: '-mb-2.5', left: '-ms-2.5')
             : Flux::applyInset($inset, top: '-mt-2.5', right: '-me-4', bottom: '-mb-3', left: '-ms-4'),

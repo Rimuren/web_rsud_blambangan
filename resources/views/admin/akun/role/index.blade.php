@@ -1,5 +1,6 @@
 <x-layouts::app.sidebar :title="'Roles'">
   <flux:main>
+    @can('role.view')
     <div class="p-6">
       <flux:card class="space-y-6">
         <div class="flex justify-between items-center">
@@ -10,7 +11,7 @@
           @endphp
 
           {{-- Hanya Master yang bisa menambah role --}}
-          @can('create role')
+          @can('role.create')
           <flux:button as="a" href="{{ route('admin.akun.role.create') }}" variant="primary" icon="plus-circle">
             Tambah Role
           </flux:button>
@@ -60,16 +61,16 @@
                 {{-- Kolom Aksi dengan aturan akses --}}
                 <flux:table.cell class="text-right">
                   <div class="flex justify-end gap-2">
-                    @if($role->can_edit)
+                    @can('role.update')
                     <flux:button href="{{ route('admin.akun.role.edit', $role->id) }}" variant="ghost" icon="pencil-square" size="sm" />
-                    @endif
-                    @if($role->can_delete)
+                    @endcan
+                    @can('role.delete')
                     <form action="{{ route('admin.akun.role.destroy', $role->id) }}" method="POST" onsubmit="return confirm('Hapus role {{ $role->name }}?')" class="inline">
                       @csrf
                       @method('DELETE')
                       <flux:button type="submit" variant="ghost" icon="trash" size="sm" />
                     </form>
-                    @endif
+                    @endcan
                   </div>
                 </flux:table.cell>
 
@@ -93,5 +94,6 @@
         </div>
       </flux:card>
     </div>
+    @endcan
   </flux:main>
 </x-layouts::app.sidebar>

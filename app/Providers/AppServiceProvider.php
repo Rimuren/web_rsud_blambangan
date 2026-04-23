@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\DokterApiService;
+use App\Services\DokterFallbackService;
+use App\Services\DokterService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(DokterApiService::class);
+        $this->app->singleton(DokterFallbackService::class);
+        $this->app->singleton(DokterService::class);
     }
 
     /**

@@ -83,12 +83,111 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+    :root {
+        /* Animasi awal halaman */
+        --fade-duration: 0.8s;
+        --fade-direction: fade-up;
+        
+        /* Animasi scroll reveal */
+        --reveal-duration: 0.6s;
+        --reveal-delay-step: 0.1s;
+    }
+
+    body { 
+        font-family: 'Plus Jakarta Sans', sans-serif; 
+    }
+    html, body { 
+        overflow-x: hidden; 
+        width: 100%; 
+        max-width: 100%; 
+    }
+
+    /* ========== ANIMASI AWAL HALAMAN (fade container) ========== */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeLeft {
+        from { opacity: 0; transform: translateX(30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeRight {
+        from { opacity: 0; transform: translateX(-30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .fade-container {
+        animation-duration: var(--fade-duration);
+        animation-fill-mode: both;
+        animation-timing-function: ease-out;
+    }
+    .fade-container[data-direction="fade-in"] { animation-name: fadeIn; }
+    .fade-container[data-direction="fade-up"] { animation-name: fadeUp; }
+    .fade-container[data-direction="fade-down"] { animation-name: fadeDown; }
+    .fade-container[data-direction="fade-left"] { animation-name: fadeLeft; }
+    .fade-container[data-direction="fade-right"] { animation-name: fadeRight; }
+    .fade-container[data-direction="zoom-in"] { animation-name: zoomIn; }
+
+    /* ========== ANIMASI SCROLL REVEAL ========== */
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity var(--reveal-duration) ease-out, transform var(--reveal-duration) ease-out;
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    /* Opsi variasi arah (bisa ditambahkan class tambahan) */
+    .reveal-left {
+        transform: translateX(-30px);
+    }
+    .reveal-left.visible {
+        transform: translateX(0);
+    }
+    .reveal-right {
+        transform: translateX(30px);
+    }
+    .reveal-right.visible {
+        transform: translateX(0);
+    }
+    .reveal-scale {
+        transform: scale(0.95);
+    }
+    .reveal-scale.visible {
+        transform: scale(1);
+    }
+
+    /* Efek hover interaktif */
+    button, img, .stat-card, .facility-card {
+        transition: all 0.2s ease;
+    }
+    button:hover {
+        transform: translateY(-2px);
+    }
+    img:hover {
+        transform: scale(1.02);
+    }
+    .stat-card:hover, .facility-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    }
 </style>
 
-<div class="bg-slate-50 text-gray-800">
-    {{-- HERO --}}
+<div class="bg-slate-50 text-gray-800 fade-container" data-direction="fade-up" style="--fade-duration: 0.8s;">
+    {{-- HERO SECTION (tidak perlu scroll reveal karena sudah di-fade container) --}}
     <section class="bg-blue-50 py-16 px-6 text-center">
         <div class="max-w-2xl mx-auto">
             <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl mb-6 bg-white shadow-md">
@@ -102,7 +201,7 @@
     </section>
 
     {{-- SEJARAH --}}
-    <section class="max-w-6xl mx-auto px-6 py-20">
+    <section class="max-w-6xl mx-auto px-6 py-20 reveal">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
                 <div class="flex items-center gap-2 mb-3">
@@ -125,7 +224,7 @@
     </section>
 
     {{-- KOMITMEN --}}
-    <section class="max-w-6xl mx-auto px-6 pb-8 pt-12">
+    <section class="max-w-6xl mx-auto px-6 pb-8 pt-12 reveal">
         <div class="rounded-3xl px-6 md:px-10 py-12 md:py-14 text-center text-white bg-[#0F3D5E]">
             <div class="flex items-center justify-center gap-3 mb-6">
                 <div class="w-10 h-px bg-teal-400"></div>
@@ -150,7 +249,7 @@
     {{-- VISI & MISI --}}
     <section class="max-w-6xl mx-auto px-6 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="rounded-2xl p-8 text-white bg-[#0F3D5E]">
+            <div class="rounded-2xl p-8 text-white bg-[#0F3D5E] reveal reveal-left">
                 <div class="flex items-center gap-2 mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
@@ -162,7 +261,7 @@
                     Menjadi pusat pelayanan kesehatan rujukan utama yang unggul dalam teknologi dan pelayanan yang humanis bagi seluruh lapisan masyarakat pada tahun 2030.
                 </p>
             </div>
-            <div class="rounded-2xl p-8 text-white bg-[#0F3D5E]">
+            <div class="rounded-2xl p-8 text-white bg-[#0F3D5E] reveal reveal-right">
                 <div class="flex items-center gap-2 mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -216,8 +315,8 @@
                     ]
                 ];
             @endphp
-            @foreach ($facilities as $facility)
-            <div>
+            @foreach ($facilities as $index => $facility)
+            <div class="facility-card reveal reveal-scale" style="transition-delay: {{ $index * 0.1 }}s;">
                 <div class="relative rounded-xl overflow-hidden mb-4 h-48">
                     <img src="{{ $facility['img'] }}" alt="{{ $facility['title'] }}" class="w-full h-full object-cover">
                     <div class="absolute top-3 left-3 w-8 h-8 rounded-lg flex items-center justify-center bg-white/90">
@@ -234,7 +333,7 @@
     </section>
 
     {{-- CTA --}}
-    <section class="max-w-6xl mx-auto px-6 pb-16">
+    <section class="max-w-6xl mx-auto px-6 pb-16 reveal">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border-2 border-dashed border-teal-500 bg-teal-50 px-8 py-6">
             <div class="flex items-center gap-4">
                 <div class="w-11 h-11 rounded-full flex items-center justify-center bg-teal-100">
@@ -253,5 +352,27 @@
         </div>
     </section>
 </div>
+
+<script>
+    // Scroll Reveal Animation menggunakan Intersection Observer
+    document.addEventListener('DOMContentLoaded', function() {
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: jika ingin sekali muncul saja, bisa di-uncomment baris berikut
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,   // Muncul saat 10% elemen terlihat
+            rootMargin: '0px 0px -20px 0px' // Sedikit offset agar lebih halus
+        });
+        
+        revealElements.forEach(el => observer.observe(el));
+    });
+</script>
 @endsection
 >>>>>>> 9e9b5e6449f280e22f788d43bdc5bb6c901c3726

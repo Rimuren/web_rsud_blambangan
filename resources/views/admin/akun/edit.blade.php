@@ -1,12 +1,13 @@
 <x-layouts::app :title="__('Edit User')">
     <x-slot:header>{{ __('Edit User') }}</x-slot:header>
 
+    @can('akun.update')
     <div class="py-6 px-4 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto">
             {{-- Header halaman --}}
             <div class="mb-6">
                 <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">Edit User</h1>
-                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Ubah data akun pengguna sistem rumah sakit.</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Ubah data akun sistem rumah sakit.</p>
             </div>
 
             {{-- Form Card --}}
@@ -82,4 +83,5 @@
             </div>
         </div>
     </div>
+    @endcan
 </x-layouts::app>

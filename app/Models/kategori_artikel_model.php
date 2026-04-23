@@ -8,7 +8,6 @@ use App\Models\artikel_model;
 
 class kategori_artikel_model extends Model
 {
-
     use HasFactory;
 
     protected $table = 'kategori_artikel';
@@ -19,7 +18,7 @@ class kategori_artikel_model extends Model
         'deskripsi'
     ];
 
-    public function artikel()
+    public function artikels()
     {
         return $this->hasMany(artikel_model::class, 'kategori_id');
     }

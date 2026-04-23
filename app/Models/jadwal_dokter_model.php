@@ -14,9 +14,11 @@ class jadwal_dokter_model extends Model
     protected $table= 'jadwal_dokter';
 
     protected $fillable = [
+        'api_id',
         'dokter_id',
         'poliklinik_id',
         'ruangan_id',
+        'ruangan_nama',
         'kode_jadwal',
         'hari',
         'hari_order',
@@ -24,8 +26,14 @@ class jadwal_dokter_model extends Model
         'jam_selesai',
         'tipe_pelayanan'
     ];
+
+    public function poliklinik()
+    {
+        return $this->belongsTo(poliklinik_model::class);
+    }
+
     public function dokter()
     {
-        return $this->belongsTo(dokter_model::class);
+        return $this->belongsTo(dokter_model::class, 'dokter_id');
     }
 }

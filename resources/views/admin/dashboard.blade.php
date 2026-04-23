@@ -3,6 +3,7 @@
         {{ __('Dashboard') }}
     </x-slot:header>
 
+    @can('admin.access')
     <div class="p-4 md:p-6 lg:p-8">
         
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -109,4 +110,5 @@
             </div>
         </div>
     </div>
+    @endcan
 </x-layouts::app>

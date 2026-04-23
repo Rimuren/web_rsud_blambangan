@@ -3,6 +3,7 @@
         {{ __('Manajemen Spesialis') }}
     </x-slot:header>
 
+    @can('spesialis.view')
     <div class="p-4 md:p-6 lg:p-8">
         {{-- Header Section --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -11,12 +12,14 @@
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola spesialisasi dokter di RSUD Blambangan.</p>
             </div>
             <div>
+                @can('spesialis.create')
                 <a href="#">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah Spesialis
                     </flux:button>
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -167,4 +170,5 @@
             </div>
         </flux:card>
     </div>
+    @endcan
 </x-layouts::app>

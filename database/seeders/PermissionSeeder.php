@@ -12,61 +12,68 @@ class PermissionSeeder extends Seeder
      * Run the database seeds.
      */
     protected $defaultPermissions = [
-        // Access permissions
-        'admin-access',
 
-        // Manage option permissions
-        'manage artikel',
-        'manage akun',
-        'manage dokumentasi',
-        'manage dokter',
-        'manage ruangan',
-        
-        // Artikel permissions
-        'view daftar-artikel',
-        'create artikel',
-        'edit artikel',
-        'delete artikel',
+        // Access
+        'admin.access',
 
-        // Kategori artikel permissions
-        'view daftar-kategori',
-        'create kategori',
-        'edit kategori',
-        'delete kategori',
+        // Artikel
+        'artikel.view',
+        'artikel.create',
+        'artikel.update',
+        'artikel.delete',
 
-        // Akun permissions
-        'view daftar-akun',
-        'create akun',
-        'edit akun',
-        'reset password',
-        'delete akun',
+        // Kategori Artikel
+        'kategori.view',
+        'kategori.create',
+        'kategori.update',
+        'kategori.delete',
 
-        // Role permissions
-        'view daftar-role',
-        'create role',
-        'edit role',
-        'delete role',
+        // Akun
+        'akun.view',
+        'akun.create',
+        'akun.update',
+        'akun.delete',
+        'akun.reset_password',
 
-        // Foto permissions
-        'view daftar-foto',
-        'create foto',
-        'edit foto',
-        'delete foto',
+        // Role
+        'role.view',
+        'role.create',
+        'role.update',
+        'role.delete',
 
-        // Video permissions
-        'view daftar-video',
-        'create video',
-        'edit video',
-        'delete video',
+        // Foto
+        'foto.view',
+        'foto.create',
+        'foto.update',
+        'foto.delete',
 
-        // Dokter permissions
-        'view daftar-dokter',
-        'view daftar-spesialis',
+        // Video
+        'video.view',
+        'video.create',
+        'video.update',
+        'video.delete',
 
-        // Ruangan permissions
-        'view daftar-bangsal',
-        'view daftar-kelas',
-        
+        // Jam Operasional
+        'jam_operasional.view',
+        'jam_operasional.create',
+        'jam_operasional.update',
+        'jam_operasional.delete',
+        'jam_operasional.toggle_status',
+
+        // Iklan
+        'iklan.view',
+        'iklan.create',
+        'iklan.update',
+        'iklan.delete',
+        'iklan.toggle_status',
+
+        // Dokter
+        'dokter.view',
+        'spesialis.view',
+
+        // Ruangan / Bangsal / Kelas
+        'bangsal.view',
+        'kelas.view',
     ];
 
     /**

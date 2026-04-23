@@ -12,18 +12,18 @@
 
         <style>
         .uwy.userway_p1 .uai {
-            transform: scale(1.5) !important;
+            transform: scale(1.2) !important;
            
         }
 
         .uai {
-            transform: scale(1.5) !important;
+            transform: scale(1.2) !important;
         }
         .uwy .uai {
-            width: 60px !important;
-            height: 60px !important;
-            bottom: 20px !important;
-            right: 20px !important;
+            width: 50px !important;
+            height: 50px !important;
+            bottom: 1px !important;
+            right: 1px !important;
         }
     </style>
     

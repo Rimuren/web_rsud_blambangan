@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
+            ArticleSeeder::class,
             KategoriArtikelSeeder::class,
+            JamOperasionalSeeder::class,
             
         ]);
         // User::factory(10)->create();

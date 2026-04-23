@@ -2,16 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\DokterService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PermissionController extends Controller
+class AdminDokterController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected DokterService $dokterService;
+
+    public function __construct(DokterService $dokterService)
     {
-        //
+        $this->dokterService = $dokterService;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:dokter.view', only: ['index']),
+        ];
+    }
+
+    public function index(Request $request)
+    {
+        $data = $this->dokterService->getDokters($request);
+        return view('admin.dokter.index', [
+            'dokters' => $data['dokters'],
+            'poliklinikList' => $data['poliklinikList'] ?? [],
+            'spesialisList' => $data['spesialisList'] ?? []
+        ]);
     }
 
     /**
