@@ -3,111 +3,19 @@
 @section('title', 'Beranda')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    html,
-    body {
-        overflow-x: hidden;
-        width: 100%;
-        max-width: 100%;
-    }
+@php
+    $guestHomeHeroImages = [
+        asset('images/hero1.png'),
+        asset('images/hero2.png'),
+        asset('images/hero3.png'),
+    ];
+@endphp
 
-    body {
-        font-family: 'Inter', system-ui, sans-serif;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .heading-font {
-        font-family: 'Poppins', 'Inter', sans-serif;
-    }
-
-    .service-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .service-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.2);
-    }
-
-    select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.75rem center;
-        background-size: 1.2rem;
-        appearance: none;
-    }
-
-    .hero-image {
-        object-fit: cover;
-        object-position: center;
-        transition: opacity 0.5s ease-in-out;
-        opacity: 1;
-    }
-
-    .hero-image.fade-out {
-        opacity: 0;
-    }
-
-    /* ========== ANIMASI FADE PADA SAAT REFRESH (PAGE LOAD) ========== */
-    .page-fade {
-        animation: pageFadeIn 0.8s ease-out forwards;
-    }
-
-    @keyframes pageFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* ========== ANIMASI SCROLL REVEAL ========== */
-    .scroll-reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-
-    .scroll-reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Delay opsional untuk anak-anak dalam grid */
-    .scroll-reveal-child {
-        transition-delay: 0.1s;
-    }
-
-    .popup-hidden {
-        display: none !important;
-    }
-
-    .popup-progress-bar {
-        animation: popupProgressShrink 5s linear forwards;
-        transform-origin: left center;
-    }
-
-    @keyframes popupProgressShrink {
-        from {
-            transform: scaleX(1);
-        }
-
-        to {
-            transform: scaleX(0);
-        }
-    }
-</style>
+<div
+    id="guest-home-config"
+    data-popup-session-key="{{ $popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : '' }}"
+    data-hero-images='@json($guestHomeHeroImages)'>
+</div>
 
 <div class="page-fade">
     @if($popupIklan)
@@ -403,113 +311,4 @@
         </div>
     </section>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const iklanPopup = document.getElementById('iklan-popup-overlay');
-        const iklanCountdown = document.getElementById('iklan-popup-countdown');
-        let iklanTimer = null;
-        let iklanCountdownInterval = null;
-        const popupDurationMs = 600000;
-        const popupDurationSeconds = Math.ceil(popupDurationMs / 1000);
-        const navigationEntry = performance.getEntriesByType('navigation')[0];
-        const isReload = navigationEntry ?
-            navigationEntry.type === 'reload' :
-            performance.navigation && performance.navigation.type === 1;
-        const popupSessionKey = <?php echo json_encode($popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : null); ?>;
-        const hasShownInSession = popupSessionKey ? sessionStorage.getItem(popupSessionKey) === '1' : false;
-
-        const closeIklanPopup = () => {
-            if (!iklanPopup) {
-                return;
-            }
-
-            if (iklanTimer) {
-                clearTimeout(iklanTimer);
-                iklanTimer = null;
-            }
-
-            if (iklanCountdownInterval) {
-                clearInterval(iklanCountdownInterval);
-                iklanCountdownInterval = null;
-            }
-
-            iklanPopup.classList.add('popup-hidden');
-        };
-
-        document.getElementById('close-iklan-popup')?.addEventListener('click', closeIklanPopup);
-        document.getElementById('close-iklan-popup-action')?.addEventListener('click', closeIklanPopup);
-
-        iklanPopup?.addEventListener('click', function(event) {
-            if (event.target === iklanPopup) {
-                closeIklanPopup();
-            }
-        });
-
-        if (iklanPopup) {
-            if (isReload || hasShownInSession) {
-                iklanPopup.classList.add('popup-hidden');
-            } else {
-                if (popupSessionKey) {
-                    sessionStorage.setItem(popupSessionKey, '1');
-                }
-
-                if (iklanCountdown) {
-                    let remainingSeconds = popupDurationSeconds;
-                    iklanCountdown.textContent = remainingSeconds + ' detik';
-
-                    iklanCountdownInterval = setInterval(() => {
-                        remainingSeconds -= 1;
-
-                        if (remainingSeconds <= 0) {
-                            iklanCountdown.textContent = '0 detik';
-                            clearInterval(iklanCountdownInterval);
-                            iklanCountdownInterval = null;
-                            return;
-                        }
-
-                        iklanCountdown.textContent = remainingSeconds + ' detik';
-                    }, 1000);
-                }
-
-                iklanTimer = setTimeout(closeIklanPopup, popupDurationMs);
-            }
-        }
-
-        // Hero slider (existing)
-        const heroImages = [
-            "{{ asset('images/hero1.png') }}",
-            "{{ asset('images/hero2.png') }}",
-            "{{ asset('images/hero3.png') }}"
-        ];
-        let currentIndex = 0;
-        const heroImage = document.getElementById('hero-image');
-        if (heroImage) {
-            setInterval(() => {
-                heroImage.classList.add('fade-out');
-                setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % heroImages.length;
-                    heroImage.src = heroImages[currentIndex];
-                    heroImage.classList.remove('fade-out');
-                }, 500);
-            }, 3000);
-        }
-
-        // Scroll Reveal (Intersection Observer)
-        const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-child');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: stop observing after revealed (uncomment if you want)
-                    // observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -20px 0px'
-        });
-        revealElements.forEach(el => observer.observe(el));
-    });
-</script>
 @endsection
