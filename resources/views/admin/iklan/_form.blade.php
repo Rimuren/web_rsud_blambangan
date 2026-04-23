@@ -14,11 +14,26 @@
             <flux:error>{{ $message }}</flux:error>
         @enderror
 
-        @if (isset($iklan) && $iklan->gambar)
-            <div class="mt-3 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/60">
-                <img src="{{ asset('storage/' . $iklan->gambar) }}" alt="{{ $iklan->nama }}" class="h-40 w-full rounded-xl object-cover md:h-52" />
-            </div>
-        @endif
+        @php
+            $previewGambar = isset($iklan) && $iklan->gambar ? asset('storage/' . $iklan->gambar) : null;
+        @endphp
+
+        <div
+            id="gambar-preview-wrapper"
+            data-existing-src="{{ $previewGambar ?? '' }}"
+            class="mt-3 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/60 {{ $previewGambar ? '' : 'hidden' }}">
+            <img
+                id="gambar-preview"
+                src="{{ $previewGambar ?? '' }}"
+                alt="{{ old('nama', $iklan->nama ?? 'Preview gambar iklan') }}"
+                class="h-40 w-full rounded-xl object-cover md:h-52" />
+            <p id="gambar-preview-name" class="mt-3 text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                {{ $previewGambar ? 'Gambar saat ini' : 'Belum ada gambar dipilih' }}
+            </p>
+        </div>
+        <p id="gambar-preview-empty" class="text-sm text-zinc-500 dark:text-zinc-400 {{ $previewGambar ? 'hidden' : '' }}">
+            Preview gambar akan muncul di sini setelah file dipilih.
+        </p>
     </div>
 
     <div class="space-y-2">
@@ -70,3 +85,57 @@
         </label>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputGambar = document.getElementById('gambar');
+        const previewWrapper = document.getElementById('gambar-preview-wrapper');
+        const previewImage = document.getElementById('gambar-preview');
+        const previewEmpty = document.getElementById('gambar-preview-empty');
+        const previewName = document.getElementById('gambar-preview-name');
+        const existingImage = previewWrapper?.dataset.existingSrc || '';
+        let objectUrl = null;
+
+        if (!inputGambar || !previewWrapper || !previewImage || !previewEmpty || !previewName) {
+            return;
+        }
+
+        const showPreview = function (src, altText, label) {
+            previewImage.src = src;
+            previewImage.alt = altText;
+            previewName.textContent = label;
+            previewWrapper.classList.remove('hidden');
+            previewEmpty.classList.add('hidden');
+        };
+
+        const hidePreview = function () {
+            previewImage.removeAttribute('src');
+            previewImage.alt = 'Preview gambar iklan';
+            previewName.textContent = 'Belum ada gambar dipilih';
+            previewWrapper.classList.add('hidden');
+            previewEmpty.classList.remove('hidden');
+        };
+
+        inputGambar.addEventListener('change', function (event) {
+            const [file] = event.target.files || [];
+
+            if (objectUrl) {
+                URL.revokeObjectURL(objectUrl);
+                objectUrl = null;
+            }
+
+            if (!file) {
+                if (existingImage) {
+                    showPreview(existingImage, '{{ old('nama', $iklan->nama ?? 'Preview gambar iklan') }}', 'Gambar saat ini');
+                } else {
+                    hidePreview();
+                }
+
+                return;
+            }
+
+            objectUrl = URL.createObjectURL(file);
+            showPreview(objectUrl, file.name, 'File dipilih: ' + file.name);
+        });
+    });
+</script>
