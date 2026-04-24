@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
+    AdminBangsalController,
     AdminDashboardController,
     AdminDokterController,
     ArtikelController,
@@ -229,13 +230,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
             });
         });
 
-        /*
+    /*
         |--------------------------------------------------------------------------
         | LAINNYA
         |--------------------------------------------------------------------------
         */
 
-        Route::view('manajemen-ruangan/bangsal', 'admin.manajemen-ruangan.bangsal.index')
+        Route::get('manajemen-ruangan/bangsal', [AdminBangsalController::class, 'index'])
             ->name('manajemen-ruangan.bangsal.index');
 
         Route::controller(JamOperasionalController::class)->prefix('jam-operasional')->name('jam-operasional.')->group(function () {
