@@ -156,6 +156,11 @@ class RsudApiService
     return $result;
   }
 
+  public function getBedAvailability(): ?array
+  {
+    return $this->get('ketersediaan-tempat-tidur', [], 5);
+  }
+
   /**
    * Shortcut methods
    */
