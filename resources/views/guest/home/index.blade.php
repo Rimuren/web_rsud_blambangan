@@ -19,12 +19,14 @@
 
 <div class="page-fade">
     @if($popupIklan)
-    <div id="iklan-popup-overlay" class="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/70 px-4 py-8 backdrop-blur-sm">
-        <div class="relative w-full max-w-4xl overflow-hidden rounded-[2rem] bg-white shadow-2xl">
+    <div id="iklan-popup-overlay" class="guest-floating-ad pointer-events-none fixed inset-0 z-[999]">
+        <div class="guest-floating-ad__backdrop absolute inset-0"></div>
+        <div class="guest-floating-ad__wrap flex justify-center px-4">
+        <div class="guest-floating-ad__card pointer-events-auto relative w-full max-w-xl overflow-hidden rounded-[1.75rem] bg-white shadow-2xl ring-1 ring-slate-900/10">
             <button
                 type="button"
                 id="close-iklan-popup"
-                class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white transition hover:bg-black"
+                class="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/75 text-white transition hover:bg-slate-950"
                 aria-label="Tutup iklan">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -35,10 +37,10 @@
                 <img
                     src="{{ asset('storage/' . $popupIklan->gambar) }}"
                     alt="{{ $popupIklan->nama }}"
-                    class="block max-h-[75vh] w-full object-contain">
+                    class="block max-h-[38vh] w-full object-cover object-center">
             </div>
 
-            <div class="bg-gradient-to-b from-white to-slate-50 p-6 md:p-8">
+            <div class="bg-gradient-to-b from-white to-slate-50 p-5 md:p-6">
                 <div class="mb-4 flex flex-wrap items-center gap-3">
                     <span class="inline-flex w-fit items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-700">Informasi Iklan</span>
                     <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
@@ -47,10 +49,10 @@
                     </span>
                 </div>
 
-                <h2 class="heading-font text-2xl font-bold leading-tight text-slate-900 md:text-3xl">{{ $popupIklan->nama }}</h2>
-                <p class="mt-4 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}</p>
+                <h2 class="heading-font text-xl font-bold leading-tight text-slate-900 md:text-2xl">{{ $popupIklan->nama }}</h2>
+                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}</p>
 
-                <div class="mt-6 flex flex-wrap items-center gap-3">
+                <div class="mt-5 flex flex-wrap items-center gap-3">
                     @if ($popupIklan->cta_label && $popupIklan->cta_url)
                     <a
                         href="{{ $popupIklan->cta_url }}"
@@ -69,10 +71,11 @@
                     </button>
                 </div>
 
-                <div class="mt-6 overflow-hidden rounded-full bg-slate-200/80">
+                <div class="mt-5 overflow-hidden rounded-full bg-slate-200/80">
                     <div class="popup-progress-bar h-2 rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400"></div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     @endif
