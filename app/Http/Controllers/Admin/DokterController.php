@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Services\DokterService;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
+class DokterController extends Controller implements HasMiddleware
+{
+    protected DokterService $dokterService;
+
+    public function __construct(DokterService $dokterService)
+    {
+        $this->dokterService = $dokterService;
+    }
+
+    public static function middleware()
+    {
+        return [
+            new Middleware('permission:dokter.view', only: ['index']),
+        ];
+    }
+
+    public function index(Request $request)
+    {
+        $data = $this->dokterService->getDokters($request);
+        $dokters = $data['dokters'];
+
+        $dokters->withPath(route('admin.dokter.index'));
+
+        return view('admin.dokter.index', [
+            'dokters' => $dokters,
+            'poliklinikList' => $data['poliklinikList'] ?? [],
+            'spesialisList' => $data['spesialisList'] ?? []
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
