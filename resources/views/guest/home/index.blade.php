@@ -13,72 +13,111 @@
 
 <div
     id="guest-home-config"
-    data-popup-session-key="{{ $popupIklan ? 'popup-iklan-shown-' . $popupIklan->id : '' }}"
+    data-popup-session-key="{{ $popupIklans->isNotEmpty() ? 'popup-iklan-shown' : '' }}"
     data-hero-images='@json($guestHomeHeroImages)'>
 </div>
 
-<div class="page-fade">
-    @if($popupIklan)
-    <div id="iklan-popup-overlay" class="guest-floating-ad pointer-events-none fixed inset-0 z-[999]">
-        <div class="guest-floating-ad__backdrop absolute inset-0"></div>
-        <div class="guest-floating-ad__wrap flex justify-center px-4">
-        <div class="guest-floating-ad__card pointer-events-auto relative w-full max-w-xl overflow-hidden rounded-[1.75rem] bg-white shadow-2xl ring-1 ring-slate-900/10">
+@if($popupIklans->isNotEmpty())
+<div id="iklan-popup-overlay" class="guest-floating-ad pointer-events-none fixed inset-0 z-[999]">
+    <div class="guest-floating-ad__backdrop absolute inset-0"></div>
+    <div class="guest-floating-ad__wrap flex items-center justify-center px-4">
+        <div class="guest-floating-ad__inner relative w-full max-w-lg">
             <button
                 type="button"
                 id="close-iklan-popup"
-                class="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-950/75 text-white transition hover:bg-slate-950"
+                class="pointer-events-auto absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:bg-zinc-700"
                 aria-label="Tutup iklan">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
 
-            <div class="bg-slate-100">
-                <img
-                    src="{{ asset('storage/' . $popupIklan->gambar) }}"
-                    alt="{{ $popupIklan->nama }}"
-                    class="block max-h-[38vh] w-full object-cover object-center">
+            <div class="guest-floating-ad__card pointer-events-auto w-full overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+                <div class="guest-floating-ad__slides">
+                    @foreach($popupIklans as $popupIklan)
+                    <article class="guest-floating-ad__slide {{ $loop->first ? 'is-active' : '' }}" data-iklan-slide>
+
+                        {{-- Image --}}
+                        <div class="relative w-full bg-zinc-100" style="aspect-ratio: 4/3;">
+                            <span class="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/80 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
+                                {{ $loop->iteration }} / {{ $popupIklans->count() }}
+                            </span>
+                            <img
+                                src="{{ asset('storage/' . $popupIklan->gambar) }}"
+                                alt="{{ $popupIklan->nama }}"
+                                class="h-full w-full object-contain"
+                            >
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="px-6 pb-6 pt-5">
+
+                            <h2 class="text-lg font-bold leading-snug text-zinc-900">
+                                {{ $popupIklan->nama }}
+                            </h2>
+
+                            <p class="mt-1.5 text-sm leading-relaxed text-zinc-500">
+                                {{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}
+                            </p>
+
+                            {{-- CTA --}}
+                            <div class="mt-5 flex flex-wrap items-center gap-2.5">
+                                @if ($popupIklan->cta_label && $popupIklan->cta_url)
+                                
+                                    href="{{ $popupIklan->cta_url }}"
+                                    target="_blank"
+                                    class="rounded-lg bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800">
+                                    {{ $popupIklan->cta_label }}
+                                </a>
+                                @endif
+
+                    
+                            </div>
+
+                            {{-- Countdown --}}
+                            <div class="mt-4 flex items-center gap-3">
+                                <span class="shrink-0 text-xs text-zinc-400">
+                                    <span data-iklan-popup-countdown>600</span>s
+                                </span>
+                                <div class="h-1 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                                    <div class="popup-progress-bar h-full rounded-full bg-black transition-all" data-iklan-popup-progress></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </article>
+                    @endforeach
+                </div>
+
             </div>
 
-            <div class="bg-gradient-to-b from-white to-slate-50 p-5 md:p-6">
-                <div class="mb-4 flex flex-wrap items-center gap-3">
-                    <span class="inline-flex w-fit items-center rounded-full bg-red-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-red-700">Informasi Iklan</span>
-                    <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                        Tertutup otomatis dalam <span id="iklan-popup-countdown">600 detik</span>
-                    </span>
-                </div>
+            {{-- Prev/Next --}}
+            <button
+                type="button"
+                id="iklan-popup-prev"
+                class="pointer-events-auto absolute -left-12 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-900/10 transition hover:bg-zinc-50"
+                aria-label="Iklan sebelumnya">
+                <svg class="h-4 w-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
 
-                <h2 class="heading-font text-xl font-bold leading-tight text-slate-900 md:text-2xl">{{ $popupIklan->nama }}</h2>
-                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}</p>
+            <button
+                type="button"
+                id="iklan-popup-next"
+                class="pointer-events-auto absolute -right-12 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-900/10 transition hover:bg-zinc-50"
+                aria-label="Iklan berikutnya">
+                <svg class="h-4 w-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
 
-                <div class="mt-5 flex flex-wrap items-center gap-3">
-                    @if ($popupIklan->cta_label && $popupIklan->cta_url)
-                    <a
-                        href="{{ $popupIklan->cta_url }}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center rounded-xl bg-[#1e3a5f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-900">
-                        {{ $popupIklan->cta_label }}
-                    </a>
-                    @endif
-
-                    <button
-                        type="button"
-                        id="close-iklan-popup-action"
-                        class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                        Tutup
-                    </button>
-                </div>
-
-                <div class="mt-5 overflow-hidden rounded-full bg-slate-200/80">
-                    <div class="popup-progress-bar h-2 rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400"></div>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
-    @endif
+</div>
+@endif
 
     {{-- HERO SECTION --}}
     <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
@@ -113,7 +152,6 @@
                     <select name="poliklinik" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
                         <option value="">Semua Poliklinik</option>
                         @php
-                        // Jika $poliklinikList tidak tersedia dari controller, gunakan array kosong
                         $poliklinikList = $poliklinikList ?? [];
                         @endphp
                         @foreach ($poliklinikList as $poli)
