@@ -13,6 +13,8 @@ return new class extends Migration
             $table->string('nama');
             $table->string('gambar');
             $table->text('deskripsi')->nullable();
+            $table->string('cta_label')->nullable();
+            $table->string('cta_url')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

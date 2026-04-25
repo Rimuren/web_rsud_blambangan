@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -10,11 +11,6 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class PhotoController extends Controller implements HasMiddleware
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Middleware
-    |--------------------------------------------------------------------------
-    */
     public static function middleware()
     {
         return [
@@ -25,29 +21,9 @@ class PhotoController extends Controller implements HasMiddleware
         ];
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | GUEST
-    |--------------------------------------------------------------------------
-    */
-
-    public function guestIndex()
-    {
-        $photos = Photo::latest()->paginate(12);
-
-        return view('guest.galeri.foto.index', compact('photos'));
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ADMIN
-    |--------------------------------------------------------------------------
-    */
-
     public function index()
     {
         $photos = Photo::latest()->paginate(10);
-
         return view('admin.dokumentasi.foto.index', compact('photos'));
     }
 
@@ -66,8 +42,7 @@ class PhotoController extends Controller implements HasMiddleware
         ]);
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')
-                ->store('photos', 'public');
+            $data['gambar'] = $request->file('gambar')->store('photos', 'public');
         }
 
         Photo::create($data);
@@ -96,8 +71,7 @@ class PhotoController extends Controller implements HasMiddleware
                 Storage::disk('public')->delete($photo->gambar);
             }
 
-            $data['gambar'] = $request->file('gambar')
-                ->store('photos', 'public');
+            $data['gambar'] = $request->file('gambar')->store('photos', 'public');
         }
 
         $photo->update($data);

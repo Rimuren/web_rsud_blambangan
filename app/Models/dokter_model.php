@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\jadwal_dokter_model;
 
 class dokter_model extends Model
 {
-
     use HasFactory;
 
     protected $table = 'dokter';
+
     protected $fillable = [
         'api_id',
         'nama',
@@ -22,21 +21,49 @@ class dokter_model extends Model
         'pendidikan',
         'umur',
         'rating',
-        'image_path'
+        'image_path',
+        'is_manual',
+        'is_active'
     ];
+
+    protected $casts = [
+        'is_manual' => 'boolean',
+        'is_active' => 'boolean',
+    ];
+
+    // ================= RELATION =================
     public function jadwal_dokter()
     {
         return $this->hasMany(jadwal_dokter_model::class, 'dokter_id');
     }
 
+    // ================= SCOPES =================
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeManual($query)
+    {
+        return $query->where('is_manual', true);
+    }
+
+    public function scopeFromApi($query)
+    {
+        return $query->where('is_manual', false);
+    }
+
+    // ================= ACCESSOR =================
     public function getImageUrlAttribute()
     {
         if (!empty($this->image_path)) {
             if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
                 return $this->image_path;
             }
+
             $baseUrl = config('api.rsud.base_url');
             $baseUrlForImage = str_replace('/api/online', '', $baseUrl);
+
             return rtrim($baseUrlForImage, '/') . '/' . ltrim($this->image_path, '/');
         }
 
