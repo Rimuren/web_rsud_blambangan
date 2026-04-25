@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
+use App\Http\Controllers\Controller;
 use App\Services\DokterService;
 use Illuminate\Http\Request;
 
-class GuestDokterController extends Controller
+class DokterController extends Controller
 {
     protected DokterService $dokterService;
 
@@ -17,8 +18,12 @@ class GuestDokterController extends Controller
     public function index(Request $request)
     {
         $data = $this->dokterService->getDokters($request);
+        $dokters = $data['dokters'];
+
+        $dokters->withPath(route('guest.daftar-dokter.index'));
+
         return view('guest.daftar-dokter.index', [
-            'dokters' => $data['dokters'],
+            'dokters' => $dokters,
             'poliklinikList' => $data['poliklinikList'] ?? []
         ]);
     }

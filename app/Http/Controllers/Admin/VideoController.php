@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -9,11 +10,6 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class VideoController extends Controller implements HasMiddleware
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Middleware
-    |--------------------------------------------------------------------------
-    */
     public static function middleware()
     {
         return [
@@ -53,19 +49,6 @@ class VideoController extends Controller implements HasMiddleware
 
     /*
     |--------------------------------------------------------------------------
-    | GUEST
-    |--------------------------------------------------------------------------
-    */
-
-    public function guestIndex()
-    {
-        $videos = Video::latest()->paginate(12);
-
-        return view('guest.galeri.video.index', compact('videos'));
-    }
-
-    /*
-    |--------------------------------------------------------------------------
     | ADMIN
     |--------------------------------------------------------------------------
     */
@@ -73,7 +56,6 @@ class VideoController extends Controller implements HasMiddleware
     public function index()
     {
         $videos = Video::latest()->paginate(10);
-
         return view('admin.dokumentasi.video.index', compact('videos'));
     }
 

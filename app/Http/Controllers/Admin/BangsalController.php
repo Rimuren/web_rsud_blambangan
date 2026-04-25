@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Services\BedService;
 use Illuminate\Http\Request;
 
-class AdminBangsalController extends Controller
+class BangsalController extends Controller
 {
     /**
      * Display a listing of the resource.

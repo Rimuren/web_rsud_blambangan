@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
+use App\Http\Controllers\Controller;
 use App\Models\Iklan;
 use App\Models\JamOperasional;
 use App\Models\artikel_model;
@@ -9,7 +10,7 @@ use App\Models\dokter_model;
 use App\Models\poliklinik_model;
 use Illuminate\Http\Request;
 
-class GuestHomeController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.

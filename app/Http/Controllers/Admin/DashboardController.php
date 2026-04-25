@@ -1,36 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Services\DokterService;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class AdminDokterController extends Controller implements HasMiddleware
+class DashboardController extends Controller implements HasMiddleware
 {
-    protected DokterService $dokterService;
-
-    public function __construct(DokterService $dokterService)
-    {
-        $this->dokterService = $dokterService;
-    }
 
     public static function middleware()
     {
         return [
-            new Middleware('permission:dokter.view', only: ['index']),
+            new Middleware('permission:admin.access', only: ['index']),
         ];
     }
-
-    public function index(Request $request)
+    
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $data = $this->dokterService->getDokters($request);
-        return view('admin.dokter.index', [
-            'dokters' => $data['dokters'],
-            'poliklinikList' => $data['poliklinikList'] ?? [],
-            'spesialisList' => $data['spesialisList'] ?? []
-        ]);
+        return view('admin.dashboard');
     }
 
     /**
