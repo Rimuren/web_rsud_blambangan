@@ -20,20 +20,21 @@ class DokterService
 
     public function getDokters(Request $request): array
     {
-        // Jika API pernah gagal dalam 5 menit terakhir, langsung fallback
+        // Jika dalam cooldown (API pernah gagal dalam 5 menit), langsung fallback ke DB
         if (Cache::get(self::CACHE_KEY_API_FAIL, false)) {
-            Log::info('API sedang cooldown, pakai database');
+            Log::info('API dokter cooldown -> fallback DB');
             return $this->fallbackService->fetch($request);
         }
 
-        $apiData = $this->apiService->fetch($request);
-        if ($apiData !== null) {
+        // Coba ambil live data dari API (dengan cache 5 menit)
+        $liveData = $this->apiService->fetchLive($request);
+        if ($liveData !== null) {
             Cache::forget(self::CACHE_KEY_API_FAIL);
             Log::info('Menggunakan data dokter dari API (live)');
-            return $apiData;
+            return $liveData;
         }
 
-        // API gagal, aktifkan cooldown 5 menit
+        // API gagal, aktifkan cooldown 5 menit dan fallback ke DB
         Cache::put(self::CACHE_KEY_API_FAIL, true, now()->addMinutes(5));
         Log::info('API gagal, menggunakan fallback database');
         return $this->fallbackService->fetch($request);
