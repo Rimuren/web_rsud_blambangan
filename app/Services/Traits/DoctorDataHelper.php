@@ -14,8 +14,23 @@ trait DoctorDataHelper
     foreach ($jadwalItems as $j) {
       $item = new \stdClass();
       $item->hari = $j['hari'];
-      $item->jam_mulai = $j['mulai'];
-      $item->jam_selesai = $j['selesai'];
+
+      $cleanTime = function ($time) {
+        if ($time instanceof \DateTimeInterface) {
+          return $time->format('H:i');
+        }
+        if (is_string($time)) {
+          if (strpos($time, ' ') !== false) {
+            $parts = explode(' ', $time);
+            $time = $parts[1] ?? $time;
+          }
+          return substr($time, 0, 5);
+        }
+        return (string) $time;
+      };
+
+      $item->jam_mulai = $cleanTime($j['mulai']);
+      $item->jam_selesai = $cleanTime($j['selesai']);
       $item->tipe = $j['tipe'];
       $item->poliklinik_nama = $j['poliklinik'];
       $item->is_today = $j['is_today'];
@@ -24,7 +39,6 @@ trait DoctorDataHelper
     }
     return $result;
   }
-
   protected function toDoctorObject(array $doctorData, int $index): object
   {
     $obj = new \stdClass();
