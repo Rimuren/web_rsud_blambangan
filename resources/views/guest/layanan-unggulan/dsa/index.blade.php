@@ -29,23 +29,6 @@
         line-height: 1.6;
     }
     .check-item svg { flex-shrink: 0; margin-top: 2px; }
-    .section-dokter {
-        background: #e4ecf4;
-        border-radius: 24px;
-    }
-    .doctor-card {
-        background: #fff;
-        border: 1px solid #e5edf4;
-        border-radius: 16px;
-        padding: 24px 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-    .doctor-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        border-color: #e05a1a;
-    }
     .avatar-circle {
         width: 80px;
         height: 80px;
@@ -105,20 +88,6 @@
         transform: translateX(0) translateY(0) scale(1);
     }
 
-    /* Staggered delay for doctor cards */
-    .stagger-card:nth-child(1) { transition-delay: 0.05s; }
-    .stagger-card:nth-child(2) { transition-delay: 0.1s; }
-    .stagger-card:nth-child(3) { transition-delay: 0.15s; }
-    /* Stagger for benefit items */
-    .stagger-benefit:nth-child(1) { transition-delay: 0.05s; }
-    .stagger-benefit:nth-child(2) { transition-delay: 0.1s; }
-    .stagger-benefit:nth-child(3) { transition-delay: 0.15s; }
-    .stagger-benefit:nth-child(4) { transition-delay: 0.2s; }
-    /* Stagger for procedure items */
-    .stagger-procedure:nth-child(1) { transition-delay: 0.05s; }
-    .stagger-procedure:nth-child(2) { transition-delay: 0.1s; }
-    .stagger-procedure:nth-child(3) { transition-delay: 0.15s; }
-    .stagger-procedure:nth-child(4) { transition-delay: 0.2s; }
 </style>
 
 <div class="bg-white text-gray-800">
@@ -207,56 +176,6 @@
         </div>
     </section>
 
-    {{-- TIM DOKTER SPESIALIS --}}
-    <section class="px-6 py-12 md:px-20">
-        <div class="max-w-5xl mx-auto">
-            <div class="section-dokter px-6 py-10 md:px-10 md:py-12">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl md:text-3xl font-black text-[#0d2d5e] mb-2">Tim Dokter Spesialis</h2>
-                    <p class="text-gray-500 text-sm max-w-md mx-auto">
-                        Tim ahli kami yang berdedikasi untuk prosedur DSA.
-                    </p>
-                </div>
-
-                @php
-                    $doctors = [
-                        [
-                            'name' => 'dr. Adrian Perkasa,<br/>Sp.Rad(K)',
-                            'title' => 'Spesialis Radiologi Intervensi',
-                            'consultant' => 'Konsultan Senior Serebrovaskular'
-                        ],
-                        [
-                            'name' => 'dr. Sarah Wijaya, Sp.N(K)',
-                            'title' => 'Spesialis Neurologi',
-                            'consultant' => 'Konsultan Neurointervensi'
-                        ],
-                        [
-                            'name' => 'dr. Budi Hartono, Sp.JP(K)',
-                            'title' => 'Spesialis Jantung & Pembuluh Darah',
-                            'consultant' => 'Konsultan Kardiologi Intervensi'
-                        ]
-                    ];
-                @endphp
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @foreach ($doctors as $index => $doctor)
-                    <div class="doctor-card fade-up stagger-card">
-                        <div class="avatar-circle">
-                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                                <circle cx="18" cy="13" r="7" stroke="#8aa5be" stroke-width="2" fill="none"/>
-                                <path d="M4 34 C4 26 10 22 18 22 C26 22 32 26 32 34" stroke="#8aa5be" stroke-width="2" stroke-linecap="round" fill="none"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-black text-[#0d2d5e] text-base mb-1">{!! $doctor['name'] !!}</h3>
-                        <p class="text-[#1a56db] font-bold text-sm mb-2">{{ $doctor['title'] }}</p>
-                        <p class="text-gray-500 text-sm">{{ $doctor['consultant'] }}</p>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-
     {{-- CTA SECTION --}}
     <section class="px-6 pb-20 md:px-20">
         <div class="max-w-5xl mx-auto">
@@ -267,7 +186,6 @@
                 <p class="text-gray-500 text-sm mb-8 max-w-md mx-auto leading-relaxed">
                     Dapatkan konsultasi dengan tim spesialis kami untuk evaluasi mendalam mengenai kondisi pembuluh darah Anda.
                 </p>
-                <button class="btn-outline fade-in">Inquiry & FAQ</button>
             </div>
         </div>
     </section>
@@ -308,18 +226,6 @@
                 if (rect.top < window.innerHeight - 50 && !el.classList.contains('visible')) {
                     el.classList.add('visible');
                 }
-            });
-        });
-        
-        // Additional hover effect for doctor cards (already in CSS, but add micro-interaction)
-        const cards = document.querySelectorAll('.doctor-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-6px)';
-                card.style.transition = 'transform 0.25s ease, box-shadow 0.25s ease';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
             });
         });
     })();
