@@ -24,11 +24,8 @@ class kelas_model extends Model
             'bangsal_kelas',
             'kelas_id',
             'bangsal_id'
-        )->withPivot([
-            'bed_kapasitas',
-            'bed_terisi',
-            'bed_kosong'
-        ])->withTimestamps();
+        )->withPivot('bed_kapasitas', 'bed_terisi', 'bed_kosong')
+            ->withTimestamps();
     }
 
     public function bangsalKelas()
