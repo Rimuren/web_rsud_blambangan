@@ -31,7 +31,9 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-2">
-                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">Kategori <span class="text-red-500">*</span></label>
+                        <label class="block text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                            Kategori <span class="text-red-500">*</span>
+                        </label>
                         <div class="relative">
                             <select name="kategori_id" required
                                 class="w-full pl-3 pr-8 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
@@ -93,88 +95,108 @@
                     <h2 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Isi Artikel</h2>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-1 px-2 py-1.5 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
-                    {{-- Grup: Format teks --}}
+                {{-- Toolbar --}}
+                <div class="px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-1 toolbar-container">
+
+                    {{-- Format: bold / italic / underline / strike --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" data-action="toggleFormat" data-format="bold" title="Tebal" class="toolbar-btn">
+                        <button type="button" title="Tebal"       class="toolbar-btn" data-toolbar="format" data-fmt="bold"
+                            onclick="editor.toggleFormat('bold')">
                             <flux:icon name="bold" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleFormat" data-format="italic" title="Miring" class="toolbar-btn">
+                        <button type="button" title="Miring"      class="toolbar-btn" data-toolbar="format" data-fmt="italic"
+                            onclick="editor.toggleFormat('italic')">
                             <flux:icon name="italic" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleFormat" data-format="underline" title="Garis bawah" class="toolbar-btn">
+                        <button type="button" title="Garis bawah" class="toolbar-btn" data-toolbar="format" data-fmt="underline"
+                            onclick="editor.toggleFormat('underline')">
                             <flux:icon name="underline" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleFormat" data-format="strike" title="Coret" class="toolbar-btn">
+                        <button type="button" title="Coret"       class="toolbar-btn" data-toolbar="format" data-fmt="strike"
+                            onclick="editor.toggleFormat('strike')">
                             <flux:icon name="strikethrough" class="size-3.5" />
                         </button>
                     </div>
 
-                    {{-- Grup: Heading --}}
+                    {{-- Heading --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" data-action="toggleHeader" data-level="1" title="Heading 1" class="toolbar-btn text-[11px] font-bold px-1.5">H1</button>
-                        <button type="button" data-action="toggleHeader" data-level="2" title="Heading 2" class="toolbar-btn text-[11px] font-bold px-1.5">H2</button>
-                        <button type="button" data-action="toggleHeader" data-level="3" title="Heading 3" class="toolbar-btn text-[11px] font-bold px-1.5">H3</button>
-                        <button type="button" data-action="toggleHeader" data-level="false" title="Paragraf" class="toolbar-btn text-[11px] px-1.5">P</button>
+                        <button type="button" title="Heading 1" class="toolbar-btn text-[11px] font-bold px-1.5" data-toolbar="header" data-level="1"
+                            onclick="editor.toggleHeader(1)">H1</button>
+                        <button type="button" title="Heading 2" class="toolbar-btn text-[11px] font-bold px-1.5" data-toolbar="header" data-level="2"
+                            onclick="editor.toggleHeader(2)">H2</button>
+                        <button type="button" title="Heading 3" class="toolbar-btn text-[11px] font-bold px-1.5" data-toolbar="header" data-level="3"
+                            onclick="editor.toggleHeader(3)">H3</button>
+                        <button type="button" title="Paragraf"  class="toolbar-btn text-[11px] px-1.5" data-toolbar="header" data-level="false"
+                            onclick="editor.toggleHeader(false)">P</button>
                     </div>
 
-                    {{-- Grup: List --}}
+                    {{-- List --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" data-action="toggleList" data-list-type="ordered" title="Daftar Angka" class="toolbar-btn">
+                        <button type="button" title="Daftar Angka" class="toolbar-btn" data-toolbar="list" data-list-type="ordered"
+                            onclick="editor.toggleList('ordered')">
                             <flux:icon name="numbered-list" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleList" data-list-type="bullet" title="Daftar Bullet" class="toolbar-btn">
+                        <button type="button" title="Daftar Bullet" class="toolbar-btn" data-toolbar="list" data-list-type="bullet"
+                            onclick="editor.toggleList('bullet')">
                             <flux:icon name="list-bullet" class="size-3.5" />
                         </button>
                     </div>
 
-                    {{-- Grup: Align --}}
+                    {{-- Align --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" data-action="toggleAlign" data-align="" title="Rata Kiri" class="toolbar-btn">
+                        <button type="button" title="Rata Kiri"   class="toolbar-btn" data-toolbar="align" data-align=""
+                            onclick="editor.toggleAlign('')">
                             <flux:icon name="bars-3-bottom-left" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleAlign" data-align="center" title="Rata Tengah" class="toolbar-btn">
+                        <button type="button" title="Rata Tengah" class="toolbar-btn" data-toolbar="align" data-align="center"
+                            onclick="editor.toggleAlign('center')">
                             <flux:icon name="bars-3" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="toggleAlign" data-align="right" title="Rata Kanan" class="toolbar-btn">
+                        <button type="button" title="Rata Kanan"  class="toolbar-btn" data-toolbar="align" data-align="right"
+                            onclick="editor.toggleAlign('right')">
                             <flux:icon name="bars-3-bottom-right" class="size-3.5" />
                         </button>
                     </div>
 
-                    {{-- Grup: Media & Link --}}
+                    {{-- Media --}}
                     <div class="flex items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-zinc-200 dark:border-zinc-700">
-                        <button type="button" data-action="addLink" title="Tambah Link" class="toolbar-btn">
+                        <button type="button" title="Tambah Link"          class="toolbar-btn" onclick="editor.openLinkModal()">
                             <flux:icon name="link" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="addImageUrl" title="Tambah Gambar URL" class="toolbar-btn">
+                        <button type="button" title="Tambah Gambar URL"    class="toolbar-btn" onclick="editor.openImageModal()">
                             <flux:icon name="photo" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="uploadImage" title="Upload Gambar" class="toolbar-btn">
+                        <button type="button" title="Upload Gambar"        class="toolbar-btn" onclick="editor.uploadImage()">
                             <flux:icon name="arrow-up-tray" class="size-3.5" />
                         </button>
-                        <button type="button" data-action="deleteImage" title="Hapus Gambar Terpilih" class="toolbar-btn text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20">
+                        <button type="button" title="Hapus Gambar Terpilih" class="toolbar-btn text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                            onclick="editor.deleteSelectedImage()">
                             <flux:icon name="trash" class="size-3.5" />
                         </button>
                     </div>
 
-                    <div id="img-resize-toolbar" class="hidden items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-blue-200 dark:border-blue-700">
+                    {{-- Image Resize Presets --}}
+                    <div id="img-resize-toolbar"
+                         class="hidden items-center gap-0.5 bg-white dark:bg-zinc-800 rounded-md p-0.5 border border-blue-200 dark:border-blue-700">
                         <span class="text-[10px] font-semibold text-blue-500 px-1.5 select-none">Lebar:</span>
-                        <button type="button" data-preset="25" title="25%" class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600">25%</button>
-                        <button type="button" data-preset="50" title="50%" class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600">50%</button>
-                        <button type="button" data-preset="75" title="75%" class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600">75%</button>
-                        <button type="button" data-preset="100" title="100%" class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600">100%</button>
+                        <button type="button" title="25%"  class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600" onclick="editor.applyImagePreset(25)">25%</button>
+                        <button type="button" title="50%"  class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600" onclick="editor.applyImagePreset(50)">50%</button>
+                        <button type="button" title="75%"  class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600" onclick="editor.applyImagePreset(75)">75%</button>
+                        <button type="button" title="100%" class="toolbar-btn text-[10px] font-bold px-1.5 text-blue-600" onclick="editor.applyImagePreset(100)">100%</button>
                         <div class="w-px h-4 bg-zinc-200 dark:bg-zinc-700 mx-0.5"></div>
                         <span id="img-size-readout" class="text-[10px] text-zinc-400 px-1 tabular-nums select-none min-w-[72px]"></span>
                     </div>
 
+                    {{-- Remove Format --}}
                     <div class="ml-auto">
-                        <button type="button" data-action="removeFormat" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500">
+                        <button type="button" title="Hapus Format" class="toolbar-btn !text-zinc-400 hover:!text-red-500"
+                            onclick="editor.removeFormat()">
                             <flux:icon name="x-mark" class="size-3.5" />
                         </button>
                     </div>
                 </div>
 
-                <div id="quill-editor" class="min-h-[280px] outline-none"></div>
+                <div id="quill-editor" class="min-h-[280px] p-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300 outline-none"></div>
                 <textarea name="konten" id="content-field" class="sr-only"></textarea>
             </flux:card>
 
@@ -182,7 +204,7 @@
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 py-1">
                 <p class="text-[11px] text-zinc-400 dark:text-zinc-600 flex items-center gap-1">
                     <flux:icon name="shield-check" class="size-3 text-emerald-500" />
-                    Artikel akan disimpan sesuai status
+                    Artikel disimpan dengan aman di server
                 </p>
                 <div class="flex items-center gap-2">
                     <flux:button as="a" href="{{ route('admin.artikel.index') }}" variant="ghost" class="text-sm">
@@ -198,18 +220,22 @@
         </form>
     </div>
 
-    {{-- Konfigurasi untuk JavaScript --}}
-    <div id="artikel-form-config"
-         data-existing-content='@json(old('konten', ''))'
-         data-upload-url="{{ route('admin.artikel.upload-image') }}"
-         data-csrf-token="{{ csrf_token() }}">
-    </div>
-
     {{-- Asset eksternal Quill --}}
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
     {{-- CSS dan JS khusus --}}
     <link href="{{ asset('css/admin/artikel-form.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/admin/artikel-form.js') }}" defer></script>
+    <script src="{{ asset('js/admin/artikel-form.js') }}" ></script>
+
+<script>
+    const editor = new ArticleEditor({
+        uploadImageUrl : '{{ route("admin.artikel.upload-image") }}',
+        csrfToken      : '{{ csrf_token() }}',
+        oldContent     : @json(old('konten', '')),
+    });
+
+    editor.init();
+</script>
+
 </x-layouts::app>
