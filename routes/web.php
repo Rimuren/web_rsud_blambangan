@@ -216,10 +216,10 @@ Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(
         Route::get('/', [JamOperasionalController::class, 'index'])->name('index');
         Route::get('/create', [JamOperasionalController::class, 'create'])->name('create');
         Route::post('/', [JamOperasionalController::class, 'store'])->name('store');
-        Route::get('/{jamOperasional}/edit', [JamOperasionalController::class, 'edit'])->name('edit');
-        Route::put('/{jamOperasional}', [JamOperasionalController::class, 'update'])->name('update');
-        Route::patch('/{jamOperasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
-        Route::delete('/{jamOperasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
+        Route::get('/{jam_operasional}/edit', [JamOperasionalController::class, 'edit'])->name('edit');
+        Route::put('/{jam_operasional}', [JamOperasionalController::class, 'update'])->name('update');
+        Route::patch('/{jam_operasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/{jam_operasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
     });
 
     });
