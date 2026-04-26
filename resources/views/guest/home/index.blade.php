@@ -33,12 +33,9 @@
             </button>
 
             <div class="guest-floating-ad__card pointer-events-auto w-full overflow-hidden rounded-2xl bg-white shadow-2xl">
-
                 <div class="guest-floating-ad__slides">
                     @foreach($popupIklans as $popupIklan)
                     <article class="guest-floating-ad__slide {{ $loop->first ? 'is-active' : '' }}" data-iklan-slide>
-
-                        {{-- Image --}}
                         <div class="relative w-full bg-zinc-100" style="aspect-ratio: 4/3;">
                             <span class="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/80 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
                                 {{ $loop->iteration }} / {{ $popupIklans->count() }}
@@ -49,33 +46,22 @@
                                 class="h-full w-full object-contain"
                             >
                         </div>
-
-                        {{-- Content --}}
                         <div class="px-6 pb-6 pt-5">
-
                             <h2 class="text-lg font-bold leading-snug text-zinc-900">
                                 {{ $popupIklan->nama }}
                             </h2>
-
                             <p class="mt-1.5 text-sm leading-relaxed text-zinc-500">
                                 {{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}
                             </p>
-
-                            {{-- CTA --}}
                             <div class="mt-5 flex flex-wrap items-center gap-2.5">
                                 @if ($popupIklan->cta_label && $popupIklan->cta_url)
-                                
-                                    href="{{ $popupIklan->cta_url }}"
+                                <a href="{{ $popupIklan->cta_url }}"
                                     target="_blank"
                                     class="rounded-lg bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800">
                                     {{ $popupIklan->cta_label }}
                                 </a>
                                 @endif
-
-                    
                             </div>
-
-                            {{-- Countdown --}}
                             <div class="mt-4 flex items-center gap-3">
                                 <span class="shrink-0 text-xs text-zinc-400">
                                     <span data-iklan-popup-countdown>600</span>s
@@ -84,16 +70,12 @@
                                     <div class="popup-progress-bar h-full rounded-full bg-black transition-all" data-iklan-popup-progress></div>
                                 </div>
                             </div>
-
                         </div>
-
                     </article>
                     @endforeach
                 </div>
-
             </div>
 
-            {{-- Prev/Next --}}
             <button
                 type="button"
                 id="iklan-popup-prev"
@@ -113,7 +95,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
-
         </div>
     </div>
 </div>
@@ -121,9 +102,11 @@
 
     {{-- HERO SECTION --}}
     <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
-        <img src="{{ asset('images/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
-            class="hero-image absolute inset-0 w-full h-full z-0" loading="eager" fetchpriority="high">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-[1]"></div>
+    <img src="{{ asset('images/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
+        class="hero-image absolute inset-0 w-full h-full z-0 object-cover" 
+        loading="eager" fetchpriority="high"
+        style="object-position: 75% 55%;">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-[1]"></div>
         <div class="absolute inset-x-0 bottom-[-25%] h-[30%] md:h-[35%] bg-gradient-to-t from-white from-40% via-white/60 to-transparent z-[1]"></div>
         <div class="relative z-10 container mx-auto px-4 md:px-6 pt-8 sm:pt-12 md:pt-24 pb-8 md:pb-32 flex items-center min-h-[280px] sm:min-h-[400px] md:min-h-[550px]">
             <div class="max-w-xl">
@@ -139,14 +122,11 @@
     <div class="container mx-auto px-4 -mt-4 md:-mt-12 relative z-20 scroll-reveal">
         <div class="bg-white rounded-2xl shadow-2xl p-5 max-w-5xl mx-auto">
             <form method="GET" action="{{ route('guest.daftar-dokter.index') }}" class="flex flex-col md:flex-row gap-4 md:gap-5">
-                {{-- Cari Nama Dokter --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">CARI DOKTER</label>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama Dokter"
                         class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                 </div>
-
-                {{-- Filter Poliklinik (dari database) --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">POLIKLINIK</label>
                     <select name="poliklinik" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
@@ -161,8 +141,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                {{-- Filter Hari --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">PILIH HARI</label>
                     <select name="hari" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
@@ -172,8 +150,6 @@
                         @endforeach
                     </select>
                 </div>
-
-                {{-- Tombol Cari --}}
                 <div class="md:w-auto w-full flex items-end">
                     <button type="submit" class="w-full bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg py-2.5 px-4 transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,25 +166,55 @@
     {{-- JAM OPERASIONAL & LAYANAN DARURAT --}}
     <section class="relative z-10 mt-6 md:mt-8 scroll-reveal">
         <div class="grid grid-cols-1 md:grid-cols-2">
+            {{-- CARD JAM OPERASIONAL --}}
             <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h2>
                 @if($jam_operasionals->isNotEmpty())
-                    <div class="space-y-3 text-sm">
-                        @foreach($jam_operasionals as $item)
-                            <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-                                <span class="font-semibold">{{ $item->hari_label }}</span>
-                                <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
+                    <div class="relative">
+                        {{-- LIST JAM OPERASIONAL --}}
+                        <div
+                            id="jam-operasional-list"
+                            class="jam-operasional-list flex flex-col gap-0 text-sm overflow-y-auto pr-1 custom-scrollbar"
+                            style="max-height: 150px;"
+                        >
+                            @foreach($jam_operasionals as $index => $item)
+                                <div class="flex items-center justify-between gap-4 border-b border-white/10 py-3 {{ $loop->last ? 'border-b-0' : '' }}">
+                                    <span class="font-semibold text-white">
+                                        {{ $item->hari_label }}
+                                    </span>
+                                    <span class="{{ $item->jam_operasional ? 'text-white/85' : 'text-white/40 italic' }}">
+                                        {{ $item->jam_operasional ?: 'Tutup' }}
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- GRADIENT FADE + SCROLL INDICATOR (hanya jika item > 3) --}}
+                        @if($jam_operasionals->count() > 3)
+                            <div id="jam-scroll-indicator" class="pointer-events-none absolute bottom-0 left-0 right-0">
+                                {{-- Gradient fade --}}
+                                <div class="h-10 bg-gradient-to-t from-[#000B50] to-transparent"></div>
+                                {{-- Teks & ikon scroll --}}
+                                <div class="flex items-center justify-center gap-1.5 pb-1 pt-0.5">
+                                    <svg class="w-3 h-3 text-white/60 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                    <span class="text-[10px] font-semibold uppercase tracking-widest text-white/50">Scroll untuk lihat semua</span>
+                                    <svg class="w-3 h-3 text-white/60 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </div>
                             </div>
-                        @endforeach
+                        @endif
                     </div>
-                    @endforeach
-                </div>
                 @else
-                <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
-                    Jam operasional belum tersedia.
-                </div>
+                    <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
+                        Jam operasional belum tersedia.
+                    </div>
                 @endif
             </div>
+
+            {{-- CARD LAYANAN DARURAT --}}
             <div class="bg-[#D10000] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-2">Layanan Darurat 24 Jam</h2>
                 <p class="text-white/75 text-sm mb-4 md:mb-5 leading-relaxed">Dalam situasi darurat, jangan ragu untuk segera menghubungi kami</p>
@@ -276,6 +282,8 @@
                 <h2 class="text-lg md:text-xl font-bold text-gray-900">Berita &amp; Artikel Kesehatan</h2>
                 <a href="{{ route('guest.artikel.index') }}" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
             </div>
+
+            {{-- DAFTAR ARTIKEL --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
                 @forelse ($topArticles as $article)
                 <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
@@ -327,31 +335,148 @@
                 </div>
                 @endforelse
             </div>
+
+            {{-- LIST KATEGORI ARTIKEL --}}
+            @if($topArticleCategories->isNotEmpty())
             <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
                 <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
                     <span class="font-bold text-gray-800">Kategori Artikel:</span>
-                    @forelse ($topArticleCategories as $index => $categoryName)
+                    @forelse ($topArticleCategories as $index => $category)
                     @php
                     $categoryClasses = [
-                    'bg-blue-100 text-blue-800',
-                    'bg-red-100 text-red-700',
-                    'bg-green-100 text-green-700',
-                    'bg-purple-100 text-purple-700',
+                        'bg-blue-100 text-blue-800',
+                        'bg-red-100 text-red-700',
+                        'bg-green-100 text-green-700',
+                        'bg-purple-100 text-purple-700',
+                        'bg-orange-100 text-orange-700',
+                        'bg-teal-100 text-teal-700',
                     ];
                     @endphp
-                    <span class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full">
-                        {{ $categoryName }}
-                    </span>
+                    <a href="{{ route('guest.artikel.index', ['kategori' => $category->slug ?? '']) }}" 
+                       class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full hover:opacity-80 transition">
+                        {{ $category->nama ?? $category }}
+                    </a>
                     @empty
                     <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Belum ada kategori</span>
                     @endforelse
                 </div>
-                <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
+                <p class="text-center text-[11px] text-gray-400 mt-2">Klik kategori untuk melihat artikel terkait</p>
             </div>
+            @endif
+
             <div class="text-center scroll-reveal-child">
                 <a href="{{ route('guest.artikel.index') }}" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-semibold px-8 md:px-10 py-3 rounded-xl shadow transition text-sm md:text-base">Lihat Lebih Banyak</a>
             </div>
         </div>
     </section>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ========== HERO SLIDESHOW ==========
+    const heroConfig = document.getElementById('guest-home-config');
+    let heroImages = [];
+    
+    if (heroConfig && heroConfig.dataset.heroImages) {
+        try {
+            heroImages = JSON.parse(heroConfig.dataset.heroImages);
+        } catch(e) {
+            console.error('Gagal parse hero images:', e);
+        }
+    }
+    
+    if (heroImages.length === 0) {
+        heroImages = [
+            '{{ asset("images/hero1.png") }}',
+            '{{ asset("images/hero2.png") }}',
+            '{{ asset("images/hero3.png") }}'
+        ];
+    }
+    
+    const heroImage = document.getElementById('hero-image');
+    let currentHeroIndex = 0;
+    
+    function changeHeroImage() {
+        if (!heroImage || heroImages.length === 0) return;
+        currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+        heroImage.style.opacity = '0.5';
+        setTimeout(() => {
+            heroImage.src = heroImages[currentHeroIndex];
+            setTimeout(() => {
+                heroImage.style.opacity = '1';
+            }, 50);
+        }, 150);
+    }
+    
+    if (heroImages.length > 1) {
+        setInterval(changeHeroImage, 5000);
+    }
+    
+    if (heroImage) {
+        heroImage.style.transition = 'opacity 0.3s ease-in-out';
+        heroImage.style.opacity = '1';
+    }
+    
+    // ========== JAM OPERASIONAL SCROLL INDICATOR ==========
+    const jamList = document.getElementById('jam-operasional-list');
+    const jamIndicator = document.getElementById('jam-scroll-indicator');
+
+    if (jamList && jamIndicator) {
+        function updateScrollIndicator() {
+            const atBottom = jamList.scrollTop + jamList.clientHeight >= jamList.scrollHeight - 4;
+            jamIndicator.style.opacity = atBottom ? '0' : '1';
+            jamIndicator.style.transition = 'opacity 0.3s ease';
+        }
+        jamList.addEventListener('scroll', updateScrollIndicator);
+        updateScrollIndicator();
+    }
+});
+</script>
 </div>
+
+<style>
+/* Custom scrollbar jam operasional */
+.jam-operasional-list.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.05);
+}
+.jam-operasional-list.custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+}
+.jam-operasional-list.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+.jam-operasional-list.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+.jam-operasional-list.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.55);
+}
+
+/* Animasi bounce pelan untuk ikon scroll */
+@keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+.animate-bounce-slow {
+    animation: bounce-slow 1.4s ease-in-out infinite;
+}
+
+/* Animasi lain */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+}
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+.animate-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+</style>
 @endsection
