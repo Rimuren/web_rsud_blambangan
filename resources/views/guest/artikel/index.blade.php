@@ -120,35 +120,60 @@
             @forelse ($articles as $article)
             <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow flex flex-col h-full">
                 @if($article->thumbnail)
-                    <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->judul }}" class="w-full h-48 md:h-56 object-cover">
+                    <img src="{{ asset('storage/' . $article->thumbnail) }}" 
+                        alt="{{ Str::limit($article->judul, 50) }}" 
+                        class="w-full h-100 md:h-56 object-cover">
                 @else
-                    <div class="w-full h-48 md:h-56 bg-gray-200 flex items-center justify-center text-gray-400">
+                    <div class="w-full h-100 md:h-56 bg-gray-200 flex items-center justify-center text-gray-400">
                         <i class="fa-regular fa-image text-4xl"></i>
                     </div>
                 @endif
+                
                 <div class="p-4 md:p-5 flex flex-col flex-grow">
-                    <span class="text-xs text-blue-600 font-medium mb-1">{{ $article->kategori->nama ?? 'Umum' }}</span>
-                    <h3 class="text-sm md:text-base font-bold text-gray-800 mb-2 leading-snug">{{ $article->judul }}</h3>
+                    {{-- Kategori --}}
+                    <span class="text-xs text-blue-600 font-medium mb-1">
+                        {{ Str::limit($article->kategori->nama ?? 'Umum', 20) }}
+                    </span>
+                    
+                    {{-- Judul --}}
+                    <h3 class="text-sm md:text-base font-bold text-gray-800 mb-2 leading-snug">
+                        {{ Str::limit($article->judul, 50) }}
+                    </h3>
+                    
+                    {{-- Excerpt konten --}}
                     <p class="text-xs md:text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">
-                        {{ Str::limit(strip_tags($article->konten), 100) }}
+                        {{ Str::limit(strip_tags($article->konten), 80) }}
                     </p>
+                    
+                    {{-- Views --}}
                     <div class="flex items-center gap-1.5 mb-2">
                         <i class="fa-regular fa-eye text-blue-500 text-xs md:text-sm"></i>
                         <span class="text-xs md:text-sm">{{ number_format($article->views) }} views</span>
                     </div>
+                    
+                    {{-- Tanggal & Penulis --}}
                     <div class="flex items-center gap-3 text-xs text-gray-400 mb-4">
-                        <span class="flex items-center gap-1"><i class="fa-regular fa-calendar text-xs"></i> {{ $article->published_at->format('d M Y') }}</span>
-                        <span class="flex items-center gap-1"><i class="fa-regular fa-user-circle text-xs"></i> {{ $article->penulis->name ?? 'Admin' }}</span>
+                        <span class="flex items-center gap-1">
+                            <i class="fa-regular fa-calendar text-xs"></i> 
+                            {{ $article->published_at ? $article->published_at->format('d M Y') : 'Belum terbit' }}
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i class="fa-regular fa-user-circle text-xs"></i> 
+                            {{ Str::limit($article->penulis->name ?? 'Admin', 30) }}
+                        </span>
                     </div>
-                    <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-blue-600 text-xs md:text-sm font-semibold hover:text-blue-800 flex items-center gap-1 mt-auto">
+                    
+                    {{-- Link baca selengkapnya --}}
+                    <a href="{{ route('guest.artikel.detail', $article->slug) }}" 
+                    class="text-blue-600 text-xs md:text-sm font-semibold hover:text-blue-800 flex items-center gap-1 mt-auto">
                         Baca selengkapnya <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>
             </div>
             @empty
-            <div class="col-span-3 text-center py-12 text-gray-500">
-                <i class="fa-regular fa-newspaper text-4xl mb-3"></i>
-                <p>Tidak ada artikel yang ditemukan.</p>
+            <div class="col-span-full text-center py-10 text-gray-500">
+                <i class="fa-regular fa-newspaper text-4xl mb-3 opacity-50"></i>
+                <p>Belum ada artikel tersedia.</p>
             </div>
             @endforelse
         </div>

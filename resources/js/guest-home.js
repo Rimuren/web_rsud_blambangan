@@ -5,10 +5,11 @@ if (config) {
     const heroImageElement = document.getElementById('hero-image');
     const popupOverlay = document.getElementById('iklan-popup-overlay');
     const closePopupButton = document.getElementById('close-iklan-popup');
-    const closePopupActionButton = document.getElementById('close-iklan-popup-action');
-    const countdownElement = document.getElementById('iklan-popup-countdown');
-    const progressBar = document.querySelector('.popup-progress-bar');
+    const closePopupActionButtons = Array.from(document.querySelectorAll('[data-close-iklan-popup-action]'));
+    const prevPopupButton = document.getElementById('iklan-popup-prev');
+    const nextPopupButton = document.getElementById('iklan-popup-next');
     const popupSessionKey = config.dataset.popupSessionKey;
+    const popupSlides = Array.from(document.querySelectorAll('[data-iklan-slide]'));
 
     if (heroImageElement && heroImages.length > 1) {
         let heroIndex = 0;
@@ -43,6 +44,56 @@ if (config) {
         revealElements.forEach((element) => revealObserver.observe(element));
     }
 
+    if (popupSlides.length > 0) {
+        let activeSlideIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const setActiveSlide = (index) => {
+            popupSlides.forEach((slide, slideIndex) => {
+                slide.classList.toggle('is-active', slideIndex === index);
+            });
+        };
+
+        const showPreviousSlide = () => {
+            activeSlideIndex = (activeSlideIndex - 1 + popupSlides.length) % popupSlides.length;
+            setActiveSlide(activeSlideIndex);
+        };
+
+        const showNextSlide = () => {
+            activeSlideIndex = (activeSlideIndex + 1) % popupSlides.length;
+            setActiveSlide(activeSlideIndex);
+        };
+
+        setActiveSlide(activeSlideIndex);
+
+        prevPopupButton?.addEventListener('click', showPreviousSlide);
+        nextPopupButton?.addEventListener('click', showNextSlide);
+
+        popupOverlay?.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0]?.clientX ?? 0;
+        }, {
+            passive: true,
+        });
+
+        popupOverlay?.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0]?.clientX ?? 0;
+
+            if (Math.abs(touchEndX - touchStartX) < 40) {
+                return;
+            }
+
+            if (touchEndX < touchStartX) {
+                showNextSlide();
+                return;
+            }
+
+            showPreviousSlide();
+        }, {
+            passive: true,
+        });
+    }
+
     if (popupOverlay && popupSessionKey && sessionStorage.getItem(popupSessionKey) !== 'closed') {
         const popupDurationSeconds = 600;
         let remainingSeconds = popupDurationSeconds;
@@ -59,6 +110,22 @@ if (config) {
             return `${seconds} detik`;
         };
 
+        const syncPopupMeta = () => {
+            popupSlides.forEach((slide) => {
+                const countdownTarget = slide.querySelector('[data-iklan-popup-countdown]');
+                const progressTarget = slide.querySelector('[data-iklan-popup-progress]');
+
+                if (countdownTarget) {
+                    countdownTarget.textContent = formatCountdown(Math.max(remainingSeconds, 0));
+                }
+
+                if (progressTarget) {
+                    const progressWidth = (remainingSeconds / popupDurationSeconds) * 100;
+                    progressTarget.style.width = `${Math.max(progressWidth, 0)}%`;
+                }
+            });
+        };
+
         const closePopup = () => {
             popupOverlay.classList.add('is-hidden');
             sessionStorage.setItem(popupSessionKey, 'closed');
@@ -68,25 +135,11 @@ if (config) {
             }
         };
 
-        if (countdownElement) {
-            countdownElement.textContent = formatCountdown(remainingSeconds);
-        }
-
-        if (progressBar) {
-            progressBar.style.width = '100%';
-        }
+        syncPopupMeta();
 
         popupTimerId = window.setInterval(() => {
             remainingSeconds -= 1;
-
-            if (countdownElement) {
-                countdownElement.textContent = formatCountdown(Math.max(remainingSeconds, 0));
-            }
-
-            if (progressBar) {
-                const progressWidth = (remainingSeconds / popupDurationSeconds) * 100;
-                progressBar.style.width = `${Math.max(progressWidth, 0)}%`;
-            }
+            syncPopupMeta();
 
             if (remainingSeconds <= 0) {
                 closePopup();
@@ -94,7 +147,7 @@ if (config) {
         }, 1000);
 
         closePopupButton?.addEventListener('click', closePopup);
-        closePopupActionButton?.addEventListener('click', closePopup);
+        closePopupActionButtons.forEach((button) => button.addEventListener('click', closePopup));
     } else if (popupOverlay) {
         popupOverlay.remove();
     }

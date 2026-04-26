@@ -30,10 +30,10 @@ class HomeController extends Controller
             ->orderBy('hari')
             ->get();
 
-        $popupIklan = Iklan::query()
+        $popupIklans = Iklan::query()
             ->where('is_active', true)
             ->latest()
-            ->first();
+            ->get();
 
         $topArticles = artikel_model::query()
             ->with('kategori')
@@ -53,7 +53,7 @@ class HomeController extends Controller
         return view('guest.home.index', compact(
             'spesialisList',
             'jamOperasionals',
-            'popupIklan',
+            'popupIklans',
             'topArticles',
             'topArticleCategories',
             'poliklinikList'

@@ -67,11 +67,20 @@
 
         {{-- Pencarian --}}
         <form method="GET" class="md:w-72">
-            <div class="relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama dokter..." class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all">
-            </div>
-        </form>
+    <div class="relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-slate-400">
+            search
+        </span>
+
+        <input 
+            type="text" 
+            name="search" 
+            value="{{ request('search') }}" 
+            placeholder="Cari nama dokter..." 
+            class="w-full pl-11 pr-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+        >
+    </div>
+</form>
     </div>
 
     {{-- Daftar Dokter --}}
