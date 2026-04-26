@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-<<<<<<< HEAD:app/Http/Controllers/GuestHomeController.php
 use App\Models\jam_operasional;
 use App\Models\dokter_model;
-=======
 use App\Http\Controllers\Controller;
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e:app/Http/Controllers/Admin/DashboardController.php
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -27,7 +24,6 @@ class DashboardController extends Controller implements HasMiddleware
      */
     public function index()
     {
-<<<<<<< HEAD:app/Http/Controllers/GuestHomeController.php
         $spesialisList = dokter_model::select('spesialis')
             ->distinct()
             ->whereNotNull('spesialis')
@@ -39,9 +35,7 @@ class DashboardController extends Controller implements HasMiddleware
             ->get();
 
         return view('guest.home.index', compact('spesialisList', 'jam_operasionals'));
-=======
         return view('admin.dashboard');
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e:app/Http/Controllers/Admin/DashboardController.php
     }
 
     /**

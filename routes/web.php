@@ -251,16 +251,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-<<<<<<< HEAD
     Route::prefix('admin/jam-operasional')->name('admin.jam-operasional.')->group(function () {
-        Route::get('/', [JamOperasionalController::class, 'index'])->name('index');
+        Route::get('/', [jamOperasionalController::class, 'index'])->name('index');
         Route::get('/create', [JamOperasionalController::class, 'create'])->name('create');
         Route::post('/', [JamOperasionalController::class, 'store'])->name('store');
         Route::get('/{jam_operasional}/edit', [JamOperasionalController::class, 'edit'])->name('edit');
         Route::put('/{jam_operasional}', [JamOperasionalController::class, 'update'])->name('update');
         Route::patch('/{jam_operasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
         Route::delete('/{jam_operasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
-=======
     /*
     |--------------------------------------------------------------------------
     | MANAJEMEN RUANGAN (BANGSAL)
@@ -282,7 +280,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         Route::put('/{jamOperasional}', 'update')->name('update');
         Route::patch('/{jamOperasional}/toggle-status', 'toggleStatus')->name('toggle-status');
         Route::delete('/{jamOperasional}', 'destroy')->name('destroy');
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
     });
 
     /*
@@ -331,3 +328,4 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 // });
 
 require __DIR__ . '/settings.php';
+});
