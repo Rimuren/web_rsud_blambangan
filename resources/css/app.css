@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
+@import './guest-home.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -13,7 +15,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -49,6 +51,14 @@
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
+
+    body {
+        @apply text-slate-900 dark:text-slate-100;
+    }
+}
+
+@utility font-auth {
+    font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
 [data-flux-field]:not(ui-radio, ui-checkbox) {
@@ -65,11 +75,172 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
+.g-recaptcha {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+@media (max-width: 420px) {
+    .g-recaptcha {
+        transform: scale(0.92);
+        transform-origin: left top;
+    }
+}
+
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
 
 @layer components {
+    .auth-grid-bg {
+        background-image:
+            linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+
+    .dark .auth-grid-bg {
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    }
+
+    .auth-brand {
+        @apply mb-8 flex items-center gap-3;
+    }
+
+    .auth-logo-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .auth-brand-divider {
+        @apply h-12 w-px bg-gray-300 dark:bg-neutral-600;
+    }
+
+    .auth-brand-text {
+        @apply flex flex-col;
+    }
+
+    .auth-brand-title {
+        @apply text-xs font-bold uppercase leading-tight tracking-widest text-gray-500 dark:text-neutral-300;
+    }
+
+    .auth-brand-subtitle {
+        @apply text-xs font-semibold uppercase leading-tight tracking-widest text-amber-500 dark:text-amber-400;
+    }
+
+    .auth-login-card {
+        @apply w-full max-w-md rounded-2xl bg-white px-8 py-8 dark:bg-[#111827];
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 10px 40px -8px rgba(0, 0, 0, 0.12);
+    }
+
+    .auth-login-input {
+        @apply w-full rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm text-gray-500 outline-none transition placeholder:text-gray-400 dark:border-neutral-700 dark:bg-[#0f172a] dark:text-neutral-200 dark:placeholder:text-neutral-500;
+    }
+
+    .auth-login-input:focus {
+        border-color: #1e3a5f;
+        box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.12);
+    }
+
+    .auth-captcha-wrap {
+        @apply overflow-hidden rounded-[4px] border border-gray-300 bg-[#f9fafb] dark:border-neutral-700 dark:bg-[#0f172a];
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .auth-login-button {
+        @apply w-full rounded-xl py-4 text-base font-bold tracking-wide text-white transition;
+        background: #1b3a6b;
+    }
+
+    .auth-login-button:hover {
+        background: #15305c;
+        box-shadow: 0 4px 14px rgba(27, 58, 107, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .auth-login-button:active {
+        transform: translateY(0);
+    }
+
+    .dark .auth-login-button {
+        background: #1b3a6b;
+        color: #fff;
+    }
+
+    .dark .auth-login-button:hover {
+        background: #15305c;
+    }
+
+    .custom-checkbox {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #cbd5e1;
+        border-radius: 4px;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        flex-shrink: 0;
+        background: #fff;
+    }
+
+    .custom-checkbox:checked {
+        background: #1b3a6b;
+        border-color: #1b3a6b;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L6 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+        background-size: 12px;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .dark .custom-checkbox {
+        background: #111827;
+        border-color: #4b5563;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-up {
+        animation: fadeUp 0.5s ease both;
+    }
+
+    .delay-1 {
+        animation-delay: 0.05s;
+    }
+
+    .delay-2 {
+        animation-delay: 0.12s;
+    }
+
+    .delay-3 {
+        animation-delay: 0.19s;
+    }
+
+    .delay-4 {
+        animation-delay: 0.26s;
+    }
+
+    .delay-5 {
+        animation-delay: 0.33s;
+    }
+
+    .delay-6 {
+        animation-delay: 0.40s;
+    }
+
     .head-bar-2f-frame-head-bar2f {
   @apply w-[1280px] max-w-screen-xl box-border min-h-[103px];
 }
@@ -263,5 +434,3 @@ select:focus[data-flux-control] {
 }
 
 }
-
-

@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('poliklinik', function (Blueprint $table) {
             $table->id();
-
-            $table->string('nama', 100);
+            $table->unsignedBigInteger('api_id')->nullable()->unique();
+            $table->string('nama', 100)->index();
             $table->string('kode_bpjs', 20)->nullable();
-
             $table->string('image')->nullable();
             $table->string('background_img')->nullable();
-
             $table->integer('tarif_konsultasi')->default(0);
             $table->integer('jumlah_dokter')->default(0);
 
@@ -31,7 +29,12 @@ return new class extends Migration
             $table->boolean('sabtu')->default(false);
             $table->boolean('minggu')->default(false);
 
+            $table->boolean('is_active')->default(true)->index();
+            $table->enum('source', ['api', 'manual'])->default('api')->index();
+
             $table->timestamps();
+
+            $table->index(['api_id', 'is_active']);
         });
     }
 

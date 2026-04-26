@@ -1,18 +1,31 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\{
+    DashboardController as AdminDashboard,
+    DokterController as AdminDokter,
+    BangsalController as AdminBangsal,
+    RoleController as AdminRole,
+    IklanController as AdminIklan,
+    JamOperasionalController as AdminJamOperasional,
+    UserController as AdminUser,
+    PhotoController as AdminPhoto,
+    VideoController as AdminVideo,
+    PoliklinikController as AdminPoliklinik,
+};
+
+use App\Http\Controllers\Guest\{
+    DokterController as GuestDokter,
+    HomeController as GuestHome,
+    BangsalController as GuestBangsal,
+    PhotoController as GuestPhoto,
+    VideoController as GuestVideo,
+};
+
 use App\Http\Controllers\{
-    AdminDashboardController,
     ArtikelController,
     GuestArtikelController,
-    DokterController,
-    GuestHomeController,
-    JamOperasionalController,
-    RoleController,
-    UserController,
     KategoriArtikelController,
-    PhotoController,
-    VideoController
 };
 
 /*
@@ -22,7 +35,7 @@ use App\Http\Controllers\{
 */
 
 // Homepage
-Route::get('/',[GuestHomeController::class,'index'])->name('guest.home');
+Route::get('/', [GuestHome::class, 'index'])->name('guest.home');
 
 // Profil
 Route::get('/profil', function () {
@@ -30,11 +43,10 @@ Route::get('/profil', function () {
 })->name('guest.profil.index');
 
 // Daftar dokter
-Route::get('/daftar-dokter', [DokterController::class, 'guestIndex'])->name('guest.daftar-dokter.index');
+Route::get('/daftar-dokter', [GuestDokter::class, 'Index'])->name('guest.daftar-dokter.index');
 
-Route::get('/dokter/spesialis', function () {
-    return view('admin.dokter.spesialis.index');
-})->name('admin.dokter.spesialis.index');
+// (Opsional) route spesialis guest, jika diperlukan bisa diarahkan ke guest.home atau resource lain
+// Route::get('/dokter/spesialis', [AdminSpesialis::class, 'index'])->name('admin.dokter.spesialis.index'); // sebaiknya di admin
 
 // Info kamar
 Route::get('/info-kamar', function () {
@@ -43,7 +55,7 @@ Route::get('/info-kamar', function () {
 
 Route::get('/kamar/index', function () {
     return view('kamar.index');
-})->name('kamar.index');
+})->name('kamar.index'); // kemungkinan ini salah, karena guest harusnya pake view guest, namun biarkan dulu
 
 // Artikel
 Route::prefix('artikel')->name('guest.artikel.')->group(function () {
@@ -88,9 +100,10 @@ Route::get('/layanan-rawat-jalan/anasthesi', function () {
     return view('guest.layanan-rawat-jalan.anasthesi.index');
 })->name('guest.layanan-rawat-jalan.anasthesi.index');
 
-// Route Sementara
-Route::get('/layanan-rawat-jalan/{slug}')->name('guest.layanan-rawat-jalan.detail');
-// Route::get('/layanan-rawat-jalan/{slug}', [LayananRawatJalanController::class, 'detail'])->name('guest.layanan-rawat-jalan.detail');
+// Route sementara (belum ada controller)
+Route::get('/layanan-rawat-jalan/{slug}', function () {
+    return abort(404);
+})->name('guest.layanan-rawat-jalan.detail');
 
 // Layanan IGD
 Route::get('/layanan-igd', function () {
@@ -105,7 +118,7 @@ Route::prefix('informasi')->group(function () {
 
     Route::get('/tarif', function () {
         return view('guest.informasi.tarif.index');
-    })->name('guest.informasi.tarif.index'); // Duplicate removed
+    })->name('guest.informasi.tarif.index');
 
     Route::get('/ikm', function () {
         return view('guest.informasi.ikm.index');
@@ -118,12 +131,12 @@ Route::prefix('informasi')->group(function () {
     Route::get('/sakip', function () {
         return view('guest.informasi.sakip.index');
     })->name('guest.informasi.sakip.index');
-    
 });
 
+// Galeri
 Route::prefix('galeri')->group(function () {
-    Route::get('/foto', [PhotoController::class, 'guestIndex'])->name('guest.galeri.foto.index');
-    Route::get('/video', [VideoController::class, 'guestIndex'])->name('guest.galeri.video.index');
+    Route::get('/foto', [GuestPhoto::class, 'guestIndex'])->name('guest.galeri.foto.index');
+    Route::get('/video', [GuestVideo::class, 'guestIndex'])->name('guest.galeri.video.index');
 });
 
 /*
@@ -131,87 +144,114 @@ Route::prefix('galeri')->group(function () {
 | Admin Routes (Authenticated & Authorized)
 |--------------------------------------------------------------------------
 */
+
 Route::view('/admin', 'welcome')->name('home');
 
-Route::middleware(['auth', 'permission:admin-access'])->group(function () {
-    
-    // ROUTE DASHBOARD ADMIN
-    Route::get('/admin/dashboard',[AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
-    // ROUTE ARTIKEL
-    Route::controller(ArtikelController::class)->prefix('admin/artikel')->group(function () {
-        Route::get('/', 'index')->name('admin.artikel.index');
-        Route::get('/create', 'create')->name('admin.artikel.create');
-        Route::post('/', 'store')->name('admin.artikel.store');
-        Route::get('/{artikel}/edit', 'edit')->name('admin.artikel.edit');
-        Route::put('/{artikel}', 'update')->name('admin.artikel.update');
-        Route::delete('/mass-destroy', 'massDestroy')->name('admin.artikel.mass-destroy');
-        Route::delete('/delete/{artikel}', 'destroy')->name('admin.artikel.destroy');
-        Route::post('/upload-image', 'uploadImage')->name('admin.artikel.upload-image');
+    // Dashboard
+    Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | ARTIKEL
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(ArtikelController::class)->prefix('artikel')->name('artikel.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{artikel}/edit', 'edit')->name('edit');
+        Route::put('/{artikel}', 'update')->name('update');
+        Route::delete('/mass-destroy', 'massDestroy')->name('mass-destroy');
+        Route::delete('/{artikel}', 'destroy')->name('destroy');
+        Route::post('/upload-image', 'uploadImage')->name('upload-image');
     });
 
-    // ROUTE KATEGORI ARTIKEL
-    Route::controller(KategoriArtikelController::class)->prefix('admin/artikel/kategori')->group(function () {
-        Route::get('/', 'index')->name('admin.artikel.kategori.index');
-        Route::get('/create', 'create')->name('admin.artikel.kategori.create');
-        Route::post('/', 'store')->name('admin.artikel.kategori.store');
-        Route::get('/{kategori}/edit', 'edit')->name('admin.artikel.kategori.edit');
-        Route::put('/{kategori}', 'update')->name('admin.artikel.kategori.update');
-        Route::delete('/{kategori}', 'destroy')->name('admin.artikel.kategori.destroy');
+    // Kategori Artikel
+    Route::controller(KategoriArtikelController::class)->prefix('artikel/kategori')->name('artikel.kategori.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{kategori}/edit', 'edit')->name('edit');
+        Route::put('/{kategori}', 'update')->name('update');
+        Route::delete('/{kategori}', 'destroy')->name('destroy');
     });
 
-    // ROUTE AKUN
-    Route::controller(UserController::class)->prefix('admin/akun')->group(function () {
-        Route::get('/', 'index')->name('admin.akun.index');
-        Route::get('/create', 'create')->name('admin.akun.create');
-        Route::post('/', 'store')->name('admin.akun.store');
-        Route::get('/{user}/edit', 'edit')->name('admin.akun.edit');
-        Route::put('/{user}', 'update')->name('admin.akun.update');
-        Route::delete('/{user}', 'destroy')->name('admin.akun.destroy');
-        Route::get('/{user}/reset-password', 'resetPasswordForm')->name('admin.akun.reset-password.form');
-        Route::patch('/{user}/reset-password', 'resetPassword')->name('admin.akun.reset-password');
+    /*
+    |--------------------------------------------------------------------------
+    | AKUN & ROLE
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(AdminUser::class)->prefix('akun')->name('akun.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{user}/edit', 'edit')->name('edit');
+        Route::put('/{user}', 'update')->name('update');
+        Route::delete('/{user}', 'destroy')->name('destroy');
+
+        Route::get('/{user}/reset-password', 'resetPasswordForm')->name('reset-password.form');
+        Route::patch('/{user}/reset-password', 'resetPassword')->name('reset-password');
     });
 
-    // ROUTE ROLE
-    Route::controller(RoleController::class)->prefix('admin/akun/role')->group(function () {
-        Route::get('/', 'index')->name('admin.akun.role.index');
-        Route::get('/create', 'create')->name('admin.akun.role.create');
-        Route::post('/', 'store')->name('admin.akun.role.store');
-        Route::get('/{role}/edit', 'edit')->name('admin.akun.role.edit');
-        Route::put('/{role}', 'update')->name('admin.akun.role.update');
-        Route::delete('/{role}', 'destroy')->name('admin.akun.role.destroy');
+    Route::controller(AdminRole::class)->prefix('akun/role')->name('akun.role.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{role}/edit', 'edit')->name('edit');
+        Route::put('/{role}', 'update')->name('update');
+        Route::delete('/{role}', 'destroy')->name('destroy');
     });
 
-    // ROUTE DOKTER
-    Route::controller(DokterController::class)->prefix('admin/dokter')->group(function () {
-        Route::get('/', 'index')->name('admin.dokter.index');
+    /*
+    |--------------------------------------------------------------------------
+    | DOKTER, POLIKLINIK
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('dokter')->name('dokter.')->group(function () {
+        Route::get('/', [AdminDokter::class, 'index'])->name('index');
+
+        // Poliklinik
+        Route::prefix('poliklinik')->name('poliklinik.')->controller(AdminPoliklinik::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}', 'update')->name('update');
+            Route::delete('/{id}', 'destroy')->name('destroy');
+        });
     });
 
-    // ROUTE MANAJEMEN RUANGAN (BANGSAL)
-    Route::view('/admin/manajemen-ruangan/bangsal', 'admin.manajemen-ruangan.bangsal.index')->name('admin.manajemen-ruangan.bangsal.index');
+    /*
+    |--------------------------------------------------------------------------
+    | DOKUMENTASI
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('dokumentasi')->name('dokumentasi.')->group(function () {
+        // FOTO
+        Route::controller(AdminPhoto::class)->prefix('foto')->name('foto.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{photo}/edit', 'edit')->name('edit');
+            Route::put('/{photo}', 'update')->name('update');
+            Route::delete('/{photo}', 'destroy')->name('destroy');
+        });
 
-    // Rute untuk manajemen foto (CRUD)
-Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(function () {
-    Route::get('/', [PhotoController::class, 'index'])->name('index');
-    Route::get('/create', [PhotoController::class, 'create'])->name('create');
-    Route::post('/', [PhotoController::class, 'store'])->name('store');
-    Route::get('/{foto}/edit', [PhotoController::class, 'edit'])->name('edit');
-    Route::put('/{foto}', [PhotoController::class, 'update'])->name('update');
-    Route::delete('/{foto}', [PhotoController::class, 'destroy'])->name('destroy');
-});
-
-    
-
-// Rute untuk manajemen video (CRUD)
-  Route::prefix('admin/dokumentasi/video')->name('admin.dokumentasi.video.')->group(function () {
-        Route::get('/', [VideoController::class, 'index'])->name('index');
-        Route::get('/create', [VideoController::class, 'create'])->name('create');
-        Route::post('/', [VideoController::class, 'store'])->name('store');
-        Route::get('/{video}/edit', [VideoController::class, 'edit'])->name('edit');
-        Route::put('/{video}', [VideoController::class, 'update'])->name('update');
-        Route::delete('/{video}', [VideoController::class, 'destroy'])->name('destroy');
+        // VIDEO
+        Route::controller(AdminVideo::class)->prefix('video')->name('video.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{video}/edit', 'edit')->name('edit');
+            Route::put('/{video}', 'update')->name('update');
+            Route::delete('/{video}', 'destroy')->name('destroy');
+        });
     });
 
+<<<<<<< HEAD
     Route::prefix('admin/jam-operasional')->name('admin.jam-operasional.')->group(function () {
         Route::get('/', [JamOperasionalController::class, 'index'])->name('index');
         Route::get('/create', [JamOperasionalController::class, 'create'])->name('create');
@@ -220,10 +260,46 @@ Route::prefix('admin/dokumentasi/foto')->name('admin.dokumentasi.foto.')->group(
         Route::put('/{jam_operasional}', [JamOperasionalController::class, 'update'])->name('update');
         Route::patch('/{jam_operasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
         Route::delete('/{jam_operasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
+=======
+    /*
+    |--------------------------------------------------------------------------
+    | MANAJEMEN RUANGAN (BANGSAL)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('manajemen-ruangan/bangsal', [AdminBangsal::class, 'index'])
+        ->name('manajemen-ruangan.bangsal.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | JAM OPERASIONAL
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(AdminJamOperasional::class)->prefix('jam-operasional')->name('jam-operasional.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{jamOperasional}/edit', 'edit')->name('edit');
+        Route::put('/{jamOperasional}', 'update')->name('update');
+        Route::patch('/{jamOperasional}/toggle-status', 'toggleStatus')->name('toggle-status');
+        Route::delete('/{jamOperasional}', 'destroy')->name('destroy');
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | IKLAN
+    |--------------------------------------------------------------------------
+    */
+    Route::controller(AdminIklan::class)->prefix('iklan')->name('iklan.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{iklan}/edit', 'edit')->name('edit');
+        Route::put('/{iklan}', 'update')->name('update');
+        Route::patch('/{iklan}/toggle-status', 'toggleStatus')->name('toggle-status');
+        Route::delete('/{iklan}', 'destroy')->name('destroy');
     });
-
+}); // end admin group
 
 /*
 |--------------------------------------------------------------------------

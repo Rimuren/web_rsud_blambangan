@@ -1,6 +1,7 @@
 <x-layouts::app :title="__('Tambah Kategori Artikel')">
   <x-slot:header>{{ __('Tambah Kategori Artikel') }}</x-slot:header>
 
+  @can('kategori.create')
   <div class="p-4 md:p-6 lg:p-8">
     <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div>
@@ -38,4 +39,5 @@
       </form>
     </flux:card>
   </div>
+  @endcan
 </x-layouts::app>

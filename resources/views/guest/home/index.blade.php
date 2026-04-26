@@ -3,93 +3,122 @@
 @section('title', 'Beranda')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    html,
-    body {
-        overflow-x: hidden;
-        width: 100%;
-        max-width: 100%;
-    }
+@php
+    $guestHomeHeroImages = [
+        asset('images/hero1.png'),
+        asset('images/hero2.png'),
+        asset('images/hero3.png'),
+    ];
+@endphp
 
-    body {
-        font-family: 'Inter', system-ui, sans-serif;
-    }
+<div
+    id="guest-home-config"
+    data-popup-session-key="{{ $popupIklans->isNotEmpty() ? 'popup-iklan-shown' : '' }}"
+    data-hero-images='@json($guestHomeHeroImages)'>
+</div>
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .heading-font {
-        font-family: 'Poppins', 'Inter', sans-serif;
-    }
+@if($popupIklans->isNotEmpty())
+<div id="iklan-popup-overlay" class="guest-floating-ad pointer-events-none fixed inset-0 z-[999]">
+    <div class="guest-floating-ad__backdrop absolute inset-0"></div>
+    <div class="guest-floating-ad__wrap flex items-center justify-center px-4">
+        <div class="guest-floating-ad__inner relative w-full max-w-lg">
+            <button
+                type="button"
+                id="close-iklan-popup"
+                class="pointer-events-auto absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:bg-zinc-700"
+                aria-label="Tutup iklan">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
-    .service-card {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+            <div class="guest-floating-ad__card pointer-events-auto w-full overflow-hidden rounded-2xl bg-white shadow-2xl">
 
-    .service-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.2);
-    }
+                <div class="guest-floating-ad__slides">
+                    @foreach($popupIklans as $popupIklan)
+                    <article class="guest-floating-ad__slide {{ $loop->first ? 'is-active' : '' }}" data-iklan-slide>
 
-    select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.75rem center;
-        background-size: 1.2rem;
-        appearance: none;
-    }
+                        {{-- Image --}}
+                        <div class="relative w-full bg-zinc-100" style="aspect-ratio: 4/3;">
+                            <span class="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/80 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
+                                {{ $loop->iteration }} / {{ $popupIklans->count() }}
+                            </span>
+                            <img
+                                src="{{ asset('storage/' . $popupIklan->gambar) }}"
+                                alt="{{ $popupIklan->nama }}"
+                                class="h-full w-full object-contain"
+                            >
+                        </div>
 
-    .hero-image {
-        object-fit: cover;
-        object-position: center;
-        transition: opacity 0.5s ease-in-out;
-        opacity: 1;
-    }
+                        {{-- Content --}}
+                        <div class="px-6 pb-6 pt-5">
 
-    .hero-image.fade-out {
-        opacity: 0;
-    }
+                            <h2 class="text-lg font-bold leading-snug text-zinc-900">
+                                {{ $popupIklan->nama }}
+                            </h2>
 
-    /* ========== ANIMASI FADE PADA SAAT REFRESH (PAGE LOAD) ========== */
-    .page-fade {
-        animation: pageFadeIn 0.8s ease-out forwards;
-    }
+                            <p class="mt-1.5 text-sm leading-relaxed text-zinc-500">
+                                {{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}
+                            </p>
 
-    @keyframes pageFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+                            {{-- CTA --}}
+                            <div class="mt-5 flex flex-wrap items-center gap-2.5">
+                                @if ($popupIklan->cta_label && $popupIklan->cta_url)
+                                
+                                    href="{{ $popupIklan->cta_url }}"
+                                    target="_blank"
+                                    class="rounded-lg bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800">
+                                    {{ $popupIklan->cta_label }}
+                                </a>
+                                @endif
 
-    /* ========== ANIMASI SCROLL REVEAL ========== */
-    .scroll-reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
+                    
+                            </div>
 
-    .scroll-reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+                            {{-- Countdown --}}
+                            <div class="mt-4 flex items-center gap-3">
+                                <span class="shrink-0 text-xs text-zinc-400">
+                                    <span data-iklan-popup-countdown>600</span>s
+                                </span>
+                                <div class="h-1 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                                    <div class="popup-progress-bar h-full rounded-full bg-black transition-all" data-iklan-popup-progress></div>
+                                </div>
+                            </div>
 
-    /* Delay opsional untuk anak-anak dalam grid */
-    .scroll-reveal-child {
-        transition-delay: 0.1s;
-    }
-</style>
+                        </div>
 
-<div class="page-fade">
+                    </article>
+                    @endforeach
+                </div>
+
+            </div>
+
+            {{-- Prev/Next --}}
+            <button
+                type="button"
+                id="iklan-popup-prev"
+                class="pointer-events-auto absolute -left-12 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-900/10 transition hover:bg-zinc-50"
+                aria-label="Iklan sebelumnya">
+                <svg class="h-4 w-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <button
+                type="button"
+                id="iklan-popup-next"
+                class="pointer-events-auto absolute -right-12 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-zinc-900/10 transition hover:bg-zinc-50"
+                aria-label="Iklan berikutnya">
+                <svg class="h-4 w-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+        </div>
+    </div>
+</div>
+@endif
+
     {{-- HERO SECTION --}}
     <section class="relative w-full min-h-[280px] sm:min-h-[400px] md:min-h-[550px] overflow-hidden">
         <img src="{{ asset('images/hero1.png') }}" alt="RSUD Blambangan" id="hero-image"
@@ -108,42 +137,52 @@
 
     {{-- SEARCH BAR --}}
     <div class="container mx-auto px-4 -mt-4 md:-mt-12 relative z-20 scroll-reveal">
-        <div class="bg-white rounded-2xl shadow-2xl p-5 max-w-4xl mx-auto">
-            <form method="GET" action="{{ route('guest.daftar-dokter.index') }}" class="flex flex-col md:flex-row gap-3 md:gap-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-5 max-w-5xl mx-auto">
+            <form method="GET" action="{{ route('guest.daftar-dokter.index') }}" class="flex flex-col md:flex-row gap-4 md:gap-5">
+                {{-- Cari Nama Dokter --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">CARI DOKTER</label>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama Dokter" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama Dokter"
+                        class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                 </div>
+
+                {{-- Filter Poliklinik (dari database) --}}
                 <div class="flex-1">
-                    <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">SPESIALISASI</label>
-                    <select name="spesialis" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                        <option value="">Semua Spesialis</option>
-                        @foreach ($spesialisList as $sp)
-                        <option value="{{ $sp }}" {{ request('spesialis') == $sp ? 'selected' : '' }}>
-                            {{ str_replace('Spesialis ', '', $sp) }}
+                    <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">POLIKLINIK</label>
+                    <select name="poliklinik" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                        <option value="">Semua Poliklinik</option>
+                        @php
+                        $poliklinikList = $poliklinikList ?? [];
+                        @endphp
+                        @foreach ($poliklinikList as $poli)
+                        <option value="{{ $poli }}" {{ request('poliklinik') == $poli ? 'selected' : '' }}>
+                            {{ $poli }}
                         </option>
                         @endforeach
                     </select>
                 </div>
+
+                {{-- Filter Hari --}}
                 <div class="flex-1">
                     <label class="block text-[11px] text-gray-500 uppercase tracking-wide font-semibold mb-1.5">PILIH HARI</label>
                     <select name="hari" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
-                        <option value="">Pilih Hari</option>
-                        <option value="Senin" {{ request('hari') == 'Senin' ? 'selected' : '' }}>Senin</option>
-                        <option value="Selasa" {{ request('hari') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
-                        <option value="Rabu" {{ request('hari') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
-                        <option value="Kamis" {{ request('hari') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
-                        <option value="Jumat" {{ request('hari') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
-                        <option value="Sabtu" {{ request('hari') == 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
+                        <option value="">Semua Hari</option>
+                        @foreach(['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'] as $day)
+                        <option value="{{ $day }}" {{ request('hari') == $day ? 'selected' : '' }}>{{ $day }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <button type="submit" class="md:w-auto w-full h-10 bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg flex items-center justify-center px-4 transition shrink-0 mt-6">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
-                    <span class="md:hidden ml-2 text-sm font-semibold">Cari Dokter</span>
-                </button>
+
+                {{-- Tombol Cari --}}
+                <div class="md:w-auto w-full flex items-end">
+                    <button type="submit" class="w-full bg-[#1e3a5f] hover:bg-blue-900 text-white rounded-lg py-2.5 px-4 transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <span class="text-sm font-semibold">Cari Dokter</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -153,6 +192,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h2>
+<<<<<<< HEAD
                 @if($jam_operasionals->isNotEmpty())
                     <div class="space-y-3 text-sm">
                         @foreach($jam_operasionals as $item)
@@ -161,11 +201,21 @@
                                 <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
                             </div>
                         @endforeach
+=======
+                @if($jamOperasionals->isNotEmpty())
+                <div class="space-y-3 text-sm">
+                    @foreach($jamOperasionals as $item)
+                    <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
+                        <span class="font-semibold">{{ $item->hari_label }}</span>
+                        <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
                     </div>
+                    @endforeach
+                </div>
                 @else
-                    <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
-                        Jam operasional belum tersedia.
-                    </div>
+                <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/80">
+                    Jam operasional belum tersedia.
+                </div>
                 @endif
             </div>
             <div class="bg-[#D10000] text-white px-6 md:px-8 py-8">
@@ -233,57 +283,77 @@
         <div class="container mx-auto">
             <div class="flex justify-between items-center mb-5 md:mb-6 flex-wrap gap-2">
                 <h2 class="text-lg md:text-xl font-bold text-gray-900">Berita &amp; Artikel Kesehatan</h2>
-                <a href="#" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
+                <a href="{{ route('guest.artikel.index') }}" class="text-blue-600 text-sm font-semibold flex items-center hover:underline">Lihat Artikel →</a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
-                {{-- Artikel 1 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-green-800 to-green-600 flex items-center justify-center">
-                        <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                    </div>
+                @forelse ($topArticles as $article)
+                <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
+                    <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="block">
+                        <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
+                            @if ($article->thumbnail)
+                            <img
+                                src="{{ asset('storage/' . $article->thumbnail) }}"
+                                alt="{{ $article->judul }}"
+                                class="h-full w-full object-cover transition duration-300 hover:scale-105">
+                            @else
+                            <div class="flex h-full items-center justify-center">
+                                <svg class="w-12 h-12 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A3.375 3.375 0 0011.25 4.875V3.75m0 0A2.25 2.25 0 019 1.5m2.25 2.25A2.25 2.25 0 0013.5 1.5m-9 12.75h15a1.5 1.5 0 011.5 1.5v4.125a1.125 1.125 0 01-1.125 1.125H4.125A1.125 1.125 0 013 19.875V15.75a1.5 1.5 0 011.5-1.5z" />
+                                </svg>
+                            </div>
+                            @endif
+                        </div>
+                    </a>
+
                     <div class="p-4">
-                        <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Kesehatan</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Sentuhan Kasih Merawat Bayi dengan Prematuritas</h3>
-                        <p class="text-xs text-gray-500 mb-3">Perawatan penuh kasih untuk buah hati tercinta dengan metode terkini.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">
+                                {{ $article->kategori->nama ?? 'Artikel' }}
+                            </span>
+                            <span class="text-[11px] font-semibold text-gray-400">
+                                {{ number_format($article->views ?? 0) }} views
+                            </span>
+                        </div>
+
+                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">
+                            <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="hover:text-blue-700 transition">
+                                {{ $article->judul }}
+                            </a>
+                        </h3>
+
+                        <p class="text-xs text-gray-500 mb-3">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($article->konten), 110) }}
+                        </p>
+
+                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:underline">
+                            Baca Selengkapnya →
+                        </a>
                     </div>
+                </article>
+                @empty
+                <div class="sm:col-span-2 md:col-span-3 bg-white rounded-2xl border border-gray-200 px-6 py-12 text-center text-gray-500">
+                    Artikel populer belum tersedia.
                 </div>
-                {{-- Artikel 2 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-800 to-blue-600 flex flex-col items-center justify-center gap-1 text-center">
-                        <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
-                        <span class="text-white font-extrabold text-base text-center leading-snug px-2">AL APOTEKER ISUN</span>
-                    </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wide">Edukasi</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Hotline Al_Apoteker Isun | Konsultasi Obat</h3>
-                        <p class="text-xs text-gray-500 mb-3">Layanan konsultasi apoteker online siap membantu kebutuhan obat Anda 24/7.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
-                    </div>
-                </div>
-                {{-- Artikel 3 --}}
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all sm:col-span-2 md:col-span-1 scroll-reveal-child">
-                    <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-green-900 to-green-700 flex flex-col items-center justify-center gap-1">
-                        <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Hotline</span>
-                        <span class="text-white font-extrabold text-base text-center leading-snug px-2">CC-GANCANG ARON</span>
-                    </div>
-                    <div class="p-4">
-                        <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">Layanan Darurat</span>
-                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">Hotline Gancang Aron - Siaga 24 Jam</h3>
-                        <p class="text-xs text-gray-500 mb-3">Informasi layanan darurat dan pengantaran pasien cepat tanggap.</p>
-                        <a href="#" class="text-xs font-semibold text-blue-600 hover:underline">Baca Selengkapnya →</a>
-                    </div>
-                </div>
+                @endforelse
             </div>
             <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
                 <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
                     <span class="font-bold text-gray-800">Kategori Artikel:</span>
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">Kategori</span>
-                    <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full">Kategori</span>
+                    @forelse ($topArticleCategories as $index => $categoryName)
+                    @php
+                    $categoryClasses = [
+                    'bg-blue-100 text-blue-800',
+                    'bg-red-100 text-red-700',
+                    'bg-green-100 text-green-700',
+                    'bg-purple-100 text-purple-700',
+                    ];
+                    @endphp
+                    <span class="{{ $categoryClasses[$index % count($categoryClasses)] }} px-3 py-1 rounded-full">
+                        {{ $categoryName }}
+                    </span>
+                    @empty
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">Belum ada kategori</span>
+                    @endforelse
                 </div>
                 <p class="text-center text-[11px] text-gray-400 mt-2">Temukan informasi-informasi di artikel</p>
             </div>
@@ -293,43 +363,4 @@
         </div>
     </section>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Hero slider (existing)
-        const heroImages = [
-            "{{ asset('images/hero1.png') }}",
-            "{{ asset('images/hero2.png') }}",
-            "{{ asset('images/hero3.png') }}"
-        ];
-        let currentIndex = 0;
-        const heroImage = document.getElementById('hero-image');
-        if (heroImage) {
-            setInterval(() => {
-                heroImage.classList.add('fade-out');
-                setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % heroImages.length;
-                    heroImage.src = heroImages[currentIndex];
-                    heroImage.classList.remove('fade-out');
-                }, 500);
-            }, 3000);
-        }
-
-        // Scroll Reveal (Intersection Observer)
-        const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-child');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: stop observing after revealed (uncomment if you want)
-                    // observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -20px 0px'
-        });
-        revealElements.forEach(el => observer.observe(el));
-    });
-</script>
 @endsection

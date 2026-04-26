@@ -13,18 +13,33 @@ return new class extends Migration
     {
         Schema::create('jadwal_dokter', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('dokter_id')->nullable();
-            $table->unsignedBigInteger('poliklinik_id')->nullable();
+            $table->unsignedBigInteger('api_id')->nullable()->unique();
+            $table->unsignedBigInteger('dokter_id')->nullable()->index();
+            $table->unsignedBigInteger('poliklinik_id')->nullable()->index();
+
             $table->unsignedBigInteger('ruangan_id')->nullable();
+            $table->string('ruangan_nama')->nullable();
             $table->string('kode_jadwal', 20)->nullable();
-            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'])->nullable();
-            $table->integer('hari_order')->nullable();
+
+            $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'])->nullable()->index();
+            $table->integer('hari_order')->default(0);
+
             $table->time('jam_mulai')->nullable();
             $table->time('jam_selesai')->nullable();
-            $table->string('tipe_pelayanan', 10)->nullable();
-            $table->timestamps();
+            $table->string('tipe_pelayanan', 50)->nullable();
 
-            $table->foreign('dokter_id')->references('id')->on('dokter')->onDelete('cascade');
+            $table->boolean('is_manual')->default(false)->index();
+            $table->boolean('is_active')->default(true)->index();
+            $table->enum('source', ['api', 'manual'])->default('api')->index();
+
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['dokter_id', 'hari', 'jam_mulai', 'jam_selesai']);
+            $table->index(['api_id', 'is_manual']);
+
+            $table->foreign('dokter_id')->references('id')->on('dokter')->nullOnDelete();
+            $table->foreign('poliklinik_id')->references('id')->on('poliklinik')->nullOnDelete();
         });
     }
 

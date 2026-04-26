@@ -3,6 +3,7 @@
 @section('title', 'Manajemen Dokumentasi Video')
 
 @section('content')
+@can('video.view')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-7xl mx-auto">
         {{-- Header Section --}}
@@ -11,9 +12,11 @@
                 <h2 class="text-3xl font-black text-zinc-900 dark:text-white tracking-tight">Daftar Galeri Video</h2>
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola galeri video dokumentasi rumah sakit.</p>
             </div>
+            @can('video.create')
             <flux:button as="a" href="{{ route('admin.dokumentasi.video.create') }}" variant="primary" icon="plus">
                 Tambah Video
             </flux:button>
+            @endcan
         </div>
 
         {{-- Table Card --}}
@@ -24,7 +27,6 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Thumbnail</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Judul</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Kategori</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Dibuat</th>
                             <th class="px-6 py-4 text-right text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Aksi</th>
                         </tr>
@@ -43,16 +45,17 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-zinc-500 dark:text-zinc-400">
-                                {{ $video->kategori ?? '-' }}
-                            </td>
-                            <td class="px-6 py-4 text-zinc-500 dark:text-zinc-400">
                                 {{ $video->created_at->format('d/m/Y') }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center gap-2 justify-end">
+                                    @can('video.update')
                                     <flux:button as="a" href="{{ route('admin.dokumentasi.video.edit', $video) }}" size="sm" variant="ghost" class="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">
                                         <flux:icon name="pencil" class="w-5 h-5" />
                                     </flux:button>
+                                    @endcan
+
+                                    @can('video.delete')
                                     <form action="{{ route('admin.dokumentasi.video.destroy', $video) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin hapus video ini?')">
                                         @csrf
                                         @method('DELETE')
@@ -60,13 +63,17 @@
                                             <flux:icon name="trash" class="w-5 h-5" />
                                         </flux:button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-zinc-400">
-                                Belum ada video. <a href="{{ route('admin.dokumentasi.video.create') }}" class="text-blue-600 hover:underline">Tambah video pertama</a>
+                                Belum ada video.
+                                @can('create video') 
+                                <a href="{{ route('admin.dokumentasi.video.create') }}" class="text-blue-600 hover:underline">Tambah video pertama</a>
+                                @endcan
                             </td>
                         </tr>
                         @endforelse
@@ -81,4 +88,5 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection

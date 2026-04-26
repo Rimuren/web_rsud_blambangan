@@ -2,7 +2,8 @@
     <x-slot:header>
         {{ __('Tambah Artikel') }}
     </x-slot:header>
-
+    
+    @can('artikel.create')
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
         <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Tambah Artikel</h1>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Isi form di bawah untuk menambahkan artikel baru</p>
@@ -238,4 +239,670 @@
     editor.init();
 </script>
 
+<<<<<<< HEAD
+=======
+    const oldContent = {!! json_encode(old('konten', '')) !!};
+    if (oldContent) quill.root.innerHTML = oldContent;
+
+    // ─────────────────────────────────────────────────────────────
+    //  IMAGE RESIZER
+    // ─────────────────────────────────────────────────────────────
+    /**
+     * QuillImageResizer
+     *  - Click an image  → shows 8 drag handles + floating size badge
+     *  - Drag any handle → live resize with aspect-ratio lock (hold Shift to unlock)
+     *  - Shows preset buttons (25 / 50 / 75 / 100 %) in the toolbar when active
+     *  - Stores final size as inline style width/height on the <img>
+     */
+    const QuillImageResizer = (() => {
+        const MIN_SIZE = 40; // px
+        let activeImg   = null;
+        let overlay     = null;
+        let startX, startY, startW, startH, handleDir;
+        let editorRect;
+
+        const HANDLES = ['nw','n','ne','e','se','s','sw','w'];
+
+        function init() {
+            quill.root.addEventListener('click', onEditorClick);
+            document.addEventListener('mousedown', onDocMouseDown, true);
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') deselect(); });
+        }
+
+        // ── click inside editor ──────────────────────────────────
+        function onEditorClick(e) {
+            const img = e.target.closest('img');
+            if (img && quill.root.contains(img)) {
+                e.preventDefault();
+                e.stopPropagation();
+                select(img);
+            } else {
+                deselect();
+            }
+        }
+
+        // ── click outside editor ─────────────────────────────────
+        function onDocMouseDown(e) {
+            if (!overlay) return;
+            if (!overlay.contains(e.target) && !quill.root.contains(e.target)) {
+                deselect();
+            }
+        }
+
+        // ── select ───────────────────────────────────────────────
+        function select(img) {
+            if (activeImg === img) return;
+            deselect();
+            activeImg = img;
+
+            // ensure img has explicit dimensions stored so resize is stable
+            if (!img.style.width) img.style.width  = img.offsetWidth  + 'px';
+            if (!img.style.height) img.style.height = img.offsetHeight + 'px';
+
+            buildOverlay(img);
+            showResizeToolbar(true);
+            updateSizeReadout();
+        }
+
+        // ── deselect ─────────────────────────────────────────────
+        function deselect() {
+            if (!activeImg) return;
+            removeOverlay();
+            showResizeToolbar(false);
+            activeImg = null;
+        }
+
+        // ── build overlay ────────────────────────────────────────
+        function buildOverlay(img) {
+            removeOverlay();
+
+            overlay = document.createElement('div');
+            overlay.id = 'qir-overlay';
+            overlay.style.cssText = `
+                position:absolute; pointer-events:none;
+                border:2px solid #3b82f6;
+                border-radius:3px;
+                box-sizing:border-box;
+                z-index:100;
+            `;
+            positionOverlay(img);
+
+            HANDLES.forEach(dir => {
+                const h = document.createElement('div');
+                h.dataset.dir = dir;
+                h.style.cssText = getHandleStyle(dir);
+                h.style.pointerEvents = 'all';
+                h.addEventListener('mousedown', onHandleMouseDown);
+                overlay.appendChild(h);
+            });
+
+            // floating size badge
+            const badge = document.createElement('div');
+            badge.id = 'qir-badge';
+            badge.style.cssText = `
+                position:absolute; bottom:-22px; left:50%; transform:translateX(-50%);
+                background:#3b82f6; color:#fff;
+                font-size:10px; font-weight:600; font-family:'DM Sans',sans-serif;
+                padding:2px 7px; border-radius:99px;
+                white-space:nowrap; pointer-events:none; z-index:101;
+            `;
+            overlay.appendChild(badge);
+            updateBadge();
+
+            // mount inside editor container (positioned parent)
+            const container = quill.root.parentElement;
+            container.style.position = 'relative';
+            container.appendChild(overlay);
+        }
+
+        function positionOverlay(img) {
+            if (!overlay) return;
+            const containerRect = quill.root.parentElement.getBoundingClientRect();
+            const imgRect       = img.getBoundingClientRect();
+            overlay.style.left   = (imgRect.left - containerRect.left) + 'px';
+            overlay.style.top    = (imgRect.top  - containerRect.top)  + 'px';
+            overlay.style.width  = imgRect.width  + 'px';
+            overlay.style.height = imgRect.height + 'px';
+        }
+
+        function removeOverlay() {
+            if (overlay) { overlay.remove(); overlay = null; }
+        }
+
+        function getHandleStyle(dir) {
+            const size = '9px';
+            const half = '-5px';
+            const posMap = {
+                nw: `top:${half};left:${half};cursor:nw-resize`,
+                n:  `top:${half};left:calc(50% - 4px);cursor:n-resize`,
+                ne: `top:${half};right:${half};cursor:ne-resize`,
+                e:  `top:calc(50% - 4px);right:${half};cursor:e-resize`,
+                se: `bottom:${half};right:${half};cursor:se-resize`,
+                s:  `bottom:${half};left:calc(50% - 4px);cursor:s-resize`,
+                sw: `bottom:${half};left:${half};cursor:sw-resize`,
+                w:  `top:calc(50% - 4px);left:${half};cursor:w-resize`,
+            };
+            return `
+                position:absolute; width:${size}; height:${size};
+                background:#fff; border:2px solid #3b82f6; border-radius:2px;
+                box-sizing:border-box; z-index:102;
+                ${posMap[dir]};
+            `;
+        }
+
+        // ── handle drag ──────────────────────────────────────────
+        function onHandleMouseDown(e) {
+            if (!activeImg) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            handleDir = e.currentTarget.dataset.dir;
+            startX    = e.clientX;
+            startY    = e.clientY;
+            startW    = activeImg.offsetWidth;
+            startH    = activeImg.offsetHeight;
+            editorRect = quill.root.getBoundingClientRect();
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup',   onMouseUp);
+            document.body.style.cursor = getCursorForDir(handleDir);
+            document.body.style.userSelect = 'none';
+        }
+
+        function onMouseMove(e) {
+            if (!activeImg || !handleDir) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            const aspectRatio = startH / startW;
+            const lockAspect  = !e.shiftKey; // hold Shift to resize freely
+
+            let newW = startW;
+            let newH = startH;
+
+            const dir = handleDir;
+
+            // width delta
+            if (dir.includes('e'))  newW = startW + dx;
+            if (dir.includes('w'))  newW = startW - dx;
+            // height delta
+            if (dir.includes('s'))  newH = startH + dy;
+            if (dir.includes('n'))  newH = startH - dy;
+
+            // corner: prefer width, recalculate height (or vice-versa)
+            if (lockAspect) {
+                const isDiag = dir.length === 2;
+                if (isDiag) {
+                    // drive by width
+                    newH = newW * aspectRatio;
+                } else if (dir === 'e' || dir === 'w') {
+                    newH = newW * aspectRatio;
+                } else {
+                    newW = newH / aspectRatio;
+                }
+            }
+
+            // clamp
+            newW = Math.max(MIN_SIZE, Math.min(newW, editorRect.width - 4));
+            newH = Math.max(MIN_SIZE, newH);
+
+            activeImg.style.width  = Math.round(newW) + 'px';
+            activeImg.style.height = Math.round(newH) + 'px';
+
+            positionOverlay(activeImg);
+            updateBadge();
+            updateSizeReadout();
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup',   onMouseUp);
+            document.body.style.cursor     = '';
+            document.body.style.userSelect = '';
+            handleDir = null;
+        }
+
+        function getCursorForDir(dir) {
+            const map = { nw:'nw-resize', n:'n-resize', ne:'ne-resize', e:'e-resize',
+                          se:'se-resize', s:'s-resize', sw:'sw-resize', w:'w-resize' };
+            return map[dir] || 'default';
+        }
+
+        // ── badge + readout ──────────────────────────────────────
+        function updateBadge() {
+            if (!overlay || !activeImg) return;
+            const badge = overlay.querySelector('#qir-badge');
+            if (badge) badge.textContent = `${Math.round(activeImg.offsetWidth)} × ${Math.round(activeImg.offsetHeight)} px`;
+        }
+
+        function updateSizeReadout() {
+            if (!activeImg) return;
+            const readout = document.getElementById('img-size-readout');
+            if (readout) readout.textContent = `${Math.round(activeImg.offsetWidth)} × ${Math.round(activeImg.offsetHeight)} px`;
+        }
+
+        // ── toolbar preset ────────────────────────────────────────
+        function applyPreset(pct) {
+            if (!activeImg) return;
+            const maxW   = quill.root.getBoundingClientRect().width - 4;
+            const aspect = activeImg.naturalHeight / activeImg.naturalWidth;
+            const newW   = Math.round(maxW * pct / 100);
+            const newH   = Math.round(newW * aspect);
+            activeImg.style.width  = newW + 'px';
+            activeImg.style.height = newH + 'px';
+            positionOverlay(activeImg);
+            updateBadge();
+            updateSizeReadout();
+        }
+
+        function showResizeToolbar(show) {
+            const tb = document.getElementById('img-resize-toolbar');
+            if (!tb) return;
+            if (show) tb.classList.replace('hidden','flex');
+            else       tb.classList.replace('flex','hidden');
+        }
+
+        function getActiveImg() { return activeImg; }
+
+        return { init, select, deselect, applyPreset, getActiveImg };
+    })();
+
+    // wire toolbar preset buttons
+    function applyImagePreset(pct) { QuillImageResizer.applyPreset(pct); }
+
+    // wire existing deleteSelectedImage
+    function deleteSelectedImage() {
+        const img = QuillImageResizer.getActiveImg();
+        if (img) {
+            QuillImageResizer.deselect();
+            const blot = Quill.find(img);
+            if (blot) {
+                const idx = quill.getIndex(blot);
+                quill.deleteText(idx, 1);
+            } else {
+                img.remove();
+            }
+        } else {
+            alert('Klik gambar terlebih dahulu untuk memilihnya.');
+        }
+    }
+
+    // init resizer after DOM ready
+    QuillImageResizer.init();
+
+    // ─────────────────────────────────────────────────────────────
+    //  FORMAT FUNCTIONS (unchanged from original)
+    // ─────────────────────────────────────────────────────────────
+    function toggleFormat(format) {
+        const range = quill.getSelection(true);
+        if (!range || range.length === 0) {
+            const current = quill.getFormat();
+            quill.format(format, !current[format]);
+        } else {
+            const current = quill.getFormat(range);
+            quill.format(format, !current[format], 'user');
+        }
+        updateToolbarState();
+    }
+
+    function toggleHeader(level) {
+        const range   = quill.getSelection(true);
+        const current = quill.getFormat(range);
+        quill.format('header', current.header === level ? false : level, 'user');
+        updateToolbarState();
+    }
+
+    function toggleList(type) {
+        const range   = quill.getSelection(true);
+        const current = quill.getFormat(range);
+        quill.format('list', current.list === type ? false : type, 'user');
+        updateToolbarState();
+    }
+
+    function toggleAlign(align) {
+        const range = quill.getSelection(true);
+        if (!range) { alert('Klik pada teks atau gambar terlebih dahulu'); return; }
+        const [leaf] = quill.getLeaf(range.index);
+        let targetRange = range;
+        if (leaf?.domNode?.tagName === 'IMG') {
+            const blot  = Quill.find(leaf.domNode);
+            if (blot?.parent) {
+                const parent = blot.parent;
+                targetRange  = { index: quill.getIndex(parent), length: parent.length() };
+            }
+        }
+        const formats      = quill.getFormat(targetRange);
+        const currentAlign = formats.align || '';
+        quill.formatLine(targetRange.index, targetRange.length, 'align',
+            currentAlign === align || align === '' ? false : align, 'user');
+        updateToolbarState();
+    }
+
+    function removeFormat() {
+        const range = quill.getSelection();
+        if (range) { quill.removeFormat(range.index, range.length); updateToolbarState(); }
+        else alert('Pilih teks terlebih dahulu');
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    //  LINK MODAL
+    // ─────────────────────────────────────────────────────────────
+    let linkModal = null;
+    function createLinkModal(initialText, callback) {
+        if (linkModal) linkModal.remove();
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-zinc-800 rounded-xl shadow-xl w-full max-w-md p-6 border border-zinc-200 dark:border-zinc-700">
+                <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-4">Tambah Link</h3>
+                <div class="space-y-4">
+                    <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Teks Link</label>
+                        <input type="text" id="link-text-input" value="${initialText}" placeholder="Masukkan teks link" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                    <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">URL</label>
+                        <input type="text" id="link-url-input" placeholder="https://example.com" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button id="link-cancel-btn" class="px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">Batal</button>
+                    <button id="link-ok-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Oke</button>
+                </div>
+            </div>`;
+        document.body.appendChild(modal);
+        linkModal = modal;
+        const textInput = modal.querySelector('#link-text-input');
+        const urlInput  = modal.querySelector('#link-url-input');
+        const close  = () => { modal.remove(); linkModal = null; };
+        const submit = () => {
+            const text = textInput.value.trim();
+            let url = urlInput.value.trim();
+            if (!text || !url) return alert('Teks dan URL harus diisi');
+            if (!url.startsWith('http')) url = 'https://' + url;
+            close();
+            callback(text, url);
+        };
+        modal.querySelector('#link-ok-btn').addEventListener('click', submit);
+        modal.querySelector('#link-cancel-btn').addEventListener('click', close);
+        [textInput, urlInput].forEach(i => i.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); submit(); } }));
+        modal.addEventListener('click', e => { if (e.target === modal) close(); });
+        textInput.focus();
+    }
+
+    function addQuillLink() {
+        const range = quill.getSelection(true);
+        const selectedText = quill.getText(range.index, range.length).trim();
+        createLinkModal(selectedText, (text, url) => {
+            if (selectedText) quill.deleteText(range.index, range.length);
+            const idx = range.index;
+            quill.insertText(idx, text, 'user');
+            quill.setSelection(idx, text.length);
+            quill.format('link', url);
+            quill.setSelection(idx + text.length, 0);
+            updateToolbarState();
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    //  IMAGE URL MODAL
+    // ─────────────────────────────────────────────────────────────
+    let imageModal = null;
+    function createImageModal(callback) {
+        if (imageModal) imageModal.remove();
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-zinc-800 rounded-xl shadow-xl w-full max-w-md p-6 border border-zinc-200 dark:border-zinc-700">
+                <h3 class="text-lg font-semibold text-zinc-800 dark:text-white mb-4">Tambah Gambar dari URL</h3>
+                <div class="space-y-4">
+                    <div><label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">URL Gambar</label>
+                        <input type="text" id="image-url-input" placeholder="https://example.com/gambar.jpg" class="w-full px-3 py-2 text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-900"></div>
+                    <div id="image-preview-container" class="hidden border rounded-lg p-2 bg-zinc-100 dark:bg-zinc-900">
+                        <p class="text-xs text-zinc-500 mb-2">Pratinjau:</p>
+                        <img id="image-preview" src="#" alt="Preview" class="max-w-full max-h-48 object-contain mx-auto" />
+                    </div>
+                    <p id="image-error" class="text-xs text-red-500 hidden"></p>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button id="image-cancel-btn" class="px-4 py-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg">Batal</button>
+                    <button id="image-insert-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Sisipkan</button>
+                </div>
+            </div>`;
+        document.body.appendChild(modal);
+        imageModal = modal;
+        const urlInput         = modal.querySelector('#image-url-input');
+        const previewContainer = modal.querySelector('#image-preview-container');
+        const previewImg       = modal.querySelector('#image-preview');
+        const errorMsg         = modal.querySelector('#image-error');
+        const close  = () => { modal.remove(); imageModal = null; };
+        const insert = () => { const url = urlInput.value.trim(); if (!url) return alert('URL tidak boleh kosong'); close(); callback(url); };
+        modal.querySelector('#image-insert-btn').addEventListener('click', insert);
+        modal.querySelector('#image-cancel-btn').addEventListener('click', close);
+        urlInput.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); insert(); } });
+        modal.addEventListener('click', e => { if (e.target === modal) close(); });
+        urlInput.addEventListener('input', () => {
+            const url = urlInput.value.trim();
+            if (!url) return previewContainer.classList.add('hidden');
+            const img = new Image();
+            img.onload = () => { previewImg.src = url; previewContainer.classList.remove('hidden'); errorMsg.classList.add('hidden'); };
+            img.onerror = () => { errorMsg.textContent = 'URL tidak valid'; errorMsg.classList.remove('hidden'); previewContainer.classList.add('hidden'); };
+            img.src = url;
+        });
+        urlInput.focus();
+    }
+
+    function addQuillImage() {
+        createImageModal(url => {
+            const range = quill.getSelection(true);
+            quill.insertEmbed(range.index, 'image', url);
+            quill.setSelection(range.index + 1, 0);
+        });
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    //  UPLOAD GAMBAR
+    // ─────────────────────────────────────────────────────────────
+    async function uploadQuillImage() {
+        const input = document.createElement('input');
+        input.type   = 'file';
+        input.accept = 'image/jpeg,image/png,image/webp';
+        input.click();
+        input.onchange = async () => {
+            const file = input.files[0];
+            if (!file) return;
+            if (file.size > 5 * 1024 * 1024) { alert('Ukuran gambar maksimal 5MB'); return; }
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+                const res  = await fetch('{{ route("admin.artikel.upload-image") }}', {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: formData
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    if (res.status === 422 && data.errors) alert(Object.values(data.errors)[0][0]);
+                    else alert(data.message || 'Upload gagal');
+                    return;
+                }
+                const range = quill.getSelection(true);
+                quill.insertEmbed(range.index, 'image', data.url);
+                quill.setSelection(range.index + 1, 0);
+            } catch (e) {
+                alert('Terjadi kesalahan jaringan');
+                console.error(e);
+            }
+        };
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    //  FORM SYNC
+    // ─────────────────────────────────────────────────────────────
+    document.getElementById('artikel-form')
+        .addEventListener('submit', () => {
+            document.getElementById('content-field').value = quill.root.innerHTML;
+        });
+
+    // ─────────────────────────────────────────────────────────────
+    //  TOOLBAR STATE
+    // ─────────────────────────────────────────────────────────────
+    function updateToolbarState() {
+        const range = quill.getSelection();
+        if (!range) return;
+        let format = quill.getFormat(range);
+        const [leaf] = quill.getLeaf(range.index);
+        if (leaf?.domNode?.tagName === 'IMG') {
+            const blot = Quill.find(leaf.domNode);
+            if (blot?.parent) format = quill.getFormat({ index: quill.getIndex(blot.parent), length: 1 });
+        }
+        document.querySelectorAll('[onclick*="toggleFormat"]').forEach(btn => {
+            const m = btn.getAttribute('onclick').match(/'([^']+)'/);
+            if (m) btn.classList.toggle('active', !!format[m[1]]);
+        });
+        document.querySelectorAll('[onclick*="toggleHeader"]').forEach(btn => {
+            const m = btn.getAttribute('onclick').match(/\(([^)]+)\)/);
+            if (m) {
+                let v = m[1];
+                if (v === 'false') v = false; else if (!isNaN(v)) v = parseInt(v);
+                btn.classList.toggle('active', v === false ? !format.header : format.header === v);
+            }
+        });
+        document.querySelectorAll('[onclick*="toggleList"]').forEach(btn => {
+            const m = btn.getAttribute('onclick').match(/'([^']+)'/);
+            if (m) btn.classList.toggle('active', format.list === m[1]);
+        });
+        const align = format.align || '';
+        document.querySelectorAll('[onclick*="toggleAlign"]').forEach(btn => {
+            const m = btn.getAttribute('onclick').match(/'([^']*)'/);
+            if (m) btn.classList.toggle('active', align === m[1]);
+        });
+    }
+
+    quill.on('editor-change', updateToolbarState);
+    quill.on('selection-change', updateToolbarState);
+
+    // ─────────────────────────────────────────────────────────────
+    //  THUMBNAIL PREVIEW
+    // ─────────────────────────────────────────────────────────────
+    function handleFotoChange(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const preview     = document.getElementById('foto-preview');
+        const placeholder = document.getElementById('foto-placeholder');
+        const filename    = document.getElementById('foto-filename');
+        const reader = new FileReader();
+        reader.onload = e => {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            filename.textContent = file.name;
+            filename.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    const dropzone = document.getElementById('foto-dropzone');
+    ['dragenter','dragover','dragleave','drop'].forEach(ev =>
+        dropzone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); }));
+    dropzone.addEventListener('dragover',  () => dropzone.classList.add('border-primary','bg-primary/10'));
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-primary','bg-primary/10'));
+    dropzone.addEventListener('drop', e => {
+        dropzone.classList.remove('border-primary','bg-primary/10');
+        const file = e.dataTransfer.files[0];
+        if (file?.type.startsWith('image/')) {
+            document.getElementById('foto-input').files = e.dataTransfer.files;
+            handleFotoChange(document.getElementById('foto-input'));
+        }
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    //  SUBMIT BUTTON DYNAMIC
+    // ─────────────────────────────────────────────────────────────
+    const statusSelect = document.getElementById('status-select');
+    const submitBtn    = document.getElementById('submit-action-btn');
+    const submitText   = document.getElementById('submit-action-text');
+
+    function updateSubmitButton() {
+        const isDraft = statusSelect.value === 'draft';
+        submitBtn.value = isDraft ? 'draft' : 'published';
+        submitText.textContent = isDraft ? 'Simpan Draft' : 'Publikasikan';
+        submitBtn.className = 'inline-flex items-center gap-1 px-4 py-2 text-sm font-medium rounded-lg transition-all';
+        if (isDraft) {
+            submitBtn.classList.add('border','border-primary/30','dark:border-primary/40','text-primary','hover:bg-primary/5');
+        } else {
+            submitBtn.classList.add('bg-primary','text-white','shadow-sm','hover:bg-primary-600','dark:bg-primary','dark:hover:bg-primary-700');
+        }
+    }
+
+    statusSelect.addEventListener('change', updateSubmitButton);
+    updateSubmitButton();
+    </script>
+
+    <style>
+    .toolbar-btn {
+        display:inline-flex; align-items:center; justify-content:center;
+        min-width:1.75rem; height:1.75rem; border-radius:0.25rem;
+        color:#52525b; transition:all 0.15s; cursor:pointer;
+    }
+    .toolbar-btn > * { pointer-events:none !important; }
+    .dark .toolbar-btn { color:#a1a1aa; }
+    .toolbar-btn:hover { background-color:#f4f4f5; color:#0d7ff2; }
+    .dark .toolbar-btn:hover { background-color:#3f3f46; color:#60a5fa; }
+    .toolbar-btn.active { background-color:#0d7ff2 !important; color:white !important; }
+    .dark .toolbar-btn.active { background-color:#2563eb !important; color:white !important; }
+
+    /* Quill overrides */
+    .ql-container.ql-snow { border:none !important; font-size:0.875rem; line-height:1.5; }
+    .ql-editor { padding:1rem; font-family:inherit; }
+    .ql-editor:focus { outline:none; }
+    .ql-editor p { margin:0.4rem 0; }
+    .ql-editor h2 { font-size:1.25rem; font-weight:700; margin:1rem 0 0.4rem; }
+    .ql-editor h3 { font-size:1.05rem; font-weight:600; margin:0.75rem 0 0.3rem; }
+    .ql-editor ul, .ql-editor ol { padding-left:1.5rem; margin:0.4rem 0; }
+    .ql-editor ul { list-style:disc; }
+    .ql-editor ol { list-style:decimal; }
+    .ql-editor a { color:#0d7ff2; text-decoration:underline; cursor:pointer; }
+    .ql-editor a:hover { color:#2563eb !important; text-decoration:none !important; }
+
+    /* Image — make them clearly interactable */
+    .ql-editor img {
+        max-width:100%; border-radius:0.375rem; margin:0.5rem 0;
+        cursor:pointer; display:block;
+        transition:outline .1s ease;
+    }
+    .ql-editor img:hover { outline:2px dashed #93c5fd; outline-offset:2px; }
+
+    /* Alignment */
+    .ql-editor p img { margin-left:0; margin-right:auto; }
+    .ql-editor .ql-align-center img { margin-left:auto; margin-right:auto; }
+    .ql-editor .ql-align-right  img { margin-left:auto; margin-right:0; }
+    .ql-editor .ql-align-left   img { margin-left:0; margin-right:auto; }
+    .ql-editor .ql-align-center { text-align:center; }
+    .ql-editor .ql-align-right  { text-align:right; }
+    .ql-editor .ql-align-left   { text-align:left; }
+
+    /* Blockquote */
+    .ql-editor blockquote {
+        border-left:3px solid #0d7ff2; padding:0.4rem 0.75rem;
+        color:#64748b; font-style:italic; margin:0.5rem 0;
+    }
+
+    /* Resize overlay z-context */
+    #quill-editor { position:relative; }
+
+    /* Help tooltip on hover */
+    #img-resize-toolbar [title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #111;
+        color: #fff;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    </style>
+    @endcan
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
 </x-layouts::app>

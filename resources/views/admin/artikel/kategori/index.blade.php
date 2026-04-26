@@ -3,6 +3,7 @@
         {{ __('Manajemen Kategori Artikel') }}
     </x-slot:header>
 
+    @can('kategori.view')
     <div class="p-4 md:p-6 lg:p-8">
         {{-- Header Section --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -11,12 +12,14 @@
                 <p class="text-zinc-500 dark:text-zinc-400 mt-2">Kelola kategori untuk mengorganisir konten artikel rumah sakit Anda.</p>
             </div>
             <div>
+                @can('kategori.create')
                 <a href="{{ route('admin.artikel.kategori.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah Kategori
                     </flux:button>
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -51,11 +54,15 @@
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">{{ $kat->slug }}</td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
+                                    @can('kategori.update')
                                     <a href="{{ route('admin.artikel.kategori.edit', $kat->id) }}" title="Edit">
                                         <flux:button size="sm" variant="ghost" class="cursor-pointer group">
                                             <flux:icon name="pencil" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </a>
+                                    @endcan
+
+                                    @can('kategori.delete')
                                     <form action="{{ route('admin.artikel.kategori.destroy', $kat->id) }}" method="POST" class="inline-block delete-form">
                                         @csrf
                                         @method('DELETE')
@@ -63,6 +70,7 @@
                                             <flux:icon name="trash" class="size-4 group-hover:scale-110 transition-transform" />
                                         </flux:button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -91,6 +99,7 @@
         </flux:card>
     </div>
 
+    @can('kategori.delete')
     <script>
         document.querySelectorAll('.delete-form').forEach(form => {
             form.addEventListener('submit', function(e) {
@@ -100,4 +109,7 @@
             });
         });
     </script>
+    @endcan
+    
+    @endcan
 </x-layouts::app>

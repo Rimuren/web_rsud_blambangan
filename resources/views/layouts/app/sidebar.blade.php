@@ -24,7 +24,7 @@
         <flux:sidebar.nav>
 
             {{-- Dashboard --}}
-            @can('admin-access')
+            @can('admin.access')
             <flux:sidebar.item
                 icon="home"
                 :href="route('admin.dashboard')"
@@ -32,7 +32,9 @@
                 wire:navigate>
                 {{ __('Dashboard') }}
             </flux:sidebar.item>
+            @endcan
 
+            @can('jam_operasional.view')
             <flux:sidebar.item
                 icon="clock"
                 :href="route('admin.jam-operasional.index')"
@@ -42,10 +44,20 @@
             </flux:sidebar.item>
             @endcan
 
+            @can('iklan.view')
+            <flux:sidebar.item
+                icon="megaphone"
+                :href="route('admin.iklan.index')"
+                :current="request()->routeIs('admin.iklan.*')"
+                wire:navigate>
+                Manajemen Iklan
+            </flux:sidebar.item>
+            @endcan
+
             {{-- Manajemen Artikel --}}
-            @can('manage artikel')
+            @canany(['artikel.view', 'kategori.view'])
             <flux:sidebar.group expandable icon="document-text" heading="Manajemen Artikel" class="grid">
-                @can('view daftar-artikel')
+                @can('artikel.view')
                 <flux:sidebar.item
                     :href="route('admin.artikel.index')"
                     :current="request()->routeIs('admin.artikel.index')"
@@ -54,7 +66,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view daftar-kategori')
+                @can('kategori.view')
                 <flux:sidebar.item
                     :href="route('admin.artikel.kategori.index')"
                     :current="request()->routeIs('admin.artikel.kategori.*')"
@@ -63,12 +75,12 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Akun --}}
-            @can('manage akun')
+            @canany(['akun.view', 'role.view'])
             <flux:sidebar.group expandable icon="user" heading="Manajemen Akun" class="grid">
-                @can('view daftar-akun')
+                @can('akun.view')
                 <flux:sidebar.item
                     :href="route('admin.akun.index')"
                     :current="request()->routeIs('admin.akun.index')"
@@ -77,7 +89,7 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view daftar-role')
+                @can('role.view')
                 <flux:sidebar.item
                     :href="route('admin.akun.role.index')"
                     :current="request()->routeIs('admin.akun.role.index')"
@@ -86,35 +98,35 @@
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Dokumentasi --}}
-@can('manage dokumentasi')
-<flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
-    @can('view daftar-foto')
-    <flux:sidebar.item
-        :href="route('admin.dokumentasi.foto.index')"
-        :current="request()->routeIs('admin.dokumentasi.foto.index')"
-        wire:navigate>
-        Foto
-    </flux:sidebar.item>
-    @endcan
+            @canany(['foto.view', 'video.view'])
+            <flux:sidebar.group expandable icon="photo" heading="Manajemen Dokumentasi">
+                @can('foto.view')
+                <flux:sidebar.item
+                    :href="route('admin.dokumentasi.foto.index')"
+                    :current="request()->routeIs('admin.dokumentasi.foto.index')"
+                    wire:navigate>
+                    Foto
+                </flux:sidebar.item>
+                @endcan
 
-    @can('view daftar-video')
-    <flux:sidebar.item
-        :href="route('admin.dokumentasi.video.index')"
-        :current="request()->routeIs('admin.dokumentasi.video.index')"
-        wire:navigate>
-        Video
-    </flux:sidebar.item>
-    @endcan
-</flux:sidebar.group>
-@endcan
+                @can('video.view')
+                <flux:sidebar.item
+                    :href="route('admin.dokumentasi.video.index')"
+                    :current="request()->routeIs('admin.dokumentasi.video.index')"
+                    wire:navigate>
+                    Video
+                </flux:sidebar.item>
+                @endcan
+            </flux:sidebar.group>
+            @endcanany
 
             {{-- Manajemen Dokter --}}
-            @can('manage dokter')
+            @canany(['dokter.view', 'poliklinik.view'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
-                @can('view daftar-dokter')
+                @can('dokter.view')
                 <flux:sidebar.item
                     :href="route('admin.dokter.index')"
                     :current="request()->routeIs('admin.dokter.index')"
@@ -123,33 +135,33 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view daftar-spesialis')
+                @can('poliklinik.view')
                 <flux:sidebar.item
-                    :href="route('admin.dokter.spesialis.index')"
-                    :current="request()->routeIs('admin.dokter.spesialis.index')"
+                    :href="route('admin.dokter.poliklinik.index')"
+                    :current="request()->routeIs('admin.dokter.poliklinik.*')"
                     wire:navigate>
-                    Daftar Spesialis
+                    Daftar Poliklinik
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
 
             {{-- Manajemen Ruangan --}}
-            @can('manage ruangan')
+            @canany(['bangsal.view', 'kelas.view'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
-                @can('view daftar-bangsal')
+                @can('bangsal.view')
                 <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.bangsal.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.bangsal.index')" wire:navigate>
                     Daftar Bangsal
                 </flux:sidebar.item>
                 @endcan
 
-                @can('view daftar-kelas')
+                @can('kelas.view')
                 <flux:sidebar.item wire:navigate>
                     Daftar Kelas
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>
-            @endcan
+            @endcanany
         </flux:sidebar.nav>
 
         <flux:spacer />

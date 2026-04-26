@@ -1,6 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
+    
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -10,6 +11,29 @@
                     Kelola semua konten artikel kesehatan dan berita rumah sakit Anda.
                 </p>
             </div>
+<<<<<<< HEAD
+=======
+
+            <div class="flex gap-3">
+               
+                <button type="button" id="delete-selected-btn"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                    <flux:icon name="trash" class="size-4" />
+                    Hapus Terpilih (<span id="selected-count">0</span>)
+                </button>
+             
+
+                
+                <a href="{{ route('admin.artikel.create') }}">
+                    <flux:button variant="primary" class="cursor-pointer">
+                        <flux:icon name="plus" class="size-5 mr-2" />
+                        Tambah Artikel Baru
+                    </flux:button>
+                </a>
+                
+            </div>
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
         </div>
 
         {{-- STATISTIK INFORMATIF --}}
@@ -115,10 +139,12 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
+        
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
+       
 
         <div class="flex justify-end mb-5">
             <div class="inline-flex rounded-lg shadow-sm" role="group">
@@ -238,13 +264,22 @@
                             <td class="px-3 py-3 text-sm text-zinc-500 whitespace-nowrap">
                                 {{ $artikel->created_at->translatedFormat('d M Y') }}
                             </td>
+<<<<<<< HEAD
                             <td class="px-6 py-6">
                                 <div class="flex justify-center items-center gap-3">
+=======
+                            <td class="px-3 py-3">
+                                <div class="flex justify-center items-center gap-1">
+                                    
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
                                         </flux:button>
                                     </a>
+                                    
+
+                                  
                                     <form action="{{ route('admin.artikel.destroy', $artikel->id) }}"
                                         method="POST"
                                         class="delete-single-form inline-flex">
@@ -257,6 +292,7 @@
                                             <flux:icon name="trash" class="size-4" />
                                         </flux:button>
                                     </form>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -337,4 +373,5 @@
             updateDeleteButton();
         });
     </script>
+    
 </x-layouts::app>

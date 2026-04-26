@@ -9,6 +9,8 @@ class Video extends Model
 {
     use HasFactory;
 
+    protected $table = 'video';
+
     protected $fillable = [
         'judul',
         'link',
@@ -18,9 +20,16 @@ class Video extends Model
         'kategori',
     ];
 
-    // Helper untuk mendapatkan embed URL
-    public function getEmbedUrlAttribute()
+    // Embed URL (untuk iframe)
+    public function getEmbedUrlAttribute(): string
     {
-        return 'https://www.youtube.com/embed/' . $this->youtube_id;
+        return "https://www.youtube.com/embed/{$this->youtube_id}";
+    }
+
+    // Thumbnail URL (fallback aman)
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->thumbnail
+            ?: "https://img.youtube.com/vi/{$this->youtube_id}/hqdefault.jpg";
     }
 }
