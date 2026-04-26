@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\jam_operasional;
+use App\Models\dokter_model;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -22,6 +24,17 @@ class DashboardController extends Controller implements HasMiddleware
      */
     public function index()
     {
+        $spesialisList = dokter_model::select('spesialis')
+            ->distinct()
+            ->whereNotNull('spesialis')
+            ->pluck('spesialis')
+            ->toArray();
+
+        $jam_operasionals = jam_operasional::query()
+            ->orderBy('hari')
+            ->get();
+
+        return view('guest.home.index', compact('spesialisList', 'jam_operasionals'));
         return view('admin.dashboard');
     }
 

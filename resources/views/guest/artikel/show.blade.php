@@ -13,6 +13,8 @@
         max-width: 100%;
         word-break: break-word;
         overflow-wrap: break-word;
+        font-size: 0.9rem;  
+        line-height: 1.5;   
     }
     .prose * {
         max-width: 100%;
@@ -27,28 +29,86 @@
         word-wrap: break-word;
     }
     .prose h1, .prose h2, .prose h3, .prose h4 {
-        color: #1e3a8a;
+        color: #000000b9;
         font-weight: 700;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
+        margin-top: 1.2em;
+        margin-bottom: 0.4em;
     }
+    /* Paragraf */
     .prose p {
-        margin-bottom: 1.25em;
-        line-height: 1.75;
+        font-size: 0.9rem;
+        margin: 0 0 0 0 !important;
+        line-height: 1.5;
+        opacity: 1;
     }
+    /* List styling */
     .prose ul, .prose ol {
-        margin-left: 1.5em;
-        margin-bottom: 1.25em;
+        list-style: none !important;
+        padding-left: 0 !important;
+        margin-left: 1.2em;
+        margin-bottom: 0.5em;
+        margin-top: 0;
     }
     .prose li {
-        margin-bottom: 0.25em;
+        position: relative;
+        padding-left: 1.5em;
+        margin-bottom: 0.15em;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        opacity: 1; 
+    }
+    /* Indentasi untuk baris penjelasan dalam list */
+    .prose li br + span,
+    .prose li .ql-indent-1,
+    .prose li[style*="padding-left"] {
+        display: inline-block;
+        padding-left: 30px !important;
+    }
+    
+    .prose li,
+    .prose p {
+        white-space: pre-wrap;
+    }
+    
+    /* Tambahan untuk meniru indentasi tab */
+    .prose .indented-line,
+    .prose .ql-indented-line {
+        padding-left: 30px !important;
+        display: block !important;
+    }
+    
+    /* Style khusus untuk baris penjelasan */
+    .prose li:has(+ li) > br + span,
+    .prose li > br + span {
+        padding-left: 30px;
+        display: inline-block;
+    }
+    /* Counter untuk ordered list */
+    .prose ol {
+        counter-reset: list-item !important;
+    }
+    .prose ol li {
+        counter-increment: list-item !important;
+    }
+    .prose ol li::before {
+        content: counter(list-item) ". " !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    /* Untuk bullet list */
+    .prose ul li::before {
+        content: "• " !important;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
     .prose blockquote {
         border-left: 4px solid #f97316;
-        padding-left: 1.5em;
+        padding-left: 1.2em;
         font-style: italic;
         color: #4b5563;
-        margin: 1.5em 0;
+        margin: 1em 0;
     }
     .prose a {
         color: #2563eb;
@@ -70,90 +130,99 @@
         max-width: 100%; 
     }
 
-    /* ALIGNMENT GAMBAR & TEKS */
     .prose img {
-        max-width: 100%;
-        height: auto;
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: 70vh !important;
+        object-fit: contain !important;
         border-radius: 0.75rem;
-        margin: 1.5em 0;
+        margin: 1em auto;
         display: block;
     }
-
-    /* Alignment teks */
-    .prose .ql-align-center {
-        text-align: center;
+    .prose img[style*="width:100%"],
+    .prose img[width="100%"] {
+        width: auto !important;
+        max-width: 100% !important;
     }
-    .prose .ql-align-right {
-        text-align: right;
-    }
-    .prose .ql-align-left {
-        text-align: left;
-    }
-
-    /* Gambar dalam paragraf default rata kiri */
-    .prose p img {
-        margin-left: 0;
-        margin-right: auto;
-    }
-
-    /* Gambar di dalam elemen dengan alignment */
-    .prose .ql-align-center img {
-        margin-left: auto;
-        margin-right: auto;
-    }
+    .prose .ql-align-center img,
+    .prose .ql-align-left img,
     .prose .ql-align-right img {
-        margin-left: auto;
-        margin-right: 0;
+        width: auto !important;
+        max-width: 100% !important;
     }
-    .prose .ql-align-left img {
-        margin-left: 0;
-        margin-right: auto;
+    
+    /* Thumbnail artikel */
+    .article-thumbnail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f3f4f6;
+        padding: 0;
+        width: 100%;
+        margin: 0;
+        line-height: 0;
     }
-    .prose figure img,
-    .prose div[class*="ql-align"] img {
+    .article-thumbnail img {
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: 70vh !important;
+        object-fit: contain !important;
+        border-radius: 0.75rem;
         display: block;
+        margin: 0 auto;
     }
-    .prose figure.ql-align-center img,
-    .prose div.ql-align-center img {
-        margin-left: auto;
-        margin-right: auto;
+    
+    /* Pastikan semua parent tidak memotong */
+    .prose, .prose figure, .prose div, .prose p, .prose span {
+        overflow: visible !important;
+        max-height: none !important;
     }
-    .prose figure.ql-align-right img,
-    .prose div.ql-align-right img {
-        margin-left: auto;
-        margin-right: 0;
+    
+    /* Ukuran heading */
+    .prose h1 { font-size: 1.6rem; }
+    .prose h2 { font-size: 1.4rem; }
+    .prose h3 { font-size: 1.2rem; }
+    .prose h4 { font-size: 1.1rem; }
+    
+    /* Responsif */
+    @media (max-width: 768px) {
+        .prose img,
+        .article-thumbnail img {
+            max-height: 60vh !important;
+        }
+    }
+    @media (min-width: 1024px) {
+        .prose img,
+        .article-thumbnail img {
+            max-height: 80vh !important;
+        }
     }
 
-    /* Ukuran teks untuk desktop */
-    .prose {
-        font-size: 1.125rem; /* 18px seperti prose-lg */
-        line-height: 1.75;
-    }
-    .prose h1 { font-size: 2.25rem; }
-    .prose h2 { font-size: 1.875rem; }
-    .prose h3 { font-size: 1.5rem; }
-    .prose h4 { font-size: 1.25rem; }
-
-    /* Ukuran teks untuk mobile (max-width 767px) */
+    /* Responsif mobile */
     @media (max-width: 767px) {
         .prose {
-            font-size: 0.875rem; /* 14px */
-            line-height: 1.6;
+            font-size: 0.8rem;
+            line-height: 1.45;
         }
-        .prose p {
-            margin-bottom: 0.75rem;
+        .prose p, .prose li {
+            font-size: 0.8rem;
         }
-        .prose h1 { font-size: 1.5rem; }
-        .prose h2 { font-size: 1.3rem; }
-        .prose h3 { font-size: 1.1rem; }
+        .prose h1 { font-size: 1.4rem; }
+        .prose h2 { font-size: 1.2rem; }
+        .prose h3 { font-size: 1.05rem; }
         .prose h4 { font-size: 1rem; }
         .prose ul, .prose ol {
-            margin-left: 1rem;
-            margin-bottom: 0.75rem;
+            margin-left: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .prose li {
+            margin-bottom: 0.1em;
         }
         .prose blockquote {
-            padding-left: 1rem;
-            margin: 0.75rem 0;
+            padding-left: 0.8rem;
+            margin: 0.8rem 0;
         }
     }
 </style>
@@ -188,17 +257,13 @@
             {{-- Kolom Kiri: Artikel Utama --}}
             <div class="lg:col-span-2">
                 <article class="bg-white rounded-2xl shadow-sm overflow-hidden mb-8">
-                    {{-- Thumbnail --}}
-                    @if($article->thumbnail)
-                        <div class="w-full h-48 md:h-64 lg:h-[420px] overflow-hidden bg-gray-100">
-                            <img src="{{ asset('storage/' . $article->thumbnail) }}" 
-                                 alt="{{ $article->judul }}" 
-                                 class="w-full h-full object-cover">
-                        </div>
-                    @endif
+                @if($article->thumbnail)
+                    <div class="article-thumbnail">
+                        <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->judul }}">
+                    </div>
+                @endif
 
                     <div class="p-4 md:p-8">
-                        {{-- Meta Informasi --}}
                         <div class="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-500 mb-4 pb-4 border-b border-gray-100">
                             <div class="flex items-center gap-1.5">
                                 <i class="fa-regular fa-calendar text-blue-500"></i>
@@ -218,18 +283,15 @@
                             </div>
                         </div>
 
-                        {{-- Judul --}}
                         <h1 class="text-xl md:text-4xl font-extrabold text-blue-900 leading-tight mb-6">
                             {{ $article->judul }}
                         </h1>
 
-                        {{-- Konten Artikel --}}
                         <div class="prose max-w-none text-gray-700">
                             {!! $article->konten !!}
                         </div>
 
-                        {{-- Share Section --}}
-                        <div class="border-t border-gray-200 mt-10 pt-6 md:pt-8 flex flex-wrap items-center justify-between gap-4">
+                        <div class="border-t border-gray-200 mt-8 pt-6 flex flex-wrap items-center justify-between gap-4">
                             <div class="flex items-center gap-4">
                                 <span class="text-sm font-medium text-gray-600">Bagikan:</span>
                                 <div class="flex items-center gap-2">
@@ -259,33 +321,32 @@
                     </div>
                 </article>
 
-                {{-- Artikel Terkait --}}
                 @if($relatedArticles->count())
                 <section class="mb-8">
-                    <h2 class="text-xl md:text-2xl font-bold text-blue-900 mb-4 md:mb-5 flex items-center">
-                        <i class="fa-regular fa-newspaper text-orange-500 mr-2 md:mr-3"></i>
+                    <h2 class="text-xl md:text-2xl font-bold text-blue-900 mb-4 flex items-center">
+                        <i class="fa-regular fa-newspaper text-orange-500 mr-2"></i>
                         Artikel Terkait
                     </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         @foreach($relatedArticles as $related)
                         <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col h-full">
                             @if($related->thumbnail)
                                 <img src="{{ asset('storage/' . $related->thumbnail) }}" 
                                      alt="{{ $related->judul }}" 
-                                     class="w-full h-32 md:h-40 object-cover">
+                                     class="w-full h-100 md:h-40 object-cover">
                             @else
-                                <div class="w-full h-32 md:h-40 bg-gray-100 flex items-center justify-center text-gray-400">
-                                    <i class="fa-regular fa-image text-2xl md:text-3xl"></i>
+                                <div class="w-full h-100 md:h-40 bg-gray-100 flex items-center justify-center text-gray-400">
+                                    <i class="fa-regular fa-image text-2xl"></i>
                                 </div>
                             @endif
-                            <div class="p-3 md:p-4 flex flex-col flex-grow">
+                            <div class="p-3 flex flex-col flex-grow">
                                 <span class="text-xs text-blue-600 font-medium mb-1">{{ $related->kategori->nama ?? '' }}</span>
-                                <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm md:text-base">{{ $related->judul }}</h3>
+                                <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm">{{ $related->judul }}</h3>
                                 <p class="text-xs text-gray-500 mb-3">
                                     <i class="fa-regular fa-calendar mr-1"></i>{{ $related->published_at->format('d M Y') }}
                                 </p>
                                 <a href="{{ route('guest.artikel.detail', $related->slug) }}" 
-                                   class="text-blue-600 text-xs md:text-sm font-medium hover:text-blue-800 mt-auto flex items-center gap-1">
+                                   class="text-blue-600 text-xs font-medium hover:text-blue-800 mt-auto flex items-center gap-1">
                                     Baca <i class="fa-solid fa-arrow-right text-xs"></i>
                                 </a>
                             </div>
@@ -296,106 +357,78 @@
                 @endif
             </div>
 
-            {{-- Kolom Kanan: Sidebar --}}
-            <div class="lg:col-span-1 space-y-6 md:space-y-8">
-                {{-- Artikel Terbaru --}}
-                <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-bold text-blue-900 mb-3 md:mb-4 flex items-center">
+            {{-- Sidebar --}}
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm p-4">
+                    <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
                         <i class="fa-regular fa-clock text-orange-500 mr-2"></i>
                         Artikel Terbaru
                     </h3>
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         @if($latestArticles->count())
                             @foreach($latestArticles as $item)
                             <div class="flex gap-3 items-start">
-                                {{-- Thumbnail responsif --}}
                                 @if($item->thumbnail)
                                     <img src="{{ asset('storage/' . $item->thumbnail) }}" 
                                          alt="{{ $item->judul }}" 
-                                         class="w-16 h-16 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg object-cover flex-shrink-0">
+                                         class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
                                 @else
-                                    <div class="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
-                                        <i class="fa-regular fa-image text-sm md:text-base"></i>
+                                    <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
+                                        <i class="fa-regular fa-image text-sm"></i>
                                     </div>
                                 @endif
-
-                                {{-- Konten teks --}}
                                 <div class="flex-1 min-w-0">
                                     <a href="{{ route('guest.artikel.detail', $item->slug) }}" 
-                                       class="font-medium text-gray-800 hover:text-blue-600 transition line-clamp-2 text-xs md:text-sm block mb-1">
+                                       class="font-medium text-gray-800 hover:text-blue-600 transition line-clamp-2 text-xs block mb-1">
                                         {{ $item->judul }}
                                     </a>
-                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-1 md:mb-2 hidden md:block">
-                                    {{ Str::limit(strip_tags($item->konten), 25) }}
-                                </p>
-                                    <div class="flex flex-wrap items-center gap-x-2 md:gap-x-3 gap-y-1 text-xs text-gray-400">
-                                        <span class="inline-flex items-center gap-1">
-                                            <i class="fa-regular fa-eye text-blue-400 text-[10px] md:text-[11px]"></i>
-                                            {{ number_format($item->views) }} views
-                                        </span>
-                                        <span class="inline-flex items-center gap-1">
-                                            <i class="fa-regular fa-calendar text-blue-400 text-[10px] md:text-[11px]"></i>
-                                            {{ $item->published_at->format('d M Y') }}
-                                        </span>
+                                    <div class="flex flex-wrap items-center gap-x-2 text-xs text-gray-400">
+                                        <span><i class="fa-regular fa-eye text-blue-400"></i> {{ number_format($item->views) }}</span>
+                                        <span><i class="fa-regular fa-calendar text-blue-400"></i> {{ $item->published_at->format('d M Y') }}</span>
                                     </div>
                                 </div>
                             </div>
-                            @if(!$loop->last)
-                                <hr class="my-2 md:my-3 border-gray-100">
-                            @endif
+                            @if(!$loop->last) <hr class="my-1 border-gray-100"> @endif
                             @endforeach
                         @else
                             <p class="text-gray-500 text-sm">Belum ada artikel terbaru.</p>
                         @endif
                     </div>
-                    <a href="{{ route('guest.artikel.index') }}" 
-                       class="inline-flex items-center text-blue-600 text-xs md:text-sm font-medium hover:text-blue-800 mt-3 md:mt-4">
+                    <a href="{{ route('guest.artikel.index') }}" class="inline-flex items-center text-blue-600 text-xs font-medium hover:text-blue-800 mt-3">
                         Lihat semua <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
                     </a>
                 </div>
 
-                {{-- Artikel Rekomendasi --}}
-                <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-bold text-blue-900 mb-3 md:mb-4 flex items-center">
+                <div class="bg-white rounded-2xl shadow-sm p-4">
+                    <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
                         <i class="fa-regular fa-star text-orange-500 mr-2"></i>
                         Rekomendasi
                     </h3>
-                    <div class="space-y-4">
+                    <div class="space-y-3">
                         @if($recommendedArticles->count())
                             @foreach($recommendedArticles as $item)
                             <div class="flex gap-3 items-start">
                                 @if($item->thumbnail)
                                     <img src="{{ asset('storage/' . $item->thumbnail) }}" 
                                          alt="{{ $item->judul }}" 
-                                         class="w-16 h-16 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg object-cover flex-shrink-0">
+                                         class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
                                 @else
-                                    <div class="w-16 h-16 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
-                                        <i class="fa-regular fa-image text-sm md:text-base"></i>
+                                    <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 flex-shrink-0">
+                                        <i class="fa-regular fa-image text-sm"></i>
                                     </div>
                                 @endif
                                 <div class="flex-1 min-w-0">
                                     <a href="{{ route('guest.artikel.detail', $item->slug) }}" 
-                                       class="font-medium text-gray-800 hover:text-blue-600 transition line-clamp-2 text-xs md:text-sm block mb-1">
+                                       class="font-bold text-gray-800 hover:text-blue-600 transition line-clamp-2 text-xs block mb-1">
                                         {{ $item->judul }}
                                     </a>
-                                    <p class="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-1 md:mb-2">
-                                        {{ Str::limit(strip_tags($item->konten), 25) }}
-                                    </p>
-                                    <div class="flex flex-wrap items-center gap-x-2 md:gap-x-3 gap-y-1 text-xs text-gray-400">
-                                        <span class="inline-flex items-center gap-1">
-                                            <i class="fa-regular fa-eye text-blue-400 text-[10px] md:text-[11px]"></i>
-                                            {{ number_format($item->views) }} dilihat
-                                        </span>
-                                        <span class="inline-flex items-center gap-1">
-                                            <i class="fa-regular fa-calendar text-blue-400 text-[10px] md:text-[11px]"></i>
-                                            {{ $item->published_at->format('d M Y') }}
-                                        </span>
+                                    <div class="flex flex-wrap items-center gap-x-2 text-xs text-gray-400">
+                                        <span><i class="fa-regular fa-eye text-blue-400"></i> {{ number_format($item->views) }}</span>
+                                        <span><i class="fa-regular fa-calendar text-blue-400"></i> {{ $item->published_at->format('d M Y') }}</span>
                                     </div>
                                 </div>
                             </div>
-                            @if(!$loop->last)
-                                <hr class="my-2 md:my-3 border-gray-100">
-                            @endif
+                            @if(!$loop->last) <hr class="my-1 border-gray-100"> @endif
                             @endforeach
                         @else
                             <p class="text-gray-500 text-sm">Belum ada rekomendasi.</p>
@@ -405,10 +438,8 @@
             </div>
         </div>
 
-        {{-- Tombol Kembali --}}
-        <div class="mt-6 md:mt-8 text-center lg:text-left">
-            <a href="{{ route('guest.artikel.index') }}" 
-               class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition text-sm md:text-base">
+        <div class="mt-6 text-center lg:text-left">
+            <a href="{{ route('guest.artikel.index') }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm">
                 <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke daftar artikel
             </a>
         </div>
@@ -423,5 +454,23 @@
             console.error('Gagal menyalin:', err);
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.prose li').forEach(li => {
+            li.removeAttribute('data-value');
+            li.removeAttribute('value');
+        });
+        document.querySelectorAll('.prose ol').forEach(ol => {
+            ol.removeAttribute('start');
+            ol.style.counterReset = 'list-item';
+        });
+        const style = document.createElement('style');
+        style.textContent = `
+            .prose ol { counter-reset: list-item !important; }
+            .prose ol li { counter-increment: list-item !important; }
+            .prose ol li::before { content: counter(list-item) ". " !important; }
+        `;
+        document.head.appendChild(style);
+    });
 </script>
 @endsection

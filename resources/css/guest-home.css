@@ -41,8 +41,45 @@
     z-index: 1;
 }
 
+.guest-floating-ad__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
 .guest-floating-ad__card {
     animation: floatingAdIn 0.4s ease both, floatingAdDrift 4s ease-in-out infinite;
+}
+
+.guest-floating-ad__slides {
+    position: relative;
+}
+
+.guest-floating-ad__slide {
+    display: none;
+}
+
+.guest-floating-ad__slide.is-active {
+    display: block;
+}
+
+.guest-floating-ad__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.82);
+    color: #fff;
+    box-shadow: 0 20px 35px rgba(15, 23, 42, 0.22);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.guest-floating-ad__nav:hover {
+    background: rgba(15, 23, 42, 0.96);
+    transform: translateY(-2px);
 }
 
 #iklan-popup-overlay.is-hidden {
@@ -99,7 +136,17 @@
         padding-right: 1rem;
     }
 
+    .guest-floating-ad__inner {
+        gap: 0.5rem;
+    }
+
     .guest-floating-ad__card {
         max-width: 100%;
+    }
+
+    .guest-floating-ad__nav {
+        width: 2.75rem;
+        height: 2.75rem;
+        flex-shrink: 0;
     }
 }

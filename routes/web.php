@@ -45,9 +45,6 @@ Route::get('/profil', function () {
 // Daftar dokter
 Route::get('/daftar-dokter', [GuestDokter::class, 'Index'])->name('guest.daftar-dokter.index');
 
-// (Opsional) route spesialis guest, jika diperlukan bisa diarahkan ke guest.home atau resource lain
-// Route::get('/dokter/spesialis', [AdminSpesialis::class, 'index'])->name('admin.dokter.spesialis.index'); // sebaiknya di admin
-
 // Info kamar
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
@@ -260,17 +257,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | JAM OPERASIONAL
+    | JAM OPERASIONAL 
     |--------------------------------------------------------------------------
     */
     Route::controller(AdminJamOperasional::class)->prefix('jam-operasional')->name('jam-operasional.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
-        Route::get('/{jamOperasional}/edit', 'edit')->name('edit');
-        Route::put('/{jamOperasional}', 'update')->name('update');
-        Route::patch('/{jamOperasional}/toggle-status', 'toggleStatus')->name('toggle-status');
-        Route::delete('/{jamOperasional}', 'destroy')->name('destroy');
+        Route::get('/{jam_operasional}/edit', 'edit')->name('edit');
+        Route::put('/{jam_operasional}', 'update')->name('update');
+        Route::patch('/{jam_operasional}/toggle-status', 'toggleStatus')->name('toggle-status');
+        Route::delete('/{jam_operasional}', 'destroy')->name('destroy');
     });
 
     /*

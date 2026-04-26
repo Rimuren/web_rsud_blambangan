@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white dark:divide-zinc-800 dark:bg-zinc-900">
-                        @forelse ($jamOperasionalList as $item)
+                        @forelse ($jam_operasionalList as $item)
                             <tr class="transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                                 <td class="px-6 py-4">
                                     <div class="inline-flex items-center gap-3">
@@ -166,9 +166,9 @@
                 </table>
             </div>
 
-            @if ($jamOperasionalList->hasPages())
+            @if ($jam_operasionalList->hasPages())
                 <div class="border-t border-zinc-200 px-6 py-4 dark:border-zinc-800">
-                    {{ $jamOperasionalList->links() }}
+                    {{ $jam_operasionalList->links() }}
                 </div>
             @endif
         </flux:card>
