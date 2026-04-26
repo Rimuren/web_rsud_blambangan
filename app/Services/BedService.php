@@ -22,25 +22,23 @@ class BedService
 
   public function getBeds(): array
   {
-    return Cache::remember('beds_data', 60, function () {
-
-      if (Cache::get(self::CACHE_FAIL)) {
-        Log::info('API bed cooldown → pakai DB');
-        return $this->fallback->fetch();
-      }
-
-      $data = $this->api->fetch();
-
-      if ($data !== null) {
-        Cache::forget(self::CACHE_FAIL);
-        Log::info('Data bed dari API');
-        return $data;
-      }
-
-      Cache::put(self::CACHE_FAIL, true, now()->addMinutes(5));
-
-      Log::warning('API bed gagal → fallback DB');
+    // Jika dalam cooldown, langsung fallback
+    if (Cache::get(self::CACHE_FAIL)) {
+      Log::info('API bed cooldown → pakai DB');
       return $this->fallback->fetch();
-    });
+    }
+
+    // Coba API live
+    $data = $this->api->fetch();
+    if ($data !== null) {
+      Cache::forget(self::CACHE_FAIL);
+      Log::info('Data bed dari API');
+      return $data;
+    }
+
+    // Gagal → cooldown 2 menit, lalu fallback
+    Cache::put(self::CACHE_FAIL, true, now()->addMinutes(2));
+    Log::warning('API bed gagal → fallback DB');
+    return $this->fallback->fetch();
   }
 }

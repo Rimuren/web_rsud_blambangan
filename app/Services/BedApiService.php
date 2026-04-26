@@ -56,34 +56,28 @@ class BedApiService
   protected function syncToDatabase(array $data)
   {
     DB::transaction(function () use ($data) {
-
       foreach ($data as $b) {
-
         $bangsal = bangsal_model::updateOrCreate(
-          ['id' => $b['api_id']],
+          ['api_id' => $b['api_id']],
           [
             'nama' => $b['nama'],
             'deskripsi' => $b['deskripsi'],
-            'foto' => $b['foto']
+            'foto' => $b['foto'],
           ]
         );
 
         $syncData = [];
-
         foreach ($b['kelas'] as $k) {
-
           $kelas = kelas_model::updateOrCreate(
             ['api_id' => $k['kelas_id']],
             ['nama' => $k['nama']]
           );
-
           $syncData[$kelas->id] = [
             'bed_kapasitas' => $k['kapasitas'],
             'bed_terisi' => $k['terisi'],
             'bed_kosong' => $k['kosong'],
           ];
         }
-
         $bangsal->kelas()->sync($syncData);
       }
     });

@@ -53,9 +53,8 @@ Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
 })->name('guest.info-kamar.index');
 
-Route::get('/kamar/index', function () {
-    return view('kamar.index');
-})->name('kamar.index'); // kemungkinan ini salah, karena guest harusnya pake view guest, namun biarkan dulu
+
+Route::get('/info-kamar', [GuestBangsal::class, 'index'])->name('guest.info-kamar.index');
 
 // Artikel
 Route::prefix('artikel')->name('guest.artikel.')->group(function () {
