@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Iklan;
-use App\Models\JamOperasional;
+use App\Models\jam_operasional;
 use App\Models\artikel_model;
 use App\Models\dokter_model;
 use App\Models\poliklinik_model;
@@ -26,7 +26,7 @@ class HomeController extends Controller
 
         $poliklinikList = poliklinik_model::pluck('nama')->toArray();
 
-        $jamOperasionals = JamOperasional::query()
+        $jam_operasionals = jam_operasional::query()
             ->orderBy('hari')
             ->get();
 
@@ -52,7 +52,7 @@ class HomeController extends Controller
 
         return view('guest.home.index', compact(
             'spesialisList',
-            'jamOperasionals',
+            'jam_operasionals',
             'popupIklans',
             'topArticles',
             'topArticleCategories',

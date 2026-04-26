@@ -45,9 +45,6 @@ Route::get('/profil', function () {
 // Daftar dokter
 Route::get('/daftar-dokter', [GuestDokter::class, 'Index'])->name('guest.daftar-dokter.index');
 
-// (Opsional) route spesialis guest, jika diperlukan bisa diarahkan ke guest.home atau resource lain
-// Route::get('/dokter/spesialis', [AdminSpesialis::class, 'index'])->name('admin.dokter.spesialis.index'); // sebaiknya di admin
-
 // Info kamar
 Route::get('/info-kamar', function () {
     return view('guest.info-kamar.index');
@@ -55,7 +52,7 @@ Route::get('/info-kamar', function () {
 
 Route::get('/kamar/index', function () {
     return view('kamar.index');
-})->name('kamar.index'); // kemungkinan ini salah, karena guest harusnya pake view guest, namun biarkan dulu
+})->name('kamar.index');
 
 // Artikel
 Route::prefix('artikel')->name('guest.artikel.')->group(function () {
@@ -251,16 +248,6 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-<<<<<<< HEAD
-    Route::prefix('admin/jam-operasional')->name('admin.jam-operasional.')->group(function () {
-        Route::get('/', [JamOperasionalController::class, 'index'])->name('index');
-        Route::get('/create', [JamOperasionalController::class, 'create'])->name('create');
-        Route::post('/', [JamOperasionalController::class, 'store'])->name('store');
-        Route::get('/{jam_operasional}/edit', [JamOperasionalController::class, 'edit'])->name('edit');
-        Route::put('/{jam_operasional}', [JamOperasionalController::class, 'update'])->name('update');
-        Route::patch('/{jam_operasional}/toggle-status', [JamOperasionalController::class, 'toggleStatus'])->name('toggle-status');
-        Route::delete('/{jam_operasional}', [JamOperasionalController::class, 'destroy'])->name('destroy');
-=======
     /*
     |--------------------------------------------------------------------------
     | MANAJEMEN RUANGAN (BANGSAL)
@@ -271,18 +258,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | JAM OPERASIONAL
+    | JAM OPERASIONAL 
     |--------------------------------------------------------------------------
     */
     Route::controller(AdminJamOperasional::class)->prefix('jam-operasional')->name('jam-operasional.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
-        Route::get('/{jamOperasional}/edit', 'edit')->name('edit');
-        Route::put('/{jamOperasional}', 'update')->name('update');
-        Route::patch('/{jamOperasional}/toggle-status', 'toggleStatus')->name('toggle-status');
-        Route::delete('/{jamOperasional}', 'destroy')->name('destroy');
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
+        Route::get('/{jam_operasional}/edit', 'edit')->name('edit');
+        Route::put('/{jam_operasional}', 'update')->name('update');
+        Route::patch('/{jam_operasional}/toggle-status', 'toggleStatus')->name('toggle-status');
+        Route::delete('/{jam_operasional}', 'destroy')->name('destroy');
     });
 
     /*
