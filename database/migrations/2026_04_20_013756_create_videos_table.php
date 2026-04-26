@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('link'); // URL YouTube
-            $table->string('youtube_id')->unique(); // ID video dari YouTube
-            $table->string('thumbnail')->nullable(); // URL thumbnail
+            $table->string('link');
+            $table->string('youtube_id')->unique(); 
+            $table->string('thumbnail')->nullable(); 
             $table->text('deskripsi')->nullable();
             $table->string('kategori')->nullable();
             $table->timestamps();
