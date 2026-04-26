@@ -192,7 +192,6 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="bg-[#000B50] text-white px-6 md:px-8 py-8">
                 <h2 class="text-lg md:text-xl font-bold mb-4 md:mb-5">Jam Operasional</h2>
-<<<<<<< HEAD
                 @if($jam_operasionals->isNotEmpty())
                     <div class="space-y-3 text-sm">
                         @foreach($jam_operasionals as $item)
@@ -201,14 +200,6 @@
                                 <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
                             </div>
                         @endforeach
-=======
-                @if($jamOperasionals->isNotEmpty())
-                <div class="space-y-3 text-sm">
-                    @foreach($jamOperasionals as $item)
-                    <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-b-0 last:pb-0">
-                        <span class="font-semibold">{{ $item->hari_label }}</span>
-                        <span class="text-right text-white/85">{{ $item->jam_operasional }}</span>
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
                     </div>
                     @endforeach
                 </div>
