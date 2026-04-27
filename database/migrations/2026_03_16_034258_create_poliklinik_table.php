@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('api_id')->nullable()->unique();
             $table->string('nama', 100)->index();
+            $table->string('slug')->nullable()->unique();
             $table->string('kode_bpjs', 20)->nullable();
             $table->string('image')->nullable();
             $table->string('background_img')->nullable();
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true)->index();
             $table->enum('source', ['api', 'manual'])->default('api')->index();
 
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index(['api_id', 'is_active']);
