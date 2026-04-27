@@ -39,6 +39,7 @@
                         <tr class="bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800">
                             <th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-wider">Nama Kategori</th>
                             <th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-wider">Slug</th>
+                            <th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-wider text-center">Jumlah Artikel</th>
                             <th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-wider text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -52,6 +53,9 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-400">{{ $kat->slug }}</td>
+                            <td class="px-6 py-4 text-sm text-center text-zinc-600 dark:text-zinc-400">
+                            {{ $kat->artikels_count ?? 0 }} artikel
+                            </td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex justify-center items-center gap-3">
                                     @can('kategori.update')
@@ -76,7 +80,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="3" class="px-6 py-10 text-center text-zinc-500">
+                            <td colspan="4" class="px-6 py-10 text-center text-zinc-500">
                                 Belum ada kategori. Klik "Tambah Kategori" untuk menambahkan.
                             </td>
                         </tr>

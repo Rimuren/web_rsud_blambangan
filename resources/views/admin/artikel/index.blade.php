@@ -305,54 +305,60 @@
         </flux:card>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectAll = document.getElementById('select-all');
-            const deleteBtn = document.getElementById('delete-selected-btn');
-            const massForm = document.getElementById('mass-delete-form');
-            const selectedCountSpan = document.getElementById('selected-count');
-            const checkboxes = () => document.querySelectorAll('.item-checkbox');
-
-            function updateDeleteButton() {
-                const checked = document.querySelectorAll('.item-checkbox:checked');
-                const count = checked.length;
-                selectedCountSpan.textContent = count;
-                deleteBtn.disabled = count === 0;
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Delegasi untuk checkbox "select all"
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.id === 'select-all') {
+                const isChecked = e.target.checked;
+                document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = isChecked);
+                updateDeleteButton();
             }
-
-            if (selectAll) {
-                selectAll.addEventListener('change', function() {
-                    checkboxes().forEach(cb => cb.checked = this.checked);
-                    updateDeleteButton();
-                });
-            }
-
-            document.querySelectorAll('.item-checkbox').forEach(cb => {
-                cb.addEventListener('change', updateDeleteButton);
-            });
-
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', function() {
-                    const selected = document.querySelectorAll('.item-checkbox:checked');
-                    if (selected.length === 0) return;
-
-                    if (confirm(`Hapus ${selected.length} artikel terpilih?`)) {
-                        massForm.submit();
-                    }
-                });
-            }
-
-            document.querySelectorAll('.delete-single-form').forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    if (!confirm('Hapus artikel ini? Tindakan tidak dapat dibatalkan.')) {
-                        e.preventDefault();
-                    }
-                });
-            });
-
-            updateDeleteButton();
         });
-    </script>
+
+        // Delegasi untuk setiap item checkbox
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.classList && e.target.classList.contains('item-checkbox')) {
+                updateDeleteButton();
+            }
+        });
+
+        // Delegasi untuk tombol mass delete
+        document.addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('#delete-selected-btn');
+            if (deleteBtn) {
+                e.preventDefault();
+                const selected = document.querySelectorAll('.item-checkbox:checked');
+                if (selected.length === 0) return;
+                if (confirm(`Hapus ${selected.length} artikel terpilih?`)) {
+                    document.getElementById('mass-delete-form').submit();
+                }
+            }
+        });
+
+        // Delegasi untuk form hapus single
+        document.addEventListener('submit', function(e) {
+            const form = e.target.closest('.delete-single-form');
+            if (form) {
+                if (!confirm('Hapus artikel ini? Tindakan tidak dapat dibatalkan.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        function updateDeleteButton() {
+            const checked = document.querySelectorAll('.item-checkbox:checked');
+            const count = checked.length;
+            const selectedCountSpan = document.getElementById('selected-count');
+            const deleteBtn = document.getElementById('delete-selected-btn');
+            if (selectedCountSpan) selectedCountSpan.textContent = count;
+            if (deleteBtn) deleteBtn.disabled = count === 0;
+        }
+
+        // Inisialisasi awal
+        updateDeleteButton();
+    });
+</script>
 
     @endcan
 </x-layouts::app>
