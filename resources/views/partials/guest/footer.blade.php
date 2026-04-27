@@ -61,7 +61,7 @@
                         </div>
                         <div>
                             <p class="font-semibold text-[#0d2a4a]">Lokasi</p>
-                            <p class="text-[#4a5a6a] leading-snug">Jl. Istiqlah No. 49, Kec. Banyuwangi,<br>Kab. Banyuwangi, Jawa Timur, Indonesia 68415</p>
+                            <p class="text-[#4a5a6a] leading-snug">Jl. Letkol Istiqlah No. 49, Singonegaraan Kec. Banyuwangi,<br>Kab. Banyuwangi, Jawa Timur, Indonesia 68415</p>
                         </div>
                     </li>
                     {{-- Call --}}
