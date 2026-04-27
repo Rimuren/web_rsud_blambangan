@@ -34,8 +34,7 @@ class DashboardController extends Controller implements HasMiddleware
             ->orderBy('hari')
             ->get();
 
-        return view('guest.home.index', compact('spesialisList', 'jam_operasionals'));
-        return view('admin.dashboard');
+        return view('admin.dashboard', compact('spesialisList', 'jam_operasionals'));
     }
 
     /**
