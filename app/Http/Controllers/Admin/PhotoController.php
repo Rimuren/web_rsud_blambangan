@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Photo;
+use App\Models\Photo_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -23,7 +23,7 @@ class PhotoController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $photos = Photo::latest()->paginate(10);
+        $photos = Photo_model::latest()->paginate(10);
         return view('admin.dokumentasi.foto.index', compact('photos'));
     }
 
@@ -45,19 +45,19 @@ class PhotoController extends Controller implements HasMiddleware
             $data['gambar'] = $request->file('gambar')->store('photos', 'public');
         }
 
-        Photo::create($data);
+        Photo_model::create($data);
 
         return redirect()
             ->route('admin.dokumentasi.foto.index')
             ->with('success', 'Foto berhasil ditambahkan.');
     }
 
-    public function edit(Photo $photo)
+    public function edit(Photo_model $photo)
     {
         return view('admin.dokumentasi.foto.edit', compact('photo'));
     }
 
-    public function update(Request $request, Photo $photo)
+    public function update(Request $request, Photo_model $photo)
     {
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
@@ -81,7 +81,7 @@ class PhotoController extends Controller implements HasMiddleware
             ->with('success', 'Foto berhasil diperbarui.');
     }
 
-    public function destroy(Photo $photo)
+    public function destroy(Photo_model $photo)
     {
         if ($photo->gambar) {
             Storage::disk('public')->delete($photo->gambar);

@@ -52,7 +52,6 @@
             <p class="text-slate-500 dark:text-slate-400 text-sm md:text-base max-w-xl">Informasi kapasitas tempat tidur rumah sakit yang diperbarui secara berkala untuk kemudahan akses pasien dan rujukan.</p>
         </div>
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <p class="text-xs text-slate-400 italic">Terakhir diperbarui: {{ now()->translatedFormat('d F Y, H:i') }} WIB</p>
             <a href="{{ route('guest.info-kamar.index') }}" class="flex items-center justify-center gap-2 rounded-xl h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
                 <span class="material-symbols-outlined text-sm">refresh</span>
                 <span>Perbarui Data</span>
@@ -60,8 +59,7 @@
         </div>
     </div>
 
-    {{-- Stats Overview --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 md:mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 md:mb-10">
         <div class="flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex justify-between items-start">
                 <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Kapasitas</p>
@@ -69,6 +67,7 @@
             </div>
             <p class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold">{{ $totalKapasitas }}</p>
         </div>
+
         <div class="flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="flex justify-between items-start">
                 <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Kamar Terisi</p>
@@ -77,6 +76,7 @@
             <p class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold">{{ $totalTerisi }}</p>
             <p class="text-slate-400 text-xs">Okupansi {{ $occupancy }}%</p>
         </div>
+
         <div class="flex flex-col gap-2 rounded-xl p-5 bg-white dark:bg-slate-800 border border-primary/20 shadow-sm relative overflow-hidden">
             <div class="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full -mr-8 -mt-8"></div>
             <div class="flex justify-between items-start relative z-10">
@@ -85,14 +85,6 @@
             </div>
             <p class="text-primary text-2xl md:text-3xl font-bold relative z-10">{{ $totalKosong }}</p>
             <p class="text-slate-400 text-xs relative z-10">Siap Digunakan</p>
-        </div>
-        <div class="flex flex-col gap-2 rounded-xl p-5 bg-medical-blue text-white shadow-lg">
-            <div class="flex justify-between items-start">
-                <p class="text-white/70 text-sm font-medium">Ruang Intensif</p>
-                <span class="material-symbols-outlined text-white/80">emergency</span>
-            </div>
-            <p class="text-white text-2xl md:text-3xl font-bold">{{ $intensifKapasitas - $intensifTerisi }}</p>
-            <p class="text-white/70 text-xs italic font-semibold">Tersisa</p>
         </div>
     </div>
 
@@ -104,13 +96,6 @@
         </div>
         <div class="flex flex-wrap gap-2" id="filterButtons">
             <button data-filter="all" class="filter-btn px-4 py-2 rounded-full bg-medical-blue text-white text-sm font-semibold transition-all">Semua Kelas</button>
-            @php
-            $uniqueClasses = collect($rooms)->pluck('class')->unique()->values();
-            $classOrder = ['VIP', 'VVIP', 'Kelas 1', 'Kelas 2', 'Kelas 3', 'Intensif', 'Isolasi'];
-            $sortedClasses = $uniqueClasses->sortBy(function($cls) use ($classOrder) {
-            return array_search($cls, $classOrder) ?? 999;
-            });
-            @endphp
             @foreach ($sortedClasses as $cls)
             <button data-filter="{{ $cls }}" class="filter-btn px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary hover:text-primary transition-all">
                 {{ $cls }}
@@ -142,7 +127,7 @@
                     </tr>
                 </thead>
                 <tbody id="roomTableBody">
-                    @foreach ($rooms as $room)
+                    @foreach ($paginatedRooms as $room)
                     <tr class="room-row" data-class="{{ $room['class'] }}" data-name="{{ strtolower($room['name']) }}">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
@@ -172,7 +157,7 @@
 
         {{-- Card Mobile --}}
         <div class="md:hidden flex flex-col gap-3" id="mobileCardsContainer">
-            @foreach ($rooms as $room)
+            @foreach ($paginatedRooms as $room)
             <div class="room-card bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4" data-class="{{ $room['class'] }}" data-name="{{ strtolower($room['name']) }}">
                 <div class="flex items-start gap-3">
                     <div class="w-10 h-10 rounded-lg {{ $room['icon_bg'] }} flex items-center justify-center shrink-0">
@@ -205,11 +190,11 @@
         </div>
 
         {{-- Pagination --}}
-        @if($rooms instanceof \Illuminate\Pagination\LengthAwarePaginator && $rooms->hasPages())
+        @if($paginatedRooms->hasPages())
         <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-slate-500">
-            <p>Menampilkan {{ $rooms->firstItem() }} - {{ $rooms->lastItem() }} dari {{ $rooms->total() }} unit ruangan</p>
+            <p>Menampilkan {{ $paginatedRooms->firstItem() }} - {{ $paginatedRooms->lastItem() }} dari {{ $paginatedRooms->total() }} unit ruangan</p>
             <div class="flex gap-1">
-                {{ $rooms->links() }}
+                {{ $paginatedRooms->links() }}
             </div>
         </div>
         @endif
@@ -301,4 +286,4 @@
         updateDisplay();
     });
 </script>
-@endsection
+@endsection 
