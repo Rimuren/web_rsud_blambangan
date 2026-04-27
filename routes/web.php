@@ -203,6 +203,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('dokter')->name('dokter.')->group(function () {
         Route::get('/', [AdminDokter::class, 'index'])->name('index');
+        Route::get('/create', [AdminDokter::class, 'create'])->name('create');
+        Route::post('/', [AdminDokter::class, 'store'])->name('store');
+        Route::get('/{dokter}/edit', [AdminDokter::class, 'edit'])->name('edit');
+        Route::put('/{dokter}', [AdminDokter::class, 'update'])->name('update');
+        Route::delete('/{dokter}', [AdminDokter::class, 'destroy'])->name('destroy');
 
         // Poliklinik
         Route::prefix('poliklinik')->name('poliklinik.')->controller(AdminPoliklinik::class)->group(function () {
