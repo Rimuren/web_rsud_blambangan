@@ -39,4 +39,23 @@ class DokterService
         Log::info('API gagal, menggunakan fallback database');
         return $this->fallbackService->fetch($request);
     }
+
+    public function getTotalDokter(): int
+{
+    try {
+        $data = $this->apiService->fetchLive(request());
+
+        if ($data !== null) {
+            $dokters = $data['dokters'];
+            return method_exists($dokters, 'total')
+                ? $dokters->total()
+                : count($dokters);
+        }
+    } catch (\Throwable $e) {
+        // lanjut fallback
+    }
+
+    // fallback DB
+    return $this->fallbackService->fetch(request())['dokters']->total();
+}
 }
