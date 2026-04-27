@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Video;
+use App\Models\Video_model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -55,7 +55,7 @@ class VideoController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $videos = Video::latest()->paginate(10);
+        $videos = Video_model::latest()->paginate(10);
         return view('admin.dokumentasi.video.index', compact('videos'));
     }
 
@@ -79,26 +79,26 @@ class VideoController extends Controller implements HasMiddleware
             return back()->withErrors(['link' => 'Link YouTube tidak valid'])->withInput();
         }
 
-        if (Video::where('youtube_id', $youtubeId)->exists()) {
+        if (Video_model::where('youtube_id', $youtubeId)->exists()) {
             return back()->withErrors(['link' => 'Video sudah ada'])->withInput();
         }
 
         $data['youtube_id'] = $youtubeId;
         $data['thumbnail']  = $this->thumbnailUrl($youtubeId);
 
-        Video::create($data);
+        Video_model::create($data);
 
         return redirect()
             ->route('admin.dokumentasi.video.index')
             ->with('success', 'Video berhasil ditambahkan');
     }
 
-    public function edit(Video $video)
+    public function edit(Video_model $video)
     {
         return view('admin.dokumentasi.video.edit', compact('video'));
     }
 
-    public function update(Request $request, Video $video)
+    public function update(Request $request, Video_model $video)
     {
         $data = $request->validate([
             'judul'     => 'required|string|max:255',
@@ -115,7 +115,7 @@ class VideoController extends Controller implements HasMiddleware
 
         if (
             $youtubeId !== $video->youtube_id &&
-            Video::where('youtube_id', $youtubeId)->exists()
+            Video_model::where('youtube_id', $youtubeId)->exists()
         ) {
             return back()->withErrors(['link' => 'Video sudah ada'])->withInput();
         }
@@ -130,7 +130,7 @@ class VideoController extends Controller implements HasMiddleware
             ->with('success', 'Video berhasil diperbarui');
     }
 
-    public function destroy(Video $video)
+    public function destroy(Video_model $video)
     {
         $video->delete();
 
