@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VersionInfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     DashboardController as AdminDashboard,
@@ -27,6 +28,7 @@ use App\Http\Controllers\{
     GuestArtikelController,
     KategoriArtikelController,
     GuestPoliklinikController,
+    HealthCheckController,
 };
 
 /*
@@ -135,6 +137,17 @@ Route::prefix('galeri')->group(function () {
     Route::get('/foto', [GuestPhoto::class, 'index'])->name('guest.galeri.foto.index');
     Route::get('/video', [GuestVideo::class, 'index'])->name('guest.galeri.video.index');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Monitoring Endpoint
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/health', [HealthCheckController::class, 'check']);
+Route::get('/status', [HealthCheckController::class, 'check']);
+Route::get('/version', [VersionInfoController::class, 'index']);
+Route::get('/build-info', [VersionInfoController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------
