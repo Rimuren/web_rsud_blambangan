@@ -29,51 +29,71 @@
                 </div>
             </div>
 
-            {{-- Layanan Unggulan --}}
+            {{-- Layanan (Umum + Unggulan) --}}
             <div>
-                <h4 class="font-bold text-base mb-4 text-[#0d6efd]">Layanan Unggulan</h4>
+                <h4 class="font-bold text-base mb-4 text-[#0d6efd]">Layanan</h4>
                 <ul class="text-sm space-y-3 text-[#1a2e4a]">
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">DSA</a></li>
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Hemodialisis</a></li>
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Cath Lab</a></li>
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Bedah Onkologi Kemotrapi</a></li>
+                    <li><a href="{{ route('guest.layanan-rawat-inap.index') }}" class="hover:text-[#0d6efd] transition">Rawat Inap</a></li>
+                    <li><a href="{{ route('guest.layanan-rawat-jalan.index') }}" class="hover:text-[#0d6efd] transition">Rawat Jalan</a></li>
+                    <li><a href="{{ route('guest.layanan-igd.index') }}" class="hover:text-[#0d6efd] transition">IGD</a></li>
+                </ul>
+                <p class="font-semibold text-sm mt-4 mb-2 text-[#1a2e4a]">Layanan Unggulan</p>
+                <ul class="text-sm space-y-3 text-[#1a2e4a]">
+                    <li><a href="{{ route('guest.layanan-unggulan.dsa.index') }}" class="hover:text-[#0d6efd] transition">DSA</a></li>
+                    <li><a href="{{ route('guest.layanan-unggulan.hemodialysis.index') }}" class="hover:text-[#0d6efd] transition">Hemodialisis</a></li>
+                    <li><a href="{{ route('guest.layanan-unggulan.cathlab.index') }}" class="hover:text-[#0d6efd] transition">Cath Lab</a></li>
+                    <li><a href="{{ route('guest.layanan-unggulan.oncology.index') }}" class="hover:text-[#0d6efd] transition">Bedah Onkologi Kemotrapi</a></li>
                 </ul>
             </div>
 
-            {{-- Kolom 3: Tentang Kami --}}
+            {{-- Tentang Kami + Berita & Galeri --}}
             <div>
                 <h4 class="font-bold text-base mb-4 text-[#0d6efd]">Tentang Kami</h4>
                 <ul class="text-sm space-y-3 text-[#1a2e4a]">
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Sejarah &amp; Profil</a></li>
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Visi &amp; Misi</a></li>
-                    <li><a href="#" class="hover:text-[#0d6efd] transition">Berita &amp; Media</a></li>
+                    <li><a href="{{ route('guest.profil.index') }}" class="hover:text-[#0d6efd] transition">Sejarah &amp; Profil</a></li>
+                    <li><a href="{{ route('guest.profil.index') }}" class="hover:text-[#0d6efd] transition">Visi &amp; Misi</a></li>
+                    <li><a href="{{ route('guest.artikel.index') }}" class="hover:text-[#0d6efd] transition">Berita</a></li>
+                    <li><a href="{{ route('guest.galeri.foto.index') }}" class="hover:text-[#0d6efd] transition">Galeri Foto &amp; Video</a></li>
                 </ul>
             </div>
 
-            {{-- Kolom 4: Hubungi Kami --}}
+            {{-- Hubungi Kami (dengan Call & WhatsApp terpisah) --}}
             <div>
                 <h4 class="font-bold text-base mb-4 text-[#0d6efd]">Hubungi Kami</h4>
                 <ul class="text-sm space-y-4 text-[#1a2e4a]">
-                    {{-- Lokasi --}}
+                    {{-- Lokasi (alamat sudah diperbaiki) --}}
                     <li class="flex items-start gap-3">
                         <div class="mt-0.5 w-8 h-8 bg-[#e8f0fe] rounded flex items-center justify-center flex-shrink-0">
                             <svg class="w-4 h-4 text-[#0d6efd]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                         </div>
                         <div>
                             <p class="font-semibold text-[#0d2a4a]">Lokasi</p>
-                            <p class="text-[#4a5a6a] leading-snug">Jl. Istiqlah No. 49, Kec. Banyuwangi,<br>Kab. Banyuwangi, Jawa Timur, Indonesia 68415</p>
+                            <p class="text-[#4a5a6a] leading-snug">Jl. Letkol Istiqlah No.49, Singonegaran, Kec. Banyuwangi,Kabupaten Banyuwangi, <br>Jawa Timur 68415</p>
                         </div>
                     </li>
-                    {{-- Call --}}
+
+                    {{-- Call (Telepon) --}}
                     <li class="flex items-start gap-3">
                         <div class="mt-0.5 w-8 h-8 bg-[#e8f0fe] rounded flex items-center justify-center flex-shrink-0">
                             <svg class="w-4 h-4 text-[#0d6efd]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         </div>
                         <div>
-                            <p class="font-semibold text-[#0d2a4a]">CALL & WhatsApp</p>
-                            <p class="text-[#4a5a6a]">(0333) 421118 & 081135355858</p>
+                            <p class="font-semibold text-[#0d2a4a]">Telepon</p>
+                            <p class="text-[#4a5a6a]"><a href="tel:+62333421118" class="hover:text-[#0d6efd]">(0333) 421118</a></p>
                         </div>
                     </li>
+
+                    {{-- WhatsApp (terpisah) --}}
+                    <li class="flex items-start gap-3">
+                        <div class="mt-0.5 w-8 h-8 bg-[#e8f0fe] rounded flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-[#0d6efd]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-[#0d2a4a]">WhatsApp</p>
+                            <p class="text-[#4a5a6a]"><a href="https://wa.me/6281135355858" target="_blank" class="hover:text-[#0d6efd]">0811-3535-5858</a></p>
+                        </div>
+                    </li>
+
                     {{-- Email --}}
                     <li class="flex items-start gap-3">
                         <div class="mt-0.5 w-8 h-8 bg-[#e8f0fe] rounded flex items-center justify-center flex-shrink-0">
@@ -81,7 +101,7 @@
                         </div>
                         <div>
                             <p class="font-semibold text-[#0d2a4a]">Email</p>
-                            <p class="text-[#4a5a6a]">rsudblambangan@gmail.com</p>
+                            <p class="text-[#4a5a6a]"><a href="mailto:rsudblambangan@gmail.com" class="hover:text-[#0d6efd]">rsudblambangan@gmail.com</a></p>
                         </div>
                     </li>
                 </ul>
