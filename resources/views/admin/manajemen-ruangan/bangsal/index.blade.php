@@ -39,7 +39,6 @@
 
     <!-- Stats -->
     <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 lg:grid-cols-4">
-
         <!-- Total -->
         <flux:card class="flex flex-col p-6 transition-all hover:shadow-md h-full">
             <div class="flex justify-between items-start mb-4">
@@ -110,24 +109,27 @@
                 </div>
             </div>
         </flux:card>
-
     </div>
 
     <!-- Table -->
     <flux:card class="p-0 overflow-hidden">
 
-        <!-- Toolbar -->
+        <!-- Toolbar dengan Search -->
         <div class="flex flex-col gap-3 px-6 py-4 border-b border-zinc-200 dark:border-zinc-700 sm:flex-row sm:items-center sm:justify-between">
-            <flux:input placeholder="Search ward name..." icon="magnifying-glass" class="w-full sm:w-72" />
+            <div class="relative w-full sm:w-72">
+                <input type="text" id="searchBangsal" placeholder="Cari nama bangsal..."
+                    class="w-full pl-10 pr-4 py-2 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm focus:ring-primary focus:border-primary outline-none bg-white dark:bg-zinc-800">
+                <flux:icon name="magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-zinc-400 pointer-events-none" />
+            </div>
             <div class="flex items-center gap-2">
+                <button id="resetFilterBtn" class="text-sm text-zinc-600 dark:text-zinc-300 hover:text-primary transition">Reset</button>
                 <flux:button variant="ghost" size="sm" square icon="funnel" />
                 <flux:button variant="ghost" size="sm" square icon="ellipsis-vertical" />
             </div>
         </div>
 
         <div class="w-full overflow-x-auto">
-            <table class="w-full divide-y divide-zinc-200 dark:divide-zinc-700">
-
+            <table class="w-full divide-y divide-zinc-200 dark:divide-zinc-700" id="bangsalTable">
                 <thead class="bg-zinc-50 dark:bg-zinc-800/50">
                     <tr>
                         <th class="w-[26%] px-6 py-4 text-left text-xs font-bold text-zinc-500 uppercase tracking-wider">Nama Bangsal</th>
@@ -141,7 +143,6 @@
 
                 <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
                     @forelse($data as $bangsal)
-
                     @php
                     $kapasitas = collect($bangsal['kelas'])->sum('kapasitas');
                     $terisi = collect($bangsal['kelas'])->sum('terisi');
@@ -149,7 +150,7 @@
                     $persen = $kapasitas > 0 ? round(($terisi / $kapasitas) * 100) : 0;
                     @endphp
 
-                    <tr class="transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                    <tr class="bangsal-row transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50" data-name="{{ strtolower($bangsal['nama']) }}">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center gap-2">
                                 <div class="w-2 h-2 rounded-full 
@@ -160,51 +161,69 @@
                                 </span>
                             </div>
                         </td>
-
                         <td class="px-4 py-4 text-center font-medium whitespace-nowrap">{{ $kapasitas }}</td>
-
                         <td class="px-4 py-4 text-center font-medium whitespace-nowrap
                             {{ $kosong == 0 ? 'text-red-600' : 'text-blue-600' }}">
                             {{ $kosong }}
                         </td>
-
                         <td class="px-4 py-4 text-center font-medium whitespace-nowrap">{{ $terisi }}</td>
-
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center gap-3">
                                 <div class="w-24 h-2 overflow-hidden bg-zinc-200 rounded-full dark:bg-zinc-700">
-                                    <div class="h-full rounded-full {{ $persen >= 90 ? 'bg-red-600' : ($persen >= 70 ? 'bg-amber-500' : 'bg-green-500') }}"style="width: {{ $persen }}%;">
+                                    <div class="h-full rounded-full {{ $persen >= 90 ? 'bg-red-600' : ($persen >= 70 ? 'bg-amber-500' : 'bg-green-500') }}" style="width: {{ $persen }}%;">
                                     </div>
                                 </div>
-
                                 @if($persen >= 90)
                                 <flux:badge color="red" size="sm">{{ $persen }}%</flux:badge>
                                 @else
-                                <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-                                    {{ $persen }}%
-                                </span>
+                                <span class="text-xs font-semibold text-zinc-600 dark:text-zinc-400">{{ $persen }}%</span>
                                 @endif
                             </div>
                         </td>
-
                         <td class="px-6 py-4 text-center whitespace-nowrap">
                             <flux:button variant="ghost" size="sm">
                                 Lihat Detail
                             </flux:button>
                         </td>
                     </tr>
-
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center py-6 text-zinc-500">
-                            Tidak ada data
-                        </td>
+                        <td colspan="6" class="text-center py-6 text-zinc-500">Tidak ada data</td>
                     </tr>
                     @endforelse
                 </tbody>
-
             </table>
         </div>
-
     </flux:card>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchBangsal');
+            const rows = document.querySelectorAll('.bangsal-row');
+            const resetBtn = document.getElementById('resetFilterBtn');
+
+            function filterRows() {
+                const keyword = searchInput.value.toLowerCase().trim();
+                rows.forEach(row => {
+                    const name = row.getAttribute('data-name');
+                    if (name && name.includes(keyword)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterRows);
+            }
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    filterRows();
+                });
+            }
+            filterRows(); // initial call
+        });
+    </script>
 </x-layouts::app>
