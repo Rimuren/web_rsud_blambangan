@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\poliklinik_model;
+use App\Services\PoliklinikService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -22,71 +23,19 @@ class PoliklinikController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index()
+    public function index(Request $request, PoliklinikService $service)
     {
-        $polikliniks = poliklinik_model::orderBy('nama')->paginate(15);
+        $polikliniks = $service->getPoliklinik($request);
         return view('admin.dokter.poliklinik.index', compact('polikliniks'));
     }
 
-    public function create()
-    {
-        return view('admin.dokter.poliklinik.create');
-    }
+    public function create() {}
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:100|unique:poliklinik,nama',
-            'kode_bpjs' => 'nullable|string|max:20',
-            'image' => 'nullable|string',
-            'background_img' => 'nullable|string',
-            'tarif_konsultasi' => 'nullable|integer',
-        ]);
+    public function store(Request $request) {}
 
-        $validated['source'] = 'manual';
-        $validated['is_active'] = true;
+    public function edit($id) {}
 
-        poliklinik_model::create($validated);
+    public function update(Request $request, $id) {}
 
-        return redirect()->route('admin.dokter.poliklinik.index')
-            ->with('success', 'Poliklinik berhasil ditambahkan.');
-    }
-
-    public function edit($id)
-    {
-        $poliklinik = poliklinik_model::findOrFail($id);
-        return view('admin.dokter.poliklinik.edit', compact('poliklinik'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $poliklinik = poliklinik_model::findOrFail($id);
-
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:100', Rule::unique('poliklinik')->ignore($poliklinik->id)],
-            'kode_bpjs' => 'nullable|string|max:20',
-            'image' => 'nullable|string',
-            'background_img' => 'nullable|string',
-            'tarif_konsultasi' => 'nullable|integer',
-        ]);
-
-        $poliklinik->update($validated);
-
-        return redirect()->route('admin.dokter.poliklinik.index')
-            ->with('success', 'Poliklinik berhasil diperbarui.');
-    }
-
-    public function destroy($id)
-    {
-        $poliklinik = poliklinik_model::findOrFail($id);
-        // Cek apakah poliklinik sedang digunakan di jadwal_dokter
-        if ($poliklinik->jadwal_dokter()->exists()) {
-            return redirect()->route('admin.dokter.poliklinik.index')
-                ->with('error', 'Poliklinik sedang digunakan, tidak dapat dihapus.');
-        }
-        $poliklinik->delete();
-
-        return redirect()->route('admin.dokter.poliklinik.index')
-            ->with('success', 'Poliklinik berhasil dihapus.');
-    }
+    public function destroy($id) {}
 }
