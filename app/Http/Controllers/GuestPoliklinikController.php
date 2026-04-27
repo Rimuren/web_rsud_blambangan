@@ -11,6 +11,7 @@ class GuestPoliklinikController extends Controller
     public function index()
     {
         $polies = poliklinik_model::where('is_active', true)
+            ->whereNotNull('slug')
             ->orderBy('nama')
             ->get()
             ->map(function ($poli) {
