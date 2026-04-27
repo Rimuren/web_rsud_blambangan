@@ -147,17 +147,11 @@
             @endcanany
 
             {{-- Manajemen Ruangan --}}
-            @canany(['bangsal.view', 'kelas.view'])
+            @canany(['bangsal.view'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Ruangan" class="grid">
                 @can('bangsal.view')
                 <flux:sidebar.item href="{{ route('admin.manajemen-ruangan.bangsal.index') }}" :current="request()->routeIs('admin.manajemen-ruangan.bangsal.index')" wire:navigate>
                     Daftar Bangsal
-                </flux:sidebar.item>
-                @endcan
-
-                @can('kelas.view')
-                <flux:sidebar.item wire:navigate>
-                    Daftar Kelas
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>

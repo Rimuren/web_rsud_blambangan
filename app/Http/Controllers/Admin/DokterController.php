@@ -21,6 +21,9 @@ class DokterController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:dokter.view', only: ['index']),
+            new Middleware('permission:dokter.create', only: ['create','store']),
+            new Middleware('permission:dokter.update', only: ['edit','update']),
+            new Middleware('permission:dokter.delete', only: ['destroy']),
         ];
     }
 
