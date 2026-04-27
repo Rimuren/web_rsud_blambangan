@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
+use App\Http\Controllers\Controller;
 use App\Models\poliklinik_model;
 use Carbon\Carbon;
 
-class GuestPoliklinikController extends Controller
+class PoliklinikController extends Controller
 {
     // Halaman daftar semua poliklinik
     public function index()
