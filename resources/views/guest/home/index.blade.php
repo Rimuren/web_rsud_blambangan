@@ -23,16 +23,15 @@
     <div class="guest-floating-ad__wrap fixed inset-0 flex items-center justify-center px-4 -translate-y-10">
         <div class="guest-floating-ad__inner relative w-full max-w-[500px]">
 
-             {{-- Tombol X di pojok kanan atas card (di luar header) --}}
-    <button
-        type="button"
-        id="close-iklan-popup"
-        class="absolute top-3 right-3 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-md text-zinc-400 hover:text-zinc-700 transition"
-        aria-label="Tutup iklan">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    </button>
+            <button
+                type="button"
+                id="close-iklan-popup"
+                class="pointer-events-auto absolute right-4 top-4 z-20 flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 hover:text-zinc-700 transition bg-transparent"
+                aria-label="Tutup iklan">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
 
             <div class="guest-floating-ad__card pointer-events-auto relative w-full rounded-xl bg-white shadow-2xl overflow-hidden">
                 <div class="guest-floating-ad__slides">
@@ -43,9 +42,7 @@
                         <div class="px-6 pt-5 pb-3 flex items-center justify-between border-b border-zinc-100">
                             <span class="text-sm font-semibold text-zinc-700">Program terbaru</span>
                             <div class="flex items-center gap-3">
-                                <span class="text-xs text-zinc-400">
-                                    {{ $loop->iteration }} / {{ $popupIklans->count() }}
-                                </span>
+                               
                             </div>
                         </div>
 
@@ -215,9 +212,9 @@
                             @endforeach
                         </div>
 
-                        {{-- GRADIENT FADE + SCROLL INDICATOR--}}
+                        {{-- GRADIENT FADE + SCROLL INDICATOR (hanya jika item > 3) --}}
                         @if($jam_operasionals->count() > 3)
-                            <div id="jam-scroll-indicator">
+                            <div id="jam-scroll-indicator" class="pointer-events-none absolute bottom-0 left-0 right-0">
                                 {{-- Gradient fade --}}
                                 <div class="h-10 bg-gradient-to-t from-[#000B50] to-transparent"></div>
                                 {{-- Teks & ikon scroll --}}
@@ -285,7 +282,7 @@
                 @endphp
                 @foreach ($services as $service)
                 <a href="{{ route($service['route']) }}" class="block scroll-reveal-child">
-                    <div class="service-card relative rounded-2xl overflow-hidden h-48 md:h-48 group cursor-pointer shadow-md">
+                    <div class="service-card relative rounded-2xl overflow-hidden h-40 md:h-48 group cursor-pointer shadow-md">
                         <img src="{{ asset('images/' . $service['img']) }}"
                             alt="{{ $service['title'] }}"
                             class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
@@ -312,12 +309,13 @@
             {{-- DAFTAR ARTIKEL --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 mb-6 md:mb-8">
                 @forelse ($topArticles as $article)
-                <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col h-full">
+                <article class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all scroll-reveal-child">
                     <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="block">
-                        <div class="relative h-40 md:h-48 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
+                        <div class="relative h-36 md:h-40 overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-cyan-500">
                             @if ($article->thumbnail)
-                            <img src="{{ asset('storage/' . $article->thumbnail) }}"
-                                alt="{{ Str::limit($article->judul, 50) }}"
+                            <img
+                                src="{{ asset('storage/' . $article->thumbnail) }}"
+                                alt="{{ $article->judul }}"
                                 class="h-full w-full object-cover transition duration-300 hover:scale-105">
                             @else
                             <div class="flex h-full items-center justify-center">
@@ -329,61 +327,34 @@
                         </div>
                     </a>
 
-                    <div class="p-4 flex flex-col flex-grow">
-                        {{-- Kategori --}}
-                        <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wide mb-1">
-                            {{ $article->kategori->nama ?? 'Artikel' }}
-                        </span>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-[10px] font-bold text-red-600 uppercase tracking-wide">
+                                {{ $article->kategori->nama ?? 'Artikel' }}
+                            </span>
+                            <span class="text-[11px] font-semibold text-gray-400">
+                                {{ number_format($article->views ?? 0) }} views
+                            </span>
+                        </div>
 
-                        {{-- Judul (maks 50 karakter) --}}
-                        <h3 class="text-sm font-bold text-gray-900 mb-2 leading-snug">
+                        <h3 class="text-sm font-bold text-gray-900 mt-1.5 mb-2 leading-snug">
                             <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="hover:text-blue-700 transition">
-                                {{ Str::limit($article->judul, 50) }}
+                                {{ $article->judul }}
                             </a>
                         </h3>
 
-                        {{-- Excerpt (maks 80 karakter + line-clamp 3) --}}
-                        <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">
-                            {{ Str::limit(strip_tags($article->konten), 80) }}
+                        <p class="text-xs text-gray-500 mb-3">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($article->konten), 110) }}
                         </p>
 
-                        {{-- Views --}}
-                        <div class="flex items-center gap-1.5 mb-2">
-                            <svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <span class="text-xs text-gray-500">{{ number_format($article->views ?? 0) }} views</span>
-                        </div>
-
-                        {{-- Tanggal & Penulis --}}
-                        <div class="flex items-center gap-3 text-xs text-gray-400 mb-4">
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                {{ $article->published_at ? \Carbon\Carbon::parse($article->published_at)->translatedFormat('d M Y') : 'Belum terbit' }}
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                                {{ Str::limit($article->penulis->name ?? 'Admin', 30) }}
-                            </span>
-                        </div>
-
-                        {{-- Link baca --}}
-                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 mt-auto">
-                            Baca selengkapnya
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
+                        <a href="{{ route('guest.artikel.detail', $article->slug) }}" class="text-xs font-semibold text-blue-600 hover:underline">
+                            Baca Selengkapnya →
                         </a>
                     </div>
                 </article>
                 @empty
                 <div class="sm:col-span-2 md:col-span-3 bg-white rounded-2xl border border-gray-200 px-6 py-12 text-center text-gray-500">
-                    Belum ada artikel. Silakan cek lagi nanti.
+                    Artikel populer belum tersedia.
                 </div>
                 @endforelse
             </div>
@@ -467,6 +438,107 @@ document.addEventListener('DOMContentLoaded', function() {
         heroImage.style.transition = 'opacity 0.3s ease-in-out';
         heroImage.style.opacity = '1';
     }
+
+
+    // ========== POPUP IKLAN ==========
+const popupOverlay = document.getElementById('iklan-popup-overlay');
+const closeButton = document.getElementById('close-iklan-popup');
+const prevButton = document.getElementById('iklan-popup-prev');
+const nextButton = document.getElementById('iklan-popup-next');
+const slides = document.querySelectorAll('.guest-floating-ad__slide');
+const countdownSpan = document.querySelector('[data-iklan-popup-countdown]');
+const progressBar = document.querySelector('[data-iklan-popup-progress]');
+let currentIndex = 0;
+let countdownInterval = null;
+let progressInterval = null;
+let timeLeft = 600; // detik
+
+// Fungsi untuk menyembunyikan popup sepenuhnya
+function hidePopup() {
+    if (popupOverlay) {
+        popupOverlay.style.display = 'none';
+        // Atau hapus dari DOM: popupOverlay.remove();
+    }
+    // Hentikan semua timer
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (progressInterval) clearInterval(progressInterval);
+    // Reset scroll body jika perlu (pastikan body bisa di-scroll)
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+}
+
+// Fungsi untuk menampilkan slide berdasarkan index
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.classList.add('is-active');
+            slide.style.display = 'block';
+        } else {
+            slide.classList.remove('is-active');
+            slide.style.display = 'none';
+        }
+    });
+}
+
+// Reset timer untuk slide baru (jika ada countdown)
+function resetCountdown() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (progressInterval) clearInterval(progressInterval);
+    // Ambil nilai awal dari atribut data (misal 600 detik)
+    const initialTime = parseInt(countdownSpan?.getAttribute('data-initial-time') || '600');
+    timeLeft = initialTime;
+    if (countdownSpan) countdownSpan.innerText = timeLeft;
+    if (progressBar) progressBar.style.width = '100%';
+    
+   
+}
+
+// Event close
+if (closeButton) {
+    closeButton.addEventListener('click', hidePopup);
+}
+
+// Event prev
+if (prevButton) {
+    prevButton.addEventListener('click', () => {
+        if (slides.length === 0) return;
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+        resetCountdown();
+    });
+}
+
+// Event next
+if (nextButton) {
+    nextButton.addEventListener('click', () => {
+        if (slides.length === 0) return;
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+        resetCountdown();
+    });
+}
+
+// Inisialisasi: hanya slide pertama yang aktif
+if (slides.length > 0) {
+    showSlide(0);
+    // Simpan waktu awal ke atribut data untuk reset
+    if (countdownSpan && !countdownSpan.hasAttribute('data-initial-time')) {
+        const initialTime = parseInt(countdownSpan.innerText) || 600;
+        countdownSpan.setAttribute('data-initial-time', initialTime);
+        timeLeft = initialTime;
+    }
+    resetCountdown();
+}
+
+// Juga tutup popup jika klik di luar area card (backdrop)
+if (popupOverlay) {
+    popupOverlay.addEventListener('click', (e) => {
+        // Jika yang diklik adalah backdrop (bukan card atau tombol close)
+        if (e.target === popupOverlay || e.target.classList.contains('guest-floating-ad__backdrop')) {
+            hidePopup();
+        }
+    });
+}
     
     // ========== JAM OPERASIONAL SCROLL INDICATOR ==========
     const jamList = document.getElementById('jam-operasional-list');
@@ -530,14 +602,5 @@ document.addEventListener('DOMContentLoaded', function() {
 .animate-pulse {
     animation: pulse 1.5s ease-in-out infinite;
 }
-
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
 </style>
 @endsection
