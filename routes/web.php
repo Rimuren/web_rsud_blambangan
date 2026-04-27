@@ -157,7 +157,8 @@ Route::get('/build-info', [VersionInfoController::class, 'version']);
 |--------------------------------------------------------------------------
 */
 
-Route::view('/admin', 'welcome')->name('home');
+// Route::view('/admin', 'welcome')->name('home');
+Route::view('/admin', 'livewire.auth.login')->name('home');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 

@@ -80,11 +80,11 @@
                         <span class="font-medium">{{ __('Remember me') }}</span>
                     </label>
 
-                    @if (Route::has('password.request'))
+                    <!-- @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" wire:navigate class="font-medium text-gray-600 transition hover:text-[#1b3a6b] dark:text-white dark:hover:text-neutral-300">
                             {{ __('Forgot password?') }}
                         </a>
-                    @endif
+                    @endif -->
                 </div>
 
                 <div class="auth-captcha-wrap animate-fade-up delay-6">
