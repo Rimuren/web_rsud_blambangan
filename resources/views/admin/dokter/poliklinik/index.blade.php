@@ -72,10 +72,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-6 py-10 text-center text-zinc-500">Belum ada data poliklinik.}}
-
-
-                            </td>
+                            <td colspan="4" class="px-6 py-10 text-center text-zinc-500">Belum ada data poliklinik.</td>
                         </tr>
                         @endforelse
                     </tbody>

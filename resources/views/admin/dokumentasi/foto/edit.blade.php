@@ -3,8 +3,8 @@
 @section('title', 'Edit Foto')
 
 @section('content')
-@can('foto.update')
 
+@can('foto.update')
 <div class="p-4 md:p-6 lg:p-8">
     <div class="max-w-2xl mx-auto">
 
