@@ -101,16 +101,6 @@
             <p class="text-4xl font-bold text-rose-600 dark:text-rose-400">{{ $totalVideos }}</p>
         </div>
     </flux:card>
-
-    <flux:card class="p-6 md:p-8">
-        <div class="flex flex-col items-center gap-3">
-            <div class="size-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <flux:icon name="plus-circle" class="size-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <p class="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider text-center">Available ER</p>
-            <p class="text-4xl font-bold text-emerald-600 dark:text-emerald-400">{{ $availableER }}</p>
-        </div>
-    </flux:card>
 </div>
 
 {{-- Bangsal/Ward Statistics --}}

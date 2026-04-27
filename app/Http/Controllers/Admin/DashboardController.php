@@ -11,6 +11,7 @@ use App\Models\poliklinik_model;
 use App\Models\Photo_model;
 use App\Models\Video_model;
 use App\Models\bangsal_model;
+use App\Services\DokterService;
 use App\Models\bangsal_kelas_model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -18,6 +19,14 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class DashboardController extends Controller implements HasMiddleware
 {
+
+protected DokterService $dokterService;
+
+    public function __construct(DokterService $dokterService)
+    {
+        $this->dokterService = $dokterService;
+    }
+
     public static function middleware()
     {
         return [
@@ -57,7 +66,8 @@ class DashboardController extends Controller implements HasMiddleware
         // ========================
         // DOKTER - Hanya hitung jumlah dokter aktif
         // ========================
-        $totalDokter = dokter_model::active()->count();
+        $dokterData = $this->dokterService->getDokters(new Request());
+        $totalDokter = $dokterData['dokters']->total();
 
         // Polyclinic Statistics
         $totalPoliklinik = poliklinik_model::count();
