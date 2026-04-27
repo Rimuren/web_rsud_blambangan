@@ -130,6 +130,16 @@ class ArtikelController extends Controller
             );
         }
 
+        if ($request->remove_thumbnail == '1' && $artikel->thumbnail) {
+            Storage::delete($artikel->thumbnail);
+            $artikel->thumbnail = null;
+        }
+
+        if ($request->hasFile('thumbnail')) {
+            if ($artikel->thumbnail) Storage::delete($artikel->thumbnail);
+            $artikel->thumbnail = $request->file('thumbnail')->store('thumbnails', 'public');
+        }
+
         if ($request->status === 'published' && $artikel->status !== 'published') {
             $data['published_at'] = now();
         }

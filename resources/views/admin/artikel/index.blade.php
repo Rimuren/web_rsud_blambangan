@@ -11,29 +11,6 @@
                     Kelola semua konten artikel kesehatan dan berita rumah sakit Anda.
                 </p>
             </div>
-<<<<<<< HEAD
-=======
-
-            <div class="flex gap-3">
-               
-                <button type="button" id="delete-selected-btn"
-                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-                    <flux:icon name="trash" class="size-4" />
-                    Hapus Terpilih (<span id="selected-count">0</span>)
-                </button>
-             
-
-                
-                <a href="{{ route('admin.artikel.create') }}">
-                    <flux:button variant="primary" class="cursor-pointer">
-                        <flux:icon name="plus" class="size-5 mr-2" />
-                        Tambah Artikel Baru
-                    </flux:button>
-                </a>
-                
-            </div>
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
         </div>
 
         {{-- STATISTIK INFORMATIF --}}
@@ -172,7 +149,7 @@
                     <colgroup>
                         <col class="w-10">
                         <col class="w-2/6 min-w-[200px]">
-                        <col class="w-1/6 min-w-[140px]"> {{-- Sedikit lebih lebar untuk kategori panjang --}}
+                        <col class="w-1/6 min-w-[140px]">
                         <col class="w-1/6 min-w-[120px] hidden md:table-cell">
                         <col class="w-24">
                         <col class="w-20">
@@ -264,14 +241,8 @@
                             <td class="px-3 py-3 text-sm text-zinc-500 whitespace-nowrap">
                                 {{ $artikel->created_at->translatedFormat('d M Y') }}
                             </td>
-<<<<<<< HEAD
                             <td class="px-6 py-6">
                                 <div class="flex justify-center items-center gap-3">
-=======
-                            <td class="px-3 py-3">
-                                <div class="flex justify-center items-center gap-1">
-                                    
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
