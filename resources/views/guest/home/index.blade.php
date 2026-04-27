@@ -362,28 +362,6 @@
                 @endforelse
             </div>
 
-            {{-- LIST KATEGORI ARTIKEL (opsional, dari $topArticleCategories) --}}
-            @if($topArticleCategories->isNotEmpty())
-            <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
-                <div class="flex flex-wrap gap-2 md:gap-3 justify-center items-center text-xs text-gray-600">
-                    <span class="font-bold text-gray-800">Kategori Artikel:</span>
-                    @foreach ($topArticleCategories as $category)
-                    <a href="{{ route('guest.artikel.index', ['kategori' => Str::slug($category)]) }}" 
-                    class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full hover:opacity-80 transition">
-                        {{ $category }}
-                    </a>
-                    @endforeach
-                </div>
-                <p class="text-center text-[11px] text-gray-400 mt-2">Klik kategori untuk melihat artikel terkait</p>
-            </div>
-            @endif
-
-            <div class="text-center scroll-reveal-child">
-                <a href="{{ route('guest.artikel.index') }}" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-semibold px-8 md:px-10 py-3 rounded-xl shadow transition text-sm md:text-base">Lihat Lebih Banyak</a>
-            </div>
-        </div>
-    </section>
-
             {{-- LIST KATEGORI ARTIKEL --}}
             @if($topArticleCategories->isNotEmpty())
             <div class="bg-white rounded-xl p-4 mb-6 md:mb-8 shadow-sm border border-gray-100 scroll-reveal-child">
