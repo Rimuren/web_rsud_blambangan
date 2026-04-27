@@ -144,10 +144,10 @@ Route::prefix('galeri')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/health', [HealthCheckController::class, 'check']);
-Route::get('/status', [HealthCheckController::class, 'check']);
-Route::get('/version', [VersionInfoController::class, 'index']);
-Route::get('/build-info', [VersionInfoController::class, 'index']);
+Route::get('/health', [HealthCheckController::class, 'health']);
+Route::get('/status', [HealthCheckController::class, 'status']);
+Route::get('/version', [VersionInfoController::class, 'version']);
+Route::get('/build-info', [VersionInfoController::class, 'version']);
 
 /*
 |--------------------------------------------------------------------------
