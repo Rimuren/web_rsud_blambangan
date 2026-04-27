@@ -1,5 +1,5 @@
 {{-- Pelayanan Instalasi Laboratorium Patologi Klinik & Patologi Anatomi --}}
-<div class="flex items-center gap-3 mt-8 mb-6">
+<div class="flex flex-col sm:flex-row sm:items-center items-start gap-3 mt-6 mb-6">
     <div class="w-12 h-12 rounded-xl bg-[#fde8e0] flex items-center justify-center flex-shrink-0">
         <svg class="w-6 h-6 text-[#e07a5f]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
             <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.628.282a2 2 0 01-1.806 0l-.628-.282a6 6 0 00-3.86-.517l-2.387.477a2 2 0 00-1.022.547m0 0l-1.1 3.523A2 2 0 005.659 22h12.682a2 2 0 001.951-2.472l-1.1-3.523zM12 2v9m-4-7l8 0" stroke-linecap="round" stroke-linejoin="round"/>
@@ -9,7 +9,8 @@
 </div>
 
 {{-- MAIN TABLE CARD --}}
-<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-6">
+<div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mb-4">
+
     {{-- Table Header --}}
     <div class="grid grid-cols-[60px_220px_1fr] bg-[#f1f5f9] px-6 py-3 border-b border-gray-200">
         <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">NO</span>
@@ -96,7 +97,8 @@
 
     {{-- Looping rows --}}
     @foreach ($rows as $row)
-    <div class="grid grid-cols-[60px_220px_1fr] px-6 py-6 {{ !$loop->last ? 'border-b border-gray-200' : '' }} items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[60px_220px_1fr] px-4 sm:px-6 py-4 sm:py-6 {{ !$loop->last ? 'border-b border-gray-200' : '' }} items-start gap-4 lg:gap-0">
+
         {{-- Nomor --}}
         <span class="text-sm text-gray-400 font-medium pt-0.5">{{ $row['no'] }}</span>
 
@@ -136,7 +138,7 @@
                     </div>
 
                     {{-- Numbered steps grid --}}
-                    <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         @foreach ($row['numbered_steps'] as $index => $step)
                         <div class="flex items-start gap-2.5">
                             <span class="w-5 h-5 rounded-full bg-[#e2eaf5] text-[#1e3a5f] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{{ $index + 1 }}</span>
@@ -152,9 +154,9 @@
                 </span>
 
             @elseif ($row['content_type'] == 'biaya')
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
                     @foreach ($row['biaya_items'] as $item)
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between sm:flex-1">
                         <span class="text-sm text-gray-600">{{ $item['label'] }}</span>
                         <span class="text-sm text-right {{ $item['value_class'] }}">{{ $item['value'] }}</span>
                     </div>
@@ -179,7 +181,7 @@
 </div>
 
 {{-- INFORMASI TAMBAHAN --}}
-<div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 flex items-start gap-4">
+<div class="bg-white rounded-2xl border border-gray-200 px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
     <div class="flex-shrink-0 mt-0.5">
         <svg class="w-5 h-5 text-[#1e3a5f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="9"/>
