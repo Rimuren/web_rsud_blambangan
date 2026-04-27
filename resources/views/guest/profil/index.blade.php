@@ -1,82 +1,5 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'RSUD Blambangan')</title>
+@extends('layouts.guest.guest')
 
-<<<<<<< HEAD
-    {{-- Tailwind CDN --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    {{-- Font --}}
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-50">
-
-    {{-- HEADER / NAVBAR --}}
-    <header class="w-full bg-white shadow-sm border-b">
-        <nav class="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
-
-            {{-- LOGO --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('build/assets/logo.png') }}" 
-                     alt="Logo RSUD Blambangan"
-                     class="h-10 w-auto object-contain">
-
-                <span class="text-lg md:text-xl font-semibold text-gray-800">
-                    RSUD Blambangan
-                </span>
-            </a>
-
-            {{-- MENU --}}
-            <div class="flex items-center gap-6">
-
-                <a href="{{ route('home') }}"
-                   class="relative text-sm md:text-base font-medium transition 
-                   {{ request()->routeIs('home') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600' }}">
-                    Beranda
-
-                    @if(request()->routeIs('home'))
-                        <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-blue-600 rounded"></span>
-                    @endif
-                </a>
-
-                <a href="{{ route('profil') }}"
-                   class="relative text-sm md:text-base font-medium transition 
-                   {{ request()->routeIs('profil') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600' }}">
-                    Profil
-
-                    @if(request()->routeIs('profil'))
-                        <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-blue-600 rounded"></span>
-                    @endif
-                </a>
-
-            </div>
-
-        </nav>
-    </header>
-
-    {{-- MAIN CONTENT --}}
-    <main class="min-h-screen">
-        @yield('content')
-    </main>
-
-    {{-- FOOTER --}}
-    <footer class="bg-gray-900 text-white text-center py-4 text-sm">
-        © {{ date('Y') }} RSUD Blambangan. All rights reserved.
-    </footer>
-
-</body>
-</html>
-=======
 @section('title', 'Profil RSUD Blambangan')
 
 @section('content')
@@ -87,45 +10,92 @@
         /* Animasi awal halaman */
         --fade-duration: 0.8s;
         --fade-direction: fade-up;
-        
+
         /* Animasi scroll reveal */
         --reveal-duration: 0.6s;
         --reveal-delay-step: 0.1s;
     }
 
-    body { 
-        font-family: 'Plus Jakarta Sans', sans-serif; 
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    html, body { 
-        overflow-x: hidden; 
-        width: 100%; 
-        max-width: 100%; 
+
+    html,
+    body {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
     }
 
     /* ========== ANIMASI AWAL HALAMAN (fade container) ========== */
     @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
+
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
     @keyframes fadeDown {
-        from { opacity: 0; transform: translateY(-30px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
+
     @keyframes fadeLeft {
-        from { opacity: 0; transform: translateX(30px); }
-        to { opacity: 1; transform: translateX(0); }
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
+
     @keyframes fadeRight {
-        from { opacity: 0; transform: translateX(-30px); }
-        to { opacity: 1; transform: translateX(0); }
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
+
     @keyframes zoomIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 
     .fade-container {
@@ -133,12 +103,30 @@
         animation-fill-mode: both;
         animation-timing-function: ease-out;
     }
-    .fade-container[data-direction="fade-in"] { animation-name: fadeIn; }
-    .fade-container[data-direction="fade-up"] { animation-name: fadeUp; }
-    .fade-container[data-direction="fade-down"] { animation-name: fadeDown; }
-    .fade-container[data-direction="fade-left"] { animation-name: fadeLeft; }
-    .fade-container[data-direction="fade-right"] { animation-name: fadeRight; }
-    .fade-container[data-direction="zoom-in"] { animation-name: zoomIn; }
+
+    .fade-container[data-direction="fade-in"] {
+        animation-name: fadeIn;
+    }
+
+    .fade-container[data-direction="fade-up"] {
+        animation-name: fadeUp;
+    }
+
+    .fade-container[data-direction="fade-down"] {
+        animation-name: fadeDown;
+    }
+
+    .fade-container[data-direction="fade-left"] {
+        animation-name: fadeLeft;
+    }
+
+    .fade-container[data-direction="fade-right"] {
+        animation-name: fadeRight;
+    }
+
+    .fade-container[data-direction="zoom-in"] {
+        animation-name: zoomIn;
+    }
 
     /* ========== ANIMASI SCROLL REVEAL ========== */
     .reveal {
@@ -146,43 +134,57 @@
         transform: translateY(30px);
         transition: opacity var(--reveal-duration) ease-out, transform var(--reveal-duration) ease-out;
     }
+
     .reveal.visible {
         opacity: 1;
         transform: translateY(0);
     }
+
     /* Opsi variasi arah (bisa ditambahkan class tambahan) */
     .reveal-left {
         transform: translateX(-30px);
     }
+
     .reveal-left.visible {
         transform: translateX(0);
     }
+
     .reveal-right {
         transform: translateX(30px);
     }
+
     .reveal-right.visible {
         transform: translateX(0);
     }
+
     .reveal-scale {
         transform: scale(0.95);
     }
+
     .reveal-scale.visible {
         transform: scale(1);
     }
 
     /* Efek hover interaktif */
-    button, img, .stat-card, .facility-card {
+    button,
+    img,
+    .stat-card,
+    .facility-card {
         transition: all 0.2s ease;
     }
+
     button:hover {
         transform: translateY(-2px);
     }
+
     img:hover {
         transform: scale(1.02);
     }
-    .stat-card:hover, .facility-card:hover {
+
+    .stat-card:hover,
+    .facility-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
 </style>
 
@@ -234,13 +236,13 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-8">Komitmen Kami Kepada Masyarakat</h2>
             <div class="relative max-w-2xl mx-auto">
                 <svg class="absolute -top-3 -left-2 w-7 h-7 text-teal-400 opacity-80" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M7.17 17c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17zm10 0c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17z"/>
+                    <path d="M7.17 17c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17zm10 0c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17z" />
                 </svg>
                 <p class="text-blue-100 text-sm leading-loose px-4">
                     Maklumat sejak tahun 1930 sebagai Pusat Kesehatan Sederhana jaman Belanda, yang hanya melayani Pelayanan Kesehatan Dasar dan Penyakit Menular hingga sekarang berkembang menjadi Rumah Sakit Kelas B Pemerintah dan lulus Akreditasi PARIPURNA KARS 2012. Kini telah menjadi Pusat Rujukan Spesialis di kabupaten Banyuwangi. RSUD Blambangan selalu berbenah dalam hal pelayanan kesehatan sehingga dapat menyajikan pelayanan yang modern dan berkelas.
                 </p>
                 <svg class="absolute -bottom-4 -right-2 w-7 h-7 text-teal-400 opacity-80 rotate-180" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M7.17 17c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17zm10 0c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17z"/>
+                    <path d="M7.17 17c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17zm10 0c.51 0 .98-.29 1.2-.74l1.42-2.84c.14-.28.21-.58.21-.89V8c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2l-1 2c-.36.72.17 1.53 1 1.53h.17z" />
                 </svg>
             </div>
         </div>
@@ -294,26 +296,29 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @php
-                $facilities = [
-                    [
-                        'title' => 'IGD 24 Jam',
-                        'desc' => 'Siaga melayani kondisi darurat kapan saja dengan tim medis ahli.',
-                        'img' => 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=500&auto=format&fit=crop',
-                        'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 0h13.5M3.375 9.75h.375m-.375 3h.375m13.125-3h.375m-.375 3h.375M6.375 9h11.25" />'
-                    ],
-                    [
-                        'title' => 'Laboratorium Modern',
-                        'desc' => 'Fasilitas pengujian medis lengkap dengan hasil yang cepat dan akurat.',
-                        'img' => 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=500&auto=format&fit=crop',
-                        'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1-.26 2.242-1.31 1.554l-3.04-2.027a9.126 9.126 0 01-9.705 0L4.11 17.856c-1.05.688-2.311-.554-1.311-1.554L4.2 14.9" />'
-                    ],
-                    [
-                        'title' => 'Rawat Inap VVIP',
-                        'desc' => 'Kamar perawatan yang nyaman dengan fasilitas setara hotel berbintang.',
-                        'img' => 'https://images.unsplash.com/photo-1598256989261-7f657bc3e10e?w=500&auto=format&fit=crop',
-                        'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />'
-                    ]
-                ];
+            $facilities = [
+            [
+            'title' => 'IGD 24 Jam',
+            'desc' => 'Siaga melayani kondisi darurat kapan saja dengan tim medis ahli.',
+            'img' => 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=500&auto=format&fit=crop',
+            'icon' => '
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 0h13.5M3.375 9.75h.375m-.375 3h.375m13.125-3h.375m-.375 3h.375M6.375 9h11.25" />'
+            ],
+            [
+            'title' => 'Laboratorium Modern',
+            'desc' => 'Fasilitas pengujian medis lengkap dengan hasil yang cepat dan akurat.',
+            'img' => 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=500&auto=format&fit=crop',
+            'icon' => '
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1 1-.26 2.242-1.31 1.554l-3.04-2.027a9.126 9.126 0 01-9.705 0L4.11 17.856c-1.05.688-2.311-.554-1.311-1.554L4.2 14.9" />'
+            ],
+            [
+            'title' => 'Rawat Inap VIP',
+            'desc' => 'Kamar perawatan yang nyaman dengan fasilitas setara hotel berbintang.',
+            'img' => 'https://images.unsplash.com/photo-1598256989261-7f657bc3e10e?w=500&auto=format&fit=crop',
+            'icon' => '
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />'
+            ]
+            ];
             @endphp
             @foreach ($facilities as $index => $facility)
             <div class="facility-card reveal reveal-scale" style="transition-delay: {{ $index * 0.1 }}s;">
@@ -357,7 +362,7 @@
     // Scroll Reveal Animation menggunakan Intersection Observer
     document.addEventListener('DOMContentLoaded', function() {
         const revealElements = document.querySelectorAll('.reveal');
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -367,12 +372,11 @@
                 }
             });
         }, {
-            threshold: 0.1,   // Muncul saat 10% elemen terlihat
+            threshold: 0.1, // Muncul saat 10% elemen terlihat
             rootMargin: '0px 0px -20px 0px' // Sedikit offset agar lebih halus
         });
-        
+
         revealElements.forEach(el => observer.observe(el));
     });
 </script>
 @endsection
->>>>>>> 9e9b5e6449f280e22f788d43bdc5bb6c901c3726
