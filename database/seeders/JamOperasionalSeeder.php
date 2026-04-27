@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\JamOperasional;
+use App\Models\jam_operasional;
 use Illuminate\Database\Seeder;
 
 class JamOperasionalSeeder extends Seeder
@@ -58,7 +58,7 @@ class JamOperasionalSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            JamOperasional::updateOrCreate(
+            jam_operasional::updateOrCreate(
                 ['hari' => $item['hari']],
                 $item
             );

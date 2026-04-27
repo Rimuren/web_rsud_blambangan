@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('admin.jam-operasional.update', $jamOperasional) }}" method="POST">
+            <form action="{{ route('admin.jam-operasional.update', $jam_operasional) }}" method="POST">
                 @csrf
                 @method('PUT')
 

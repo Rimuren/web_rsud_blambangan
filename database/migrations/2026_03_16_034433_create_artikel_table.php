@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('konten');
             $table->string('thumbnail')->nullable();
+            $table->unsignedInteger('views')->default(0);
             $table->unsignedBigInteger('kategori_id');
             $table->unsignedBigInteger('penulis_id');
             $table->enum('status', ['draft', 'published'])->default('draft');

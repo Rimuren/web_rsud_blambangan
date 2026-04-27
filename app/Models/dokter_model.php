@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\jadwal_dokter_model;
 
 class dokter_model extends Model
 {
-
     use HasFactory;
 
     protected $table = 'dokter';
+
     protected $fillable = [
         'api_id',
         'nama',
@@ -22,13 +21,39 @@ class dokter_model extends Model
         'pendidikan',
         'umur',
         'rating',
-        'image_path'
+        'image_path',
+        'is_manual',
+        'is_active'
     ];
+
+    protected $casts = [
+        'is_manual' => 'boolean',
+        'is_active' => 'boolean',
+    ];
+
+    // ================= RELATION =================
     public function jadwal_dokter()
     {
         return $this->hasMany(jadwal_dokter_model::class, 'dokter_id');
     }
 
+    // ================= SCOPES =================
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeManual($query)
+    {
+        return $query->where('is_manual', true);
+    }
+
+    public function scopeFromApi($query)
+    {
+        return $query->where('is_manual', false);
+    }
+
+    // ================= ACCESSOR =================
     public function getImageUrlAttribute()
     {
         if (!empty($this->image_path)) {
@@ -36,10 +61,9 @@ class dokter_model extends Model
                 return $this->image_path;
             }
             $baseUrl = config('api.rsud.base_url');
-            $baseUrlForImage = str_replace('/api/online', '', $baseUrl);
-            return rtrim($baseUrlForImage, '/') . '/' . ltrim($this->image_path, '/');
+            $baseImageUrl = str_replace('/api/online', '', rtrim($baseUrl, '/'));
+            return $baseImageUrl . '/' . ltrim($this->image_path, '/');
         }
-
         return 'https://ui-avatars.com/api/?background=003366&color=fff&name=' . urlencode($this->nama) . '&size=128';
     }
 }

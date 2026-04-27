@@ -39,7 +39,6 @@ class ArticleSeeder extends Seeder
         // Pastikan ada user dengan id 1
         $penulisId = 1;
         if (!User::find($penulisId)) {
-            // Jika user id 1 tidak ada, buat user dummy atau ambil user pertama
             $user = User::first();
             if ($user) {
                 $penulisId = $user->id;
@@ -57,10 +56,9 @@ class ArticleSeeder extends Seeder
         // Buat 15 artikel
         for ($i = 1; $i <= 15; $i++) {
             $judul = $faker->sentence(rand(5, 10));
-            // Hilangkan titik di akhir
             $judul = rtrim($judul, '.');
             
-            // Buat konten yang lebih panjang (simulasi artikel)
+            // Buat konten
             $konten = "<p>" . $faker->paragraph(rand(3, 6)) . "</p>";
             $konten .= "<h2>" . $faker->sentence(rand(3, 5)) . "</h2>";
             $konten .= "<p>" . $faker->paragraph(rand(4, 8)) . "</p>";

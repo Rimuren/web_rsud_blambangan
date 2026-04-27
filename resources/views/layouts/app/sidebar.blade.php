@@ -124,7 +124,7 @@
             @endcanany
 
             {{-- Manajemen Dokter --}}
-            @canany(['dokter.view', 'spesialis.view'])
+            @canany(['dokter.view', 'poliklinik.view'])
             <flux:sidebar.group expandable icon="star" heading="Manajemen Dokter" class="grid">
                 @can('dokter.view')
                 <flux:sidebar.item
@@ -135,12 +135,12 @@
                 </flux:sidebar.item>
                 @endcan
 
-                @can('spesialis.view')
+                @can('poliklinik.view')
                 <flux:sidebar.item
-                    :href="route('admin.dokter.spesialis.index')"
-                    :current="request()->routeIs('admin.dokter.spesialis.index')"
+                    :href="route('admin.dokter.poliklinik.index')"
+                    :current="request()->routeIs('admin.dokter.poliklinik.*')"
                     wire:navigate>
-                    Daftar Spesialis
+                    Daftar Poliklinik
                 </flux:sidebar.item>
                 @endcan
             </flux:sidebar.group>

@@ -1,7 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
-    @can('artikel.view')
+    
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -11,74 +11,71 @@
                     Kelola semua konten artikel kesehatan dan berita rumah sakit Anda.
                 </p>
             </div>
+<<<<<<< HEAD
+=======
 
             <div class="flex gap-3">
-                @can('artikel.delete')
+               
                 <button type="button" id="delete-selected-btn"
                     class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled>
                     <flux:icon name="trash" class="size-4" />
                     Hapus Terpilih (<span id="selected-count">0</span>)
                 </button>
-                @endcan
+             
 
-                @can('artikel.create')
+                
                 <a href="{{ route('admin.artikel.create') }}">
                     <flux:button variant="primary" class="cursor-pointer">
                         <flux:icon name="plus" class="size-5 mr-2" />
                         Tambah Artikel Baru
                     </flux:button>
                 </a>
-                @endcan
+                
             </div>
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
         </div>
 
         {{-- STATISTIK INFORMATIF --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <flux:card class="p-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                        <flux:icon name="document-text" class="size-5 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Total Artikel</p>
-                        <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $totalArtikel ?? 0 }}</p>
-                    </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 mb-8">
+        {{-- Total Artikel --}}
+        <flux:card class="p-5">
+                <div class="flex items-center gap-4">
+                <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl shrink-0">
+                    <flux:icon name="document-text" class="size-6 text-blue-600 dark:text-blue-400" />
                 </div>
-            </flux:card>
-            <flux:card class="p-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                        <flux:icon name="check-circle" class="size-5 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Published</p>
-                        <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $publishedCount ?? 0 }}</p>
-                    </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 truncate">Total Artikel</p>
+                    <p class="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ $totalArtikel ?? 0 }}</p>
                 </div>
-            </flux:card>
-            <flux:card class="p-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-                        <flux:icon name="pencil" class="size-5 text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Draft</p>
-                        <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $draftCount ?? 0 }}</p>
-                    </div>
+            </div>
+        </flux:card>
+
+        {{-- Published --}}
+        <flux:card class="p-5">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl shrink-0">
+                    <flux:icon name="check-circle" class="size-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
-            </flux:card>
-            <flux:card class="p-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                        <flux:icon name="eye" class="size-5 text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <div>
-                        <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Total Dilihat</p>
-                        <p class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $totalViews ?? 0 }}</p>
-                    </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 truncate">Published</p>
+                    <p class="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ $publishedCount ?? 0 }}</p>
                 </div>
-            </flux:card>
+            </div>
+        </flux:card>
+
+        {{-- Draft --}}
+        <flux:card class="p-5">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl shrink-0">
+                    <flux:icon name="pencil" class="size-6 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 truncate">Draft</p>
+                    <p class="text-3xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ $draftCount ?? 0 }}</p>
+                </div>
+            </div>
+        </flux:card>
         </div>
 
         {{-- FILTER KATEGORI & SEARCH --}}
@@ -142,12 +139,31 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
-        @can('artikel.delete')
+        
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
-        @endcan
+       
+
+        <div class="flex justify-end mb-5">
+            <div class="inline-flex rounded-lg shadow-sm" role="group">
+                {{-- Tombol Hapus --}}
+                <button type="button" id="delete-selected-btn"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-white border border-zinc-300 rounded-l-lg hover:bg-red-50 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-500 focus:text-red-800 dark:bg-zinc-800 dark:border-zinc-600 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    disabled>
+                    <flux:icon name="trash" class="size-4" />
+                    Hapus (<span id="selected-count">0</span>)
+                </button>
+                
+                {{-- Tombol Tambah --}}
+                <a href="{{ route('admin.artikel.create') }}" 
+                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-r-lg hover:bg-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:border-blue-500 dark:hover:bg-blue-600 transition-colors">
+                    <flux:icon name="plus" class="size-4" />
+                    Tambah Artikel
+                </a>
+            </div>
+        </div>
 
         {{-- TABEL ARTIKEL --}}
         <flux:card class="overflow-hidden">
@@ -197,10 +213,10 @@
                                     @endif
                                     <div class="min-w-0">
                                         <p class="text-sm font-bold text-zinc-900 dark:text-white truncate" title="{{ $artikel->judul }}">
-                                            {{ Str::limit($artikel->judul, 40) }}
+                                            {{ Str::limit($artikel->judul, 35) }}
                                         </p>
                                         <p class="text-xs text-zinc-500 truncate">
-                                            {{ Str::limit(strip_tags($artikel->konten), 40) }}
+                                            {{ Str::limit(strip_tags($artikel->konten), 35) }}
                                         </p>
                                     </div>
                                 </div>
@@ -218,7 +234,7 @@
                                 <div title="{{ $namaKategori }}">
                                     <flux:badge color="{{ $warna }}" size="sm" class="inline-block max-w-full">
                                         <span class="truncate block">
-                                            {{ Str::limit($namaKategori, 20) }}
+                                            {{ Str::limit($namaKategori, 15) }}
                                         </span>
                                     </flux:badge>
                                 </div>
@@ -248,17 +264,22 @@
                             <td class="px-3 py-3 text-sm text-zinc-500 whitespace-nowrap">
                                 {{ $artikel->created_at->translatedFormat('d M Y') }}
                             </td>
+<<<<<<< HEAD
+                            <td class="px-6 py-6">
+                                <div class="flex justify-center items-center gap-3">
+=======
                             <td class="px-3 py-3">
                                 <div class="flex justify-center items-center gap-1">
-                                    @can('edit artikel')
+                                    
+>>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
                                         </flux:button>
                                     </a>
-                                    @endcan
+                                    
 
-                                    @can('delete artikel')
+                                  
                                     <form action="{{ route('admin.artikel.destroy', $artikel->id) }}"
                                         method="POST"
                                         class="delete-single-form inline-flex">
@@ -267,11 +288,11 @@
                                         <flux:button type="submit"
                                             size="sm"
                                             variant="danger"
-                                            class="!p-1 text-red-600 opacity-75 hover:opacity-100 transition-opacity">
+                                            class="!p-1 text-red-600 size-10 opacity-75 hover:opacity-100 transition-opacity">
                                             <flux:icon name="trash" class="size-4" />
                                         </flux:button>
                                     </form>
-                                    @endcan
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -352,5 +373,5 @@
             updateDeleteButton();
         });
     </script>
-    @endcan
+    
 </x-layouts::app>

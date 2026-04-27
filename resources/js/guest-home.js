@@ -1,111 +1,154 @@
-const guestHomeConfig = document.getElementById('guest-home-config');
+const config = document.getElementById('guest-home-config');
 
-if (guestHomeConfig) {
-    const popupSessionKey = guestHomeConfig.dataset.popupSessionKey || null;
-    const heroImages = JSON.parse(guestHomeConfig.dataset.heroImages || '[]');
+if (config) {
+    const heroImages = JSON.parse(config.dataset.heroImages || '[]');
+    const heroImageElement = document.getElementById('hero-image');
+    const popupOverlay = document.getElementById('iklan-popup-overlay');
+    const closePopupButton = document.getElementById('close-iklan-popup');
+    const closePopupActionButtons = Array.from(document.querySelectorAll('[data-close-iklan-popup-action]'));
+    const prevPopupButton = document.getElementById('iklan-popup-prev');
+    const nextPopupButton = document.getElementById('iklan-popup-next');
+    const popupSessionKey = config.dataset.popupSessionKey;
+    const popupSlides = Array.from(document.querySelectorAll('[data-iklan-slide]'));
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const iklanPopup = document.getElementById('iklan-popup-overlay');
-        const iklanCountdown = document.getElementById('iklan-popup-countdown');
-        const heroImage = document.getElementById('hero-image');
-        const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-child');
+    if (heroImageElement && heroImages.length > 1) {
+        let heroIndex = 0;
 
-        let iklanTimer = null;
-        let iklanCountdownInterval = null;
-        let currentIndex = 0;
+        window.setInterval(() => {
+            heroIndex = (heroIndex + 1) % heroImages.length;
+            heroImageElement.classList.add('is-transitioning');
 
-        const popupDurationMs = 600000;
-        const popupDurationSeconds = Math.ceil(popupDurationMs / 1000);
-        const navigationEntry = performance.getEntriesByType('navigation')[0];
-        const isReload = navigationEntry
-            ? navigationEntry.type === 'reload'
-            : performance.navigation && performance.navigation.type === 1;
-        const hasShownInSession = popupSessionKey
-            ? sessionStorage.getItem(popupSessionKey) === '1'
-            : false;
+            window.setTimeout(() => {
+                heroImageElement.src = heroImages[heroIndex];
+                heroImageElement.classList.remove('is-transitioning');
+            }, 250);
+        }, 5000);
+    }
 
-        const closeIklanPopup = () => {
-            if (!iklanPopup) {
+    const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-child');
+
+    if (revealElements.length) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.12,
+        });
+
+        revealElements.forEach((element) => revealObserver.observe(element));
+    }
+
+    if (popupSlides.length > 0) {
+        let activeSlideIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const setActiveSlide = (index) => {
+            popupSlides.forEach((slide, slideIndex) => {
+                slide.classList.toggle('is-active', slideIndex === index);
+            });
+        };
+
+        const showPreviousSlide = () => {
+            activeSlideIndex = (activeSlideIndex - 1 + popupSlides.length) % popupSlides.length;
+            setActiveSlide(activeSlideIndex);
+        };
+
+        const showNextSlide = () => {
+            activeSlideIndex = (activeSlideIndex + 1) % popupSlides.length;
+            setActiveSlide(activeSlideIndex);
+        };
+
+        setActiveSlide(activeSlideIndex);
+
+        prevPopupButton?.addEventListener('click', showPreviousSlide);
+        nextPopupButton?.addEventListener('click', showNextSlide);
+
+        popupOverlay?.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0]?.clientX ?? 0;
+        }, {
+            passive: true,
+        });
+
+        popupOverlay?.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0]?.clientX ?? 0;
+
+            if (Math.abs(touchEndX - touchStartX) < 40) {
                 return;
             }
 
-            if (iklanTimer) {
-                clearTimeout(iklanTimer);
-                iklanTimer = null;
+            if (touchEndX < touchStartX) {
+                showNextSlide();
+                return;
             }
 
-            if (iklanCountdownInterval) {
-                clearInterval(iklanCountdownInterval);
-                iklanCountdownInterval = null;
+            showPreviousSlide();
+        }, {
+            passive: true,
+        });
+    }
+
+    if (popupOverlay && popupSessionKey && sessionStorage.getItem(popupSessionKey) !== 'closed') {
+        const popupDurationSeconds = 600;
+        let remainingSeconds = popupDurationSeconds;
+        let popupTimerId = null;
+
+        const formatCountdown = (seconds) => {
+            if (seconds >= 60) {
+                const minutes = Math.floor(seconds / 60);
+                const restSeconds = seconds % 60;
+
+                return `${minutes}:${String(restSeconds).padStart(2, '0')} menit`;
             }
 
-            iklanPopup.classList.add('popup-hidden');
+            return `${seconds} detik`;
         };
 
-        document.getElementById('close-iklan-popup')?.addEventListener('click', closeIklanPopup);
-        document.getElementById('close-iklan-popup-action')?.addEventListener('click', closeIklanPopup);
+        const syncPopupMeta = () => {
+            popupSlides.forEach((slide) => {
+                const countdownTarget = slide.querySelector('[data-iklan-popup-countdown]');
+                const progressTarget = slide.querySelector('[data-iklan-popup-progress]');
 
-        iklanPopup?.addEventListener('click', (event) => {
-            if (event.target === iklanPopup) {
-                closeIklanPopup();
-            }
-        });
-
-        if (iklanPopup) {
-            if (isReload || hasShownInSession) {
-                iklanPopup.classList.add('popup-hidden');
-            } else {
-                if (popupSessionKey) {
-                    sessionStorage.setItem(popupSessionKey, '1');
+                if (countdownTarget) {
+                    countdownTarget.textContent = formatCountdown(Math.max(remainingSeconds, 0));
                 }
 
-                if (iklanCountdown) {
-                    let remainingSeconds = popupDurationSeconds;
-                    iklanCountdown.textContent = `${remainingSeconds} detik`;
-
-                    iklanCountdownInterval = setInterval(() => {
-                        remainingSeconds -= 1;
-
-                        if (remainingSeconds <= 0) {
-                            iklanCountdown.textContent = '0 detik';
-                            clearInterval(iklanCountdownInterval);
-                            iklanCountdownInterval = null;
-                            return;
-                        }
-
-                        iklanCountdown.textContent = `${remainingSeconds} detik`;
-                    }, 1000);
+                if (progressTarget) {
+                    const progressWidth = (remainingSeconds / popupDurationSeconds) * 100;
+                    progressTarget.style.width = `${Math.max(progressWidth, 0)}%`;
                 }
-
-                iklanTimer = setTimeout(closeIklanPopup, popupDurationMs);
-            }
-        }
-
-        if (heroImage && heroImages.length > 0) {
-            setInterval(() => {
-                heroImage.classList.add('fade-out');
-
-                setTimeout(() => {
-                    currentIndex = (currentIndex + 1) % heroImages.length;
-                    heroImage.src = heroImages[currentIndex];
-                    heroImage.classList.remove('fade-out');
-                }, 500);
-            }, 3000);
-        }
-
-        if (revealElements.length > 0) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -20px 0px',
             });
+        };
 
-            revealElements.forEach((element) => observer.observe(element));
-        }
-    });
+        const closePopup = () => {
+            popupOverlay.classList.add('is-hidden');
+            sessionStorage.setItem(popupSessionKey, 'closed');
+
+            if (popupTimerId) {
+                window.clearInterval(popupTimerId);
+            }
+        };
+
+        syncPopupMeta();
+
+        popupTimerId = window.setInterval(() => {
+            remainingSeconds -= 1;
+            syncPopupMeta();
+
+            if (remainingSeconds <= 0) {
+                closePopup();
+            }
+        }, 1000);
+
+        closePopupButton?.addEventListener('click', closePopup);
+        closePopupActionButtons.forEach((button) => button.addEventListener('click', closePopup));
+    } else if (popupOverlay) {
+        popupOverlay.remove();
+    }
 }

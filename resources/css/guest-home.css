@@ -1,100 +1,152 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-html,
-body {
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100%;
-}
-
-body {
-    font-family: 'Inter', system-ui, sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.heading-font {
-    font-family: 'Poppins', 'Inter', sans-serif;
-}
-
-.service-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.2);
-}
-
-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1.2rem;
-    appearance: none;
+.page-fade {
+    animation: pageFade 0.45s ease both;
 }
 
 .hero-image {
     object-fit: cover;
-    object-position: center;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 1;
+    transition: opacity 0.5s ease, transform 6s ease;
+    transform: scale(1.02);
 }
 
-.hero-image.fade-out {
+.hero-image.is-transitioning {
+    opacity: 0.2;
+}
+
+.scroll-reveal,
+.scroll-reveal-child {
     opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.page-fade {
-    animation: pageFadeIn 0.8s ease-out forwards;
-}
-
-@keyframes pageFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-}
-
-.scroll-reveal.visible {
+.scroll-reveal.is-visible,
+.scroll-reveal-child.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.scroll-reveal-child {
-    transition-delay: 0.1s;
+.guest-floating-ad {
+    pointer-events: none;
 }
 
-.popup-hidden {
-    display: none !important;
+.guest-floating-ad__backdrop {
+    background: rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.guest-floating-ad__wrap {
+    position: relative;
+    top: 10vh;
+    z-index: 1;
+}
+
+.guest-floating-ad__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.guest-floating-ad__card {
+    animation: floatingAdIn 0.4s ease both, floatingAdDrift 4s ease-in-out infinite;
+}
+
+.guest-floating-ad__slides {
+    position: relative;
+}
+
+.guest-floating-ad__slide {
+    display: none;
+}
+
+.guest-floating-ad__slide.is-active {
+    display: block;
+}
+
+.guest-floating-ad__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 9999px;
+    background: rgba(15, 23, 42, 0.82);
+    color: #fff;
+    box-shadow: 0 20px 35px rgba(15, 23, 42, 0.22);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.guest-floating-ad__nav:hover {
+    background: rgba(15, 23, 42, 0.96);
+    transform: translateY(-2px);
+}
+
+#iklan-popup-overlay.is-hidden {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.96);
+    pointer-events: none;
+}
+
+#iklan-popup-overlay {
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .popup-progress-bar {
-    animation: popupProgressShrink 5s linear forwards;
-    transform-origin: left center;
+    transition: width 1s linear;
 }
 
-@keyframes popupProgressShrink {
+@keyframes pageFade {
     from {
-        transform: scaleX(1);
+        opacity: 0;
     }
 
     to {
-        transform: scaleX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes floatingAdIn {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes floatingAdDrift {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+@media (max-width: 768px) {
+    .guest-floating-ad__wrap {
+        top: 5.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .guest-floating-ad__inner {
+        gap: 0.5rem;
+    }
+
+    .guest-floating-ad__card {
+        max-width: 100%;
+    }
+
+    .guest-floating-ad__nav {
+        width: 2.75rem;
+        height: 2.75rem;
+        flex-shrink: 0;
     }
 }

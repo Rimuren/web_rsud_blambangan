@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white dark:divide-zinc-800 dark:bg-zinc-900">
-                        @forelse ($jamOperasionals as $item)
+                        @forelse ($jam_operasionalList as $item)
                             <tr class="transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                                 <td class="px-6 py-4">
                                     <div class="inline-flex items-center gap-3">
@@ -94,18 +94,60 @@
                                         @endcan
 
                                         @can('jam_operasional.delete')
-                                        <form action="{{ route('admin.jam-operasional.destroy', $item) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus jam operasional ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <flux:button type="submit" variant="danger" size="sm" class="rounded-xl p-2">
+                                        <flux:modal.trigger name="delete-jam-operasional-{{ $item->id }}">
+                                            <flux:button variant="danger" size="sm" class="rounded-xl p-2">
                                                 <flux:icon name="trash" class="h-5 w-5" />
                                             </flux:button>
-                                        </form>
+                                        </flux:modal.trigger>
+
+                                        <flux:modal name="delete-jam-operasional-{{ $item->id }}" class="max-w-md">
+                                            <div class="space-y-6">
+                                                <div class="flex items-start gap-4">
+                                                    <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300">
+                                                        <flux:icon name="trash" class="h-6 w-6" />
+                                                    </span>
+
+                                                    <div class="space-y-2">
+                                                        <flux:heading size="lg">Hapus jam operasional?</flux:heading>
+                                                        <flux:subheading>
+                                                            Data untuk <span class="font-semibold text-zinc-900 dark:text-white">{{ $item->hari_label }}</span> akan dihapus permanen dari daftar jam operasional.
+                                                        </flux:subheading>
+                                                    </div>
+                                                </div>
+
+                                                <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-800/70">
+                                                    <div class="flex items-center justify-between gap-3">
+                                                        <div>
+                                                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">Hari</p>
+                                                            <p class="mt-1 font-semibold text-zinc-900 dark:text-white">{{ $item->hari_label }}</p>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">Jam</p>
+                                                            <p class="mt-1 font-semibold text-zinc-900 dark:text-white">{{ $item->jam_operasional }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <form action="{{ route('admin.jam-operasional.destroy', $item) }}" method="POST" class="flex justify-end gap-3">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <flux:modal.close>
+                                                        <flux:button variant="ghost">Batal</flux:button>
+                                                    </flux:modal.close>
+
+                                                    <flux:button type="submit" variant="danger">
+                                                        <flux:icon name="trash" class="h-4 w-4" />
+                                                        Hapus
+                                                    </flux:button>
+                                                </form>
+                                            </div>
+                                        </flux:modal>
                                         @endcan
                                     </div>
                                 </td>
                             </tr>
-                        @empty
+                        @empty 
                             <tr>
                                 <td colspan="4" class="px-6 py-14 text-center">
                                     <div class="mx-auto flex max-w-sm flex-col items-center gap-3">
@@ -124,9 +166,9 @@
                 </table>
             </div>
 
-            @if ($jamOperasionals->hasPages())
+            @if ($jam_operasionalList->hasPages())
                 <div class="border-t border-zinc-200 px-6 py-4 dark:border-zinc-800">
-                    {{ $jamOperasionals->links() }}
+                    {{ $jam_operasionalList->links() }}
                 </div>
             @endif
         </flux:card>

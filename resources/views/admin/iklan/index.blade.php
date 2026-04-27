@@ -40,7 +40,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-zinc-100 bg-white dark:divide-zinc-800 dark:bg-zinc-900">
-                        @forelse ($iklans as $iklan)
+                        @forelse ($iklanList as $iklan)
                             <tr class="transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-4">
@@ -122,9 +122,9 @@
                 </table>
             </div>
 
-            @if ($iklans->hasPages())
+            @if ($iklanList->hasPages())
                 <div class="border-t border-zinc-200 px-6 py-4 dark:border-zinc-800">
-                    {{ $iklans->links() }}
+                    {{ $iklanList->links() }}
                 </div>
             @endif
         </flux:card>
