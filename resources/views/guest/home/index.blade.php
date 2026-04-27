@@ -19,57 +19,82 @@
 
 @if($popupIklans->isNotEmpty())
 <div id="iklan-popup-overlay" class="guest-floating-ad pointer-events-none fixed inset-0 z-[999]">
-    <div class="guest-floating-ad__backdrop absolute inset-0"></div>
-    <div class="guest-floating-ad__wrap flex items-center justify-center px-4">
-        <div class="guest-floating-ad__inner relative w-full max-w-lg">
-            <button
-                type="button"
-                id="close-iklan-popup"
-                class="pointer-events-auto absolute -right-3 -top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:bg-zinc-700"
-                aria-label="Tutup iklan">
-                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+    <div class="guest-floating-ad__backdrop absolute inset-0 bg-black/40"></div>
+    <div class="guest-floating-ad__wrap fixed inset-0 flex items-center justify-center px-4 -translate-y-10">
+        <div class="guest-floating-ad__inner relative w-full max-w-[500px]">
 
-            <div class="guest-floating-ad__card pointer-events-auto w-full overflow-hidden rounded-2xl bg-white shadow-2xl">
+             {{-- Tombol X di pojok kanan atas card (di luar header) --}}
+    <button
+        type="button"
+        id="close-iklan-popup"
+        class="absolute top-3 right-3 z-30 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-md text-zinc-400 hover:text-zinc-700 transition"
+        aria-label="Tutup iklan">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+
+            <div class="guest-floating-ad__card pointer-events-auto relative w-full rounded-xl bg-white shadow-2xl overflow-hidden">
                 <div class="guest-floating-ad__slides">
                     @foreach($popupIklans as $popupIklan)
                     <article class="guest-floating-ad__slide {{ $loop->first ? 'is-active' : '' }}" data-iklan-slide>
-                        <div class="relative w-full bg-zinc-100" style="aspect-ratio: 4/3;">
-                            <span class="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-black/80 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
-                                {{ $loop->iteration }} / {{ $popupIklans->count() }}
-                            </span>
+
+                        {{-- Header --}}
+                        <div class="px-6 pt-5 pb-3 flex items-center justify-between border-b border-zinc-100">
+                            <span class="text-sm font-semibold text-zinc-700">Program terbaru</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-zinc-400">
+                                    {{ $loop->iteration }} / {{ $popupIklans->count() }}
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Gambar --}}
+                        <div class="relative w-full bg-white flex items-center justify-center overflow-hidden" style="height: 220px;">
                             <img
                                 src="{{ asset('storage/' . $popupIklan->gambar) }}"
                                 alt="{{ $popupIklan->nama }}"
-                                class="h-full w-full object-contain"
+                                class="w-auto h-full object-contain"
+                                style="max-width: 100%;"
                             >
                         </div>
-                        <div class="px-6 pb-6 pt-5">
-                            <h2 class="text-lg font-bold leading-snug text-zinc-900">
+
+                        {{-- Konten bawah --}}
+                        <div class="px-6 pt-4 pb-5 flex flex-col items-center text-center border-t border-zinc-100">
+
+                            <h2 class="text-2xl font-bold leading-tight text-zinc-900">
                                 {{ $popupIklan->nama }}
                             </h2>
-                            <p class="mt-1.5 text-sm leading-relaxed text-zinc-500">
-                                {{ $popupIklan->deskripsi ?: 'Informasi terbaru dari RSUD Blambangan untuk Anda.' }}
-                            </p>
-                            <div class="mt-5 flex flex-wrap items-center gap-2.5">
+
+                           
+
+                            <div class="mt-5 border-t border-zinc-100 pt-5 w-full flex flex-col items-center">
+                                <p class="text-sm font-semibold text-zinc-800">
+                                    {{ $popupIklan->deskripsi ? Str::before($popupIklan->deskripsi, '.') . '!' : 'Informasi terbaru dari RSUD Blambangan untuk Anda!' }}
+                                </p>
+                                <p class="mt-1 text-sm text-zinc-500 leading-relaxed">
+                                    {{ $popupIklan->deskripsi ?: 'Siapkan dirimu untuk masuk ke dunia kerja. Dapatkan beasiswa gratis dan naik level sekarang.' }}
+                                </p>
+
+                                <div class="mt-3 inline-flex items-center rounded-md bg-red-600 px-4 py-1.5 text-sm font-semibold text-white">
+                                <span data-iklan-popup-countdown>600</span>s
+                            </div>
+
                                 @if ($popupIklan->cta_label && $popupIklan->cta_url)
                                 <a href="{{ $popupIklan->cta_url }}"
                                     target="_blank"
-                                    class="rounded-lg bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800">
+                                    class="mt-5 w-auto rounded-lg bg-zinc-800 px-10 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700 text-center shadow-sm">
                                     {{ $popupIklan->cta_label }}
                                 </a>
                                 @endif
                             </div>
-                            <div class="mt-4 flex items-center gap-3">
-                                <span class="shrink-0 text-xs text-zinc-400">
-                                    <span data-iklan-popup-countdown>600</span>s
-                                </span>
-                                <div class="h-1 flex-1 overflow-hidden rounded-full bg-zinc-100">
-                                    <div class="popup-progress-bar h-full rounded-full bg-black transition-all" data-iklan-popup-progress></div>
+
+                            <div class="mt-5 flex items-center gap-3 w-full">
+                                <div class="h-0.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+                                    <div class="popup-progress-bar h-full rounded-full bg-red-500 transition-all" data-iklan-popup-progress></div>
                                 </div>
                             </div>
+
                         </div>
                     </article>
                     @endforeach
@@ -95,6 +120,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
+
         </div>
     </div>
 </div>
