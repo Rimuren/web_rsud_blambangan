@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class jam_operasional extends Model
+class Jam_operasional_model extends Model
 {
     use HasFactory;
+
+    protected $table = 'jam_operasionals';
 
     protected $fillable = [
         'hari',
