@@ -23,11 +23,11 @@
                 <a href="{{ route('guest.artikel.index') }}" class="hover:text-blue-700 transition whitespace-nowrap">Artikel</a>
 
                 {{-- Layanan Dropdown --}}
-                <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap">
+                <div class="relative group dropdown-container">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap dropdown-btn">
                         Layanan
-                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-4 h-4 dropdown-arrow transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div class="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
@@ -44,11 +44,11 @@
                 </div>
 
                 {{-- Informasi Dropdown --}}
-                <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap">
+                <div class="relative group dropdown-container">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap dropdown-btn">
                         Informasi
-                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-4 h-4 dropdown-arrow transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div class="absolute left-0 pt-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
@@ -65,11 +65,11 @@
                 </div>
 
                 {{-- Galeri Dropdown --}}
-                <div class="relative group">
-                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap">
+                <div class="relative group dropdown-container">
+                    <button class="hover:text-blue-700 transition flex items-center gap-1 focus:outline-none whitespace-nowrap dropdown-btn">
                         Galeri
-                        <svg class="w-4 h-4 transition-transform duration-200 -rotate-90 group-hover:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        <svg class="w-4 h-4 dropdown-arrow transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                     <div class="absolute left-0 pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        {{-- Mobile Menu (sama seperti sebelumnya, hanya disederhanakan tampilan) --}}
+        {{-- Mobile Menu --}}
         <div id="mobile-menu" class="md:hidden hidden mt-4 border-t border-gray-100 overflow-y-auto max-h-[calc(100vh-80px)]">
             <div class="py-2 space-y-1">
                 <a href="{{ route('guest.profil.index') }}" class="flex items-center py-3 px-2 text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition">
@@ -159,8 +159,16 @@
         #mobile-menu::-webkit-scrollbar-track { background: #f1f5f9; }
         #mobile-menu::-webkit-scrollbar-thumb { background-color: #cbd5e0; border-radius: 20px; }
     }
-    .rotate-90 { transform: rotate(90deg); }
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
+
+    /* FORCE DROPDOWN ARROW ROTATION (kanan -> bawah saat hover) */
+    .dropdown-container:hover .dropdown-arrow {
+        transform: rotate(90deg) !important;
+    }
+    .dropdown-arrow {
+        transform: rotate(0deg);
+        transition: transform 0.2s ease;
+    }
 </style>
 
 <script>
