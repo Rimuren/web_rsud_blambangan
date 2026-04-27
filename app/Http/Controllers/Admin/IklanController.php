@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Iklan;
+use App\Models\Iklan_model;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -35,7 +35,7 @@ class IklanController extends Controller implements HasMiddleware
     */
     public function index(): View
     {
-        $iklanList = Iklan::latest()->paginate(10);
+        $iklanList = Iklan_model::latest()->paginate(10);
 
         return view('admin.iklan.index', compact('iklanList'));
     }
@@ -65,7 +65,7 @@ class IklanController extends Controller implements HasMiddleware
 
         $data['is_active'] = $request->boolean('is_active');
 
-        Iklan::create($data);
+        Iklan_model::create($data);
 
         return redirect()
             ->route('admin.iklan.index')
@@ -77,7 +77,7 @@ class IklanController extends Controller implements HasMiddleware
     | EDIT
     |--------------------------------------------------------------------------
     */
-    public function edit(Iklan $iklan): View
+    public function edit(Iklan_model $iklan): View
     {
         return view('admin.iklan.edit', compact('iklan'));
     }
@@ -87,7 +87,7 @@ class IklanController extends Controller implements HasMiddleware
     | UPDATE
     |--------------------------------------------------------------------------
     */
-    public function update(Request $request, Iklan $iklan): RedirectResponse
+    public function update(Request $request, Iklan_model $iklan): RedirectResponse
     {
         $data = $request->validate($this->rules(false), $this->messages());
 
@@ -113,7 +113,7 @@ class IklanController extends Controller implements HasMiddleware
     | TOGGLE STATUS
     |--------------------------------------------------------------------------
     */
-    public function toggleStatus(Iklan $iklan): RedirectResponse
+    public function toggleStatus(Iklan_model $iklan): RedirectResponse
     {
         $iklan->update([
             'is_active' => !$iklan->is_active,
@@ -129,7 +129,7 @@ class IklanController extends Controller implements HasMiddleware
     | DELETE
     |--------------------------------------------------------------------------
     */
-    public function destroy(Iklan $iklan): RedirectResponse
+    public function destroy(Iklan_model $iklan): RedirectResponse
     {
         if ($iklan->gambar) {
             Storage::disk('public')->delete($iklan->gambar);

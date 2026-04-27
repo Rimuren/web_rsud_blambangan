@@ -2,12 +2,13 @@
     <x-slot:header>
         {{ __('Tambah Artikel') }}
     </x-slot:header>
-
+    
+    @can('artikel.create')
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
         <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Tambah Artikel</h1>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Isi form di bawah untuk menambahkan artikel baru</p>
     </div>
-
+    
     <div class="w-full max-w-5xl mx-auto px-6 py-6 space-y-6">
         <form method="POST" action="{{ route('admin.artikel.store') }}" enctype="multipart/form-data" id="artikel-form">
             @csrf
@@ -237,5 +238,6 @@
 
     editor.init();
 </script>
+@endcan
 
 </x-layouts::app>

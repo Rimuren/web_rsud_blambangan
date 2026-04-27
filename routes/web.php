@@ -46,13 +46,7 @@ Route::get('/profil', function () {
 Route::get('/daftar-dokter', [GuestDokter::class, 'Index'])->name('guest.daftar-dokter.index');
 
 // Info kamar
-Route::get('/info-kamar', function () {
-    return view('guest.info-kamar.index');
-})->name('guest.info-kamar.index');
-
-Route::get('/kamar/index', function () {
-    return view('kamar.index');
-})->name('kamar.index');
+Route::get('/info-kamar', [GuestBangsal::class, 'index'])->name('guest.info-kamar.index');
 
 // Artikel
 Route::prefix('artikel')->name('guest.artikel.')->group(function () {
@@ -132,8 +126,8 @@ Route::prefix('informasi')->group(function () {
 
 // Galeri
 Route::prefix('galeri')->group(function () {
-    Route::get('/foto', [GuestPhoto::class, 'guestIndex'])->name('guest.galeri.foto.index');
-    Route::get('/video', [GuestVideo::class, 'guestIndex'])->name('guest.galeri.video.index');
+    Route::get('/foto', [GuestPhoto::class, 'index'])->name('guest.galeri.foto.index');
+    Route::get('/video', [GuestVideo::class, 'index'])->name('guest.galeri.video.index');
 });
 
 /*

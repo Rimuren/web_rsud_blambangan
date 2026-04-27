@@ -62,8 +62,10 @@ class DokterFallbackService
         $poliklinikSet[] = $poliklinikNama;
 
         $hari = $jadwal->hari;
-        $jamMulai = $jadwal->jam_mulai;
-        $jamSelesai = $jadwal->jam_selesai;
+
+        // Format jam dengan aman (tidak mengambil datetime penuh)
+        $jamMulai = $this->extractTime($jadwal->jam_mulai);
+        $jamSelesai = $this->extractTime($jadwal->jam_selesai);
 
         $isToday = ($hari === $hariIni);
         $isOpen = false;
@@ -103,7 +105,7 @@ class DokterFallbackService
         'api_id' => $dokter->api_id,
         'name' => $dokter->nama,
         'spesialis' => $dokter->spesialis,
-        'image_url' => $dokter->image_url,
+        'image_url' => $dokter->image_url ?? 'https://ui-avatars.com/api/?background=003366&color=fff&name=' . urlencode($dokter->nama),
         'reguler' => $reguler,
         'eksekutif' => $eksekutif,
         'polikliniks' => array_values(array_unique($allPolis)),
@@ -121,5 +123,26 @@ class DokterFallbackService
       'dokters' => $dokters,
       'poliklinikList' => array_values($poliklinikList),
     ];
+  }
+
+  /**
+   * Ambil hanya jam:menit dari berbagai format (Carbon, datetime string, time string)
+   */
+  private function extractTime($time): string
+  {
+    if (empty($time)) {
+      return '';
+    }
+    if ($time instanceof \DateTimeInterface) {
+      return $time->format('H:i');
+    }
+    if (is_string($time)) {
+      if (strpos($time, ' ') !== false) {
+        $parts = explode(' ', $time);
+        $time = $parts[1] ?? '';
+      }
+      return substr($time, 0, 5);
+    }
+    return '';
   }
 }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
-use App\Models\Iklan;
-use App\Models\jam_operasional;
 use App\Models\artikel_model;
 use App\Models\dokter_model;
+use App\Models\Iklan_model;
+use App\Models\Jam_operasional_model;
 use App\Models\poliklinik_model;
 use Illuminate\Http\Request;
 
@@ -26,13 +26,12 @@ class HomeController extends Controller
 
         $poliklinikList = poliklinik_model::pluck('nama')->toArray();
 
-        $jam_operasionals = jam_operasional::query()
+        $jam_operasionals = Jam_operasional_model::query()
             ->orderBy('hari')
             ->get();
 
-        $popupIklans = Iklan::query()
-            ->where('is_active', true)
-            ->latest()
+        $popupIklans = Iklan_model::where('is_active', true)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $topArticles = artikel_model::query()

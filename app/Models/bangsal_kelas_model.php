@@ -8,7 +8,7 @@ class bangsal_kelas_model extends Model
 {
     protected $table = 'bangsal_kelas';
 
-    public $incrementing = false; // karena composite key
+    public $incrementing = false;
     protected $primaryKey = null;
 
     protected $fillable = [
@@ -18,10 +18,6 @@ class bangsal_kelas_model extends Model
         'bed_terisi',
         'bed_kosong',
     ];
-
-    // =========================
-    // RELATION
-    // =========================
 
     public function bangsal()
     {
@@ -33,14 +29,9 @@ class bangsal_kelas_model extends Model
         return $this->belongsTo(kelas_model::class, 'kelas_id');
     }
 
-    // =========================
-    // HELPER
-    // =========================
-
     public function getPersentaseTerisiAttribute()
     {
         if ($this->bed_kapasitas == 0) return 0;
-
         return round(($this->bed_terisi / $this->bed_kapasitas) * 100, 2);
     }
 }

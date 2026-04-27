@@ -1,7 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
-    
+    @can('artikel.view')
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -116,29 +116,33 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
-        
+        @can('artikel.delete')
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
-       
+        @endcan
 
         <div class="flex justify-end mb-5">
             <div class="inline-flex rounded-lg shadow-sm" role="group">
                 {{-- Tombol Hapus --}}
+                @can('artikel.delete')
                 <button type="button" id="delete-selected-btn"
                     class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-white border border-zinc-300 rounded-l-lg hover:bg-red-50 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-500 focus:text-red-800 dark:bg-zinc-800 dark:border-zinc-600 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     disabled>
                     <flux:icon name="trash" class="size-4" />
                     Hapus (<span id="selected-count">0</span>)
                 </button>
+                @endcan
                 
                 {{-- Tombol Tambah --}}
+                @can('artikel.create')
                 <a href="{{ route('admin.artikel.create') }}" 
                 class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-r-lg hover:bg-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:border-blue-500 dark:hover:bg-blue-600 transition-colors">
                     <flux:icon name="plus" class="size-4" />
                     Tambah Artikel
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -243,14 +247,16 @@
                             </td>
                             <td class="px-6 py-6">
                                 <div class="flex justify-center items-center gap-3">
+
+                                    @can('artikel.update')
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
                                         </flux:button>
                                     </a>
+                                    @endcan
                                     
-
-                                  
+                                    @can('artikel.delete')
                                     <form action="{{ route('admin.artikel.destroy', $artikel->id) }}"
                                         method="POST"
                                         class="delete-single-form inline-flex">
@@ -263,7 +269,8 @@
                                             <flux:icon name="trash" class="size-4" />
                                         </flux:button>
                                     </form>
-                                    
+                                    @endcan
+
                                 </div>
                             </td>
                         </tr>
@@ -273,9 +280,11 @@
                                 <div class="flex flex-col items-center gap-3">
                                     <flux:icon name="document" class="size-10 text-zinc-300" />
                                     <p>Belum ada artikel.</p>
+                                    @can('artikel.create')
                                     <a href="{{ route('admin.artikel.create') }}" class="text-primary text-sm font-medium hover:underline">
                                         Buat artikel pertama →
                                     </a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -344,5 +353,6 @@
             updateDeleteButton();
         });
     </script>
-    
+
+    @endcan
 </x-layouts::app>
