@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Services\BedService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 class BangsalController extends Controller
 {
@@ -14,9 +16,8 @@ class BangsalController extends Controller
         $this->bedService = $bedService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil data bangsal + kelas dari service (API live + fallback)
         $bangsalData = $this->bedService->getBeds();
 
         $rooms = [];
@@ -25,6 +26,7 @@ class BangsalController extends Controller
         $totalKosong = 0;
 
         foreach ($bangsalData as $bangsal) {
+
             foreach ($bangsal['kelas'] as $kelas) {
                 $nama = $bangsal['nama'] . ' - ' . $kelas['nama'];
                 $kapasitas = $kelas['kapasitas'];
@@ -35,10 +37,20 @@ class BangsalController extends Controller
                 $totalTerisi += $terisi;
                 $totalKosong += $kosong;
 
-                $classType = $kelas['nama']; // e.g. "VIP", "Kelas 1", "Intensif", etc.
+                $classType = $kelas['nama'];
                 $status = $kosong > 0 ? ($kosong <= $kapasitas * 0.1 ? 'Terbatas' : 'Tersedia') : 'Penuh';
 
-                // Badge warna status
+                // Badge warna kelas - bedakan Kelas 1, 2, 3
+                $classBadge = match ($classType) {
+                    'VIP' => 'bg-purple-100 text-purple-700',
+                    'Kelas 1' => 'bg-blue-100 text-blue-700',
+                    'Kelas 2' => 'bg-emerald-100 text-emerald-700',
+                    'Kelas 3' => 'bg-amber-100 text-amber-700',
+                    'Intensif' => 'bg-red-100 text-red-700',
+                    'Isolasi' => 'bg-orange-100 text-orange-700',
+                    default => 'bg-gray-100 text-gray-700',
+                };
+
                 $statusBadge = match ($status) {
                     'Tersedia' => 'bg-emerald-100 text-emerald-800',
                     'Terbatas' => 'bg-amber-100 text-amber-800',
@@ -46,20 +58,8 @@ class BangsalController extends Controller
                     default => 'bg-slate-100 text-slate-800',
                 };
 
-                // Badge warna kelas
-                $classBadge = match ($classType) {
-                    'VIP', 'VVIP' => 'bg-purple-100 text-purple-700',
-                    'Kelas 1' => 'bg-blue-100 text-blue-700',
-                    'Kelas 2' => 'bg-teal-100 text-teal-700',
-                    'Kelas 3' => 'bg-slate-200 text-slate-700',
-                    'Intensif' => 'bg-red-100 text-red-700',
-                    'Isolasi' => 'bg-orange-100 text-orange-700',
-                    default => 'bg-gray-100 text-gray-700',
-                };
-
-                // Icon
                 $icon = match ($classType) {
-                    'VIP', 'VVIP' => 'king_bed',
+                    'VIP' => 'king_bed',
                     'Kelas 1' => 'bedroom_parent',
                     'Kelas 2' => 'bed',
                     'Kelas 3' => 'hotel',
@@ -68,7 +68,7 @@ class BangsalController extends Controller
                     default => 'bed',
                 };
                 $iconBg = match ($classType) {
-                    'VIP', 'VVIP' => 'bg-primary/10',
+                    'VIP' => 'bg-primary/10',
                     'Kelas 1' => 'bg-medical-blue/10',
                     'Kelas 2' => 'bg-teal-100',
                     'Kelas 3' => 'bg-slate-100',
@@ -77,7 +77,7 @@ class BangsalController extends Controller
                     default => 'bg-gray-100',
                 };
                 $iconColor = match ($classType) {
-                    'VIP', 'VVIP' => 'text-primary',
+                    'VIP' => 'text-primary',
                     'Kelas 1' => 'text-medical-blue',
                     'Kelas 2' => 'text-teal-600',
                     'Kelas 3' => 'text-slate-500',
@@ -103,27 +103,41 @@ class BangsalController extends Controller
         }
 
         // Urutkan berdasarkan urutan kelas
-        $classOrder = ['VIP', 'VVIP', 'Kelas 1', 'Kelas 2', 'Kelas 3', 'Intensif', 'Isolasi'];
+        $classOrder = ['VIP', 'Kelas 1', 'Kelas 2', 'Kelas 3', 'Intensif', 'Isolasi'];
         usort($rooms, function ($a, $b) use ($classOrder) {
             $posA = array_search($a['class'], $classOrder);
             $posB = array_search($b['class'], $classOrder);
             return ($posA === false ? 999 : $posA) <=> ($posB === false ? 999 : $posB);
         });
 
-        // Hitung total intensif (opsional untuk kartu terpisah)
-        $intensifKapasitas = collect($rooms)->where('class', 'Intensif')->sum('total');
-        $intensifTerisi = collect($rooms)->where('class', 'Intensif')->sum('total') - collect($rooms)->where('class', 'Intensif')->sum('available');
+        // Ambil semua kelas unik untuk filter (dari seluruh data, bukan hanya halaman)
+        $allClasses = collect($rooms)->pluck('class')->unique()->values();
+        $sortedClasses = $allClasses->sortBy(function ($cls) use ($classOrder) {
+            return array_search($cls, $classOrder) ?? 999;
+        })->values()->toArray();
 
         $occupancy = $totalKapasitas > 0 ? round(($totalTerisi / $totalKapasitas) * 100) : 0;
 
+        // Paginate rooms (10 per halaman)
+        $perPage = 10;
+        $currentPage = $request->input('page', 1);
+        $collection = collect($rooms);
+        $currentItems = $collection->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedRooms = new LengthAwarePaginator(
+            $currentItems,
+            $collection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
         return view('guest.info-kamar.index', compact(
-            'rooms',
+            'paginatedRooms',
+            'sortedClasses',
             'totalKapasitas',
             'totalTerisi',
             'totalKosong',
-            'occupancy',
-            'intensifKapasitas',
-            'intensifTerisi'
+            'occupancy'
         ));
     }
 }
