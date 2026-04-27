@@ -55,6 +55,10 @@ class QuillImageResizer {
 
     _onDocMouseDown(e) {
         if (!this.overlay) return;
+
+        const toolbar = document.querySelector('.toolbar-container');
+        if (toolbar && toolbar.contains(e.target)) return;
+
         if (!this.overlay.contains(e.target) && !this.quill.root.contains(e.target)) {
             this.deselect();
         }
@@ -448,6 +452,27 @@ class ThumbnailUploader {
     init() {
         this.input.addEventListener('change', () => this._handleFile(this.input.files[0]));
         this._initDragDrop();
+    const removeBtn = document.getElementById('foto-remove-btn');
+    if (removeBtn) removeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.remove();
+    });
+    }
+    remove() {
+    this.preview.src = '#';
+    this.preview.classList.add('hidden');
+    this.placeholder.classList.remove('hidden');
+    this.placeholder.classList.add('flex');
+    this.filename.textContent = '';
+    this.filename.classList.add('hidden');
+    this.input.value = '';
+
+    const flag = document.getElementById('remove-thumbnail-flag');
+    if (flag) flag.value = '1';
+
+    const removeBtn = document.getElementById('foto-remove-btn');
+    if (removeBtn) removeBtn.classList.add('hidden');
     }
 
     _handleFile(file) {
