@@ -438,6 +438,107 @@ document.addEventListener('DOMContentLoaded', function() {
         heroImage.style.transition = 'opacity 0.3s ease-in-out';
         heroImage.style.opacity = '1';
     }
+
+
+    // ========== POPUP IKLAN ==========
+const popupOverlay = document.getElementById('iklan-popup-overlay');
+const closeButton = document.getElementById('close-iklan-popup');
+const prevButton = document.getElementById('iklan-popup-prev');
+const nextButton = document.getElementById('iklan-popup-next');
+const slides = document.querySelectorAll('.guest-floating-ad__slide');
+const countdownSpan = document.querySelector('[data-iklan-popup-countdown]');
+const progressBar = document.querySelector('[data-iklan-popup-progress]');
+let currentIndex = 0;
+let countdownInterval = null;
+let progressInterval = null;
+let timeLeft = 600; // detik
+
+// Fungsi untuk menyembunyikan popup sepenuhnya
+function hidePopup() {
+    if (popupOverlay) {
+        popupOverlay.style.display = 'none';
+        // Atau hapus dari DOM: popupOverlay.remove();
+    }
+    // Hentikan semua timer
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (progressInterval) clearInterval(progressInterval);
+    // Reset scroll body jika perlu (pastikan body bisa di-scroll)
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+}
+
+// Fungsi untuk menampilkan slide berdasarkan index
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.classList.add('is-active');
+            slide.style.display = 'block';
+        } else {
+            slide.classList.remove('is-active');
+            slide.style.display = 'none';
+        }
+    });
+}
+
+// Reset timer untuk slide baru (jika ada countdown)
+function resetCountdown() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    if (progressInterval) clearInterval(progressInterval);
+    // Ambil nilai awal dari atribut data (misal 600 detik)
+    const initialTime = parseInt(countdownSpan?.getAttribute('data-initial-time') || '600');
+    timeLeft = initialTime;
+    if (countdownSpan) countdownSpan.innerText = timeLeft;
+    if (progressBar) progressBar.style.width = '100%';
+    
+   
+}
+
+// Event close
+if (closeButton) {
+    closeButton.addEventListener('click', hidePopup);
+}
+
+// Event prev
+if (prevButton) {
+    prevButton.addEventListener('click', () => {
+        if (slides.length === 0) return;
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+        resetCountdown();
+    });
+}
+
+// Event next
+if (nextButton) {
+    nextButton.addEventListener('click', () => {
+        if (slides.length === 0) return;
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+        resetCountdown();
+    });
+}
+
+// Inisialisasi: hanya slide pertama yang aktif
+if (slides.length > 0) {
+    showSlide(0);
+    // Simpan waktu awal ke atribut data untuk reset
+    if (countdownSpan && !countdownSpan.hasAttribute('data-initial-time')) {
+        const initialTime = parseInt(countdownSpan.innerText) || 600;
+        countdownSpan.setAttribute('data-initial-time', initialTime);
+        timeLeft = initialTime;
+    }
+    resetCountdown();
+}
+
+// Juga tutup popup jika klik di luar area card (backdrop)
+if (popupOverlay) {
+    popupOverlay.addEventListener('click', (e) => {
+        // Jika yang diklik adalah backdrop (bukan card atau tombol close)
+        if (e.target === popupOverlay || e.target.classList.contains('guest-floating-ad__backdrop')) {
+            hidePopup();
+        }
+    });
+}
     
     // ========== JAM OPERASIONAL SCROLL INDICATOR ==========
     const jamList = document.getElementById('jam-operasional-list');
