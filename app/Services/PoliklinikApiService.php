@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Fluent;
+use Illuminate\Support\Str;
 
 class PoliklinikApiService
 {
@@ -53,6 +54,7 @@ class PoliklinikApiService
         'id' => $item['id'],
         'api_id' => $item['id'],
         'nama' => $item['nama'],
+        'slug' => Str::slug($item['nama']),
         'kode_bpjs' => $item['kode_bpjs'] ?? null,
         'image' => $item['image'] ?? null,
         'background_img' => $item['background_img'] ?? null,
