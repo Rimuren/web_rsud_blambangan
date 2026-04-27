@@ -26,8 +26,8 @@ class KategoriArtikelController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        // BUSINESS LOGIC: ambil semua kategori artikel diurutkan berdasarkan nama
-        $kategori = kategori_artikel_model::orderBy('nama')->paginate(10);
+        // Menampilkan jumlah artikel
+        $kategori = kategori_artikel_model::withCount('artikels')->orderBy('nama')->paginate(10);
         return view('admin.artikel.kategori.index', compact('kategori'));
     }
 
@@ -120,10 +120,16 @@ class KategoriArtikelController extends Controller implements HasMiddleware
      */
     public function destroy($id)
     {
-        // AUTHORIZATION AND DELETE LOGIC
         $kategori = kategori_artikel_model::findOrFail($id);
+        
+        // Cek apakah kategori masih memiliki artikel
+        if ($kategori->artikels()->count() > 0) {
+            return redirect()->route('admin.artikel.kategori.index')
+                ->with('error', 'Kategori tidak dapat dihapus karena masih terdapat artikel yang menggunakan kategori ini. Silahkan pindahkan atau hapus artikel terlebih dahulu.');
+        }
+        
         $kategori->delete();
-
+        
         return redirect()->route('admin.artikel.kategori.index')
             ->with('success', 'Kategori berhasil dihapus.');
     }

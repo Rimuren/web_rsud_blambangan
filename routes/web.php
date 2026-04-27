@@ -26,6 +26,7 @@ use App\Http\Controllers\{
     ArtikelController,
     GuestArtikelController,
     KategoriArtikelController,
+    GuestPoliklinikController,
 };
 
 /*
@@ -83,18 +84,23 @@ Route::prefix('layanan-unggulan')->group(function () {
 });
 
 // Layanan Rawat Jalan
-Route::get('/layanan-rawat-jalan', function () {
-    return view('guest.layanan-rawat-jalan.index');
-})->name('guest.layanan-rawat-jalan.index');
+// Route::get('/layanan-rawat-jalan', function () {
+//     return view('guest.layanan-rawat-jalan.index');
+// })->name('guest.layanan-rawat-jalan.index');
 
-Route::get('/layanan-rawat-jalan/anasthesi', function () {
-    return view('guest.layanan-rawat-jalan.anasthesi.index');
-})->name('guest.layanan-rawat-jalan.anasthesi.index');
+// Route::get('/layanan-rawat-jalan/anasthesi', function () {
+//     return view('guest.layanan-rawat-jalan.anasthesi.index');
+// })->name('guest.layanan-rawat-jalan.anasthesi.index');
 
-// Route sementara (belum ada controller)
-Route::get('/layanan-rawat-jalan/{slug}', function () {
-    return abort(404);
-})->name('guest.layanan-rawat-jalan.detail');
+// // Route sementara (belum ada controller)
+// Route::get('/layanan-rawat-jalan/{slug}', function () {
+//     return abort(404);
+// })->name('guest.layanan-rawat-jalan.detail');
+
+Route::get('/layanan-rawat-jalan', [GuestPoliklinikController::class, 'index'])
+    ->name('guest.layanan-rawat-jalan.index');
+Route::get('/layanan-rawat-jalan/{slug}', [GuestPoliklinikController::class, 'show'])
+    ->name('guest.layanan-rawat-jalan.detail');
 
 // Layanan IGD
 Route::get('/layanan-igd', function () {
