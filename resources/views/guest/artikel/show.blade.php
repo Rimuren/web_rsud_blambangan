@@ -37,14 +37,14 @@
     /* Paragraf */
     .prose p {
         font-size: 0.9rem;
-        margin: 0 0 0 0 !important;
+        margin: 0 0 0 0;
         line-height: 1.5;
         opacity: 1;
     }
     /* List styling */
     .prose ul, .prose ol {
-        list-style: none !important;
-        padding-left: 0 !important;
+        list-style: none;
+        padding-left: 0;
         margin-left: 1.2em;
         margin-bottom: 0.5em;
         margin-top: 0;
@@ -62,7 +62,7 @@
     .prose li .ql-indent-1,
     .prose li[style*="padding-left"] {
         display: inline-block;
-        padding-left: 30px !important;
+        padding-left: 30px;
     }
     
     .prose li,
@@ -73,8 +73,8 @@
     /* Tambahan untuk meniru indentasi tab */
     .prose .indented-line,
     .prose .ql-indented-line {
-        padding-left: 30px !important;
-        display: block !important;
+        padding-left: 30px;
+        display: block;
     }
     
     /* Style khusus untuk baris penjelasan */
@@ -98,7 +98,7 @@
     }
     /* Untuk bullet list */
     .prose ul li::before {
-        content: "• " !important;
+        content: "• ";
         position: absolute;
         left: 0;
         top: 0;
@@ -130,26 +130,70 @@
         max-width: 100%; 
     }
 
+    /* PERBAIKAN UTAMA: Gambar tidak lagi dipaksa ke tengah */
     .prose img {
-        max-width: 100% !important;
-        width: auto !important;
-        height: auto !important;
-        max-height: 70vh !important;
-        object-fit: contain !important;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        max-height: 70vh;
+        object-fit: contain;
         border-radius: 0.75rem;
-        margin: 1em auto;
+        margin: 1em 0;  /* HAPUS 'auto' -> gambar tidak otomatis tengah */
         display: block;
     }
     .prose img[style*="width:100%"],
     .prose img[width="100%"] {
-        width: auto !important;
-        max-width: 100% !important;
+        width: auto;
+        max-width: 100%;
     }
+    
+    /* ========== CSS UNTUK ALIGNMENT (KIRI, TENGAH, KANAN) ========== */
+    /* Untuk paragraf/div yang memiliki class alignment */
+    .prose .ql-align-center {
+        text-align: center !important;
+    }
+    .prose .ql-align-right {
+        text-align: right !important;
+    }
+    .prose .ql-align-left {
+        text-align: left !important;
+    }
+    
+    /* Untuk gambar di dalam alignment */
     .prose .ql-align-center img,
+    .prose .ql-align-center figure img {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block;
+    }
+    .prose .ql-align-right img,
+    .prose .ql-align-right figure img {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        display: block;
+    }
     .prose .ql-align-left img,
-    .prose .ql-align-right img {
-        width: auto !important;
-        max-width: 100% !important;
+    .prose .ql-align-left figure img {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        display: block;
+    }
+    
+    /* Dukungan untuk style inline (jika editor tidak menggunakan class) */
+    .prose [style="text-align: center"] img,
+    .prose [style*="text-align: center"] img {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .prose [style="text-align: right"] img,
+    .prose [style*="text-align: right"] img {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+    .prose [style="text-align: left"] img,
+    .prose [style*="text-align: left"] img {
+        margin-left: 0 !important;
+        margin-right: auto !important;
     }
     
     /* Thumbnail artikel */
@@ -164,20 +208,19 @@
         line-height: 0;
     }
     .article-thumbnail img {
-        max-width: 100% !important;
-        width: auto !important;
-        height: auto !important;
-        max-height: 70vh !important;
-        object-fit: contain !important;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        max-height: 70vh;
+        object-fit: contain;
         border-radius: 0.75rem;
         display: block;
         margin: 0 auto;
     }
     
-    /* Pastikan semua parent tidak memotong */
     .prose, .prose figure, .prose div, .prose p, .prose span {
-        overflow: visible !important;
-        max-height: none !important;
+        overflow: visible;
+        max-height: none;
     }
     
     /* Ukuran heading */
@@ -190,13 +233,13 @@
     @media (max-width: 768px) {
         .prose img,
         .article-thumbnail img {
-            max-height: 60vh !important;
+            max-height: 60vh;
         }
     }
     @media (min-width: 1024px) {
         .prose img,
         .article-thumbnail img {
-            max-height: 80vh !important;
+            max-height: 80vh;
         }
     }
 

@@ -36,10 +36,20 @@ class SyncDokterFromApi implements ShouldQueue
             } else {
                 $count = 0;
                 foreach ($clinicsResponse['data'] as $clinic) {
+                        $slug = \Illuminate\Support\Str::slug($clinic['nama']);
+
+                        $existing = poliklinik_model::where('slug', $slug)
+                            ->where('api_id', '!=', $clinic['id'])
+                            ->exists();
+
+                        if ($existing) {
+                            $slug .= '-' . $clinic['id'];
+    }
                     poliklinik_model::updateOrCreate(
                         ['api_id' => $clinic['id']],
                         [
                             'nama' => $clinic['nama'],
+                            'slug' => $slug,
                             'kode_bpjs' => $clinic['kode_bpjs'] ?? null,
                             'image' => $clinic['image'] ?? null,
                             'background_img' => $clinic['background_img'] ?? null,

@@ -3,6 +3,7 @@
         {{ __('Edit Artikel') }}
     </x-slot:header>
 
+    @can('artikel.update')
     <div class="w-full max-w-4xl mx-auto px-4 pt-4">
         <h1 class="text-lg font-bold text-zinc-800 dark:text-white">Edit Artikel</h1>
         <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Perbarui informasi artikel di bawah ini</p>
@@ -69,6 +70,8 @@
                     <h2 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Foto Unggulan</h2>
                 </div>
 
+                <input type="hidden" name="remove_thumbnail" id="remove-thumbnail-flag" value="0">
+
                 <label class="cursor-pointer block">
                     <div id="foto-dropzone"
                         class="border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-center">
@@ -90,6 +93,11 @@
                     </div>
                     <input type="file" name="thumbnail" id="foto-input" accept="image/png,image/jpeg,image/jpg" class="sr-only">
                 </label>
+                <button type="button" id="foto-remove-btn"
+                    class="{{ $artikel->thumbnail ? '' : 'hidden' }} flex items-center gap-1.5 text-xs font-medium text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 px-2.5 py-1.5 rounded-lg transition-all">
+                <flux:icon name="trash" class="size-3.5" />
+                    Hapus foto unggulan
+                </button>
                 @error('thumbnail') <div class="text-red-500 text-xs mt-1">{{ $message }}</div> @enderror
             </flux:card>
 
@@ -198,4 +206,5 @@
         });
         editor.init();
     </script>
+    @endcan
 </x-layouts::app>

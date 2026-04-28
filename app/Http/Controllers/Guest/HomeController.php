@@ -35,11 +35,11 @@ class HomeController extends Controller
             ->get();
 
         $topArticles = artikel_model::query()
-            ->with('kategori')
+            ->with(['kategori', 'penulis'])
             ->published()
             ->orderByDesc('views')
             ->orderByDesc('published_at')
-            ->take(3)
+            ->take(6)
             ->get();
 
         $topArticleCategories = $topArticles

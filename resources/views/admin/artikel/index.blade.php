@@ -1,7 +1,7 @@
 <x-layouts::app :title="__('Manajemen Artikel')">
     <x-slot:header>{{ __('Manajemen Artikel') }}</x-slot:header>
 
-    
+    @can('artikel.view')
     <div class="p-4 md:p-6 lg:p-8 max-w-full overflow-hidden">
         {{-- Header & Action --}}
         <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -11,29 +11,6 @@
                     Kelola semua konten artikel kesehatan dan berita rumah sakit Anda.
                 </p>
             </div>
-<<<<<<< HEAD
-=======
-
-            <div class="flex gap-3">
-               
-                <button type="button" id="delete-selected-btn"
-                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-                    <flux:icon name="trash" class="size-4" />
-                    Hapus Terpilih (<span id="selected-count">0</span>)
-                </button>
-             
-
-                
-                <a href="{{ route('admin.artikel.create') }}">
-                    <flux:button variant="primary" class="cursor-pointer">
-                        <flux:icon name="plus" class="size-5 mr-2" />
-                        Tambah Artikel Baru
-                    </flux:button>
-                </a>
-                
-            </div>
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
         </div>
 
         {{-- STATISTIK INFORMATIF --}}
@@ -139,29 +116,33 @@
         </flux:card>
 
         {{-- FORM MASS DELETE --}}
-        
+        @can('artikel.delete')
         <form id="mass-delete-form" action="{{ route('admin.artikel.mass-destroy') }}" method="POST">
             @csrf
             @method('DELETE')
         </form>
-       
+        @endcan
 
         <div class="flex justify-end mb-5">
             <div class="inline-flex rounded-lg shadow-sm" role="group">
                 {{-- Tombol Hapus --}}
+                @can('artikel.delete')
                 <button type="button" id="delete-selected-btn"
                     class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-700 bg-white border border-zinc-300 rounded-l-lg hover:bg-red-50 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-500 focus:text-red-800 dark:bg-zinc-800 dark:border-zinc-600 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     disabled>
                     <flux:icon name="trash" class="size-4" />
                     Hapus (<span id="selected-count">0</span>)
                 </button>
+                @endcan
                 
                 {{-- Tombol Tambah --}}
+                @can('artikel.create')
                 <a href="{{ route('admin.artikel.create') }}" 
                 class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-r-lg hover:bg-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:border-blue-500 dark:hover:bg-blue-600 transition-colors">
                     <flux:icon name="plus" class="size-4" />
                     Tambah Artikel
                 </a>
+                @endcan
             </div>
         </div>
 
@@ -172,7 +153,7 @@
                     <colgroup>
                         <col class="w-10">
                         <col class="w-2/6 min-w-[200px]">
-                        <col class="w-1/6 min-w-[140px]"> {{-- Sedikit lebih lebar untuk kategori panjang --}}
+                        <col class="w-1/6 min-w-[140px]">
                         <col class="w-1/6 min-w-[120px] hidden md:table-cell">
                         <col class="w-24">
                         <col class="w-20">
@@ -264,22 +245,18 @@
                             <td class="px-3 py-3 text-sm text-zinc-500 whitespace-nowrap">
                                 {{ $artikel->created_at->translatedFormat('d M Y') }}
                             </td>
-<<<<<<< HEAD
                             <td class="px-6 py-6">
                                 <div class="flex justify-center items-center gap-3">
-=======
-                            <td class="px-3 py-3">
-                                <div class="flex justify-center items-center gap-1">
-                                    
->>>>>>> b05d702e9b8b6be323e08331e9cb4065be43164e
+
+                                    @can('artikel.update')
                                     <a href="{{ route('admin.artikel.edit', $artikel->id) }}" class="inline-flex">
                                         <flux:button size="sm" variant="ghost" class="!p-1">
                                             <flux:icon name="pencil" class="size-4" />
                                         </flux:button>
                                     </a>
+                                    @endcan
                                     
-
-                                  
+                                    @can('artikel.delete')
                                     <form action="{{ route('admin.artikel.destroy', $artikel->id) }}"
                                         method="POST"
                                         class="delete-single-form inline-flex">
@@ -292,7 +269,8 @@
                                             <flux:icon name="trash" class="size-4" />
                                         </flux:button>
                                     </form>
-                                    
+                                    @endcan
+
                                 </div>
                             </td>
                         </tr>
@@ -302,9 +280,11 @@
                                 <div class="flex flex-col items-center gap-3">
                                     <flux:icon name="document" class="size-10 text-zinc-300" />
                                     <p>Belum ada artikel.</p>
+                                    @can('artikel.create')
                                     <a href="{{ route('admin.artikel.create') }}" class="text-primary text-sm font-medium hover:underline">
                                         Buat artikel pertama →
                                     </a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -325,53 +305,60 @@
         </flux:card>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectAll = document.getElementById('select-all');
-            const deleteBtn = document.getElementById('delete-selected-btn');
-            const massForm = document.getElementById('mass-delete-form');
-            const selectedCountSpan = document.getElementById('selected-count');
-            const checkboxes = () => document.querySelectorAll('.item-checkbox');
-
-            function updateDeleteButton() {
-                const checked = document.querySelectorAll('.item-checkbox:checked');
-                const count = checked.length;
-                selectedCountSpan.textContent = count;
-                deleteBtn.disabled = count === 0;
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Delegasi untuk checkbox "select all"
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.id === 'select-all') {
+                const isChecked = e.target.checked;
+                document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = isChecked);
+                updateDeleteButton();
             }
-
-            if (selectAll) {
-                selectAll.addEventListener('change', function() {
-                    checkboxes().forEach(cb => cb.checked = this.checked);
-                    updateDeleteButton();
-                });
-            }
-
-            document.querySelectorAll('.item-checkbox').forEach(cb => {
-                cb.addEventListener('change', updateDeleteButton);
-            });
-
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', function() {
-                    const selected = document.querySelectorAll('.item-checkbox:checked');
-                    if (selected.length === 0) return;
-
-                    if (confirm(`Hapus ${selected.length} artikel terpilih?`)) {
-                        massForm.submit();
-                    }
-                });
-            }
-
-            document.querySelectorAll('.delete-single-form').forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    if (!confirm('Hapus artikel ini? Tindakan tidak dapat dibatalkan.')) {
-                        e.preventDefault();
-                    }
-                });
-            });
-
-            updateDeleteButton();
         });
-    </script>
-    
+
+        // Delegasi untuk setiap item checkbox
+        document.addEventListener('change', function(e) {
+            if (e.target && e.target.classList && e.target.classList.contains('item-checkbox')) {
+                updateDeleteButton();
+            }
+        });
+
+        // Delegasi untuk tombol mass delete
+        document.addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('#delete-selected-btn');
+            if (deleteBtn) {
+                e.preventDefault();
+                const selected = document.querySelectorAll('.item-checkbox:checked');
+                if (selected.length === 0) return;
+                if (confirm(`Hapus ${selected.length} artikel terpilih?`)) {
+                    document.getElementById('mass-delete-form').submit();
+                }
+            }
+        });
+
+        // Delegasi untuk form hapus single
+        document.addEventListener('submit', function(e) {
+            const form = e.target.closest('.delete-single-form');
+            if (form) {
+                if (!confirm('Hapus artikel ini? Tindakan tidak dapat dibatalkan.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        function updateDeleteButton() {
+            const checked = document.querySelectorAll('.item-checkbox:checked');
+            const count = checked.length;
+            const selectedCountSpan = document.getElementById('selected-count');
+            const deleteBtn = document.getElementById('delete-selected-btn');
+            if (selectedCountSpan) selectedCountSpan.textContent = count;
+            if (deleteBtn) deleteBtn.disabled = count === 0;
+        }
+
+        // Inisialisasi awal
+        updateDeleteButton();
+    });
+</script>
+
+    @endcan
 </x-layouts::app>

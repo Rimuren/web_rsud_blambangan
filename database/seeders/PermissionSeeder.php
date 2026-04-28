@@ -77,7 +77,6 @@ class PermissionSeeder extends Seeder
 
         // Ruangan / Bangsal / Kelas
         'bangsal.view',
-        'kelas.view',
     ];
 
     /**

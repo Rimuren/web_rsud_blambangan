@@ -14,6 +14,7 @@ class poliklinik_model extends Model
     protected $fillable = [
         'api_id',
         'nama',
+        'slug',
         'kode_bpjs',
         'image',
         'background_img',
