@@ -69,6 +69,9 @@ class PermissionSeeder extends Seeder
 
         // Dokter
         'dokter.view',
+        'dokter.create',
+        'dokter.update',
+        'dokter.delete',
 
         'poliklinik.view',
         'poliklinik.create',

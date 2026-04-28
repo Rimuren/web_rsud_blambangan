@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VersionInfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     DashboardController as AdminDashboard,
@@ -12,6 +13,9 @@ use App\Http\Controllers\Admin\{
     PhotoController as AdminPhoto,
     VideoController as AdminVideo,
     PoliklinikController as AdminPoliklinik,
+    ArtikelController as AdminArtikel, 
+    KategoriArtikelController as AdminKategori,
+
 };
 
 use App\Http\Controllers\Guest\{
@@ -20,13 +24,13 @@ use App\Http\Controllers\Guest\{
     BangsalController as GuestBangsal,
     PhotoController as GuestPhoto,
     VideoController as GuestVideo,
+    ArtikelController as GuestArtikel,
+    PoliklinikController as GuestPoliklinik
+
 };
 
 use App\Http\Controllers\{
-    ArtikelController,
-    GuestArtikelController,
-    KategoriArtikelController,
-    GuestPoliklinikController,
+    HealthCheckController,
 };
 
 /*
@@ -51,8 +55,8 @@ Route::get('/info-kamar', [GuestBangsal::class, 'index'])->name('guest.info-kama
 
 // Artikel
 Route::prefix('artikel')->name('guest.artikel.')->group(function () {
-    Route::get('/', [GuestArtikelController::class, 'index'])->name('index');
-    Route::get('/{slug}', [GuestArtikelController::class, 'show'])->name('detail');
+    Route::get('/', [GuestArtikel::class, 'index'])->name('index');
+    Route::get('/{slug}', [GuestArtikel::class, 'show'])->name('detail');
 });
 
 // Layanan Rawat Inap
@@ -97,9 +101,9 @@ Route::prefix('layanan-unggulan')->group(function () {
 //     return abort(404);
 // })->name('guest.layanan-rawat-jalan.detail');
 
-Route::get('/layanan-rawat-jalan', [GuestPoliklinikController::class, 'index'])
+Route::get('/layanan-rawat-jalan', [GuestPoliklinik::class, 'index'])
     ->name('guest.layanan-rawat-jalan.index');
-Route::get('/layanan-rawat-jalan/{slug}', [GuestPoliklinikController::class, 'show'])
+Route::get('/layanan-rawat-jalan/{slug}', [GuestPoliklinik::class, 'show'])
     ->name('guest.layanan-rawat-jalan.detail');
 
 // Layanan IGD
@@ -138,11 +142,23 @@ Route::prefix('galeri')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Monitoring Endpoint
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/health', [HealthCheckController::class, 'health']);
+Route::get('/status', [HealthCheckController::class, 'status']);
+Route::get('/version', [VersionInfoController::class, 'version']);
+Route::get('/build-info', [VersionInfoController::class, 'version']);
+
+/*
+|--------------------------------------------------------------------------
 | Admin Routes (Authenticated & Authorized)
 |--------------------------------------------------------------------------
 */
 
-Route::view('/admin', 'welcome')->name('home');
+// Route::view('/admin', 'welcome')->name('home');
+Route::view('/admin', 'livewire.auth.login')->name('home');
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
@@ -154,7 +170,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     | ARTIKEL
     |--------------------------------------------------------------------------
     */
-    Route::controller(ArtikelController::class)->prefix('artikel')->name('artikel.')->group(function () {
+    Route::controller(AdminArtikel::class)->prefix('artikel')->name('artikel.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
@@ -166,7 +182,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     });
 
     // Kategori Artikel
-    Route::controller(KategoriArtikelController::class)->prefix('artikel/kategori')->name('artikel.kategori.')->group(function () {
+    Route::controller(AdminKategori::class)->prefix('artikel/kategori')->name('artikel.kategori.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
@@ -209,6 +225,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('dokter')->name('dokter.')->group(function () {
         Route::get('/', [AdminDokter::class, 'index'])->name('index');
+        Route::get('/create', [AdminDokter::class, 'create'])->name('create');
+        Route::post('/', [AdminDokter::class, 'store'])->name('store');
+        Route::get('/{dokter}/edit', [AdminDokter::class, 'edit'])->name('edit');
+        Route::put('/{dokter}', [AdminDokter::class, 'update'])->name('update');
+        Route::delete('/{dokter}', [AdminDokter::class, 'destroy'])->name('destroy');
 
         // Poliklinik
         Route::prefix('poliklinik')->name('poliklinik.')->controller(AdminPoliklinik::class)->group(function () {

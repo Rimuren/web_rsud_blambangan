@@ -16,23 +16,24 @@
                     <flux:icon name="funnel" class="size-5 text-zinc-400" />
                     <span class="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Poliklinik:</span>
                 </div>
-                <div class="flex-1 min-w-0 overflow-x-auto pb-1">
-                    <div class="flex gap-2 whitespace-nowrap">
-                        @php
-                        $filterList = $poliklinikList ?? ($spesialisList ?? []);
-                        $currentFilter = request('poliklinik');
-                        @endphp
-                        <a href="{{ route('admin.dokter.index', request()->except(['poliklinik','page'])) }}"
-                            class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full {{ !$currentFilter ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300' }}">
-                            Semua
-                        </a>
+                @php
+                $filterList = $poliklinikList ?? ($spesialisList ?? []);
+                $currentFilter = request('poliklinik');
+                @endphp
+
+                <div class="flex-1 min-w-[200px]">
+                    <select name="poliklinik"
+                        onchange="this.form.submit()"
+                        class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-800 text-sm focus:ring-primary focus:border-primary">
+
+                        <option value="">Semua Poliklinik</option>
+
                         @foreach($filterList as $label)
-                        <a href="{{ route('admin.dokter.index', array_merge(request()->except(['poliklinik','page']), ['poliklinik' => $label])) }}"
-                            class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-full {{ $currentFilter == $label ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300' }}">
+                        <option value="{{ $label }}" {{ $currentFilter == $label ? 'selected' : '' }}>
                             {{ $label }}
-                        </a>
+                        </option>
                         @endforeach
-                    </div>
+                    </select>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                     <div class="relative">
