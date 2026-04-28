@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\jam_operasional;
+use App\Models\Jam_operasional_model;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,7 +21,7 @@ class JamOperasionalRequest extends FormRequest
             'hari' => [
                 'required',
                 'integer',
-                Rule::in(array_keys(jam_operasional::HARI_OPTIONS)),
+                Rule::in(array_keys(Jam_operasional_model::HARI_OPTIONS)),
                 Rule::unique('jam_operasionals', 'hari')->ignore($jam_operasionalId),
             ],
             'jam_buka' => ['nullable', 'date_format:H:i'],

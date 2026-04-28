@@ -15,7 +15,11 @@ class PoliklinikFallbackService
 
     if ($request->filled('search')) {
       $search = strtolower($request->search);
-      $query->whereRaw('LOWER(nama) like ?', ["%{$search}%"]);
+
+      $query->where(function ($q) use ($search) {
+        $q->whereRaw('LOWER(nama) like ?', ["%{$search}%"])
+          ->orWhereRaw('LOWER(slug) like ?', ["%{$search}%"]);
+      });
     }
 
     $clinics = $query->paginate(10)->withQueryString();

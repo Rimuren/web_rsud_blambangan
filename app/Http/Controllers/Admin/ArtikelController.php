@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\artikel_model;
 use App\Models\kategori_artikel_model;
 use Illuminate\Http\Request;

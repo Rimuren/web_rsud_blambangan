@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class HealthCheckController extends Controller
 {
-    public function check(Request $request)
+    public function health()
     {
         $dbStatus = 'ok';
         $dbMessage = 'Database connection is healthy.';
@@ -15,28 +17,41 @@ class HealthCheckController extends Controller
         try {
             DB::connection()->getPdo();
         } catch (\Exception $e) {
-            $dbStatus = 'degraded';
+            $dbStatus = 'down';
             $dbMessage = $e->getMessage();
         }
 
-        $payload = [
-            'status' => $dbStatus === 'ok' ? 'ok' : 'degraded',
+        $status = $dbStatus === 'ok' ? 'ok' : 'degraded';
+
+        $data = [
+            'status' => $status,
             'app' => config('app.name'),
             'environment' => app()->environment(),
-            'timestamp' => now()->toIso8601String(),
+            'timestamp' => Carbon::now()->toIso8601String(),
             'checks' => [
                 'database' => [
                     'status' => $dbStatus,
                     'message' => $dbMessage,
-                    'connection' => config('database.default'),
-                ],
-            ],
+                    'connection' => Config::get('database.default'),
+                ]
+            ]
         ];
 
-        if ($request->is('status') || $request->wantsJson()) {
-            return response()->json($payload, $dbStatus === 'ok' ? 200 : 503);
+        return response()->json(
+            $data,
+            $status === 'ok' ? 200 : 503
+        );
+    }
+
+    public function status(Request $request)
+    {
+        $data = $this->health()->getData(true);
+
+        // Support JSON fallback
+        if ($request->expectsJson()) {
+            return response()->json($data);
         }
 
-        return view('status', compact('payload'));
+        return view('status', compact('data'));
     }
 }

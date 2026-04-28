@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class SyncPoliklinikFromApi implements ShouldQueue
 {
@@ -47,6 +48,7 @@ class SyncPoliklinikFromApi implements ShouldQueue
                     ['api_id' => $clinic['id']],
                     [
                         'nama' => $clinic['nama'],
+                        'slug' => Str::slug($clinic['nama']),
                         'kode_bpjs' => $clinic['kode_bpjs'] ?? null,
                         'image' => $clinic['image'] ?? null,
                         'background_img' => $clinic['background_img'] ?? null,

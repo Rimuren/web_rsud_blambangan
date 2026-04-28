@@ -19,13 +19,14 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('artikel', function (Blueprint $table) {
             $table->id();
             $table->string('judul', 200);
             $table->string('slug')->unique();
-            $table->text('konten');
+            $table->longText('konten');
             $table->string('thumbnail')->nullable();
             $table->unsignedInteger('views')->default(0);
             $table->unsignedBigInteger('kategori_id');
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('kategori_id')->references('id')->on('kategori_artikel')->onDelete('restrict');
             $table->foreign('penulis_id')->references('id')->on('users')->onDelete('restrict');
