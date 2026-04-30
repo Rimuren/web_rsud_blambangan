@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('kategori');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('video', function (Blueprint $table) {
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('kategori')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
 
+use App\Http\Controllers\Controller;
 use App\Models\poliklinik_model;
 use Carbon\Carbon;
 
-class GuestPoliklinikController extends Controller
+class PoliklinikController extends Controller
 {
     // Halaman daftar semua poliklinik
     public function index()
     {
         $polies = poliklinik_model::where('is_active', true)
+            ->whereNotNull('slug')
             ->orderBy('nama')
             ->get()
             ->map(function ($poli) {

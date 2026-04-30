@@ -8,14 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-       Schema::create('jam_operasionals', function (Blueprint $table) {
-    $table->id();
-    $table->tinyInteger('hari')->unique();
-    $table->time('jam_buka')->nullable();
-    $table->time('jam_tutup')->nullable();
-    $table->boolean('is_closed')->default(false);
-    $table->timestamps();
-});
+        Schema::create('jam_operasionals', function (Blueprint $table) {
+            $table->id();
+            $table->tinyInteger('hari')->unique();
+            $table->time('jam_buka')->nullable();
+            $table->time('jam_tutup')->nullable();
+            $table->boolean('is_closed')->default(false);
+            $table->timestamps();
+        });
 
     }
 

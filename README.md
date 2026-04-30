@@ -6,18 +6,18 @@ Project website **RSUD Blambangan** yang dibangun menggunakan framework **Larave
 
 ## 🧰 Teknologi yang Digunakan
 
-| Kategori | Teknologi |
-|----------|-----------|
-| **Framework** | Laravel 12 |
-| **PHP Version** | PHP 8.2.* |
-| **Authentication** | Laravel Fortify |
-| **Authorization** | Spatie Laravel Permission (RBAC) |
-| **Frontend** | Blade Template Engine + Livewire 4 |
-| **UI Component** | Flux UI 2.9 |
-| **CSS Framework** | Tailwind CSS 4 |
-| **Build Tool** | Vite |
-| **Database** | SQLite (default) / MySQL / MariaDB |
-| **Package Manager** | Composer & NPM |
+| Kategori            | Teknologi                          |
+| ------------------- | ---------------------------------- |
+| **Framework**       | Laravel 12                         |
+| **PHP Version**     | PHP 8.2.*                          |
+| **Authentication**  | Laravel Fortify                    |
+| **Authorization**   | Spatie Laravel Permission (RBAC)   |
+| **Frontend**        | Blade Template Engine + Livewire 4 |
+| **UI Component**    | Flux UI 2.9                        |
+| **CSS Framework**   | Tailwind CSS 4                     |
+| **Build Tool**      | Vite                               |
+| **Database**        | SQLite (default) / MySQL / MariaDB |
+| **Package Manager** | Composer & NPM                     |
 
 ---
 
@@ -25,12 +25,12 @@ Project website **RSUD Blambangan** yang dibangun menggunakan framework **Larave
 
 Sebelum menjalankan project, pastikan sudah menginstall:
 
-- PHP >= 8.2
-- Composer
-- Node.js >= 18
-- NPM
-- SQLite / MySQL / MariaDB (sesuai kebutuhan)
-- Git
+* PHP >= 8.2
+* Composer
+* Node.js >= 18
+* NPM
+* SQLite / MySQL / MariaDB (sesuai kebutuhan)
+* Git
 
 ---
 
@@ -48,15 +48,10 @@ Masuk ke folder project:
 cd web_rsud_blambangan
 ```
 
-Install dependency PHP (Laravel):
+Install dependency:
 
 ```bash
 composer install
-```
-
-Install dependency frontend:
-
-```bash
 npm install
 ```
 
@@ -113,21 +108,45 @@ Buat database di MySQL terlebih dahulu:
 mysql -u root -p -e "CREATE DATABASE rsud_blambangan;"
 ```
 
-Lalu jalankan migration:
+Jalankan migration & seeder:
 
 ```bash
 php artisan migrate
-```
-
-Lalu jalankan seeder:
-
-```bash
 php artisan db:seed
 ```
 
-atau jika ingin melakukan reset database sekaligus menjalankan seeder:
+Atau reset database sekaligus seed:
+
 ```bash
 php artisan migrate:fresh --seed
+```
+
+---
+
+## 🔄 Custom Artisan Commands
+
+Project ini menyediakan beberapa perintah khusus untuk sinkronisasi data:
+
+```bash
+php artisan sync:all
+php artisan sync:dokter
+php artisan sync:poliklinik
+```
+
+### Penjelasan:
+
+* `sync:all` → sinkronisasi semua data (dokter + poliklinik)
+* `sync:dokter` → sinkronisasi data dokter
+* `sync:poliklinik` → sinkronisasi data poliklinik
+
+---
+
+## ⚡ Queue Worker
+
+Jika project menggunakan queue (misalnya untuk proses sync atau job async), jalankan:
+
+```bash
+php artisan queue:work
 ```
 
 ---
@@ -136,43 +155,56 @@ php artisan migrate:fresh --seed
 
 ### Mode Development
 
-Jalankan server Laravel dan Vite secara bersamaan:
+Jalankan semua service sekaligus:
 
 ```bash
 composer run dev
 ```
 
-Atau jalankan secara terpisah:
+Atau manual:
 
-**Terminal 1 - Server Laravel:**
+**Terminal 1 - Laravel:**
 
 ```bash
 php artisan serve
 ```
 
-**Terminal 2 - Vite (Frontend):**
+**Terminal 2 - Vite:**
 
 ```bash
 npm run dev
 ```
 
-Akses aplikasi di browser:
-
-```
-http://127.0.0.1:8000
-```
+---
 
 ### Mode Production
 
-Build frontend:
+Build frontend terlebih dahulu:
 
 ```bash
 npm run build
 ```
 
-Jalankan server:
+Lalu jalankan server:
 
 ```bash
 php artisan serve
 ```
 
+---
+
+## 🌐 Akses Aplikasi
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 📝 Catatan
+
+* Pastikan queue worker berjalan jika menggunakan fitur async
+* Jalankan command sync jika data dokter/poliklinik tidak muncul
+* Gunakan `.env` sesuai environment (local/production)
+
+---

@@ -1,11 +1,13 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Guest;
+
+use App\Http\Controllers\Controller;
 use App\Models\artikel_model;
 use App\Models\kategori_artikel_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
-class GuestArtikelController extends Controller
+class ArtikelController extends Controller
 {
     public function index(Request $request)
     {
